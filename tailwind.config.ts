@@ -7,7 +7,11 @@ export default {
     "./src/containers/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        sans: ["Pretendard"],
+      },
+    },
   },
   plugins: [],
 } satisfies Config;
