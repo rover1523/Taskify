@@ -1,5 +1,4 @@
 interface RandomProfileProps {
-  size: number;
   name: string;
 }
 
