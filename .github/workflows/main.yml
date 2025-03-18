@@ -1,0 +1,14 @@
+name: Review Assign
+
+on:
+  pull_request:
+    types: [opened, ready_for_review]
+
+jobs:
+  assign:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: hkusu/review-assign-action@v1
+        with:
+          assignees: ${{ github.actor }} # PR 작성자를 자동으로 지정
+          reviewers: rover1523, ozen0718, MINJI121, hyejin,Yeon # 지정한 리뷰어들에게 리뷰요청
