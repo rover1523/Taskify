@@ -6,11 +6,11 @@ interface RandomProfileProps {
 // 이름 첫 글자에 따라 배경색 변경
 const selectColor = () => {
   const colors = [
-    "bg-red-500",
-    "bg-blue-400",
-    "bg-green-500",
-    "bg-yellow-400",
-    "bg-purple-500",
+    "bg-[#C4B1A2]",
+    "bg-[#9DD7ED]",
+    "bg-[#FDD446]",
+    "bg-[#FFC85A]",
+    "bg-[#A3C4A2]",
   ];
   return colors[Math.floor(Math.random() * colors.length)];
 };
