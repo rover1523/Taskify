@@ -10,6 +10,6 @@ jobs:
     steps:
       - uses: hkusu/review-assign-action@v1
         with:
-          assignees: ${{ github.actor }} # assign pull request author
-          reviewers: gyoyeon-kim, hhjin1, MINJI121, ozen0718, rover1523 # if draft, assigned when draft is released
-          max-num-of-reviewers: 2
+          token: ${{ secrets.PERSONAL_ACCESS_TOKEN }} # PAT 사용
+          assignees: ${{ github.actor }} # PR 작성자 자동 지정
+          reviewers: gyoyeon-kim, hhjin1, MINJI121, ozen0718, rover1523 # 리뷰어 리스트
