@@ -10,12 +10,15 @@ jobs:
     permissions:
       pull-requests: write
     steps:
-      - uses: haya14busa/action-chooseal@v1
+      - name: 랜덤 리뷰어 선택
         id: choose-reviewers
+        uses: mheap/github-action-random-choice@v1
         with:
-          candidates: rover1523, ozen0718, MINJI121, hhjin1, gyoyeon-kim # 랜덤 선택할 리뷰어 리스트
-          choose: 2  # 랜덤으로 2명 선택
-      - uses: hkusu/review-assign-action@v1
+          choices: "rover1523, ozen0718, MINJI121, hhjin1, gyoyeon-kim" # 랜덤으로 뽑을 리뷰어 목록
+          count: 2  # 랜덤으로 2명 선택
+
+      - name: 리뷰어 배정
+        uses: hkusu/review-assign-action@v1
         with:
           assignees: ${{ github.actor }} # PR 작성자를 자동으로 지정
-          reviewers: ${{ steps.choose-reviewers.outputs.chosen }} # 랜덤으로 선택된 2명
+          reviewers: ${{ steps.choose-reviewers.outputs.selected }} # 랜덤으로 선택된 2명
