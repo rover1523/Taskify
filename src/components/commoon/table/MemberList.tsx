@@ -1,5 +1,4 @@
 import { useState } from "react";
-
 import RandomProfile from "./RandomProfile";
 
 const MemberList = () => {
@@ -16,24 +15,33 @@ const MemberList = () => {
   };
 
   return (
-    <div className="bg-white p-6 rounded-lg shadow-md w-96">
-      <p className="text-lg font-semibold mb-4">구성원</p>
-      <p className="text-base">이름</p>
+    <div className="relative bg-white p-6 rounded-lg shadow-md h-[404px] w-[620px]">
+      <div className="flex justify-between items-center">
+        <p className="text-[24px] font-bold">구성원</p>
+        <div className="flex items-center gap-2">
+          <p className="text-sm text-[#9FA6B2]">1 페이지 중 1</p>
+        </div>
+      </div>
+
+      <p className="text-[16px] text-[#9FA6B2] mt-6">이름</p>
+
       <ul>
         {members.map((member, index) => (
           <li
             key={index}
-            className="flex items-center justify-between p-2 border-b"
+            className={`flex items-center justify-between p-4 ${
+              index !== members.length - 1 ? "border-b border-[#EEEEEE]" : ""
+            }`} // 마지막 선만 제거
           >
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-4">
               <RandomProfile name={member.initial} />
-              <p className="font-normal text-base leading-[26px] tracking-normal">
+              <p className="text-[16px] font-normal leading-[26px]">
                 {member.name}
               </p>
             </div>
             <button
               onClick={() => handleDelete(member.name)}
-              className="text-purple-500 hover:text-purple-700"
+              className="border border-[#D3D6DB] text-[#6B7280] px-3 py-1 rounded-md hover:bg-[#E5E7EB]"
             >
               삭제
             </button>
