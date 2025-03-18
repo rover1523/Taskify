@@ -9,7 +9,7 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: ["Pretendard"],
+        pretendard: ["Pretendard"],
       },
       fontSize: {
         "3xl-Bold": ["32px", { lineHeight: "42px", fontWeight: "700" }],
