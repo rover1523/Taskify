@@ -13,21 +13,18 @@ const MemberList = () => {
   ]);
 
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 4; // 한 페이지당 2명씩 표시
+  const itemsPerPage = 4;
   const totalPages = Math.ceil(members.length / itemsPerPage);
 
-  // 현재 페이지에 해당하는 데이터만 가져오기
   const paginatedMembers = members.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
 
-  /* 삭제 기능 */
   const handleDelete = (name: string) => {
     setMembers(members.filter((member) => member.name !== name));
   };
 
-  // 페이지 이동
   const handlePrevPage = () => {
     if (currentPage > 1) setCurrentPage(currentPage - 1);
   };
@@ -37,21 +34,21 @@ const MemberList = () => {
   };
 
   return (
-    <div className="relative bg-white p-6 rounded-lg shadow-md h-[404px] w-[620px]">
+    <div className="relative bg-white p-6 rounded-lg shadow-md max-w-md w-full sm:max-w-lg md:max-w-xl lg:max-w-2xl mx-auto">
+      {/* 헤더 */}
       <div className="flex justify-between items-center">
-        <p className="text-[24px] font-bold">구성원</p>
+        <p className="text-lg sm:text-xl font-bold">구성원</p>
 
-        {/* 페이지 정보 표시 */}
+        {/* 페이지네이션 */}
         <div className="flex items-center">
-          <p className="text-sm text-[#333236] mt-4 text-center mr-[15px] relative -translate-y-[10px]">
+          <p className=" relative -translate-y-[10px] text-sm text-gray-700 mt-4 text-center mr-3">
             {currentPage} 페이지 중 {totalPages}
           </p>
           <div className="flex items-center border border-gray-300 rounded-lg overflow-hidden">
-            {/* 왼쪽 버튼 (첫 페이지면 비활성화) */}
             <button
               onClick={handlePrevPage}
               disabled={currentPage === 1}
-              className={`cursor-pointer w-10 h-10 flex justify-center items-center border-r border-gray-300 hover:bg-gray-100 ${
+              className={`w-10 h-10 flex justify-center items-center border-r border-gray-300 hover:bg-gray-100 ${
                 currentPage === 1 ? "opacity-50 cursor-not-allowed" : ""
               }`}
             >
@@ -62,11 +59,10 @@ const MemberList = () => {
               />
             </button>
 
-            {/* 오른쪽 버튼 (마지막 페이지면 비활성화) */}
             <button
               onClick={handleNextPage}
               disabled={currentPage === totalPages}
-              className={`cursor-pointer w-10 h-10 flex justify-center items-center hover:bg-gray-100 ${
+              className={`w-10 h-10 flex justify-center items-center hover:bg-gray-100 ${
                 currentPage === totalPages
                   ? "opacity-50 cursor-not-allowed"
                   : ""
@@ -82,7 +78,8 @@ const MemberList = () => {
         </div>
       </div>
 
-      <p className="text-[16px] text-[#9FA6B2] mt-6">이름</p>
+      {/* 구성원 리스트 */}
+      <p className="text-sm sm:text-base text-gray-500 mt-6">이름</p>
 
       <ul>
         {paginatedMembers.map((member, index) => (
@@ -90,19 +87,17 @@ const MemberList = () => {
             key={index}
             className={`flex items-center justify-between p-4 ${
               index !== paginatedMembers.length - 1
-                ? "border-b border-[#EEEEEE]"
+                ? "border-b border-gray-200"
                 : ""
             }`}
           >
             <div className="flex items-center gap-4">
               <RandomProfile name={member.name} index={index} />
-              <p className="text-[16px] font-normal leading-[26px]">
-                {member.name}
-              </p>
+              <p className="text-sm sm:text-base">{member.name}</p>
             </div>
             <button
               onClick={() => handleDelete(member.name)}
-              className="font-medium text-[14px] h-[32px] w-[84px] border border-[#D3D6DB] text-[#5534DA] px-3 py-1 rounded-md hover:bg-[#E5E7EB]"
+              className="font-medium text-sm sm:text-base h-[32px] sm:h-[32px] w-[52px] sm:w-[84px] md:w-[84px] border border-gray-300 text-indigo-600 px-2 py-1 rounded-md hover:bg-gray-100"
             >
               삭제
             </button>
