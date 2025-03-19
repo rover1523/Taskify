@@ -37,7 +37,7 @@ const MemberList = () => {
   };
 
   return (
-    <div className="font-pretendard relative bg-white p-6 rounded-lg shadow-md max-w-md w-full sm:max-w-lg md:max-w-xl lg:max-w-2xl mx-auto">
+    <div className="relative bg-white p-6 rounded-lg shadow-md max-w-md w-full sm:max-w-lg md:max-w-xl lg:max-w-2xl mx-auto">
       <div className="flex justify-between items-center">
         <p className="text-xl sm:text-2xl font-bold">구성원</p>
         <Pagination

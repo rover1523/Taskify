@@ -2,6 +2,7 @@
 
 import MemberList from "@/components/commoon/table/Member/MemberList";
 import InviteRecords from "@/components/commoon/table/InviteRecords";
+import InvitedDashBoard from "@/components/commoon/table/InvitedDashBoard";
 
 export default function TestPage() {
   return (
@@ -11,6 +12,9 @@ export default function TestPage() {
       <br />
       <h1 className="text-2xl font-bold">초대 테이블 테스트</h1>
       <InviteRecords />
+      <br />
+      <h1 className="text-2xl font-bold">초대받은 테이블 테스트</h1>
+      <InvitedDashBoard />
     </div>
   );
 }
