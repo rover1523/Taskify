@@ -26,7 +26,7 @@ const Pagination: React.FC<PaginationProps> = ({
               ${currentPage === 1 ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}`}
         >
           <img
-            src="/images/arrow-backward-white.svg"
+            src="/svgs/arrow_backward_white.svg"
             alt="왼쪽"
             className="w-5 h-5"
           />
@@ -39,7 +39,7 @@ const Pagination: React.FC<PaginationProps> = ({
               ${currentPage === totalPages ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}`}
         >
           <img
-            src="/images/arrow-forward-white.svg"
+            src="/svgs/arrow_forward_white.svg"
             alt="오른쪽"
             className="w-5 h-5"
           />

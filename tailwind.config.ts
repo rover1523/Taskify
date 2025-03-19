@@ -1,4 +1,4 @@
-import type { Config } from "tailwindcss";
+import { defineConfig } from "tailwindcss";
 
 export default {
   content: [
@@ -49,14 +49,14 @@ export default {
         orange: "#FFA500",
         blue: "#76A5EA",
         pink: "#E876EA",
-        wihte: "#FFFFFF",
+        white: "#FFFFFF",
         black: {
           1000: "#000000",
           900: "#171717",
           800: "#333236",
           700: "#4B4B4B",
         },
-        glay: {
+        grey: {
           1000: "#787486",
           900: "#9FA6B2",
           800: "#D9D9D9",
@@ -67,4 +67,4 @@ export default {
     },
   },
   plugins: [],
-} satisfies Config;
+};

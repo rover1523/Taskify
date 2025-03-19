@@ -37,7 +37,7 @@ const MemberList = () => {
   };
 
   return (
-    <div className="relative bg-white p-6 rounded-lg shadow-md max-w-md w-full sm:max-w-lg md:max-w-xl lg:max-w-2xl mx-auto">
+    <div className="font-pretendard relative bg-white p-6 rounded-lg shadow-md max-w-md w-full sm:max-w-lg md:max-w-xl lg:max-w-2xl mx-auto">
       <div className="flex justify-between items-center">
         <p className="text-lg sm:text-xl font-bold">구성원</p>
         <Pagination
@@ -67,10 +67,12 @@ const MemberList = () => {
             </div>
             <button
               onClick={() => handleDelete(member.name)}
-              className="cursor-pointer font-medium text-sm sm:text-base h-[32px] sm:h-[32px] w-[52px] sm:w-[84px] md:w-[84px] border border-gray-300 text-indigo-600 px-2 py-1 rounded-md hover:bg-gray-100"
+              className="text-md-Medium cursor-pointer font-medium text-sm sm:text-base h-[32px] sm:h-[32px] w-[52px] sm:w-[84px] md:w-[84px] border border-gray-300 text-indigo-600 px-2 py-1 rounded-md hover:bg-gray-100"
             >
               삭제
             </button>
+
+            <p className="text-grey-1000">test</p>
           </li>
         ))}
       </ul>
