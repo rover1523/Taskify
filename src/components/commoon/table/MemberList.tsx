@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Pagination from "../Pagination";
 import RandomProfile from "./RandomProfile";
 
 const MemberList = () => {
@@ -12,6 +13,7 @@ const MemberList = () => {
     { name: "이민정" },
   ]);
 
+  /* 페이지네이션 */
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 4;
   const totalPages = Math.ceil(members.length / itemsPerPage);
@@ -21,6 +23,7 @@ const MemberList = () => {
     currentPage * itemsPerPage
   );
 
+  /*버튼(삭제, 이전, 다음)*/
   const handleDelete = (name: string) => {
     setMembers(members.filter((member) => member.name !== name));
   };
@@ -40,42 +43,12 @@ const MemberList = () => {
         <p className="text-lg sm:text-xl font-bold">구성원</p>
 
         {/* 페이지네이션 */}
-        <div className="flex items-center">
-          <p className=" relative -translate-y-[10px] text-sm text-gray-700 mt-4 text-center mr-3">
-            {currentPage} 페이지 중 {totalPages}
-          </p>
-          <div className="flex items-center border border-gray-300 rounded-lg overflow-hidden">
-            <button
-              onClick={handlePrevPage}
-              disabled={currentPage === 1}
-              className={`w-10 h-10 flex justify-center items-center border-r border-gray-300 hover:bg-gray-100 ${
-                currentPage === 1 ? "opacity-50 cursor-not-allowed" : ""
-              }`}
-            >
-              <img
-                src="/images/arrow-backward-white.svg"
-                alt="왼쪽"
-                className="w-5 h-5"
-              />
-            </button>
-
-            <button
-              onClick={handleNextPage}
-              disabled={currentPage === totalPages}
-              className={`w-10 h-10 flex justify-center items-center hover:bg-gray-100 ${
-                currentPage === totalPages
-                  ? "opacity-50 cursor-not-allowed"
-                  : ""
-              }`}
-            >
-              <img
-                src="/images/arrow-forward-white.svg"
-                alt="오른쪽"
-                className="w-5 h-5"
-              />
-            </button>
-          </div>
-        </div>
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPrev={handlePrevPage}
+          onNext={handleNextPage}
+        />
       </div>
 
       {/* 구성원 리스트 */}
@@ -97,7 +70,7 @@ const MemberList = () => {
             </div>
             <button
               onClick={() => handleDelete(member.name)}
-              className="font-medium text-sm sm:text-base h-[32px] sm:h-[32px] w-[52px] sm:w-[84px] md:w-[84px] border border-gray-300 text-indigo-600 px-2 py-1 rounded-md hover:bg-gray-100"
+              className="cursor-pointer font-medium text-sm sm:text-base h-[32px] sm:h-[32px] w-[52px] sm:w-[84px] md:w-[84px] border border-gray-300 text-indigo-600 px-2 py-1 rounded-md hover:bg-gray-100"
             >
               삭제
             </button>
