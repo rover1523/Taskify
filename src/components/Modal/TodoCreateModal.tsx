@@ -13,6 +13,7 @@ export function TodoCreateModal({ isOpen, onClose }: TodoCreateModalProps) {
       isOpen={isOpen}
       onClose={onClose}
       title="할 일 생성"
+      className="w-[584px] h-[986px] p-8 rounded-2xl gap-8 "
       buttons={[
         { label: "취소", onClick: onClose, variant: "outline" },
         {
@@ -22,29 +23,31 @@ export function TodoCreateModal({ isOpen, onClose }: TodoCreateModalProps) {
         },
       ]}
     >
-      <div>
-        <label>담당자</label>
-        <input type="text" placeholder="이름을 입력해 주세요" />
-      </div>
+      <div className="flex flex-col gap-8">
+        <div>
+          <label>담당자</label>
+          <input type="text" placeholder="이름을 입력해 주세요" />
+        </div>
 
-      <div>
-        <label>제목 *</label>
-        <input type="text" placeholder="제목을 입력해 주세요" />
-      </div>
+        <div>
+          <label>제목 *</label>
+          <input type="text" placeholder="제목을 입력해 주세요" />
+        </div>
 
-      <div>
-        <label>설명 *</label>
-        <textarea placeholder="설명을 입력해 주세요"></textarea>
-      </div>
+        <div>
+          <label>설명 *</label>
+          <textarea placeholder="설명을 입력해 주세요"></textarea>
+        </div>
 
-      <div>
-        <label>마감일</label>
-        <input type="date" />
-      </div>
+        <div>
+          <label>마감일</label>
+          <input type="date" />
+        </div>
 
-      <div>
-        <label>이미지</label>
-        <div>+</div>
+        <div>
+          <label>이미지</label>
+          <div>+</div>
+        </div>
       </div>
     </Modal>
   );
