@@ -38,12 +38,18 @@ const InviteRecords = () => {
     <div className="relative bg-white p-6 rounded-lg shadow-md max-w-md w-full sm:max-w-lg md:max-w-xl lg:max-w-2xl mx-auto">
       <div className="flex justify-between items-center">
         <p className="text-lg sm:text-xl font-bold">초대 내역</p>
-        <Pagination
-          currentPage={currentPage}
-          totalPages={totalPages}
-          onPrev={handlePrevPage}
-          onNext={handleNextPage}
-        />
+        <div className="flex-grow flex justify-end">
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPrev={handlePrevPage}
+            onNext={handleNextPage}
+          />
+        </div>
+        <button className="cursor-pointer text-[14px] w-[105px] h-[32px] rounded-[4px] bg-[#5534DA] text-white flex items-center justify-center gap-2 ml-4">
+          <img src="/svgs/add_white_box.svg" alt="icon" className="w-4 h-4" />
+          초대하기
+        </button>
       </div>
       {/* 구성원 리스트 */}
       <p className="text-sm sm:text-base text-gray-500 mt-6">이메일</p>

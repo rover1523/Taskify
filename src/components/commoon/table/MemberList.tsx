@@ -71,8 +71,6 @@ const MemberList = () => {
             >
               삭제
             </button>
-
-            <p className="text-grey-1000">test</p>
           </li>
         ))}
       </ul>
