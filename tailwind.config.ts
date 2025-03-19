@@ -42,7 +42,7 @@ export default {
       },
       colors: {
         primary: "#5534DA",
-        secondary: "F1EFFD",
+        secondary: "#F1EFFD",
         red: "#D6173A",
         green: "#7AC555",
         purple: "#760DDF",
@@ -54,7 +54,7 @@ export default {
           1000: "#000000",
           900: "#171717",
           800: "#333236",
-          700: "4B4B4B",
+          700: "#4B4B4B",
         },
         glay: {
           1000: "#787486",
