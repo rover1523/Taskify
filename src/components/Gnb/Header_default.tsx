@@ -12,8 +12,8 @@ const HeaderDefault = () => {
           />
         </div>
         <div className="flex space-x-4 text-gray600">
-          <button className="font-16r text-black">로그인</button>
-          <button className="font-16r text-black">회원가입</button>
+          <button className="font-16r text-black3">로그인</button>
+          <button className="font-16r text-black3">회원가입</button>
         </div>
       </div>
     </header>
