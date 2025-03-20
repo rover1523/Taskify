@@ -7,7 +7,7 @@ function EmptyInvitations() {
       <div className="mb-[16px] flex flex-col justify-center items-center h-[calc(100%-40px)]">
         <Image
           src="/svgs/unsubscribe.svg"
-          alt="대시보드 없을때 아이콘"
+          alt="초대받은 대시보드 없을때 아이콘"
           width={60}
           height={60}
           className="sm:w-[100px] sm:h-[100px] w-[60px] h-[60px] mb-2"
@@ -31,16 +31,19 @@ function InvitedList({ searchTitle }: { searchTitle: string }) {
     { title: "유닛 D", nickname: "김태현" },
   ];
 
-  const filteredData = invitedData.filter((invite) =>
-    (invite.title || invite.nickname)
-      .toLowerCase()
-      .includes(searchTitle.toLowerCase())
+  /* 검색 */
+  const filteredData = invitedData.filter(
+    (invite) =>
+      (invite.title &&
+        invite.title.toLowerCase().includes(searchTitle.toLowerCase())) ||
+      (invite.nickname &&
+        invite.nickname.toLowerCase().includes(searchTitle.toLowerCase()))
   );
 
   return (
     <div className="relative bg-white w-[1022px] h-[458px] mx-auto mt-[24px] ">
       {filteredData.length > 0 && (
-        <div className="flex w-[798px] h-[26px] justify-between items-center pl-[43px] pr-[76px]">
+        <div className="flex w-[798px] h-[26px] justify-between items-center pl-[43px] pr-[76px] mb-[10px]">
           <p className="font-normal text-[var(--color-gray2)]">이름</p>
           <p className="font-normal text-[var(--color-gray2)]">초대자</p>
           <p className="font-normal text-[var(--color-gray2)]">수락여부</p>
@@ -52,10 +55,10 @@ function InvitedList({ searchTitle }: { searchTitle: string }) {
           filteredData.map((invite, index) => (
             <div
               key={index}
-              className="grid grid-cols-3 p-2 border-b items-center"
+              className="pb-5 mb-[20px] w-[1022px] h-[52px] grid grid-cols-3 p-2 border-b border-[var(--color-gray4)] items-center"
             >
-              <p>{invite.title || invite.title}</p>
-              <p>{invite.nickname || invite.nickname}</p>
+              <p>{invite.title}</p>
+              <p>{invite.nickname}</p>
               <div className="flex justify-center gap-2">
                 <button className="bg-indigo-600 text-white px-3 py-1 rounded-md">
                   수락
@@ -67,15 +70,18 @@ function InvitedList({ searchTitle }: { searchTitle: string }) {
         ) : (
           <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex flex-col justify-center items-center">
             <Image
-              src="/svgs/search.svg"
-              alt="대시보드 없을때 아이콘"
+              src="/svgs/unsubscribe.svg"
+              alt="검색 결과 없을때 아이콘"
               width={60}
               height={60}
               className="sm:w-[100px] sm:h-[100px] w-[60px] h-[60px] mb-2"
             />
 
             <p className="sm:text-lg text-xs leading-[26px] text-[var(--color-gray2)] whitespace-nowrap">
-              검색결과가 없습니다.
+              <span className="text-[var(--primary)] mr-0.5">
+                {searchTitle}
+              </span>
+              대시보드가 없습니다.
             </p>
           </div>
         )}
