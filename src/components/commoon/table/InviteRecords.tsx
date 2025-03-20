@@ -59,7 +59,7 @@ const InviteRecords = () => {
       </div>
 
       {/* 구성원 리스트 */}
-      <p className="sm:text-base text-sm text-gray-500 mt-6">이메일</p>
+      <p className="sm:text-base text-sm text-gray-500 mt-6 ml-4">이메일</p>
       <ul>
         {paginatedInvitation.map((invitelog, index) => (
           <li
