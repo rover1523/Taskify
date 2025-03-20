@@ -2,7 +2,7 @@
 
 import MemberList from "@/components/commoon/table/Member/MemberList";
 import InviteRecords from "@/components/commoon/table/InviteRecords";
-import InvitedDashBoard from "@/components/commoon/table/InvitedDashBoard";
+import InvitedDashBoard from "@/components/commoon/table/Invited/InvitedDashBoard";
 
 export default function TestPage() {
   return (
