@@ -19,13 +19,13 @@ const invitedData: Invite[] = [
   { title: "유닛 H", nickname: "배지훈" },
 ];
 
-const ITEMS_PER_PAGE = 6; // 🔥 한 번에 보여줄 개수
+const ITEMS_PER_PAGE = 6; // 한 번에 보여줄 개수
 
 function InvitedList({ searchTitle }: { searchTitle: string }) {
   const [displayedData, setDisplayedData] = useState<Invite[]>([]);
   const [page, setPage] = useState(1);
   const observerRef = useRef<HTMLDivElement | null>(null);
-  const hasMore = displayedData.length < invitedData.length; // 🔥 남은 데이터가 있는지 확인
+  const hasMore = displayedData.length < invitedData.length; // 남은 데이터가 있는지 확인
 
   useEffect(() => {
     loadMoreData(); // 초기 데이터 로드
@@ -79,7 +79,7 @@ function InvitedList({ searchTitle }: { searchTitle: string }) {
           </p>
         </div>
       )}
-      <div className="scroll-area h-[400px] overflow-y-auto overflow-x-hidden">
+      <div className="scroll-area h-[400px] overflow-y-auto overflow-x-hidden ">
         {filteredData.length > 0
           ? filteredData.map((invite, index) => (
               <div
@@ -98,7 +98,7 @@ function InvitedList({ searchTitle }: { searchTitle: string }) {
                 </div>
               </div>
             ))
-          : // 🔥 "대시보드가 없습니다." 메시지는 데이터가 아예 없을 때만 표시
+          : // "대시보드가 없습니다." 메시지는 데이터가 아예 없을 때만 표시
             !hasMore && (
               <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex flex-col justify-center items-center">
                 <Image
@@ -117,14 +117,14 @@ function InvitedList({ searchTitle }: { searchTitle: string }) {
               </div>
             )}
 
-        {/* 🔥 "더 이상 초대 목록이 없습니다." 메시지는 데이터가 있을 때만 표시 */}
+        {/* "더 이상 초대 목록이 없습니다." 메시지는 데이터가 있을 때만 표시 */}
         {filteredData.length > 0 && !hasMore && (
           <p className="text-center text-gray-400 py-4">
             더 이상 초대 목록이 없습니다.
           </p>
         )}
 
-        {/* 🔥 Intersection Observer 감지 요소 */}
+        {/*  Intersection Observer 감지 요소 */}
         {hasMore && <div ref={observerRef} className="h-10"></div>}
       </div>
     </div>
