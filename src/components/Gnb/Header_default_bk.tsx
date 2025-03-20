@@ -1,26 +1,26 @@
 import React from "react";
 
-const HeaderDefault = () => {
+const HeaderDefaultBk = () => {
   return (
-    <header className="w-full h-[50px] md:h-[70px] sm:h-[60px] flex items-center justify-center bg-white border-b-[1px] border-b-[#D9D9D9]">
+    <header className="w-full h-[50px] md:h-[70px] sm:h-[60px] flex items-center justify-center bg-black">
       <div className="w-full flex items-center justify-between px-[16px] lg:px-[70px] md:px-[40px] sm:px-[24px]">
         <div className="flex items-center space-x-2 cursor-pointer relative">
           <img
-            src="../svgs/large-logo.svg"
+            src="../svgs/logo-large.svg"
             alt="Taskify Logo"
             className="h-[39px] hidden md:block"
           />
           <img
-            src="../svgs/small-logo.svg"
+            src="../svgs/logo-small.svg"
             alt="Taskify Mobile Logo"
             className="h-[27px] block md:hidden"
           />
         </div>
         <div className="flex space-x-4">
-          <button className="text-sm md:text-base sm:text-sm text-black3">
+          <button className="text-sm md:text-base sm:text-sm text-white">
             로그인
           </button>
-          <button className="text-sm md:text-base sm:text-sm text-black3">
+          <button className="text-sm md:text-base sm:text-sm text-white">
             회원가입
           </button>
         </div>
@@ -29,4 +29,4 @@ const HeaderDefault = () => {
   );
 };
 
-export default HeaderDefault;
+export default HeaderDefaultBk;
