@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const TEAM_ID = 4;
+const TEAM_ID = "13-4";
 
 // 카드 데이터
 interface CardData {
@@ -42,12 +42,12 @@ export const apiClient = axios.create({
 
 // API 엔드포인트 경로 정의
 const apiRoutes = {
-  cards: () => `/teams/${TEAM_ID}/cards`,
-  cardDetail: (cardId: number) => `/teams/${TEAM_ID}/cards/${cardId}`,
-  columnDetail: (columnId: number) => `/teams/${TEAM_ID}/columns/${columnId}`,
-  columns: () => `/teams/${TEAM_ID}/columns`,
+  cards: () => `/${TEAM_ID}/cards`,
+  cardDetail: (cardId: number) => `/${TEAM_ID}/cards/${cardId}`,
+  columnDetail: (columnId: number) => `/${TEAM_ID}/columns/${columnId}`,
+  columns: () => `/${TEAM_ID}/columns`,
   columnCardImage: (columnId: number) =>
-    `/teams/${TEAM_ID}/columns/${columnId}/card-image`,
+    `/${TEAM_ID}/columns/${columnId}/card-image`,
 };
 
 const api = {
