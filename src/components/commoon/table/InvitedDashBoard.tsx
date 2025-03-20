@@ -24,7 +24,7 @@ function EmptyInvitations() {
 
 function InvitedList() {
   return (
-    <div className="relative bg-white p-6 rounded-lg shadow-md w-[1022px] h-[650px] max-w-none mx-auto">
+    <div className="relative sm:p-[32px_0px_0px_32px]  bg-white p-6 rounded-lg shadow-md w-[1022px] h-[650px] max-w-none mx-auto">
       <div className="flex justify-between items-center">
         <p className="text-xl sm:text-2xl font-bold">초대받은 대시보드</p>
       </div>
@@ -33,5 +33,9 @@ function InvitedList() {
 }
 
 export default function InvitedDashBoard() {
-  return <EmptyInvitations />;
+  return (
+    <div>
+      <EmptyInvitations /> <br /> <InvitedList />{" "}
+    </div>
+  );
 }
