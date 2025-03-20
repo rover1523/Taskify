@@ -1,18 +1,34 @@
-import { useState, ChangeEvent } from "react";
+import { useState, ChangeEvent, useEffect } from "react";
 import Image from "next/image";
 
+interface Invite {
+  title: string;
+  nickname: string;
+}
+
+const invitedData = [
+  { title: "프로덕트 디자인", nickname: "손동희" },
+  { title: "새로운 기획 문서", nickname: "안귀영" },
+  { title: "유닛 A", nickname: "장혁" },
+  { title: "유닛 B", nickname: "강나무" },
+  { title: "유닛 C", nickname: "김태현" },
+  { title: "유닛 D", nickname: "김태현" },
+];
+
+/* 초대 받은 대시보드가 없을 경우 */
 function EmptyInvitations() {
   return (
-    <div className="relative sm:w-[960px] w-[260px] sm:h-[390px] h:[327px] rounded-[16px] sm:p-[24px_40px_120px_40px] p-[24px_20px_80px_20px] bg-white shadow-md mx-auto">
-      <div className="mb-[16px] flex flex-col justify-center items-center h-[calc(100%-40px)]">
-        <Image
-          src="/svgs/unsubscribe.svg"
-          alt="초대받은 대시보드 없을때 아이콘"
-          width={60}
-          height={60}
-          className="sm:w-[100px] sm:h-[100px] w-[60px] h-[60px] mb-2"
-        />
+    <div className="relative sm:w-[960px] w-[260px] sm:h-[390px] h:[327px]  rounded-[16px] sm:p-[24px_40px_120px_40px] p-[24px_20px_80px_20px]  bg-white shadow-md  mx-auto">
+      <div className="flex justify-between ">
+        <p className="sm:text-2xl text-sm font-bold mb-4 ">초대받은 대시보드</p>
+      </div>
 
+      <div className="mb-[16px] flex flex-col justify-center items-center h-[calc(100%-40px)]">
+        <img
+          className="sm:w-[100px] sm:h-[100px] w:-[60px] h:-[60px] mb-2"
+          src="/svgs/unsubscribe.svg"
+          alt="대시보드 없을때 아이콘"
+        />
         <p className="sm:text-lg text-xs leading-[26px] text-[var(--color-gray2)] whitespace-nowrap">
           아직 초대받은 대시보드가 없어요
         </p>
@@ -21,16 +37,8 @@ function EmptyInvitations() {
   );
 }
 
+/* 초대 받은 대시보드 리스트 */
 function InvitedList({ searchTitle }: { searchTitle: string }) {
-  const invitedData = [
-    { title: "프로덕트 디자인", nickname: "손동희" },
-    { title: "새로운 기획 문서", nickname: "안귀영" },
-    { title: "유닛 A", nickname: "장혁" },
-    { title: "유닛 B", nickname: "강나무" },
-    { title: "유닛 C", nickname: "김태현" },
-    { title: "유닛 D", nickname: "김태현" },
-  ];
-
   /* 검색 */
   const filteredData = invitedData.filter(
     (invite) =>
@@ -41,7 +49,7 @@ function InvitedList({ searchTitle }: { searchTitle: string }) {
   );
 
   return (
-    <div className="relative bg-white w-[1022px] h-[458px] mx-auto mt-[40px]  ">
+    <div className="relative bg-white w-[1022px] h-[458px] mx-auto mt-[20px]  ">
       {filteredData.length > 0 && (
         <div className="p-6 flex w-[900px] h-[26px] justify-start items-center pl-[43px] pr-[76px] gap-x-[50px]">
           <p className="font-normal text-[var(--color-gray2)] ml-5.5">이름</p>
@@ -72,6 +80,7 @@ function InvitedList({ searchTitle }: { searchTitle: string }) {
             </div>
           ))
         ) : (
+          /* 검색결과가 없을 때 */
           <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex flex-col justify-center items-center">
             <Image
               src="/svgs/unsubscribe.svg"
@@ -101,30 +110,39 @@ export default function InvitedDashBoard() {
     console.log("search input 값: ", event.target.value);
   };
 
+  /* 검색된 데이터 필터링 */
+  const filteredData = invitedData.filter(
+    (invite) =>
+      invite.title.toLowerCase().includes(searchTitle.toLowerCase()) ||
+      invite.nickname.toLowerCase().includes(searchTitle.toLowerCase())
+  );
+
+  if (invitedData.length === 0) {
+    return <EmptyInvitations />;
+  }
+
   return (
-    <div>
-      <div className="relative bg-white rounded-lg shadow-md w-[1022px] h-[650px] max-w-none mx-auto">
-        <div className="p-6 relative w-[966px] h-[104px]">
-          <div className="flex justify-between items-center mb-[32px]">
-            <p className="text-xl sm:text-2xl font-bold">초대받은 대시보드</p>
-          </div>
-          <div className="relative w-[966px]">
-            <input
-              id="title"
-              placeholder="검색"
-              type="text"
-              value={searchTitle}
-              onChange={handleSearchInputChange}
-              className="text-[var(--color-gray2)] w-full h-[40px] px-[40px] py-[6px] border border-[#D9D9D9] bg-white rounded-[6px] placeholder-gray-400 outline-none"
-            />
-            <Image
-              src="/svgs/search.svg"
-              alt="검색 아이콘"
-              width={20}
-              height={20}
-              className="absolute left-[12px] top-1/2 transform -translate-y-1/2"
-            />
-          </div>
+    <div className="relative bg-white rounded-lg shadow-md w-[1022px] h-[650px] max-w-none mx-auto">
+      <div className="p-6 relative w-[966px] h-[104px]">
+        <div className="flex justify-between items-center mb-[32px]">
+          <p className="text-xl sm:text-2xl font-bold">초대받은 대시보드</p>
+        </div>
+        <div className="relative w-[966px]">
+          <input
+            id="title"
+            placeholder="검색"
+            type="text"
+            value={searchTitle}
+            onChange={handleSearchInputChange}
+            className="text-[var(--color-gray2)] w-full h-[40px] px-[40px] py-[6px] border border-[#D9D9D9] bg-white rounded-[6px] placeholder-gray-400 outline-none"
+          />
+          <Image
+            src="/svgs/search.svg"
+            alt="검색 아이콘"
+            width={20}
+            height={20}
+            className="absolute left-[12px] top-1/2 transform -translate-y-1/2"
+          />
         </div>
         <InvitedList searchTitle={searchTitle} />
       </div>
