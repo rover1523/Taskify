@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef, ChangeEvent } from "react";
 import Image from "next/image";
+import NoDashboardMessage from "./NoDashboardMessage";
 
 interface Invite {
   title: string;
@@ -99,23 +100,7 @@ function InvitedList({ searchTitle }: { searchTitle: string }) {
               </div>
             ))
           : // "대시보드가 없습니다." 메시지는 데이터가 아예 없을 때만 표시
-            !hasMore && (
-              <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex flex-col justify-center items-center">
-                <Image
-                  src="/svgs/unsubscribe.svg"
-                  alt="검색 결과 없을때 아이콘"
-                  width={60}
-                  height={60}
-                  className="sm:w-[100px] sm:h-[100px] w-[60px] h-[60px] mb-2"
-                />
-                <p className="sm:text-lg text-xs leading-[26px] text-[var(--color-gray2)] whitespace-nowrap">
-                  <span className="text-[var(--primary)] mr-1">
-                    {searchTitle}
-                  </span>
-                  대시보드가 없습니다.
-                </p>
-              </div>
-            )}
+            !hasMore && <NoDashboardMessage searchTitle={searchTitle} />}
 
         {/* "더 이상 초대 목록이 없습니다." 메시지는 데이터가 있을 때만 표시 */}
         {filteredData.length > 0 && !hasMore && (
