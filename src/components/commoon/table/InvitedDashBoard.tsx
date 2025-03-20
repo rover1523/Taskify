@@ -41,12 +41,14 @@ function InvitedList({ searchTitle }: { searchTitle: string }) {
   );
 
   return (
-    <div className="relative bg-white w-[1022px] h-[458px] mx-auto mt-[24px] ">
+    <div className="relative bg-white w-[1022px] h-[458px] mx-auto mt-[40px]  ">
       {filteredData.length > 0 && (
-        <div className="flex w-[798px] h-[26px] justify-between items-center pl-[43px] pr-[76px] mb-[10px]">
-          <p className="font-normal text-[var(--color-gray2)]">이름</p>
-          <p className="font-normal text-[var(--color-gray2)]">초대자</p>
-          <p className="font-normal text-[var(--color-gray2)]">수락여부</p>
+        <div className="p-6 flex w-[900px] h-[26px] justify-start items-center pl-[43px] pr-[76px] gap-x-[50px]">
+          <p className="font-normal text-[var(--color-gray2)] ml-5.5">이름</p>
+          <p className="font-normal text-[var(--color-gray2)] ml-54">초대자</p>
+          <p className="font-normal text-[var(--color-gray2)] ml-72">
+            수락여부
+          </p>
         </div>
       )}
 
@@ -55,15 +57,17 @@ function InvitedList({ searchTitle }: { searchTitle: string }) {
           filteredData.map((invite, index) => (
             <div
               key={index}
-              className="pb-5 mb-[20px] w-[1022px] h-[52px] grid grid-cols-3 p-2 border-b border-[var(--color-gray4)] items-center"
+              className="pb-5 mb-[20px] w-[1022px] h-[52px] grid grid-cols-[1fr_1fr_1fr]  border-b border-[var(--color-gray4)] items-center"
             >
-              <p>{invite.title}</p>
-              <p>{invite.nickname}</p>
-              <div className="flex justify-center gap-2">
-                <button className="bg-indigo-600 text-white px-3 py-1 rounded-md">
+              <p className="flex justify-cneter ml-16 mt-1">{invite.title}</p>
+              <p className="justify-cneter ml-4.5 mt-1">{invite.nickname}</p>
+              <div className="flex gap-2 mt-1">
+                <button className="cursor-pointer bg-[var(--primary)] text-white px-3 py-1 rounded-md w-[84px] h-[32px]">
                   수락
                 </button>
-                <button className="border px-3 py-1 rounded-md">거절</button>
+                <button className="cursor-pointer border px-3 py-1 rounded-md w-[84px] h-[32px] text-[var(--primary)] border-[var(--color-gray3)]">
+                  거절
+                </button>
               </div>
             </div>
           ))
@@ -78,9 +82,7 @@ function InvitedList({ searchTitle }: { searchTitle: string }) {
             />
 
             <p className="sm:text-lg text-xs leading-[26px] text-[var(--color-gray2)] whitespace-nowrap">
-              <span className="text-[var(--primary)] mr-0.5">
-                {searchTitle}
-              </span>
+              <span className="text-[var(--primary)] mr-1">{searchTitle}</span>
               대시보드가 없습니다.
             </p>
           </div>
@@ -101,8 +103,8 @@ export default function InvitedDashBoard() {
 
   return (
     <div>
-      <div className="relative bg-white p-6 rounded-lg shadow-md w-[1022px] h-[650px] max-w-none mx-auto">
-        <div className="relative w-[966px] h-[104px]">
+      <div className="relative bg-white rounded-lg shadow-md w-[1022px] h-[650px] max-w-none mx-auto">
+        <div className="p-6 relative w-[966px] h-[104px]">
           <div className="flex justify-between items-center mb-[32px]">
             <p className="text-xl sm:text-2xl font-bold">초대받은 대시보드</p>
           </div>
@@ -123,8 +125,8 @@ export default function InvitedDashBoard() {
               className="absolute left-[12px] top-1/2 transform -translate-y-1/2"
             />
           </div>
-          <InvitedList searchTitle={searchTitle} />
         </div>
+        <InvitedList searchTitle={searchTitle} />
       </div>
     </div>
   );
