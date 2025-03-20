@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef, ChangeEvent } from "react";
 import Image from "next/image";
-import NoDashboardMessage from "./NoDashboardMessage";
+import NoDashboardMessage from "./NoResultDashBoard";
+import EmptyInvitations from "./EmptyInvitations";
 
 interface Invite {
   title: string;
@@ -122,6 +123,11 @@ export default function InvitedDashBoard() {
   const handleSearchInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     setSearchTitle(event.target.value);
   };
+
+  // invitedData가 비어 있으면 EmptyInvitations만 렌더링
+  if (invitedData.length === 0) {
+    return <EmptyInvitations />;
+  }
 
   return (
     <div>
