@@ -14,7 +14,7 @@ function EmptyInvitations() {
           src="/svgs/unsubscribe.svg"
           alt="대시보드 없을때 아이콘"
         />
-        <p className="sm:text-lg text-xs leading-[26px] text-[#9FA6B2] whitespace-nowrap">
+        <p className="sm:text-lg text-xs leading-[26px] text-[var(--color-gray2)] whitespace-nowrap">
           아직 초대받은 대시보드가 없어요
         </p>
       </div>
@@ -25,10 +25,10 @@ function EmptyInvitations() {
 function InvitedList() {
   return (
     <div className="relative bg-white w-[1022px] h-[458px]  mx-auto mt-[24px]">
-      <div className="flex w-[798px] h-[26px] justify-between items-center pl-[76px] pr-[32px]">
-        <p className="font-normal text-[#9FA6B2]">이름</p>
-        <p className="font-normal text-[#9FA6B2]">초대자</p>
-        <p className="font-normal text-[#9FA6B2]">수락여부</p>
+      <div className="flex w-[798px] h-[26px] justify-between items-center pl-[43px] pr-[76px]">
+        <p className="font-normal text-[var(--color-gray2)]">이름</p>
+        <p className="font-normal text-[var(--color-gray2)]">초대자</p>
+        <p className="font-normal text-[var(--color-gray2)]">수락여부</p>
       </div>
     </div>
   );
@@ -58,7 +58,7 @@ export default function InvitedDashBoard() {
               type="text"
               value={searchTitle}
               onChange={handleSearchInputChange}
-              className="text-[#9FA6B2] w-full h-[40px] px-[40px] py-[6px] border border-[#D9D9D9] bg-white rounded-[6px]  placeholder-gray-400 outline-none"
+              className="text-[var(--color-gray2)] w-full h-[40px] px-[40px] py-[6px] border border-[#D9D9D9] bg-white rounded-[6px]  placeholder-gray-400 outline-none"
             />
             <img
               src="/svgs/search.svg"
