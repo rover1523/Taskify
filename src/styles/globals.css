@@ -38,6 +38,33 @@
 }
 
 @layer utilities {
+  .text-black2 {
+    color: var(--color-black2);
+  }
+  .text-black3 {
+    color: var(--color-black3);
+  }
+  .text-black4 {
+    color: var(--color-black4);
+  }
+  .text-gray1 {
+    color: var(--color-gray1);
+  }
+  .text-gray2 {
+    color: var(--color-gray2);
+  }
+  .text-gray3 {
+    color: var(--color-gray3);
+  }
+  .text-gray4 {
+    color: var(--color-gray4);
+  }
+  .text-gray5 {
+    color: var(--color-gray5);
+  }
+}
+
+@layer utilities {
   .font-32b {
     @apply text-[32px] leading-[42px] font-bold;
   }
