@@ -10,7 +10,7 @@ const headerDashboard = () => {
     <header className="w-full h-[50px] md:h-[70px] sm:h-[60px] flex items-center justify-center bg-white border-b-[1px] border-b-[#D9D9D9]">
       <div className="w-full flex items-center justify-between pl-[80px] md:pl-[200px] lg:pl-[340px]">
         <div className="flex items-center cursor-pointer relative">
-          <p className="text-base font-bold md:text-xl">내 대시보드</p>
+          <p className="text-base font-bold md:text-xl">계정관리</p>
         </div>
 
         <div className="flex items-center">
