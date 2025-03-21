@@ -4,6 +4,7 @@ import MemberList from "@/components/commoon/table/member/MemberList";
 import InviteRecords from "@/components/commoon/table/InviteRecords";
 import InvitedDashBoard from "@/components/commoon/table/invited/InvitedDashBoard";
 import Profile from "@/components/commoon/card/Profile";
+import ChangePassword from "@/components/commoon/card/ChangePassword";
 
 export default function TestPage() {
   return (
@@ -19,6 +20,9 @@ export default function TestPage() {
       <br />
       <h1 className="text-2xl font-bold">프로필 카드 테스트</h1>
       <Profile />
+      <br />
+      <h1 className="text-2xl font-bold">비밀번호 변경 카드 테스트</h1>
+      <ChangePassword />
     </div>
   );
 }
