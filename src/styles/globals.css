@@ -48,93 +48,174 @@
 }
 
 @layer utilities {
+  .text-black2 {
+    color: var(--color-black2);
+  }
+  .text-black3 {
+    color: var(--color-black3);
+  }
+  .text-black4 {
+    color: var(--color-black4);
+  }
+  .text-gray1 {
+    color: var(--color-gray1);
+  }
+  .text-gray2 {
+    color: var(--color-gray2);
+  }
+  .text-gray3 {
+    color: var(--color-gray3);
+  }
+  .text-gray4 {
+    color: var(--color-gray4);
+  }
+  .text-gray5 {
+    color: var(--color-gray5);
+  }
+}
+
+@layer utilities {
   .font-32b {
-    @apply text-[32px] leading-[42px] font-bold;
+    font-size: 32px;
+    line-height: 42px;
+    font-weight: 700;
   }
   .font-32sb {
-    @apply text-[32px] leading-[42px] font-semibold;
+    font-size: 32px;
+    line-height: 42px;
+    font-weight: 600;
   }
 
   .font-24b {
-    @apply text-[24px] leading-[32px] font-bold;
+    font-size: 24px;
+    line-height: 32px;
+    font-weight: 700;
   }
   .font-24sb {
-    @apply text-[24px] leading-[32px] font-semibold;
+    font-size: 24px;
+    line-height: 32px;
+    font-weight: 600;
   }
   .font-24m {
-    @apply text-[24px] leading-[32px] font-medium;
+    font-size: 24px;
+    line-height: 32px;
+    font-weight: 500;
   }
   .font-24r {
-    @apply text-[24px] leading-[32px] font-normal;
+    font-size: 24px;
+    line-height: 32px;
+    font-weight: 400;
   }
 
   .font-20b {
-    @apply text-[20px] leading-[32px] font-bold;
+    font-size: 20px;
+    line-height: 32px;
+    font-weight: 700;
   }
   .font-20sb {
-    @apply text-[20px] leading-[32px] font-semibold;
+    font-size: 20px;
+    line-height: 32px;
+    font-weight: 600;
   }
   .font-20m {
-    @apply text-[20px] leading-[32px] font-medium;
+    font-size: 20px;
+    line-height: 32px;
+    font-weight: 500;
   }
   .font-20r {
-    @apply text-[20px] leading-[32px] font-normal;
+    font-size: 20px;
+    line-height: 32px;
+    font-weight: 400;
   }
 
   .font-18b {
-    @apply text-[18px] leading-[26px] font-bold;
+    font-size: 18px;
+    line-height: 26px;
+    font-weight: 700;
   }
   .font-18sb {
-    @apply text-[18px] leading-[26px] font-semibold;
+    font-size: 18px;
+    line-height: 26px;
+    font-weight: 600;
   }
   .font-18m {
-    @apply text-[18px] leading-[26px] font-medium;
+    font-size: 18px;
+    line-height: 26px;
+    font-weight: 500;
   }
   .font-18r {
-    @apply text-[18px] leading-[26px] font-normal;
+    font-size: 18px;
+    line-height: 26px;
+    font-weight: 400;
   }
 
   .font-16b {
-    @apply text-[16px] leading-[26px] font-bold;
+    font-size: 16px;
+    line-height: 26px;
+    font-weight: 700;
   }
   .font-16sb {
-    @apply text-[16px] leading-[26px] font-semibold;
+    font-size: 16px;
+    line-height: 26px;
+    font-weight: 600;
   }
   .font-16m {
-    @apply text-[16px] leading-[26px] font-medium;
+    font-size: 16px;
+    line-height: 26px;
+    font-weight: 500;
   }
   .font-16r {
-    @apply text-[16px] leading-[26px] font-normal;
+    font-size: 16px;
+    line-height: 26px;
+    font-weight: 400;
   }
 
   .font-14b {
-    @apply text-[14px] leading-[24px] font-bold;
+    font-size: 14px;
+    line-height: 24px;
+    font-weight: 700;
   }
   .font-14sb {
-    @apply text-[14px] leading-[24px] font-semibold;
+    font-size: 14px;
+    line-height: 24px;
+    font-weight: 600;
   }
   .font-14m {
-    @apply text-[14px] leading-[24px] font-medium;
+    font-size: 14px;
+    line-height: 24px;
+    font-weight: 500;
   }
   .font-14r {
-    @apply text-[14px] leading-[24px] font-normal;
+    font-size: 14px;
+    line-height: 24px;
+    font-weight: 400;
   }
 
   .font-13sb {
-    @apply text-[13px] leading-[22px] font-semibold;
+    font-size: 13px;
+    line-height: 22px;
+    font-weight: 600;
   }
   .font-13m {
-    @apply text-[13px] leading-[22px] font-medium;
+    font-size: 13px;
+    line-height: 22px;
+    font-weight: 500;
   }
 
   .font-12sb {
-    @apply text-[12px] leading-[20px] font-semibold;
+    font-size: 12px;
+    line-height: 20px;
+    font-weight: 600;
   }
   .font-12m {
-    @apply text-[12px] leading-[18px] font-medium;
+    font-size: 12px;
+    line-height: 18px;
+    font-weight: 500;
   }
   .font-12r {
-    @apply text-[12px] leading-[18px] font-normal;
+    font-size: 12px;
+    line-height: 18px;
+    font-weight: 400;
   }
 }
 
