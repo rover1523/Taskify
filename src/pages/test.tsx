@@ -1,10 +1,10 @@
 // 컴포넌트 test 파일
 
-import MemberList from "@/components/commoon/table/member/MemberList";
-import InviteRecords from "@/components/commoon/table/InviteRecords";
-import InvitedDashBoard from "@/components/commoon/table/invited/InvitedDashBoard";
-import Profile from "@/components/commoon/card/Profile";
-import ChangePassword from "@/components/commoon/card/ChangePassword";
+import MemberList from "@/components/table/member/MemberList";
+import InviteRecords from "@/components/table/InviteRecords";
+import InvitedDashBoard from "@/components/table/invited/InvitedDashBoard";
+import Profile from "@/components/card/Profile";
+import ChangePassword from "@/components/card/ChangePassword";
 
 export default function TestPage() {
   return (
