@@ -19,14 +19,13 @@ export const CustomBtn: React.FC<CustomBtnProps> = ({
   variant = "primary",
   size = "medium",
   disabled = false,
-  className = "",
   ...props
 }) => {
   const baseStyle =
     "flex justify-center items-center rounded-lg cursor-pointer transition";
 
   const sizeStyles: Record<NonNullable<CustomBtnProps["size"]>, string> = {
-    large: "w-[520px] h-[50px] font-18m", // font-16b
+    large: "w-[520px] h-[50px] font-18m",
     medium: "w-[256px] h-[54px] font-16sb",
     small: "w-[84px] h-[32px] font-14m rounded-sm",
     tabletSmall: "w-[72px] h-[30px] font-14m rounded-sm",
@@ -52,7 +51,7 @@ export const CustomBtn: React.FC<CustomBtnProps> = ({
           ? variantStyles.primaryDisabled
           : variantStyles.primaryDisabled
       : variantStyles[variant]
-  } ${className}`;
+  }`;
 
   return (
     <button className={finalStyle} disabled={disabled} {...props}>
