@@ -1,6 +1,7 @@
 "use client";
 
 import { createPortal } from "react-dom";
+import { CustomBtn } from "../Button/CustomBtn";
 
 interface ButtonProps {
   label: string;
@@ -15,9 +16,11 @@ interface ModalProps {
   title?: string;
   children: React.ReactNode;
   buttons?: ButtonProps[];
-  className?: string; // 모달 컨테이너 스타일을 외부에서 지정 가능
-  contentClassName?: string; // 모달 내부 컨텐츠 영역 스타일
-  buttonContainerClassName?: string; // 버튼 컨테이너 스타일
+  className?: string;
+  contentClassName?: string;
+  buttonContainerClassName?: string;
+  width?: string; // 모달 너비 (사용자가 지정 가능, 기본값 있음)
+  height?: string;
 }
 
 export function Modal({
@@ -29,6 +32,8 @@ export function Modal({
   className = "",
   contentClassName = "",
   buttonContainerClassName = "",
+  width = "w-[568px]",
+  height = "h-[266px]",
 }: ModalProps) {
   if (!isOpen) return null;
 
@@ -38,27 +43,30 @@ export function Modal({
       onClick={onClose}
     >
       <div
-        className={`bg-white rounded-lg shadow-lg ${className}`} // 외부에서 스타일 지정 가능
+        className={`bg-white rounded-lg shadow-lg p-6 ${width} ${height} ${className}`}
         onClick={(e) => e.stopPropagation()} // 내부 클릭 시 닫히지 않도록 설정
       >
-        {title && <h2 className="text-xl font-semibold mb-4">{title}</h2>}
-        <div className={`${contentClassName}`}>{children}</div>
-        <div
-          className={`flex justify-center gap-2 ${buttonContainerClassName}`}
-        >
-          {buttons?.map((button, index) => (
-            <button
-              key={index}
-              className={`px-4 py-2 rounded ${
-                button.variant === "primary"
-                  ? "bg-blue-500 text-white"
-                  : "bg-gray-300 text-black"
-              } ${button.className}`} // 버튼 스타일을 외부에서 지정 가능
-              onClick={button.onClick}
-            >
-              {button.label}
-            </button>
-          ))}
+        {title && <h2 className="text-xl font-semibold ">{title}</h2>}
+        {/* 내용 영역 */}
+        <div className={`${contentClassName} flex flex-col gap-4`}>
+          {children}
+        </div>
+        {/* 버튼영역 */}
+        <div className="mt-6 flex flex-col gap-2">
+          <div
+            className={`flex justify-center gap-2 ${buttonContainerClassName}`}
+          >
+            {buttons?.map((button, index) => (
+              <CustomBtn
+                key={index}
+                onClick={button.onClick}
+                variant={button.variant ?? "primary"} // 기본값 fallback
+                className={`px-4 ${button.className || ""}`}
+              >
+                {button.label}
+              </CustomBtn>
+            ))}
+          </div>
         </div>
       </div>
     </div>,
