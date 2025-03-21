@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Pagination from "../Pagination";
+import Pagination from "./TablePagination";
 
 const InviteRecords = () => {
   const [invitelog, setInvitelog] = useState([

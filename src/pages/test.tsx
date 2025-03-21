@@ -1,8 +1,9 @@
 // 컴포넌트 test 파일
 
-import MemberList from "@/components/commoon/table/Member/MemberList";
+import MemberList from "@/components/commoon/table/member/MemberList";
 import InviteRecords from "@/components/commoon/table/InviteRecords";
-import InvitedDashBoard from "@/components/commoon/table/Invited/InvitedDashBoard";
+import InvitedDashBoard from "@/components/commoon/table/invited/InvitedDashBoard";
+import Profile from "@/components/commoon/card/Profile";
 
 export default function TestPage() {
   return (
@@ -15,6 +16,9 @@ export default function TestPage() {
       <br />
       <h1 className="text-2xl font-bold">초대받은 테이블 테스트</h1>
       <InvitedDashBoard />
+      <br />
+      <h1 className="text-2xl font-bold">프로필 카드 테스트</h1>
+      <Profile />
     </div>
   );
 }

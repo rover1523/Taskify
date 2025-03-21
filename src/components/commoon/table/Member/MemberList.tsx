@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Pagination from "../../Pagination";
+import Pagination from "../TablePagination";
 import RandomProfile from "./RandomProfile";
 
 const MemberList = () => {
