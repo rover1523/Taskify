@@ -13,11 +13,17 @@ const HeaderBebridge = () => {
     initials: "B",
   };
 
-  const dummyData: MemberType = {
-    id: 1,
-    profileImageUrl: "/default-profile.svg",
-    nickname: "조민지",
-  };
+  const dummyData: MemberType[] = [
+    {
+      id: 1,
+      profileImageUrl: "../svgs/dummy-icon.png",
+      nickname: "조민지",
+    },
+    { id: 2, profileImageUrl: "../svgs/dummy-icon.png", nickname: "황혜진" },
+    { id: 3, profileImageUrl: "../svgs/dummy-icon.png", nickname: "김교연" },
+    { id: 4, profileImageUrl: "../svgs/dummy-icon.png", nickname: "정종우" },
+    { id: 5, profileImageUrl: "../svgs/dummy-icon.png", nickname: "임용균" },
+  ];
 
   const [isLoading, setIsLoading] = useState(true);
   const [members, setMembers] = useState<MemberType[]>([]);
@@ -30,12 +36,12 @@ const HeaderBebridge = () => {
         );
 
         setMembers(
-          response.data?.results.length ? response.data.results : [dummyData]
+          response.data?.results.length ? response.data.results : dummyData
         );
       } catch (error) {
         console.error("API 요청 실패:", error);
 
-        setMembers([dummyData]);
+        setMembers(dummyData);
       } finally {
         setIsLoading(false);
       }
@@ -46,9 +52,9 @@ const HeaderBebridge = () => {
 
   return (
     <header className="w-full h-[50px] md:h-[70px] sm:h-[60px] flex items-center justify-center bg-white border-b-[1px] border-b-[#D9D9D9]">
-      <div className="w-full flex items-center justify-between pl-[80px] md:pl-[200px] lg:pl-[340px]">
+      <div className="w-full flex items-center justify-between pl-[18vw]">
         <div className="flex items-center cursor-pointer relative gap-[8px]">
-          <p className="hidden lg:block text-base font-bold md:text-xl">
+          <p className="hidden lg:block text-base text-black3 font-bold md:text-xl">
             비브리지
           </p>
           <img
@@ -79,7 +85,7 @@ const HeaderBebridge = () => {
             </button>
           </div>
 
-          <div className="flex space-x-[10px]">
+          <div className="flex -space-x-3">
             {isLoading ? (
               <p className="text-gray-500 text-sm">로딩 중...</p>
             ) : (
@@ -87,13 +93,13 @@ const HeaderBebridge = () => {
                 {members.slice(0, 4).map((member, index) => (
                   <img
                     key={member.id}
-                    src={member.profileImageUrl || "/default-profile.svg"}
+                    src={member.profileImageUrl || "../svgs/dummy-icon.png"}
                     alt={member.nickname}
-                    className="w-[38px] h-[38px] rounded-full border-[2px] border-white"
+                    className="w-[34px] h-[34px] md:w-[38px] md:h-[38px] rounded-full border-[2px] border-white"
                   />
                 ))}
                 {members.length > 4 && (
-                  <div className="w-[38px] h-[38px] flex items-center justify-center rounded-full border-[2px] border-white bg-[#F4D7DA] font-16m text-[#D25B68]">
+                  <div className="w-[34px] h-[34px] md:w-[38px] md:h-[38px] flex items-center justify-center rounded-full border-[2px] border-white bg-[#F4D7DA] font-16m text-[#D25B68]">
                     +{members.length - 4}
                   </div>
                 )}
