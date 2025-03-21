@@ -16,7 +16,7 @@ export default function ProfileCard() {
   };
 
   return (
-    <div className="w-[595px] h-[320px] bg-white rounded-[16px] shadow-md p-[24px] flex flex-col">
+    <div className="w-[672px] h-[366px] bg-white rounded-[16px] shadow-md p-[24px] flex flex-col">
       {/* 프로필 제목 */}
       <h2 className="font-24b mb-4">프로필</h2>
 
@@ -24,7 +24,7 @@ export default function ProfileCard() {
       <div className="flex">
         {/* 프로필 이미지 업로드 영역 */}
         <div className="w-[120px] flex-shrink-0">
-          <div className=" w-[120px] h-[120px] border border-gray-300 rounded-md flex items-center justify-center cursor-pointer">
+          <div className=" w-[182px] h-[182px] border border-gray-300 rounded-md flex items-center justify-center cursor-pointer">
             <label className="cursor-pointer w-full h-full flex items-center justify-center">
               {image ? (
                 <img
@@ -45,7 +45,7 @@ export default function ProfileCard() {
         </div>
 
         {/* 입력 폼 */}
-        <div className="flex flex-col ml-6 w-[400px] h-[262]">
+        <div className="flex flex-col ml-26 w-[400px] h-[262]">
           <label className="mb-2 text-sm text-[var(--color-black3)]">
             이메일
           </label>
