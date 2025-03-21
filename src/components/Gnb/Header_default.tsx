@@ -6,7 +6,7 @@ const HeaderDefault = () => {
       <div className="w-full flex items-center justify-between px-[16px] lg:px-[70px] md:px-[40px] sm:px-[24px]">
         <div className="flex items-center space-x-2 cursor-pointer relative">
           <img
-            src="../svgs/large-logo.svg"
+            src="../svgs/logo-large.svg"
             alt="Taskify Logo"
             className="h-[39px] hidden md:block"
           />
