@@ -16,15 +16,15 @@ export default function ProfileCard() {
   };
 
   return (
-    <div className="w-[672px] h-[366px] bg-white rounded-[16px] shadow-md p-[24px] flex flex-col">
+    <div className="sm:w-[672px] sm:h-[366px] w-[284px] h-[496px] bg-white rounded-[16px] shadow-md p-[24px] flex flex-col">
       {/* 프로필 제목 */}
-      <h2 className="font-24b mb-4">프로필</h2>
+      <h2 className="text-[18px] sm:text-[24px] font-bold mb-4">프로필</h2>
 
-      {/* 프로필 이미지 + 입력 폼 */}
-      <div className="flex">
+      {/* 프로필 이미지 + 입력 폼  > 컴포넌트 받으면 바꾸기*/}
+      <div className="flex flex-col sm:flex-row items-center sm:items-start">
         {/* 프로필 이미지 업로드 영역 */}
-        <div className="w-[120px] flex-shrink-0">
-          <div className=" w-[182px] h-[182px] border border-gray-300 rounded-md flex items-center justify-center cursor-pointer">
+        <div className="w-[120px] flex-shrink-0 mb-4 sm:mb-0">
+          <div className="sm:w-[182px] sm:h-[182px] w-[100px] h-[100px] border border-gray-300 rounded-md flex items-center justify-center cursor-pointer">
             <label className="cursor-pointer w-full h-full flex items-center justify-center">
               {image ? (
                 <img
@@ -45,18 +45,16 @@ export default function ProfileCard() {
         </div>
 
         {/* 입력 폼 */}
-        <div className="flex flex-col ml-26 w-[400px] h-[262]">
-          <label className="mb-2 text-sm text-[var(--color-black3)]">
-            이메일
-          </label>
+        <div className="flex flex-col sm:ml-25 w-full sm:w-[400px]">
+          <label className="mb-2 text-sm sm:text-base text-black">이메일</label>
           <input
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full h-[44px] px-[16px] py-[10px] border border-gray-300 rounded-[8px]  "
+            className="w-full h-[44px] px-[16px] py-[10px] border border-gray-300 rounded-[8px]"
           />
 
-          <label className="mb-2 text-sm text-[var(--color-black3)] mt-3">
+          <label className="mb-2 text-sm sm:text-base text-black mt-3">
             닉네임
           </label>
           <input
@@ -67,7 +65,7 @@ export default function ProfileCard() {
           />
 
           {/* 저장 버튼 */}
-          <button className="p-[14px_46px_14px_46px] cursor-pointer w-[400px] h-[54px] bg-[#5A3FFF] text-white rounded-[8px] text-lg font-medium mt-4">
+          <button className="w-full sm:w-[400px] h-[54px] bg-[#5A3FFF] text-white rounded-[8px] text-lg font-medium mt-6">
             저장
           </button>
         </div>
