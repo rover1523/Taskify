@@ -6,6 +6,16 @@
   }
 }
 
+/* InvitedDashBoard.tsx에서 스크롤바 숨기는 css */
+.scroll-area::-webkit-scrollbar {
+  display: none;
+}
+
+.scroll-area {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
 @layer base {
   :root {
     --primary: #5534da;
