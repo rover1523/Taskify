@@ -5,7 +5,7 @@ export default function ImageCard() {
     <div className="w-[314px] border border-gray-300 rounded-md p-4">
       <Image
         className="w-full h-40 object-cover rounded-md"
-        src="/mnt/data/image.png"
+        src="/svgs/img.svg"
         width={300}
         height={160}
         alt="Task Image"
@@ -22,8 +22,9 @@ export default function ImageCard() {
           상
         </span>
       </div>
-      <div className="flex items-center gap-1.5 mt-2">
-        <p className="text-gray-500 text-sm">📅 2022.12.31</p>
+      <div className="flex items-center gap-2 mt-2 text-gray-500 text-sm">
+        <img src="/svgs/calendar.svg" alt="calendar icon" className="w-4 h-4" />
+        <p>2022.12.31</p>
       </div>
     </div>
   );
