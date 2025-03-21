@@ -21,7 +21,6 @@ interface ModalProps {
 }
 
 export function Modal({
-  //혜진Todo
   isOpen,
   onClose,
   title,
