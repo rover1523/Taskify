@@ -1,6 +1,6 @@
 import React from "react";
 
-const headerDefaultBk = () => {
+const HeaderDefaultBk = () => {
   return (
     <header className="w-full h-[50px] md:h-[70px] sm:h-[60px] flex items-center justify-center bg-black">
       <div className="w-full flex items-center justify-between px-[16px] lg:px-[70px] md:px-[40px] sm:px-[24px]">
@@ -25,4 +25,4 @@ const headerDefaultBk = () => {
   );
 };
 
-export default headerDefaultBk;
+export default HeaderDefaultBk;

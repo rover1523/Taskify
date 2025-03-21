@@ -7,7 +7,7 @@ interface MemberType {
   nickname: string;
 }
 
-const HeaderMyPage = () => {
+const HeaderBebridge = () => {
   const user = {
     nickname: "배유철",
     initials: "B",
@@ -47,10 +47,15 @@ const HeaderMyPage = () => {
   return (
     <header className="w-full h-[50px] md:h-[70px] sm:h-[60px] flex items-center justify-center bg-white border-b-[1px] border-b-[#D9D9D9]">
       <div className="w-full flex items-center justify-between pl-[80px] md:pl-[200px] lg:pl-[340px]">
-        <div className="flex items-center cursor-pointer relative">
+        <div className="flex items-center cursor-pointer relative gap-[8px]">
           <p className="hidden lg:block text-base font-bold md:text-xl">
-            계정관리
+            비브리지
           </p>
+          <img
+            src="../svgs/crown.svg"
+            alt="왕관 아이콘"
+            className="w-[24px] h-[24px] hidden lg:block"
+          />
         </div>
 
         <div className="flex items-center">
@@ -74,7 +79,7 @@ const HeaderMyPage = () => {
             </button>
           </div>
 
-          <div className="flex -space-x-2">
+          <div className="flex space-x-[10px]">
             {isLoading ? (
               <p className="text-gray-500 text-sm">로딩 중...</p>
             ) : (
@@ -116,4 +121,4 @@ const HeaderMyPage = () => {
   );
 };
 
-export default HeaderMyPage;
+export default HeaderBebridge;
