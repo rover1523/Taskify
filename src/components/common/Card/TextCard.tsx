@@ -3,7 +3,7 @@ export function TextCard() {
     <div className="mt-4 space-y-2.5">
       {" "}
       {/* gap 10px 적용 */}
-      <div className="w-[314px] h-[128px] border border-gray-200 shadow-sm rounded-lg p-4 bg-white flex flex-col">
+      <div className="w-[314px] h-[128px] border border-gray-200 rounded-lg p-4 bg-white flex flex-col">
         {/* 제목 */}
         <h3 className="font-medium text-lg text-gray-900">
           새로운 일정 관리 Taskify

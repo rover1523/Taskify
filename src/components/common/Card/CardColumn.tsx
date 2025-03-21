@@ -21,10 +21,10 @@ export default function CardColumn() {
   };
 
   return (
-    <div className="w-[354px] h-[1010px] border-[var(--color-gray3)] flex flex-col rounded-md border border-solid bg-white p-4">
+    <div className="w-[354px] h-[1010px] border-[var(--color-gray4)] flex flex-col rounded-md border border-solid bg-gray-50 p-4">
       <div className="flex items-center justify-between">
         <h2 className="text-lg font-bold">
-          <span className="text-[#5534DA]">•</span> On Progress
+          <span className="text-[var(--primary)]">•</span> On Progress
         </h2>
         <span className="bg-gray-200 text-gray-700 px-2 py-1 rounded-full text-sm">
           2
