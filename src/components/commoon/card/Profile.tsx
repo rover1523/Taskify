@@ -23,7 +23,7 @@ export default function ProfileCard() {
       {/* 프로필 이미지 + 입력 폼  > 컴포넌트 받으면 바꾸기*/}
       <div className="flex flex-col sm:flex-row items-center sm:items-start">
         {/* 프로필 이미지 업로드 영역 */}
-        <div className="w-[120px] flex-shrink-0 mb-4 sm:mb-0">
+        <div className="sm:mr:0 mr-29 w-[120px] flex-shrink-0 mb-4 sm:mb-0">
           <div className="sm:w-[182px] sm:h-[182px] w-[100px] h-[100px] border border-gray-300 rounded-md flex items-center justify-center cursor-pointer">
             <label className="cursor-pointer w-full h-full flex items-center justify-center">
               {image ? (
@@ -45,7 +45,7 @@ export default function ProfileCard() {
         </div>
 
         {/* 입력 폼 */}
-        <div className="flex flex-col sm:ml-25 w-full sm:w-[400px]">
+        <div className="flex flex-col sm:ml-0 w-full sm:mt-0 mt-5 sm:w-[400px]">
           <label className="mb-2 text-sm sm:text-base text-black">이메일</label>
           <input
             type="email"
@@ -65,7 +65,7 @@ export default function ProfileCard() {
           />
 
           {/* 저장 버튼 */}
-          <button className="w-full sm:w-[400px] h-[54px] bg-[#5A3FFF] text-white rounded-[8px] text-lg font-medium mt-6">
+          <button className="cursor-pointer w-full sm:w-[400px] h-[54px] bg-[#5A3FFF] text-white rounded-[8px] text-lg font-medium mt-6">
             저장
           </button>
         </div>
