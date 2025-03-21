@@ -2,7 +2,7 @@ import { useState } from "react";
 import ModalInput from "@/components/ModalInput/ModalInput";
 import ModalTextarea from "@/components/ModalInput/ModalTextarea";
 import ModalImage from "@/components/ModalInput/ModalImage";
-import TextButton from "@/components/ModalInput/Button/TextButton";
+import TextButton from "@/components/ModalInput/TextButton";
 
 interface TaskModalProps {
   onClose: () => void;

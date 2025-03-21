@@ -3,7 +3,7 @@ import Image from "next/image";
 import { ChangeEvent, useState, KeyboardEvent } from "react";
 import Datetime from "react-datetime";
 import ColorTagChip, { getTagColor } from "./chips/ColorTagChip";
-import { inputClassNames } from "./inputClassNames";
+import { inputClassNames } from "./InputClassNames";
 import clsx from "clsx";
 
 type ModalInputType = "제목" | "마감일" | "태그" | "담당자";
