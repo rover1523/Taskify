@@ -18,44 +18,47 @@ export default function ChangePassword() {
 
       {/* 입력 input */}
       <div>
-        <div className="mb-5">
+        <div className="-mt-2">
           <Input
-            type="email"
-            name="email"
-            label="이메일"
-            labelClassName="font-16r"
-            placeholder="이메일을 입력하세요"
-            onChange={setPw}
-            pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
-            invalidMessage="유효한 이메일 주소를 입력하세요."
-            className="max-w-[620px]"
-          />
-          <Input
-            type="email"
-            name="email"
-            label="이메일"
-            labelClassName="font-16r"
-            placeholder="이메일을 입력하세요"
-            onChange={setPw}
-            pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
-            invalidMessage="유효한 이메일 주소를 입력하세요."
-          />
-          <label className="mb-2 text-sm sm:text-base text-black mt-3">
-            새 비밀번호 확인
-          </label>
-          <input
             type="password"
-            value={checknewpw}
-            onChange={(e) => setCheckNewPw(e.target.value)}
-            className="mt-3 w-full h-[44px] px-[16px] py-[10px] border border-gray-300 rounded-[8px]"
+            name="password"
+            label="비밀번호"
+            labelClassName="font-16r"
+            placeholder="비밀번호 입력"
+            onChange={setPw}
+            pattern=".{8,}"
+            invalidMessage="8자 이상 입력해주세요."
+            className="max-w-[620px] mb-1"
+          />
+          <Input
+            type="password"
+            name="passwordCheck"
+            label="새 비밀번호"
+            labelClassName="font-16r"
+            placeholder="새 비밀번호 입력"
+            onChange={setNewPw}
+            pattern=".{8,}"
+            invalidMessage="8자 이상 입력해주세요."
+            className="max-w-[620px] mb-1"
+          />
+          <Input
+            type="password"
+            name="passwordCheck"
+            label="새 비밀번호 확인"
+            labelClassName="font-16r"
+            placeholder="새 비밀번호 입력"
+            onChange={setCheckNewPw}
+            pattern=".{8,}"
+            invalidMessage="8자 이상 입력해주세요."
+            className="max-w-[620px] mb-1"
           />
         </div>
       </div>
 
       {/* 변경 버튼 */}
       <button
-        className={`cursor-pointer w-full sm:w-[624px] h-[54px] 
-          rounded-[8px] text-lg font-medium mt-6 
+        className={`mt-2.5 cursor-pointer w-full sm:w-[624px] h-[54px] 
+          rounded-[8px] text-lg font-medium  
           ${isDisabled ? "bg-gray-300 cursor-not-allowed" : "bg-[#5A3FFF] text-white"}`}
         disabled={isDisabled}
       >

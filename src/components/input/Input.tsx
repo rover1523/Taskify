@@ -117,7 +117,7 @@ export default function Input(props: InputProps) {
           <button
             type="button"
             onClick={togglePasswordTypeOnClick}
-            className="absolute right-4 top-2.5 flex size-6 items-center justify-center"
+            className="cursor-pointer absolute right-4 top-2.5 flex size-6 items-center justify-center"
           >
             <img
               src={
