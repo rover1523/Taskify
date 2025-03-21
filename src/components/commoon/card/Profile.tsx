@@ -45,7 +45,7 @@ export default function ProfileCard() {
         </div>
 
         {/* 입력 폼 */}
-        <div className="flex flex-col sm:ml-0 w-full sm:mt-0 mt-5 sm:w-[400px]">
+        <div className="flex flex-col sm:ml-[-15px] w-full sm:mt-0 mt-5 sm:w-[400px]">
           <label className="mb-2 text-sm sm:text-base text-black">이메일</label>
           <input
             type="email"
