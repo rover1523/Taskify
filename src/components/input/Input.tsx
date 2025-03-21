@@ -16,7 +16,9 @@ interface SignInputProps extends Omit<GeneralInputProps, "type"> {
   name: "email" | "nickname" | "password" | "passwordCheck";
   pattern: string;
   invalidMessage: string;
-  labelClassName?: string;
+  labelClassName?: string; // 폰트 스타일 조절
+  wrapperClassName?: string; // 전체 div의 스타일을 조절
+  inputClassName?: string; // input의 스타일을 조절
 }
 
 type InputProps = GeneralInputProps | SignInputProps;
@@ -32,6 +34,8 @@ export default function Input(props: InputProps) {
     invalidMessage,
     className,
     labelClassName,
+    wrapperClassName,
+    inputClassName,
     ...rest
   } = props as SignInputProps;
 
@@ -68,7 +72,7 @@ export default function Input(props: InputProps) {
   };
 
   return (
-    <div className="flex w-full max-w-[520px] flex-col items-start gap-2">
+    <div className={clsx("flex flex-col items-start gap-2", wrapperClassName)}>
       {label && (
         <label
           htmlFor={id}
@@ -107,7 +111,8 @@ export default function Input(props: InputProps) {
             type === "password"
               ? "text-[var(--color-black4)]"
               : "text-[var(--color-black)]",
-            className
+            className,
+            inputClassName
           )}
           {...rest}
         />
