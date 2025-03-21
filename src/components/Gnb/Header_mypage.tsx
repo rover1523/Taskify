@@ -8,6 +8,9 @@ interface MemberType {
 }
 
 const HeaderMyPage = () => {
+  {
+    /*dummy data*/
+  }
   const user = {
     nickname: "배유철",
     initials: "B",
@@ -25,6 +28,9 @@ const HeaderMyPage = () => {
     { id: 5, profileImageUrl: "../svgs/dummy-icon.png", nickname: "임용균" },
   ];
 
+  {
+    /*Members profileImageUrl loading*/
+  }
   const [isLoading, setIsLoading] = useState(true);
   const [members, setMembers] = useState<MemberType[]>([]);
 
@@ -51,7 +57,7 @@ const HeaderMyPage = () => {
   }, []);
 
   return (
-    <header className="w-full h-[50px] md:h-[70px] sm:h-[60px] flex items-center justify-center bg-white border-b-[1px] border-b-[#D9D9D9]">
+    <header className="w-full h-[50px] sm:h-[60px] md:h-[70px] flex items-center justify-center bg-white border-b-[1px] border-b-[#D9D9D9]">
       <div className="w-full flex items-center justify-between pl-[18vw]">
         <div className="flex items-center cursor-pointer relative">
           <p className="hidden lg:block text-base text-black3 font-bold md:text-xl">
@@ -80,6 +86,7 @@ const HeaderMyPage = () => {
             </button>
           </div>
 
+          {/*4개의 프로필 아이콘 표시, 나머지 멤버 숫자 +n 아이콘으로 표시*/}
           <div className="flex -space-x-3">
             {isLoading ? (
               <p className="text-gray-500 text-sm">로딩 중...</p>
@@ -102,15 +109,15 @@ const HeaderMyPage = () => {
             )}
           </div>
 
+          {/*구분선*/}
           <div className="pl-[15px] pr-[20px] md:pl-[25px] md:pr-[30px] lg:pl-[30px] lg:pr-[35px]">
             <div className="flex items-center justify-center h-[34px] md:h-[38px] w-[1px] bg-[var(--color-gray3)]"></div>
           </div>
 
+          {/*유저 프로필 아이콘 & 유저 닉네임*/}
           <div className="flex items-center pr-[10px] md:pr-[30px] lg:pr-[80px] gap-[12px]">
             <div className="w-[38px] h-[38px] flex items-center justify-center rounded-full bg-[var(--color-green)] text-bold text-white">
-              {
-                user.initials //*profileImageUrl*//
-              }
+              {user.initials /*profileImageUrl로 변경*/}
             </div>
             <span className="hidden md:block text-black3 md:text-base md:font-medium">
               {user.nickname}

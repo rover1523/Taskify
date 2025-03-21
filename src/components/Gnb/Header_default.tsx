@@ -2,8 +2,8 @@ import React from "react";
 
 const HeaderDefault = () => {
   return (
-    <header className="w-full h-[50px] md:h-[70px] sm:h-[60px] flex items-center justify-center bg-white border-b-[1px] border-b-[#D9D9D9]">
-      <div className="w-full flex items-center justify-between px-[16px] lg:px-[70px] md:px-[40px] sm:px-[24px]">
+    <header className="w-full h-[50px] sm:h-[60px] md:h-[70px] flex items-center justify-center bg-white border-b-[1px] border-b-[#D9D9D9]">
+      <div className="w-full flex items-center justify-between px-[16px] sm:px-[24px] md:px-[40px] lg:px-[70px]">
         <div className="flex items-center cursor-pointer relative">
           <img
             src="../svgs/logo-large.svg"

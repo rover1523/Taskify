@@ -7,7 +7,7 @@ const headerDashboard = () => {
   };
 
   return (
-    <header className="w-full h-[50px] md:h-[70px] sm:h-[60px] flex items-center justify-center bg-white border-b-[1px] border-b-[#D9D9D9]">
+    <header className="w-full h-[50px] sm:h-[60px] md:h-[70px] flex items-center justify-center bg-white border-b-[1px] border-b-[#D9D9D9]">
       <div className="w-full flex items-center justify-between pl-[18vw]">
         <div className="flex items-center cursor-pointer relative">
           <p className="text-base text-black3 font-bold md:text-xl">
