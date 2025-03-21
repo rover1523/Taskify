@@ -16,13 +16,9 @@ const HeaderDefault = () => {
             className="h-[27px] block md:hidden"
           />
         </div>
-        <div className="flex space-x-4">
-          <button className="text-sm md:text-base sm:text-sm text-black3">
-            로그인
-          </button>
-          <button className="text-sm md:text-base sm:text-sm text-black3">
-            회원가입
-          </button>
+        <div className="flex space-x-[24px] md:space-x-[36px]">
+          <button className="text-sm md:text-base text-black3">로그인</button>
+          <button className="text-sm md:text-base text-black3">회원가입</button>
         </div>
       </div>
     </header>

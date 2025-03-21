@@ -16,13 +16,9 @@ const HeaderDefaultBk = () => {
             className="h-[27px] block md:hidden"
           />
         </div>
-        <div className="flex space-x-4">
-          <button className="text-sm md:text-base sm:text-sm text-white">
-            로그인
-          </button>
-          <button className="text-sm md:text-base sm:text-sm text-white">
-            회원가입
-          </button>
+        <div className="flex space-x-[24px] md:space-x-[36px]">
+          <button className="text-sm md:text-base text-white">로그인</button>
+          <button className="text-sm md:text-base text-white">회원가입</button>
         </div>
       </div>
     </header>

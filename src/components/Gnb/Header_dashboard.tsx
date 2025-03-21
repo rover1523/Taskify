@@ -7,12 +7,22 @@ const HeaderDashboard = () => {
         <div className="flex items-center space-x-2 cursor-pointer relative">
           <p className="text">내 대시보드</p>
         </div>
-        <div className="flex space-x-4">
-          <button className="w-[49px] h-[30px] lg:w-[88px] lg:h-[40px] md:w-[88px] md:h-[40px] text-sm md:text-base sm:text-sm text-gray1 rounded-[8px] border-[1px] border-[#D9D9D9]">
-            관리
+        <div className="flex space-x-[6px] md:space-x-[16px]">
+          <button className="w-[49px] h-[30px] lg:w-[88px] lg:h-[40px] md:w-[88px] md:h-[40px] rounded-[8px] border-[1px] border-[#D9D9D9] gap-[10px]">
+            <img
+              src="../svgs/settings.svg"
+              alt="관리 아이콘"
+              className="w-[20px] h-[20px] hidden md:block"
+            />
+            <span className="text-sm md:text-base text-gray1">관리</span>
           </button>
-          <button className="w-[73px] h-[30px] md:w-[116px] md:h-[40px] text-sm md:text-base sm:text-sm text-gray1 rounded-[8px] border-[1px] border-[#D9D9D9]">
-            초대하기
+          <button className="w-[73px] h-[30px] md:w-[116px] md:h-[40px] rounded-[8px] border-[1px] border-[#D9D9D9] gap-[10px]">
+            <img
+              src="../svgs/add-box.svg"
+              alt="초대하기 아이콘"
+              className="w-[20px] h-[20px] hidden md:block"
+            />
+            <span className="text-sm md:text-base text-gray1">초대하기</span>
           </button>
         </div>
       </div>
