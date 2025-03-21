@@ -28,16 +28,17 @@ export default function ChangePassword() {
             onChange={setPw}
             pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
             invalidMessage="유효한 이메일 주소를 입력하세요."
-            inputClassName="h-[50px] max-w-[620px]"
+            className="max-w-[620px]"
           />
-          <label className=" text-sm sm:text-base text-black mt-5">
-            새 비밀번호
-          </label>
-          <input
-            type="password"
-            value={newpw}
-            onChange={(e) => setNewPw(e.target.value)}
-            className="mt-3 mb-3 w-full h-[44px] px-[16px] py-[10px] border border-gray-300 rounded-[8px]"
+          <Input
+            type="email"
+            name="email"
+            label="이메일"
+            labelClassName="font-16r"
+            placeholder="이메일을 입력하세요"
+            onChange={setPw}
+            pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+            invalidMessage="유효한 이메일 주소를 입력하세요."
           />
           <label className="mb-2 text-sm sm:text-base text-black mt-3">
             새 비밀번호 확인
