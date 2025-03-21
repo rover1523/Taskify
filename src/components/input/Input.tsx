@@ -16,6 +16,7 @@ interface SignInputProps extends Omit<GeneralInputProps, "type"> {
   name: "email" | "nickname" | "password" | "passwordCheck";
   pattern: string;
   invalidMessage: string;
+  labelClassName?: string;
 }
 
 type InputProps = GeneralInputProps | SignInputProps;
@@ -30,6 +31,7 @@ export default function Input(props: InputProps) {
     pattern,
     invalidMessage,
     className,
+    labelClassName,
     ...rest
   } = props as SignInputProps;
 
@@ -68,7 +70,13 @@ export default function Input(props: InputProps) {
   return (
     <div className="flex w-full max-w-[520px] flex-col items-start gap-2">
       {label && (
-        <label htmlFor={id} className="font-18sb text-[var(--color-black)]">
+        <label
+          htmlFor={id}
+          className={clsx(
+            "text-[var(--color-black)]",
+            labelClassName ? labelClassName : "font-18sb"
+          )}
+        >
           {label}
         </label>
       )}

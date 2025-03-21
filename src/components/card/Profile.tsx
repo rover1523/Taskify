@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Input from "../input/Input";
 
 export default function ProfileCard() {
   const [image, setImage] = useState<string | null>(null);
@@ -46,26 +47,29 @@ export default function ProfileCard() {
 
         {/* 입력 폼 */}
         <div className="flex flex-col sm:ml-[-15px] w-full sm:mt-0 mt-5 sm:w-[400px]">
-          <label className="mb-2 text-sm sm:text-base text-black">이메일</label>
-          <input
+          <Input
             type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="w-full h-[44px] px-[16px] py-[10px] border border-gray-300 rounded-[8px]"
+            name="email"
+            label="이메일"
+            labelClassName="font-16r"
+            placeholder="이메일을 입력하세요"
+            onChange={setEmail}
+            pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+            invalidMessage="유효한 이메일 주소를 입력하세요."
+            className="mb-2"
           />
 
-          <label className="mb-2 text-sm sm:text-base text-black mt-3">
-            닉네임
-          </label>
-          <input
+          <Input
             type="text"
-            value={nickname}
-            onChange={(e) => setNickname(e.target.value)}
-            className="w-full h-[44px] px-[16px] py-[10px] border border-gray-300 rounded-[8px]"
+            name="nickname"
+            label="닉네임"
+            labelClassName="font-16r"
+            placeholder="닉네임을 입력하세요"
+            onChange={setNickname}
           />
 
           {/* 저장 버튼 */}
-          <button className="cursor-pointer w-full sm:w-[400px] h-[54px] bg-[#5A3FFF] text-white rounded-[8px] text-lg font-medium mt-6">
+          <button className="cursor-pointer w-full sm:w-[400px] h-[54px] bg-[#5A3FFF] text-white rounded-[8px] text-lg font-medium mt-3">
             저장
           </button>
         </div>
