@@ -1,15 +1,25 @@
+// CardColumn.tsx
 import TodoButton from "@/components/button/TodoButton";
 import { useState } from "react";
 import { TextCard } from "./TextCard";
+import { TaskType } from "../../../types/task";
 
-const dummyTasks = [
+export const dummyTasks: TaskType[] = [
   {
     id: 1,
-    title: "디자인 리뷰",
-    description: "Figma에서 디자인 검토",
+    title: "디자인 검토",
     dueDate: "2025.03.25",
-    assignee: "황혜진",
-    status: "To Do",
+    tags: ["디자인", "프론트엔드"],
+    assignee: "혜진",
+    imageUrl: "/svgs/img.svg",
+  },
+  {
+    id: 2,
+    title: "백엔드 API 설계",
+    dueDate: "2025.03.27",
+    tags: ["백엔드", "API"],
+    assignee: "민수",
+    imageUrl: "/svgs/img.svg",
   },
 ];
 
@@ -27,7 +37,7 @@ export default function CardColumn() {
           <span className="text-[var(--primary)]">•</span> On Progress
         </h2>
         <span className="bg-gray-200 text-gray-700 px-2 py-1 rounded-full text-sm">
-          2
+          {dummyTasks.length}
         </span>
       </div>
 
@@ -35,7 +45,16 @@ export default function CardColumn() {
         <TodoButton />
       </div>
 
-      {showCard && <TextCard />}
+      {showCard &&
+        dummyTasks.map((task) => (
+          <TextCard
+            key={task.id}
+            title={task.title}
+            dueDate={task.dueDate}
+            tags={task.tags}
+            assignee={task.assignee}
+          />
+        ))}
     </div>
   );
 }
