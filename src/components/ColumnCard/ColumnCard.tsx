@@ -12,10 +12,6 @@ type ColumnCardProps = {
 export default function ColumnCard({ title, tasks }: ColumnCardProps) {
   const [showCard, setShowCard] = useState(false);
 
-  const handleButtonClick = () => {
-    setShowCard(true);
-  };
-
   return (
     <div className="w-[354px] h-[1010px] border-[var(--color-gray4)] flex flex-col rounded-md border border-solid bg-gray-50 p-4">
       <div className="flex items-center justify-between">
@@ -27,20 +23,11 @@ export default function ColumnCard({ title, tasks }: ColumnCardProps) {
         </span>
       </div>
 
-      <div onClick={handleButtonClick}>
+      <div onClick={() => setShowCard(true)}>
         <TodoButton />
       </div>
 
-      {showCard &&
-        tasks.map((task) => (
-          <TextCard
-            key={task.id}
-            title={task.title}
-            dueDate={task.dueDate}
-            tags={task.tags}
-            assignee={task.assignee}
-          />
-        ))}
+      {showCard && tasks.map((task) => <TextCard key={task.id} {...task} />)}
     </div>
   );
 }
