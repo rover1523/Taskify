@@ -36,10 +36,12 @@ export default function ImageCard({
       {/* 날짜 & 아이콘 */}
       <div className="flex items-center justify-between mt-2.5">
         <div className="flex items-center gap-2.5 text-gray-500 text-sm">
-          <img
+          <Image
             src="/svgs/calendar.svg"
             alt="calendar icon"
-            className="w-4 h-4"
+            width={16}
+            height={16}
+            priority
           />
           <p>{dueDate}</p>
         </div>

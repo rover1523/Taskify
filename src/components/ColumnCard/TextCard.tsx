@@ -1,4 +1,6 @@
 // TextCard.tsx
+import Image from "next/image";
+
 type TextCardProps = {
   title: string;
   dueDate: string;
@@ -19,7 +21,7 @@ export function TextCard({ title, dueDate, tags, assignee }: TextCardProps) {
           {tags.map((tags, id) => (
             <span
               key={id}
-              className="bg-orange-200 text-orange-700 px-3 py-1 rounded-md text-sm"
+              className="bg-pink-200 text-pink-600 px-3 py-1 rounded-md text-sm"
             >
               {tags}
             </span>
@@ -29,10 +31,12 @@ export function TextCard({ title, dueDate, tags, assignee }: TextCardProps) {
         {/* 날짜 & 아이콘 */}
         <div className="flex items-center justify-between mt-2.5">
           <div className="flex items-center gap-2.5 text-gray-500 text-sm">
-            <img
+            <Image
               src="/svgs/calendar.svg"
               alt="calendar icon"
-              className="w-4 h-4"
+              width={16}
+              height={16}
+              priority
             />
             <p>{dueDate}</p>
           </div>
