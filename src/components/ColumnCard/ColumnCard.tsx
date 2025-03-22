@@ -5,11 +5,14 @@ import { TextCard } from "./TextCard";
 import { TaskType } from "../../types/task";
 
 type ColumnCardProps = {
-  title: string;
-  tasks: TaskType[];
+  title?: string;
+  tasks?: TaskType[];
 };
 
-export default function ColumnCard({ title, tasks }: ColumnCardProps) {
+export default function ColumnCard({
+  title = "new Task",
+  tasks = [],
+}: ColumnCardProps) {
   const [showCard, setShowCard] = useState(false);
 
   return (

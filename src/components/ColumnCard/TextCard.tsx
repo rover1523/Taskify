@@ -2,7 +2,12 @@
 import Image from "next/image";
 import { TaskType } from "@/types/task";
 
-export function TextCard({ title, dueDate, tags, assignee }: TaskType) {
+export function TextCard({
+  title = "new Task",
+  dueDate,
+  tags,
+  assignee = "Team4",
+}: TaskType) {
   return (
     <div className="mt-4 space-y-2.5">
       {" "}

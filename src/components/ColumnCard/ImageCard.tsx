@@ -3,17 +3,17 @@ import Image from "next/image";
 import { TaskType } from "@/types/task";
 
 export default function ImageCard({
-  title,
+  title = "new Task",
   dueDate,
   tags,
-  assignee,
-  imageUrl,
+  assignee = "Team4",
+  imageUrl = "/svgs/img.svg",
 }: TaskType) {
   return (
     <div className="w-[314px] border border-gray-300 rounded-md p-4">
       <Image
         className="w-full h-40 object-cover rounded-md"
-        src={imageUrl ?? "/svgs/img.svg"}
+        src={imageUrl}
         width={300}
         height={160}
         alt="Task Image"
