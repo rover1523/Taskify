@@ -1,8 +1,8 @@
 export type TaskType = {
   id: number;
   title: string;
-  dueDate: string;
   tags: string[];
+  dueDate: string;
   assignee: string;
   imageUrl?: string;
   description?: string;
