@@ -3,8 +3,8 @@
 import MemberList from "@/components/table/member/MemberList";
 import InviteRecords from "@/components/table/InviteRecords";
 import InvitedDashBoard from "@/components/table/invited/InvitedDashBoard";
-import Profile from "@/components/Card/Profile";
-import ChangePassword from "@/components/Card/ChangePassword";
+import Profile from "@/components/card/Profile";
+import ChangePassword from "@/components/card/ChangePassword";
 
 export default function TestPage() {
   return (
