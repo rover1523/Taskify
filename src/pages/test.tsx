@@ -8,6 +8,7 @@ import InvitedDashBoard from "@/components/table/invited/InvitedDashBoard";
 import Profile from "@/components/card/Profile";
 import ChangePassword from "@/components/card/ChangePassword";
 import NewDashboard from "@/components/modal/NewDashboard";
+import ChangeBebridge from "@/components/modal/ChangeBebridge";
 
 export default function TestPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -46,9 +47,13 @@ export default function TestPage() {
           </div>
         )}
       </div>
+
       <br />
       <br />
+
       <br />
+      <h1 className="text-2xl font-bold">비브리지 변경 테스트</h1>
+      <ChangeBebridge />
     </div>
   );
 }

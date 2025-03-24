@@ -13,7 +13,7 @@ interface GeneralInputProps {
 
 interface SignInputProps extends Omit<GeneralInputProps, "type"> {
   type: Extract<HTMLInputTypeAttribute, "text" | "email" | "password">;
-  name: "email" | "nickname" | "password" | "passwordCheck";
+  name: "email" | "nickname" | "password" | "passwordCheck ";
   pattern: string;
   invalidMessage: string;
   labelClassName?: string; // 폰트 스타일 조절

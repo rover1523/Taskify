@@ -9,11 +9,9 @@ export default function NewDashboard({ onClose }: { onClose?: () => void }) {
 
   return (
     <div className="sm:w-[584px] sm:h-[344px] w-[327px] h-[312px] bg-white sm:rounded-[16px] rounded-[8px] shadow-md p-[24px] flex flex-col">
-      {/* 프로필 제목 */}
       <h2 className="text-sm sm:text-[24px] font-bold">새로운 대시보드</h2>
       <Input
         type="text"
-        name="password"
         label="대시보드 이름"
         labelClassName="text-lg sm:text-base text-black3 mt-6"
         placeholder="뉴프로젝트"
