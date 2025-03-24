@@ -2,10 +2,10 @@ import { useState } from "react";
 import Input from "../input/Input";
 import Image from "next/image";
 
-export default function ChangeBebridge({ onClose }: { onClose?: () => void }) {
+export default function ChangeBebridge() {
   const [selected, setSelected] = useState<number | null>(null);
 
-  const colors = ["green", "purple", "orange", "blue", "pink"];
+  const colors = ["#7ac555", "#760DDE", "#FF9800", "#76A5EA", "#E876EA"];
 
   return (
     <div className="sm:w-[584px] sm:h-[344px] w-[327px] h-[312px] bg-white sm:rounded-[16px] rounded-[8px] shadow-md p-[24px] flex flex-col">
@@ -21,7 +21,8 @@ export default function ChangeBebridge({ onClose }: { onClose?: () => void }) {
         {colors.map((color, index) => (
           <div key={index} className="relative">
             <button
-              className={`cursor-pointer w-[30px] h-[30px] rounded-[15px] bg-[var(--color-${color})] mr-2`}
+              className={`cursor-pointer w-[30px] h-[30px] rounded-[15px] mr-2`}
+              style={{ backgroundColor: color }}
               onClick={() => setSelected(index)}
             />
             {selected === index && (

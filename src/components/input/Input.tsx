@@ -34,6 +34,7 @@ export default function Input(props: InputProps) {
     className,
     labelClassName,
     wrapperClassName,
+
     ...rest
   } = props as SignInputProps;
 

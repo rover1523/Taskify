@@ -11,7 +11,7 @@ import NewDashboard from "@/components/modal/NewDashboard";
 import ChangeBebridge from "@/components/modal/ChangeBebridge";
 
 export default function TestPage() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false); // 새로운 대시보드 모달
 
   return (
     <div className="flex flex-col items-center gap-4 p-10">
