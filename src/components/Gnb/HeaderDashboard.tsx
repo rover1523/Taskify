@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useRouter } from "next/router";
+import RandomProfile from "../table/member/RandomProfile";
+import ModalInviting from "./ModalInviting";
 
 /*dummy data*/
 const user = {
   nickname: "배유철",
-  initials: "B",
+  profileImageUrl: "../svgs/dummy-icon.png",
 };
 
 const headerDashboard = () => {
@@ -32,7 +34,7 @@ const headerDashboard = () => {
         </div>
 
         <div className="flex items-center">
-          <div className="flex space-x-[6px] md:space-x-[16px]">
+          <div className="flex gap-[6px] md:gap-[16px]">
             <button
               onClick={goToDashboardEdit}
               className="flex items-center justify-center w-[49px] h-[30px] md:w-[88px] md:h-[40px] rounded-[8px] border-[1px] border-[#D9D9D9] gap-[10px] cursor-pointer"
@@ -56,19 +58,27 @@ const headerDashboard = () => {
               />
               <span className="text-sm md:text-base text-gray1">초대하기</span>
             </button>
-            {/*임시 컴포넌트, 나중에 진짜 초대 모달 컴포넌트로 교체*/}
+            {/*임시 컴포넌트명, 추후 정식 초대 모달 컴포넌트로 교체*/}
             {isModalOpen && <ModalInviting onClose={closeInviteModal} />}
           </div>
 
+          {/*구분선*/}
           <div className="pl-[15px] pr-[20px] md:pl-[25px] md:pr-[30px] lg:pl-[30px] lg:pr-[35px]">
             <div className="flex items-center justify-center h-[34px] md:h-[38px] w-[1px] bg-[var(--color-gray3)]"></div>
           </div>
 
+          {/*유저 프로필 아이콘 & 유저 닉네임*/}
           <div className="flex items-center pr-[10px] md:pr-[30px] lg:pr-[80px] gap-[12px]">
-            <div className="w-[38px] h-[38px] flex items-center justify-center rounded-full bg-[var(--color-green)] text-bold text-white">
-              {
-                user.initials //*profileImageUrl로 변경*//
-              }
+            <div className="w-[34px] h-[34px] md:w-[38px] md:h-[38px]">
+              {user.profileImageUrl ? (
+                <img
+                  src={user.profileImageUrl}
+                  alt="유저 프로필 아이콘"
+                  className="w-full h-full rounded-full object-cover"
+                />
+              ) : (
+                <RandomProfile />
+              )}
             </div>
             <span className="hidden md:block text-black3 md:text-base md:font-medium">
               {user.nickname}

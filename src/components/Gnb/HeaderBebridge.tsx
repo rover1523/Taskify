@@ -1,29 +1,15 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import { useRouter } from "next/router";
-
-interface MemberType {
-  id: number;
-  profileImageUrl: string;
-  nickname: string;
-}
+import { MemberType } from "@/components/Gnb/members";
+import { getMembers } from "@/pages/api/members";
+import RandomProfile from "../table/member/RandomProfile";
+import ModalInviting from "./ModalInviting";
 
 /*dummy data*/
 const user = {
   nickname: "배유철",
-  initials: "B",
+  profileImageUrl: "../svgs/dummy-icon.png",
 };
-const dummyData: MemberType[] = [
-  {
-    id: 1,
-    profileImageUrl: "../svgs/dummy-icon.png",
-    nickname: "조민지",
-  },
-  { id: 2, profileImageUrl: "../svgs/dummy-icon.png", nickname: "황혜진" },
-  { id: 3, profileImageUrl: "../svgs/dummy-icon.png", nickname: "김교연" },
-  { id: 4, profileImageUrl: "../svgs/dummy-icon.png", nickname: "정종우" },
-  { id: 5, profileImageUrl: "../svgs/dummy-icon.png", nickname: "임용균" },
-];
 
 const HeaderBebridge = () => {
   /*멤버 목록 profileImageUrl loading*/
@@ -43,21 +29,14 @@ const HeaderBebridge = () => {
     setIsModalOpen(false);
   };
 
-  /*테스트용 api 요청 코드, api 폴더로 옮길 예정*/
+  /*멤버 목록 api 호출*/
   useEffect(() => {
     const fetchMembers = async () => {
       try {
-        const response = await axios.get<{ results: MemberType[] }>(
-          "https://sp-taskify-api.vercel.app/13-4/members"
-        );
-
-        setMembers(
-          response.data?.results.length ? response.data.results : dummyData
-        );
+        const members = await getMembers();
+        setMembers(members);
       } catch (error) {
-        console.error("API 요청 실패:", error);
-
-        setMembers(dummyData);
+        console.error("멤버 불러오기 실패:", error);
       } finally {
         setIsLoading(false);
       }
@@ -81,7 +60,7 @@ const HeaderBebridge = () => {
         </div>
 
         <div className="flex items-center">
-          <div className="flex space-x-[6px] md:space-x-[16px] pr-[40px]">
+          <div className="flex gap-[6px] md:gap-[16px] pr-[40px]">
             <button
               onClick={goToDashboardEdit}
               className="flex items-center justify-center w-[49px] h-[30px] md:w-[85px] md:h-[36px] lg:w-[88px] lg:h-[40px] rounded-[8px] border-[1px] border-[#D9D9D9] gap-[10px] cursor-pointer"
@@ -105,7 +84,7 @@ const HeaderBebridge = () => {
               />
               <span className="text-sm md:text-base text-gray1">초대하기</span>
             </button>
-            {/*임시 컴포넌트, 나중에 진짜 초대 모달 컴포넌트로 교체*/}
+            {/*임시 컴포넌트명, 추후 정식 초대 모달 컴포넌트로 교체*/}
             {isModalOpen && <ModalInviting onClose={closeInviteModal} />}
           </div>
 
@@ -139,10 +118,16 @@ const HeaderBebridge = () => {
 
           {/*유저 프로필 아이콘 & 유저 닉네임*/}
           <div className="flex items-center pr-[10px] md:pr-[30px] lg:pr-[80px] gap-[12px]">
-            <div className="w-[38px] h-[38px] flex items-center justify-center rounded-full bg-[var(--color-green)] text-bold text-white">
-              {
-                user.initials //*profileImageUrl로 변경*//
-              }
+            <div className="w-[34px] h-[34px] md:w-[38px] md:h-[38px]">
+              {user.profileImageUrl ? (
+                <img
+                  src={user.profileImageUrl}
+                  alt="유저 프로필 아이콘"
+                  className="w-full h-full rounded-full object-cover"
+                />
+              ) : (
+                <RandomProfile />
+              )}
             </div>
             <span className="hidden md:block text-black3 md:text-base md:font-medium">
               {user.nickname}
