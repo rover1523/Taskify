@@ -82,7 +82,7 @@ export default function NewDashboard({ onClose }: { onClose?: () => void }) {
         </button>
         <button
           onClick={handleSubmit}
-          disabled={!title || selected === null} // 🔥 조건 추가
+          disabled={!title || selected === null}
           className={`cursor-pointer sm:w-[256px] sm:h-[54px] w-[295px] h-[54px] rounded-[8px] 
                       border border-[var(--color-gray3)] text-[var(--color-white)] 
           ${!title || selected === null ? "bg-gray-300 cursor-not-allowed" : "bg-[var(--primary)]"}`}
