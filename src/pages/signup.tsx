@@ -7,6 +7,10 @@ export default function SignUpPage() {
   const [password, setPassword] = useState("");
   const [passwordCheck, setPasswordCheck] = useState("");
   const [isPasswordMatch, setIspasswordMatch] = useState(true);
+  const [agree, setAgree] = useState(false);
+
+  const isFormValid =
+    email && nickName && password && passwordCheck && isPasswordMatch && agree;
 
   const handlePasswordCheckChange = (value: string) => {
     setPasswordCheck(value);
@@ -14,7 +18,7 @@ export default function SignUpPage() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen bg-[var(--color-gray5)]">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-[var(--color-gray5)] py-10">
       <div className="text-center mb-[40px]">
         <img
           src="../svgs/main-logo.svg"
@@ -53,41 +57,57 @@ export default function SignUpPage() {
           invalidMessage="비밀번호는 8자 이상이어야 해요"
         />
 
-        <Input
-          type="password"
-          name="passwordCheck"
-          label="비밀번호 확인"
-          placeholder="비밀번호를 한번 더 입력해 주세요"
-          onChange={handlePasswordCheckChange}
-          pattern="{password}"
-          invalidMessage={
-            isPasswordMatch ? "" : "비밀번호가 일치하지 않습니다."
-          }
-        />
+        <div className="gap-2">
+          <Input
+            type="password"
+            name="passwordCheck"
+            label="비밀번호 확인"
+            placeholder="비밀번호를 한번 더 입력해 주세요"
+            onChange={handlePasswordCheckChange}
+            pattern="{password}"
+            invalidMessage=""
+            className={
+              passwordCheck && password !== passwordCheck
+                ? "border-[var(--color-red)] focus:border-[var(--color-red)]"
+                : ""
+            }
+          />
+          {passwordCheck && password !== passwordCheck && (
+            <span className="font-14r text-[var(--color-red)]">
+              비밀번호가 일치하지 않습니다.
+            </span>
+          )}
+        </div>
 
-        <span font-16r text-black3>
+        <label className="flex items-center gap-[8px] font-16r text-black3">
+          <input
+            type="checkbox"
+            checked={agree}
+            onChange={() => setAgree(!agree)}
+            className="w-[20px] h-[20px]"
+          />
           이용약관에 동의합니다.
-        </span>
+        </label>
 
         <button
           type="submit"
+          disabled={!isFormValid}
           className={`w-full h-[50px] rounded-[8px] text-white font-18m transition ${
-            email && password
+            isFormValid
               ? "bg-[var(--primary)] cursor-pointer hover:opacity-90}"
               : "bg-[var(--color-gray2)] cursor-not-allowed"
           }`}
-          disabled={!password || !passwordCheck || !isPasswordMatch}
         >
           가입하기
         </button>
 
         <span className="font-16r text-center text-black3">
-          회원이 아니신가요?{" "}
+          이미 회원이신가요?{" "}
           <a
-            href="/signup"
+            href="/login"
             className="text-[var(--primary)] underline hover:opacity-90"
           >
-            회원가입하기
+            로그인하기
           </a>
         </span>
       </form>
