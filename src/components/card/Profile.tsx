@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Input from "../input/Input";
+import ModalImage from "../ModalInput/ModalImage";
 
 export default function ProfileCard() {
   const [image, setImage] = useState<string | null>(null);
@@ -25,7 +26,7 @@ export default function ProfileCard() {
       <div className="flex flex-col sm:flex-row items-center sm:items-start">
         {/* 프로필 이미지 업로드 영역 */}
         <div className="sm:mr:0 mr-29 w-[120px] flex-shrink-0 mb-4 sm:mb-0">
-          <div className="sm:w-[182px] sm:h-[182px] w-[100px] h-[100px] border border-gray-300 rounded-md flex items-center justify-center cursor-pointer">
+          <div className="sm:w-[182px] sm:h-[182px] w-[100px] h-[100px] rounded-md flex items-center justify-center cursor-pointer bg-[#F5F5F5] border-transparent">
             <label className="cursor-pointer w-full h-full flex items-center justify-center">
               {image ? (
                 <img
@@ -34,7 +35,7 @@ export default function ProfileCard() {
                   className="w-full h-full object-cover rounded-md"
                 />
               ) : (
-                <span className="text-gray-400 text-2xl">+</span>
+                <span className=" text-[#5534DA] text-2xl">+</span>
               )}
               <input
                 type="file"
