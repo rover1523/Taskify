@@ -5,6 +5,8 @@ import InviteRecords from "@/components/table/InviteRecords";
 import InvitedDashBoard from "@/components/table/invited/InvitedDashBoard";
 import Profile from "@/components/card/Profile";
 import ChangePassword from "@/components/card/ChangePassword";
+import NewDashboard from "@/components/modal/NewDashboard";
+import ColorTagChip from "@/components/ModalInput/chips/ColorTagChip";
 
 export default function TestPage() {
   return (
@@ -23,6 +25,11 @@ export default function TestPage() {
       <br />
       <h1 className="text-2xl font-bold">비밀번호 변경 카드 테스트</h1>
       <ChangePassword />
+
+      <br />
+      <br />
+      <h1 className="text-2xl font-bold">새로운 대시보드 모달 테스트</h1>
+      <NewDashboard />
     </div>
   );
 }
