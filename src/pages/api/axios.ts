@@ -46,7 +46,7 @@ export interface ColumnResponse extends ColumnData {
 // 대시보드 데이터
 export interface DashboardData {
   title: string;
-  color?: "#7AC555"; //색상 값 수정 필요
+  color?: string; //색상 값 수정 필요
 }
 // 대시보드 응답
 export interface DashboardResponse extends DashboardData {
@@ -84,84 +84,134 @@ const apiRoutes = {
     `/${TEAM_ID}/dashboards/${dashboardId}`,
 };
 
-const api = {
-  // 카드 관련 API
-  cards: {
-    // 카드 생성 (POST)
-    create: (cardData: CardData) =>
-      apiClient.post<CardListResponse>(apiRoutes.cards(), cardData),
+// 카드 관련 API
+export async function createCard(
+  cardData: CardData
+): Promise<CardListResponse> {
+  const res = await apiClient.post<CardListResponse>(
+    apiRoutes.cards(),
+    cardData
+  );
+  return res.data;
+}
 
-    // 카드 목록 조회 (GET)
-    getAll: (dashboardId: number) =>
-      apiClient.get<CardListResponse[]>(apiRoutes.cards(), {
-        params: { dashboard_id: dashboardId },
-      }),
-    // 카드 상세 조회 (GET)
-    getById: (cardId: number) =>
-      apiClient.get<CardListResponse>(apiRoutes.cardDetail(cardId)),
+export async function getAllCards(
+  dashboardId: number
+): Promise<CardListResponse[]> {
+  const res = await apiClient.get<CardListResponse[]>(apiRoutes.cards(), {
+    params: { dashboard_id: dashboardId },
+  });
+  return res.data;
+}
 
-    // 카드 수정 (PUT)
-    update: (cardId: number, cardData: Partial<CardData>) =>
-      apiClient.put<CardListResponse>(apiRoutes.cardDetail(cardId), cardData),
+export async function getCardById(cardId: number): Promise<CardListResponse> {
+  const res = await apiClient.get<CardListResponse>(
+    apiRoutes.cardDetail(cardId)
+  );
+  return res.data;
+}
 
-    // 카드 삭제 (DELETE)
-    delete: (cardId: number) => apiClient.delete(apiRoutes.cardDetail(cardId)),
-  },
+export async function updateCard(
+  cardId: number,
+  cardData: Partial<CardData>
+): Promise<CardListResponse> {
+  const res = await apiClient.put<CardListResponse>(
+    apiRoutes.cardDetail(cardId),
+    cardData
+  );
+  return res.data;
+}
 
-  // 컬럼 관련 API
-  columns: {
-    // 컬럼 생성 (POST)
-    create: (columnData: ColumnData) =>
-      apiClient.post<ColumnResponse>(apiRoutes.columns(), columnData),
+export async function deleteCard(cardId: number): Promise<void> {
+  await apiClient.delete(apiRoutes.cardDetail(cardId));
+}
 
-    // 컬럼 목록 조회 (GET)
-    getAll: () => apiClient.get<ColumnResponse[]>(apiRoutes.columns()),
+// 컬럼 관련 API
+export async function createColumn(
+  columnData: ColumnData
+): Promise<ColumnResponse> {
+  const res = await apiClient.post<ColumnResponse>(
+    apiRoutes.columns(),
+    columnData
+  );
+  return res.data;
+}
 
-    // 컬럼 수정 (PUT)
-    update: (columnId: number, columnData: Partial<ColumnData>) =>
-      apiClient.put<ColumnResponse>(
-        apiRoutes.columnDetail(columnId),
-        columnData
-      ),
+export async function getAllColumns(): Promise<ColumnResponse[]> {
+  const res = await apiClient.get<ColumnResponse[]>(apiRoutes.columns());
+  return res.data;
+}
 
-    // 컬럼 삭제 (DELETE)
-    delete: (columnId: number) =>
-      apiClient.delete(apiRoutes.columnDetail(columnId)),
+export async function updateColumn(
+  columnId: number,
+  columnData: Partial<ColumnData>
+): Promise<ColumnResponse> {
+  const res = await apiClient.put<ColumnResponse>(
+    apiRoutes.columnDetail(columnId),
+    columnData
+  );
+  return res.data;
+}
 
-    // 카드 이미지 업로드 (POST)
-    uploadCardImage: (columnId: number, imageData: { image: File }) => {
-      const formData = new FormData();
-      formData.append("image", imageData.image);
+export async function deleteColumn(columnId: number): Promise<void> {
+  await apiClient.delete(apiRoutes.columnDetail(columnId));
+}
 
-      // headers를 변경한 요청 전송
-      return apiClient.post(apiRoutes.columnCardImage(columnId), formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
-    },
-  },
-  //대시보드 관련 API
-  dashboards: {
-    //대시보드 생성 (POST)
-    create: (dashboardData: DashboardData) =>
-      apiClient.post<DashboardResponse>(apiRoutes.dashboards(), dashboardData),
-    //대시보드 조회 (GET)
-    getAll: () => apiClient.get<DashboardResponse[]>(apiRoutes.dashboards()),
-    //대시보드 상세 조회 (GET)
-    getById: (dashboardId: number) =>
-      apiClient.get<DashboardResponse>(apiRoutes.dashboardDetail(dashboardId)),
-    //대시보드 수정 (PUT)
-    update: (dashboardId: number, dashboardData: Partial<DashboardData>) =>
-      apiClient.put<DashboardResponse>(
-        apiRoutes.dashboardDetail(dashboardId),
-        dashboardData
-      ),
-    //대시보드 삭제 (DELETE)
-    delete: (dashboardId: number) =>
-      apiClient.delete(apiRoutes.dashboardDetail(dashboardId)),
-    //대시보드 초대 (POST)
-  },
-};
+export async function uploadCardImage(
+  columnId: number,
+  imageData: { image: File }
+): Promise<any> {
+  const formData = new FormData();
+  formData.append("image", imageData.image);
 
-export default api;
+  const res = await apiClient.post(
+    apiRoutes.columnCardImage(columnId),
+    formData,
+    {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    }
+  );
+  return res.data;
+}
+
+// 대시보드 관련 API
+export async function createDashboard(
+  dashboardData: DashboardData
+): Promise<DashboardResponse> {
+  const res = await apiClient.post<DashboardResponse>(
+    apiRoutes.dashboards(),
+    dashboardData
+  );
+  return res.data;
+}
+
+export async function getAllDashboards(): Promise<DashboardResponse[]> {
+  const res = await apiClient.get<DashboardResponse[]>(apiRoutes.dashboards());
+  return res.data;
+}
+
+export async function getDashboardById(
+  dashboardId: number
+): Promise<DashboardResponse> {
+  const res = await apiClient.get<DashboardResponse>(
+    apiRoutes.dashboardDetail(dashboardId)
+  );
+  return res.data;
+}
+
+export async function updateDashboard(
+  dashboardId: number,
+  dashboardData: Partial<DashboardData>
+): Promise<DashboardResponse> {
+  const res = await apiClient.put<DashboardResponse>(
+    apiRoutes.dashboardDetail(dashboardId),
+    dashboardData
+  );
+  return res.data;
+}
+
+export async function deleteDashboard(dashboardId: number): Promise<void> {
+  await apiClient.delete(apiRoutes.dashboardDetail(dashboardId));
+}
