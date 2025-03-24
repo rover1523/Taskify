@@ -2,8 +2,9 @@ import { useState } from "react";
 import Input from "../input/Input";
 import Image from "next/image";
 
-export default function NewDashboard() {
+export default function NewDashboard({ onClose }: { onClose?: () => void }) {
   const [selected, setSelected] = useState<number | null>(null);
+
   const colors = ["green", "purple", "orange", "blue", "pink"];
 
   return (
@@ -38,7 +39,10 @@ export default function NewDashboard() {
         ))}
       </div>
       <div className="mt-8 flex justify-between">
-        <button className="cursor-pointer sm:w-[256px] sm:h-[54px] w-[295px] h-[54px] rounded-[8px] border border-[var(--color-gray3)]">
+        <button
+          onClick={onClose}
+          className="cursor-pointer sm:w-[256px] sm:h-[54px] w-[295px] h-[54px] rounded-[8px] border border-[var(--color-gray3)] text-[var(--color-gray1)]"
+        >
           취소
         </button>
         <button className="cursor-pointer sm:w-[256px] sm:h-[54px] w-[295px] h-[54px] rounded-[8px] border border-[var(--color-gray3)] bg-[var(--primary)] text-[var(--color-white)]">

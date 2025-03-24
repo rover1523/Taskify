@@ -1,5 +1,7 @@
 // 컴포넌트 test 파일
 
+import { useState } from "react";
+
 import MemberList from "@/components/table/member/MemberList";
 import InviteRecords from "@/components/table/InviteRecords";
 import InvitedDashBoard from "@/components/table/invited/InvitedDashBoard";
@@ -8,6 +10,8 @@ import ChangePassword from "@/components/card/ChangePassword";
 import NewDashboard from "@/components/modal/NewDashboard";
 
 export default function TestPage() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   return (
     <div className="flex flex-col items-center gap-4 p-10">
       <h1 className="text-2xl font-bold">구성원 테이블 테스트</h1>
@@ -27,11 +31,24 @@ export default function TestPage() {
 
       <br />
       <br />
-      <button className="cursor-pointer w-[120px] h-[50px] border-2 border-black">
-        추가
-      </button>
-      <h1 className="text-2xl font-bold">새로운 대시보드 모달 테스트</h1>
-      <NewDashboard />
+
+      <div>
+        <button
+          onClick={() => setIsModalOpen(true)}
+          className="cursor-pointer w-[120px] h-[50px] border-2 border-black"
+        >
+          추가
+        </button>
+
+        {isModalOpen && (
+          <div className="fixed inset-0 backdrop-blur-sm backdrop-brightness-75 flex items-center justify-center">
+            <NewDashboard onClose={() => setIsModalOpen(false)} />
+          </div>
+        )}
+      </div>
+      <br />
+      <br />
+      <br />
     </div>
   );
 }
