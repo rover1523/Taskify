@@ -84,7 +84,13 @@ export default function SignUpPage() {
             type="checkbox"
             checked={agree}
             onChange={() => setAgree(!agree)}
-            className="w-[20px] h-[20px]"
+            className="appearance-none w-[20px] h-[20px] border border-[var(--color-gray3)] rounded-[4px] checked:bg-[var(--primary)] checked:border-[var(--primary)] transition"
+            style={{
+              backgroundImage: "url('/svgs/check.svg')",
+              backgroundRepeat: "no-repeat",
+              backgroundPosition: "center",
+              backgroundSize: "20px 20px",
+            }}
           />
           이용약관에 동의합니다.
         </label>
