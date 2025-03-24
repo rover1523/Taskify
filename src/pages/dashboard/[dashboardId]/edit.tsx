@@ -6,7 +6,9 @@ export default function EditDashboard() {
 
   return (
     <div>
-      <h1>Editing Dashboard: {dashboardId}</h1>
+      <h1>대시보드 수정 페이지 {dashboardId}</h1>
+      <br />
+      <h1>dashboardId : {dashboardId}</h1>
     </div>
   );
 }
