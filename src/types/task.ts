@@ -3,7 +3,11 @@ export type TaskType = {
   title: string;
   tags: string[];
   dueDate: string;
-  assignee?: string;
+  assignee?: {
+    id: number;
+    nickname: string;
+    profileImageUrl: null;
+  };
   imageUrl?: string;
   description?: string;
   columnId?: number;

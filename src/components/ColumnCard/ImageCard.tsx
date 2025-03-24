@@ -1,6 +1,13 @@
 // ImageCard.tsx
 import Image from "next/image";
-import { TaskType } from "@/types/task";
+
+type ImageCardProps = {
+  title?: string;
+  dueDate?: string;
+  tags: string[];
+  assignee?: string;
+  imageUrl?: string;
+};
 
 export default function ImageCard({
   title = "new Task",
@@ -8,7 +15,7 @@ export default function ImageCard({
   tags,
   assignee = "Team4",
   imageUrl = "/svgs/img.svg",
-}: TaskType) {
+}: ImageCardProps) {
   return (
     <div className="w-[314px] border border-gray-300 rounded-md p-4">
       <Image
