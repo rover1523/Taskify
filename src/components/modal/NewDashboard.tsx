@@ -1,78 +1,49 @@
 import { useState } from "react";
 import Input from "../input/Input";
+import Image from "next/image";
 
 export default function NewDashboard() {
-  const [image, setImage] = useState<string | null>(null);
-  const [nickname, setNickname] = useState("");
-  const [email, setEmail] = useState("");
-
-  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files && event.target.files[0]) {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        setImage(e.target?.result as string);
-      };
-      reader.readAsDataURL(event.target.files[0]);
-    }
-  };
+  const [selected, setSelected] = useState<number | null>(null);
+  const colors = ["green", "purple", "orange", "blue", "pink"];
 
   return (
-    <div className="sm:w-[672px] sm:h-[366px] w-[284px] h-[496px] bg-white rounded-[16px] shadow-md p-[24px] flex flex-col">
+    <div className="sm:w-[584px] sm:h-[344px] w-[327px] h-[312px] bg-white sm:rounded-[16px] rounded-[8px] shadow-md p-[24px] flex flex-col">
       {/* 프로필 제목 */}
-      <h2 className="text-[18px] sm:text-[24px] font-bold mb-4">프로필</h2>
-
-      {/* 프로필 이미지 + 입력 폼  > 컴포넌트 받으면 바꾸기*/}
-      <div className="flex flex-col sm:flex-row items-center sm:items-start">
-        {/* 프로필 이미지 업로드 영역 */}
-        <div className="sm:mr:0 mr-29 w-[120px] flex-shrink-0 mb-4 sm:mb-0">
-          <div className="sm:w-[182px] sm:h-[182px] w-[100px] h-[100px] rounded-md flex items-center justify-center cursor-pointer bg-[#F5F5F5] border-transparent">
-            <label className="cursor-pointer w-full h-full flex items-center justify-center">
-              {image ? (
-                <img
-                  src={image}
-                  alt="Profile"
-                  className="w-full h-full object-cover rounded-md"
-                />
-              ) : (
-                <span className=" text-[#5534DA] text-2xl">+</span>
-              )}
-              <input
-                type="file"
-                className="hidden"
-                onChange={handleImageUpload}
+      <h2 className="text-sm sm:text-[24px] font-bold">새로운 대시보드</h2>
+      <Input
+        type="text"
+        name="password"
+        label="대시보드 이름"
+        labelClassName="text-lg sm:text-base text-black3 mt-6"
+        placeholder="뉴프로젝트"
+        className="max-w-[620px] mb-1"
+      />
+      <div className="flex mt-3">
+        {colors.map((color, index) => (
+          <div key={index} className="relative">
+            <button
+              className={`cursor-pointer w-[30px] h-[30px] rounded-[15px] bg-[var(--color-${color})] mr-2`}
+              onClick={() => setSelected(index)}
+            />
+            {selected === index && (
+              <Image
+                src="/svgs/check.svg"
+                alt="선택됨"
+                width={23}
+                height={23}
+                className=" ursor-pointer absolute top-4 left-3.5 transform -translate-x-1/2 -translate-y-1/2"
               />
-            </label>
+            )}
           </div>
-        </div>
-
-        {/* 입력 폼 */}
-        <div className="flex flex-col sm:ml-[-15px] w-full sm:mt-0 mt-5 sm:w-[400px]">
-          <Input
-            type="email"
-            name="email"
-            label="이메일"
-            labelClassName="font-16r"
-            placeholder="이메일을 입력하세요"
-            onChange={setEmail}
-            pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
-            invalidMessage="유효한 이메일 주소를 입력하세요."
-            className="mb-2"
-          />
-
-          <Input
-            type="text"
-            name="nickname"
-            label="닉네임"
-            labelClassName="font-16r"
-            placeholder="닉네임을 입력하세요"
-            onChange={setNickname}
-          />
-
-          {/* 저장 버튼 */}
-          <button className="cursor-pointer w-full sm:w-[400px] h-[54px] bg-[#5A3FFF] text-white rounded-[8px] text-lg font-medium mt-3">
-            저장
-          </button>
-        </div>
+        ))}
+      </div>
+      <div className="mt-8 flex justify-between">
+        <button className="cursor-pointer sm:w-[256px] sm:h-[54px] w-[295px] h-[54px] rounded-[8px] border border-[var(--color-gray3)]">
+          취소
+        </button>
+        <button className="cursor-pointer sm:w-[256px] sm:h-[54px] w-[295px] h-[54px] rounded-[8px] border border-[var(--color-gray3)] bg-[var(--primary)] text-[var(--color-white)]">
+          생성
+        </button>
       </div>
     </div>
   );
