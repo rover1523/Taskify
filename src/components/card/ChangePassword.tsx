@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Input from "../input/Input";
 
 export default function ChangePassword() {
@@ -7,12 +7,10 @@ export default function ChangePassword() {
   const [checknewpw, setCheckNewPw] = useState("");
   const [isPasswordMismatch, setIsPasswordMismatch] = useState(false);
 
-  // 비밀번호 확인 필드 값이 변경될 때마다 검증
-  useEffect(() => {
-    if (checknewpw) {
-      setIsPasswordMismatch(newpw !== checknewpw);
-    }
-  }, [newpw, checknewpw]);
+  const [showCheckNewPassword, setShowCheckNewPassword] = useState(false);
+
+  const toggleCheckNewPasswordVisibility = () =>
+    setShowCheckNewPassword(!showCheckNewPassword);
 
   const isDisabled =
     !passwd || !newpw || !checknewpw || isPasswordMismatch || passwd.length < 8;
@@ -47,17 +45,47 @@ export default function ChangePassword() {
             invalidMessage="8자 이상 입력해주세요."
             className="max-w-[620px] mb-1"
           />
-          <Input
-            type="password"
-            name="passwordCheck"
-            label="새 비밀번호 확인"
-            labelClassName="font-16r"
-            placeholder="새 비밀번호 입력"
-            onChange={setCheckNewPw}
-            pattern=".{8,}"
-            invalidMessage="8자 이상 입력해주세요."
-            className="max-w-[620px] mb-1"
-          />
+
+          <label className="mb-2 text-sm sm:text-base text-black mt-3">
+            새 비밀번호 확인
+          </label>
+          <div className="relative w-full">
+            <input
+              type={showCheckNewPassword ? "text" : "password"}
+              value={checknewpw}
+              placeholder="새 비밀번호 입력"
+              onChange={(e) => setCheckNewPw(e.target.value)}
+              className={`mt-3 sm:w-[624px] sm:h-[50px] w-[236px] h-[50px] px-[16px] pr-12 rounded-[8px] transition-colors focus:outline-none
+      ${
+        checknewpw
+          ? checknewpw === newpw
+            ? "border border-gray-300"
+            : "border border-[var(--color-red)]"
+          : "border border-gray-300 focus:border-purple-500"
+      }`}
+            />
+            <button
+              type="button"
+              onClick={toggleCheckNewPasswordVisibility}
+              className="cursor-pointer absolute right-4 top-5.5 flex size-6 items-center justify-center"
+            >
+              <img
+                src={
+                  showCheckNewPassword
+                    ? "/svgs/eye-on.svg"
+                    : "/svgs/eye-off.svg"
+                }
+                alt="비밀번호 표시 토글"
+                className="cursor-pointer w-5 h-5"
+              />
+            </button>
+
+            {checknewpw && checknewpw !== newpw && (
+              <p className="mt-2 font-16m block text-[var(--color-red)]">
+                비밀번호가 일치하지 않습니다.
+              </p>
+            )}
+          </div>
         </div>
       </div>
 
