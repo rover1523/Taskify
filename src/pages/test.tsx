@@ -31,8 +31,9 @@ export default function TestPage() {
       <ChangePassword />
 
       <br />
-      <br />
 
+      <h1 className="text-2xl font-bold">새로운 대시보드 모달 테스트</h1>
+      <br />
       <div>
         <button
           onClick={() => setIsModalOpen(true)}
@@ -47,12 +48,10 @@ export default function TestPage() {
           </div>
         )}
       </div>
-
       <br />
       <br />
 
-      <br />
-      <h1 className="text-2xl font-bold">비브리지 변경 테스트</h1>
+      <h1 className="text-2xl font-bold">비브리지 변경 모달 테스트</h1>
       <ChangeBebridge />
     </div>
   );
