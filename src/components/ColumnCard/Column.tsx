@@ -1,7 +1,7 @@
 // ColumnCard.tsx
 import TodoButton from "@/components/button/TodoButton";
 import { useState } from "react";
-import { CardType } from "../../types/task";
+import { CardType } from "@/types/task";
 import Card from "./Card";
 import Image from "next/image";
 
