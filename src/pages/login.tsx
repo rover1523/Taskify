@@ -5,11 +5,13 @@ export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const isFormValid = email.trim() !== "" && password.trim() !== "";
+
   return (
     <div className="flex flex-col items-center justify-center h-screen bg-[var(--color-gray5)] py-10">
       <div className="text-center mb-[40px]">
         <img
-          src="../svgs/main-logo.svg"
+          src="/svgs/main-logo.svg"
           alt="태스키파이 로고 이미지"
           className="w-[200px] h-[280px] relative"
         />
@@ -39,8 +41,9 @@ export default function LoginPage() {
 
         <button
           type="submit"
+          disabled={!isFormValid}
           className={`w-full h-[50px] rounded-[8px] text-white font-18m transition ${
-            email && password
+            isFormValid
               ? "bg-[var(--primary)] cursor-pointer hover:opacity-90}"
               : "bg-[var(--color-gray2)] cursor-not-allowed"
           }`}
