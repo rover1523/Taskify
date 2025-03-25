@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import React from "react";
 import HeaderMyPage from "@/components/Gnb/HeaderMypage";
 import SideMenu from "@/components/SideMenu/SideMenu";
@@ -16,16 +15,6 @@ export default function MyPage() {
           <ChangePassword />
         </div>
       </div>
-=======
-import { useRouter } from "next/router";
-
-export default function EditDashboard() {
-  const router = useRouter();
-
-  return (
-    <div>
-      <h1>마이페이지 </h1>
->>>>>>> 5e01c5638c571a4057ba43e442cc95da8102aca5
     </div>
   );
 }
