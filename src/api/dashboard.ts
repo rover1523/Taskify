@@ -1,5 +1,5 @@
 // 예: src/lib/api/cards.ts
-import axiosInstance from "../api/axiosInstance";
+import axiosInstance from "./axiosInstance";
 
 export const getCardsByColumn = async ({
   teamId,

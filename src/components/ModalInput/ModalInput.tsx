@@ -1,17 +1,19 @@
 import moment from "moment";
 import Image from "next/image";
-import { ChangeEvent, useState, KeyboardEvent } from "react";
+import { ChangeEvent, useState, KeyboardEvent, useEffect } from "react";
 import Datetime from "react-datetime";
 import ColorTagChip, { getTagColor } from "./chips/ColorTagChip";
 import { inputClassNames } from "./InputClassNames";
 import clsx from "clsx";
 
-type ModalInputType = "제목" | "마감일" | "태그" | "담당자";
+type ModalInputType = "제목" | "마감일" | "태그";
 
 interface ModalInputProps {
   label: ModalInputType;
   required?: boolean;
   onValueChange: (newValues: string[]) => void;
+  defaultValue?: string;
+  defaultValueArray?: string[];
 }
 
 interface Tag {
@@ -24,20 +26,24 @@ export default function ModalInput({
   label,
   required,
   onValueChange,
+  defaultValue = "",
+  defaultValueArray = [],
 }: ModalInputProps) {
   const [tagInput, setTagInput] = useState<string>("");
   const [tags, setTags] = useState<Tag[]>([]);
 
+  useEffect(() => {
+    if (label === "태그" && defaultValueArray.length > 0) {
+      const initialTags = defaultValueArray.map((text, index) => ({
+        text,
+        ...getTagColor(index),
+      }));
+      setTags(initialTags);
+    }
+  }, [label, defaultValueArray]);
+
   const handleTitleValue = (event: ChangeEvent<HTMLInputElement>) => {
     onValueChange([event.target.value]);
-  };
-
-  const handleDeadlineValue = (selectedMoment: moment.Moment | string) => {
-    if (moment.isMoment(selectedMoment)) {
-      onValueChange([selectedMoment.format("YYYY.MM.DD")]);
-    } else {
-      onValueChange([selectedMoment]);
-    }
   };
 
   const handleTagInputChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -56,8 +62,9 @@ export default function ModalInput({
         ...getTagColor(tags.length),
       };
 
-      setTags([...tags, newTag]);
-      onValueChange([...tags.map((tag) => tag.text), newTag.text]);
+      const newTags = [...tags, newTag];
+      setTags(newTags);
+      onValueChange(newTags.map((tag) => tag.text));
       setTagInput("");
     }
   };
@@ -72,13 +79,13 @@ export default function ModalInput({
 
   switch (label) {
     case "제목":
-    case "담당자":
       inputElement = (
         <input
           type="text"
-          name={label === "제목" ? "title" : "manager"}
-          id={label === "제목" ? "title" : "manager"}
-          placeholder={`${label}을 입력해주세요`}
+          name="title"
+          id="title"
+          placeholder="제목을 입력해주세요"
+          defaultValue={defaultValue}
           className="w-full max-w-[520px] h-[48px] rounded-md font-18r outline-none px-2 sm:px-4 border border-[var(--color-gray3)] focus:border-[var(--primary)]"
           onChange={handleTitleValue}
         />
@@ -87,7 +94,7 @@ export default function ModalInput({
 
     case "마감일":
       const [isCalendarOpen, setIsCalendarOpen] = useState(false);
-      const [selectedDate, setSelectedDate] = useState("");
+      const [selectedDate, setSelectedDate] = useState(defaultValue);
 
       const handleDateChange = (date: moment.Moment | string) => {
         if (moment.isMoment(date)) {

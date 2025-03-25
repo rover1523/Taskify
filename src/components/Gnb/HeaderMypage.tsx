@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { MemberType } from "@/components/Gnb/members";
-import { getMembers } from "@/pages/api/members";
+import { getMembers } from "@/api/members";
 import RandomProfile from "../table/member/RandomProfile";
 import ModalInviting from "./ModalInviting";
 
