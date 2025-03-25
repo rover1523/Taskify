@@ -16,8 +16,8 @@ interface SignInputProps extends Omit<GeneralInputProps, "type"> {
   name: "email" | "nickname" | "password" | "passwordCheck";
   pattern: string;
   invalidMessage: string;
-  labelClassName?: string; // 폰트 스타일 조절
-  wrapperClassName?: string; // 전체 div의 스타일을 조절
+  labelClassName?: string;
+  wrapperClassName?: string;
 }
 
 type InputProps = GeneralInputProps | SignInputProps;
@@ -34,7 +34,6 @@ export default function Input(props: InputProps) {
     className,
     labelClassName,
     wrapperClassName,
-
     ...rest
   } = props as SignInputProps;
 
@@ -118,7 +117,7 @@ export default function Input(props: InputProps) {
           <button
             type="button"
             onClick={togglePasswordTypeOnClick}
-            className="absolute cursor-pointer right-4 inset-y-0 my-auto flex size-6 items-center justify-center"
+            className="absolute right-4 inset-y-0 my-auto flex size-6 items-center justify-center"
           >
             <img
               src={
@@ -127,16 +126,16 @@ export default function Input(props: InputProps) {
                   : "/svgs/eye-on.svg"
               }
               alt="비밀번호 표시 토글"
-              className="w-22 h-22"
+              className="w-5 h-5"
             />
           </button>
         )}
-        {isInvalid && invalidMessage && (
-          <span className="mt-2 font-14r block text-[var(--color-red)]">
-            {invalidMessage}
-          </span>
-        )}
       </div>
+      {isInvalid && invalidMessage && (
+        <span className="mt-2 font-14r block text-[var(--color-red)]">
+          {invalidMessage}
+        </span>
+      )}
     </div>
   );
 }
