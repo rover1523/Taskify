@@ -17,7 +17,7 @@ export default function ModalTextarea({
   required = false,
   isButton,
   small = false,
-  defaultValue = "", // ✅ 기본값 처리
+  defaultValue = "",
   onTextChange,
   onButtonClick,
 }: ModalTextareaProps) {
