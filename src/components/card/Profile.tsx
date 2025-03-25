@@ -1,4 +1,6 @@
 import { useState } from "react";
+import Input from "../input/Input";
+import ModalImage from "../ModalInput/ModalImage";
 
 export default function ProfileCard() {
   const [image, setImage] = useState<string | null>(null);
@@ -9,7 +11,10 @@ export default function ProfileCard() {
     if (event.target.files && event.target.files[0]) {
       const reader = new FileReader();
       reader.onload = (e) => {
-        setImage(e.target?.result as string);
+        const result = e.target?.result;
+        if (typeof result === "string") {
+          setImage(result);
+        }
       };
       reader.readAsDataURL(event.target.files[0]);
     }
@@ -24,7 +29,7 @@ export default function ProfileCard() {
       <div className="flex flex-col sm:flex-row items-center sm:items-start">
         {/* 프로필 이미지 업로드 영역 */}
         <div className="sm:mr:0 mr-29 w-[120px] flex-shrink-0 mb-4 sm:mb-0">
-          <div className="sm:w-[182px] sm:h-[182px] w-[100px] h-[100px] border border-gray-300 rounded-md flex items-center justify-center cursor-pointer">
+          <div className="sm:w-[182px] sm:h-[182px] w-[100px] h-[100px] rounded-md flex items-center justify-center cursor-pointer bg-[#F5F5F5] border-transparent">
             <label className="cursor-pointer w-full h-full flex items-center justify-center">
               {image ? (
                 <img
@@ -33,7 +38,7 @@ export default function ProfileCard() {
                   className="w-full h-full object-cover rounded-md"
                 />
               ) : (
-                <span className="text-gray-400 text-2xl">+</span>
+                <span className=" text-[#5534DA] text-2xl">+</span>
               )}
               <input
                 type="file"
@@ -46,26 +51,29 @@ export default function ProfileCard() {
 
         {/* 입력 폼 */}
         <div className="flex flex-col sm:ml-[-15px] w-full sm:mt-0 mt-5 sm:w-[400px]">
-          <label className="mb-2 text-sm sm:text-base text-black">이메일</label>
-          <input
+          <Input
             type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="w-full h-[44px] px-[16px] py-[10px] border border-gray-300 rounded-[8px]"
+            name="email"
+            label="이메일"
+            labelClassName="font-16r"
+            placeholder="이메일을 입력하세요"
+            onChange={setEmail}
+            pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+            invalidMessage="유효한 이메일 주소를 입력하세요."
+            className="mb-2"
           />
 
-          <label className="mb-2 text-sm sm:text-base text-black mt-3">
-            닉네임
-          </label>
-          <input
+          <Input
             type="text"
-            value={nickname}
-            onChange={(e) => setNickname(e.target.value)}
-            className="w-full h-[44px] px-[16px] py-[10px] border border-gray-300 rounded-[8px]"
+            name="nickname"
+            label="닉네임"
+            labelClassName="font-16r"
+            placeholder="닉네임을 입력하세요"
+            onChange={setNickname}
           />
 
           {/* 저장 버튼 */}
-          <button className="cursor-pointer w-full sm:w-[400px] h-[54px] bg-[#5A3FFF] text-white rounded-[8px] text-lg font-medium mt-6">
+          <button className="cursor-pointer w-full sm:w-[400px] h-[54px] bg-[#5A3FFF] text-white rounded-[8px] text-lg font-medium mt-3">
             저장
           </button>
         </div>
