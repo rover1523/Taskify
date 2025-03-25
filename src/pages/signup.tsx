@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Input from "@/components/input/Input";
+import Link from "next/link";
 
 export default function SignUpPage() {
   const [email, setEmail] = useState("");
@@ -107,12 +108,12 @@ export default function SignUpPage() {
 
         <span className="font-16r text-center text-black3">
           이미 회원이신가요?{" "}
-          <a
+          <Link
             href="/login"
             className="text-[var(--primary)] underline hover:opacity-90"
           >
             로그인하기
-          </a>
+          </Link>
         </span>
       </form>
     </div>
