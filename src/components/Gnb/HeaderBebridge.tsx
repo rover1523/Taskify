@@ -17,8 +17,9 @@ const HeaderBebridge = () => {
   const [members, setMembers] = useState<MemberType[]>([]);
   /*관리 버튼 클릭 이벤트 함수*/
   const router = useRouter();
+  const { dashboardId } = router.query;
   const goToDashboardEdit = () => {
-    router.push(`/dashboard/${dashboardid}/edit`);
+    router.push(`/dashboard/${dashboardId}/edit`);
   };
   /*초대하기 버튼 클릭 시 모달 팝업 오픈*/
   const [isModalOpen, setIsModalOpen] = useState(false);

@@ -39,7 +39,15 @@ export default function ColumnCard({
       <div onClick={() => setShowCard(true)}>
         <TodoButton />
       </div>
-      {showCard && tasks.map((task) => <Card key={task.id} {...task} />)}
+      {showCard &&
+        tasks.map((task) => (
+          <Card
+            key={task.id}
+            {...task}
+            imageUrl={task.imageUrl || undefined}
+            assignee={"홍길동"}
+          />
+        ))}
     </div>
   );
 }
