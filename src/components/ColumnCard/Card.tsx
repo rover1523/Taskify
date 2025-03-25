@@ -1,8 +1,11 @@
 // Card.tsx
-import { CardType } from "@/types/task";
+import { AssigneeType, CardType } from "@/types/task";
 import Image from "next/image";
 
-type CardProps = CardType;
+type CardProps = CardType & {
+  imageUrl?: string | null;
+  assignee: AssigneeType;
+};
 
 export default function Card({
   title = "new Task",
