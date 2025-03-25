@@ -71,7 +71,7 @@ export default function ChangePassword() {
             <button
               type="button"
               onClick={toggleCheckNewPasswordVisibility}
-              className="cursor-pointer absolute right-4 top-5.5 flex size-6 items-center justify-center"
+              className="absolute right-4 top-6 flex size-6 items-center justify-center"
             >
               <img
                 src={
@@ -80,7 +80,7 @@ export default function ChangePassword() {
                     : "/svgs/eye-off.svg"
                 }
                 alt="비밀번호 표시 토글"
-                className="cursor-pointer w-5 h-5"
+                className=" w-5 h-5"
               />
             </button>
 
