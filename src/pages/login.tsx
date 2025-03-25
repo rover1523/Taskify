@@ -1,5 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Input from "@/components/input/Input";
+import Link from "next/link";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -53,12 +54,12 @@ export default function LoginPage() {
 
         <span className="font-16r text-center text-black3">
           회원이 아니신가요?{" "}
-          <a
+          <Link
             href="/signup"
             className="text-[var(--primary)] underline hover:opacity-90"
           >
             회원가입하기
-          </a>
+          </Link>
         </span>
       </form>
     </div>
