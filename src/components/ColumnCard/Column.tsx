@@ -44,8 +44,8 @@ export default function ColumnCard({
           <Card
             key={task.id}
             {...task}
-            imageUrl={task.imageUrl || undefined}
-            assignee={"홍길동"}
+            imageUrl={task.imageUrl}
+            assignee={task.assignee}
           />
         ))}
     </div>
