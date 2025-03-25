@@ -1,45 +1,77 @@
-import { TaskType } from "@/types/task";
-import { useState, useEffect } from "react";
+// src/pages/dashboards.tsx
+import { useEffect, useState } from "react";
+import { getDashboards } from "./api/cards";
+import { getColumns } from "./api/cards";
 import { getCardsByColumn } from "./api/cards";
-import ImageCard from "@/components/ColumnCard/ImageCard";
+import ColumnCard from "@/components/ColumnCard/ColumnCard";
+import { TaskType } from "@/types/task";
+
+// 타입 정의
+interface ColumnType {
+  id: number;
+  title: string;
+  teamId: string;
+  createdAt: string;
+  updatedAt: string;
+}
 
 export default function DashboardPage() {
-  const [cards, setCards] = useState<TaskType[]>([]);
+  const [columns, setColumns] = useState<ColumnType[]>([]);
+  const [tasksByColumn, setTasksByColumn] = useState<{
+    [columnId: number]: TaskType[];
+  }>({});
 
   useEffect(() => {
-    const fetchCards = async () => {
+    const fetchDashboardsAndColumns = async () => {
       try {
         const teamId = "13-4";
-        const columnId = 46299;
-        const res = await getCardsByColumn({ teamId, columnId });
 
-        console.log("카드 불러오기 성공:", res);
-        setCards(res.cards);
-      } catch (error) {
-        console.error("카드 불러오기 실패:", error);
+        // 1. 대시보드 목록 가져오기
+        const dashboardRes = await getDashboards({
+          teamId,
+          navigationMethod: "pagination",
+          page: 1,
+          size: 10,
+        });
+
+        const dashboardId = dashboardRes.dashboards[0]?.id;
+        if (!dashboardId) return;
+
+        // 2. 해당 대시보드의 칼럼 목록 가져오기
+        const columnRes = await getColumns({ teamId, dashboardId });
+        setColumns(columnRes.data);
+
+        // 3. 각 칼럼의 카드 목록 가져오기
+        const columnTasks: { [columnId: number]: TaskType[] } = {};
+
+        await Promise.all(
+          columnRes.data.map(async (column: ColumnType) => {
+            const cardRes = await getCardsByColumn({
+              teamId,
+              columnId: column.id,
+            });
+            columnTasks[column.id] = cardRes.cards;
+          })
+        );
+
+        setTasksByColumn(columnTasks);
+      } catch (err) {
+        console.error("❌ 에러 발생:", err);
       }
     };
 
-    fetchCards();
+    fetchDashboardsAndColumns();
   }, []);
 
   return (
-    <div className="p-6">
-      <h1 className="text-2xl font-bold mb-6">
-        📋 카드 목록 테스트 (ImageCard)
-      </h1>
-      <div className="grid grid-cols-2 gap-4">
-        {cards.map((card) => (
-          <ImageCard
-            key={card.id}
-            title={card.title}
-            dueDate={card.dueDate}
-            tags={card.tags}
-            imageUrl={card.imageUrl}
-            assignee={card.assignee?.nickname}
-          />
-        ))}
-      </div>
+    <div className="flex gap-4 p-6">
+      {columns.map((col) => (
+        <ColumnCard
+          key={col.id}
+          title={col.title}
+          tasks={tasksByColumn[col.id] || []}
+        />
+      ))}
     </div>
   );
 }

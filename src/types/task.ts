@@ -1,7 +1,7 @@
 export type TaskType = {
   id: number;
   title: string;
-  tags: string[];
+  tags: { name: string; color: string }[];
   dueDate: string;
   assignee?: {
     id: number;

@@ -1,8 +1,8 @@
 // ColumnCard.tsx
 import TodoButton from "@/components/button/TodoButton";
 import { useState } from "react";
-import { TextCard } from "./TextCard";
 import { TaskType } from "../../types/task";
+import ImageCard from "./ImageCard";
 
 type ColumnCardProps = {
   title?: string;
@@ -17,7 +17,7 @@ export default function ColumnCard({
 
   return (
     <div className="w-[354px] h-[1010px] border-[var(--color-gray4)] flex flex-col rounded-md border border-solid bg-gray-50 p-4">
-      <div className="flex items-center justify-between">
+      <div className="flex items-center gap-2">
         <h2 className="text-lg font-bold">
           <span className="text-[var(--primary)]">•</span> {title}
         </h2>
@@ -29,8 +29,7 @@ export default function ColumnCard({
       <div onClick={() => setShowCard(true)}>
         <TodoButton />
       </div>
-
-      {showCard && tasks.map((task) => <TextCard key={task.id} {...task} />)}
+      {showCard && tasks.map((task) => <ImageCard key={task.id} {...task} />)}
     </div>
   );
 }
