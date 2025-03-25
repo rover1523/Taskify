@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Input from "../input/Input";
 import Image from "next/image";
 import axios from "axios";
@@ -31,6 +31,7 @@ export default function NewDashboard({ onClose }: { onClose?: () => void }) {
         }
       );
       console.log("대시보드 생성 성공:", response.data);
+      console.log(loading);
 
       onClose?.(); // 모달 닫기
     } catch (error) {
