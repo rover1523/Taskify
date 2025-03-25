@@ -6,7 +6,7 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen bg-[var(--color-gray5)]">
+    <div className="flex flex-col items-center justify-center h-screen bg-[var(--color-gray5)] py-10">
       <div className="text-center mb-[40px]">
         <img
           src="../svgs/main-logo.svg"
@@ -33,8 +33,8 @@ export default function LoginPage() {
           label="비밀번호"
           placeholder="비밀번호를 입력해 주세요"
           onChange={setPassword}
-          pattern=".{6,}"
-          invalidMessage="비밀번호는 6자 이상이어야 해요"
+          pattern=".{8,}"
+          invalidMessage="비밀번호는 8자 이상이어야 해요"
         />
 
         <button
