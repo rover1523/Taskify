@@ -1,23 +1,12 @@
 // src/pages/dashboards.tsx
 import { useEffect, useState } from "react";
-import { getDashboards, getColumns, getCardsByColumn } from "../api/dashboard";
+import { getDashboards, getColumns, getCardsByColumn } from "@/api/dashboard";
 import Column from "@/components/ColumnCard/Column";
-import { CardType } from "@/types/task";
-
-// 타입 정의
-interface ColumnType {
-  id: number;
-  title: string;
-  teamId: string;
-  createdAt: string;
-  updatedAt: string;
-}
+import { CardType, ColumnType, TasksByColumn } from "@/types/task";
 
 export default function DashboardPage() {
   const [columns, setColumns] = useState<ColumnType[]>([]);
-  const [tasksByColumn, setTasksByColumn] = useState<{
-    [columnId: number]: CardType[];
-  }>({});
+  const [tasksByColumn, setTasksByColumn] = useState<TasksByColumn>({});
 
   useEffect(() => {
     const fetchDashboardsAndColumns = async () => {
