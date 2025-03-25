@@ -8,17 +8,19 @@ import ModalInviting from "./ModalInviting";
 /*dummy data*/
 const user = {
   nickname: "배유철",
-  profileImageUrl: "../svgs/dummy-icon.png",
+  profileImageUrl: "/svgs/dummy-icon.png",
 };
 
 const HeaderMyPage = () => {
   /*멤버 목록 profileImageUrl loading*/
   const [isLoading, setIsLoading] = useState(true);
   const [members, setMembers] = useState<MemberType[]>([]);
+
   /*관리 버튼 클릭 이벤트 함수*/
   const router = useRouter();
+  const { dashboardId } = router.query;
   const goToDashboardEdit = () => {
-    router.push(`/dashboard/${dashboardid}/edit`);
+    router.push(`/dashboard/${dashboardId}/edit`);
   };
   /*초대하기 버튼 클릭 시 모달 팝업 오픈*/
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -61,7 +63,7 @@ const HeaderMyPage = () => {
               className="flex items-center justify-center w-[49px] h-[30px] md:w-[85px] md:h-[36px] lg:w-[88px] lg:h-[40px] rounded-[8px] border-[1px] border-[#D9D9D9] gap-[10px] cursor-pointer"
             >
               <img
-                src="../svgs/settings.svg"
+                src="/svgs/settings.svg"
                 alt="관리 아이콘"
                 className="w-[20px] h-[20px] hidden md:block"
               />
@@ -73,7 +75,7 @@ const HeaderMyPage = () => {
               className="flex items-center justify-center w-[73px] h-[30px] md:w-[109px] md:h-[36px] lg:w-[116px] lg:h-[40px] rounded-[8px] border-[1px] border-[#D9D9D9] gap-[10px] cursor-pointer"
             >
               <img
-                src="../svgs/add-box.svg"
+                src="/svgs/add-box.svg"
                 alt="초대하기 아이콘"
                 className="w-[20px] h-[20px] hidden md:block"
               />
@@ -92,7 +94,7 @@ const HeaderMyPage = () => {
                 {members.slice(0, 4).map((member, index) => (
                   <img
                     key={member.id}
-                    src={member.profileImageUrl || "../svgs/dummy-icon.png"}
+                    src={member.profileImageUrl || "/svgs/dummy-icon.png"}
                     alt={member.nickname}
                     className="w-[34px] h-[34px] md:w-[38px] md:h-[38px] rounded-full border-[2px] border-white"
                   />
@@ -121,7 +123,7 @@ const HeaderMyPage = () => {
                   className="w-full h-full rounded-full object-cover"
                 />
               ) : (
-                <RandomProfile />
+                <RandomProfile name={user.nickname} index={2} />
               )}
             </div>
             <span className="hidden md:block text-black3 md:text-base md:font-medium">

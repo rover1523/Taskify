@@ -28,5 +28,5 @@ export type ColumnType = {
 
 // 여러 칼럼별 테스크 묶음
 export type TasksByColumn = {
-  [columnIdL: number]: CardType;
+  [columnIdL: number]: CardType[];
 };

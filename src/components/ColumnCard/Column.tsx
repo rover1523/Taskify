@@ -1,7 +1,7 @@
 // ColumnCard.tsx
 import TodoButton from "@/components/button/TodoButton";
 import { useState } from "react";
-import { CardType } from "../../types/task";
+import { CardType } from "@/types/task";
 import Card from "./Card";
 import Image from "next/image";
 
@@ -39,7 +39,15 @@ export default function ColumnCard({
       <div onClick={() => setShowCard(true)}>
         <TodoButton />
       </div>
-      {showCard && tasks.map((task) => <Card key={task.id} {...task} />)}
+      {showCard &&
+        tasks.map((task) => (
+          <Card
+            key={task.id}
+            {...task}
+            imageUrl={task.imageUrl || undefined}
+            assignee={"홍길동"}
+          />
+        ))}
     </div>
   );
 }

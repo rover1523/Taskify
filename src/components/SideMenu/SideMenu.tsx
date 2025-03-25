@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-import { Dashboard } from "@/components/Sidemenu/dashboard";
+import { Dashboard } from "@/components/SideMenu/dashboard";
 
 interface Props {
   dashboardList: Dashboard[];

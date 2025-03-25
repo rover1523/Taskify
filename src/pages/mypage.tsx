@@ -1,6 +1,6 @@
 import React from "react";
 import HeaderMyPage from "@/components/Gnb/HeaderMypage";
-import SideMenu from "@/components/SideMenu/SideMenu";
+import SideMenu from "@/components/Sidemenu/SideMenu";
 import ProfileCard from "@/components/card/Profile";
 import ChangePassword from "@/components/card/ChangePassword";
 

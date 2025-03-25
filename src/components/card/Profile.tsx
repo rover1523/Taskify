@@ -1,6 +1,5 @@
 import { useState } from "react";
 import Input from "../input/Input";
-import ModalImage from "../ModalInput/ModalImage";
 
 export default function ProfileCard() {
   const [image, setImage] = useState<string | null>(null);

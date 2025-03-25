@@ -1,6 +1,5 @@
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import TextButton from "./TextButton";
-import { inputClassNames } from "./InputClassNames";
 
 interface ModalTextareaProps {
   label: string;

@@ -63,6 +63,8 @@ function InvitedList({ searchTitle }: { searchTitle: string }) {
     setPage((prevPage) => prevPage + 1);
   };
 
+  console.log(page);
+
   // 검색 기능
   const filteredData = displayedData.filter(
     (invite) =>
