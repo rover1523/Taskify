@@ -5,7 +5,7 @@ export default function ChangePassword() {
   const [password, setPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [checkNewpassword, setCheckNewPassword] = useState("");
-  const [isPasswordMismatch, setIsPasswordMismatch] = useState(false);
+  const [isPasswordMismatch] = useState(false);
 
   const [showCheckNewPassword, setShowCheckNewPassword] = useState(false);
 

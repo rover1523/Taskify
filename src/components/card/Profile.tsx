@@ -16,6 +16,8 @@ export default function ProfileCard() {
         }
       };
       reader.readAsDataURL(event.target.files[0]);
+
+      console.log(nickname, email);
     }
   };
 
