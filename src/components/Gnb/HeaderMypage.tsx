@@ -91,7 +91,7 @@ const HeaderMyPage = () => {
               <p className="text-gray-500 text-sm">로딩 중...</p>
             ) : (
               <>
-                {members.slice(0, 4).map((member, index) => (
+                {members.slice(0, 4).map((member) => (
                   <img
                     key={member.id}
                     src={member.profileImageUrl || "/svgs/dummy-icon.png"}
