@@ -1,10 +1,8 @@
 // src/pages/dashboards.tsx
 import { useEffect, useState } from "react";
-import { getDashboards } from "./api/cards";
-import { getColumns } from "./api/cards";
-import { getCardsByColumn } from "./api/cards";
-import ColumnCard from "@/components/ColumnCard/ColumnCard";
-import { TaskType } from "@/types/task";
+import { getDashboards, getColumns, getCardsByColumn } from "./api/dashboard";
+import Column from "@/components/ColumnCard/Column";
+import { CardType } from "@/types/task";
 
 // 타입 정의
 interface ColumnType {
@@ -18,7 +16,7 @@ interface ColumnType {
 export default function DashboardPage() {
   const [columns, setColumns] = useState<ColumnType[]>([]);
   const [tasksByColumn, setTasksByColumn] = useState<{
-    [columnId: number]: TaskType[];
+    [columnId: number]: CardType[];
   }>({});
 
   useEffect(() => {
@@ -42,7 +40,7 @@ export default function DashboardPage() {
         setColumns(columnRes.data);
 
         // 3. 각 칼럼의 카드 목록 가져오기
-        const columnTasks: { [columnId: number]: TaskType[] } = {};
+        const columnTasks: { [columnId: number]: CardType[] } = {};
 
         await Promise.all(
           columnRes.data.map(async (column: ColumnType) => {
@@ -66,7 +64,7 @@ export default function DashboardPage() {
   return (
     <div className="flex gap-4 p-6">
       {columns.map((col) => (
-        <ColumnCard
+        <Column
           key={col.id}
           title={col.title}
           tasks={tasksByColumn[col.id] || []}

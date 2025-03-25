@@ -1,11 +1,11 @@
-// ImageCard.tsx
+// Card.tsx
 import Image from "next/image";
 
 type ImageCardProps = {
-  title?: string;
+  title: string;
   dueDate?: string;
-  tags: { name: string; color: string }[];
-  assignee?: string;
+  tags: string[];
+  assignee: string;
   imageUrl?: string;
 };
 
@@ -16,8 +16,6 @@ export default function ImageCard({
   assignee = "Team4",
   imageUrl = "/svgs/img.svg",
 }: ImageCardProps) {
-  console.log("tags in ImageCard", tags);
-
   return (
     <div className="w-[314px] border border-gray-300 rounded-md p-4">
       <Image
@@ -32,13 +30,9 @@ export default function ImageCard({
         {tags.map((tag, idx) => (
           <span
             key={idx}
-            className="px-2 py-1 rounded-md text-sm"
-            style={{
-              backgroundColor: tag.color + "33",
-              color: tag.color,
-            }}
+            className="bg-blue-200 text-blue-700 px-2 py-1 rounded-md text-sm"
           >
-            {tag.name}
+            {tag}
           </span>
         ))}
       </div>
