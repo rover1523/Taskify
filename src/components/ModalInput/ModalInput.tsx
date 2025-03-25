@@ -32,6 +32,9 @@ export default function ModalInput({
   const [tagInput, setTagInput] = useState<string>("");
   const [tags, setTags] = useState<Tag[]>([]);
 
+  const [isCalendarOpen, setIsCalendarOpen] = useState(false);
+  const [selectedDate, setSelectedDate] = useState(defaultValue);
+
   useEffect(() => {
     if (label === "태그" && defaultValueArray.length > 0) {
       const initialTags = defaultValueArray.map((text, index) => ({
@@ -75,6 +78,17 @@ export default function ModalInput({
     onValueChange(updatedTags.map((tag) => tag.text));
   };
 
+  const handleDateChange = (date: moment.Moment | string) => {
+    if (moment.isMoment(date)) {
+      setSelectedDate(date.format("YYYY.MM.DD"));
+      onValueChange([date.format("YYYY.MM.DD")]);
+    } else {
+      setSelectedDate(date);
+      onValueChange([date]);
+    }
+    setIsCalendarOpen(false);
+  };
+
   let inputElement = null;
 
   switch (label) {
@@ -93,20 +107,6 @@ export default function ModalInput({
       break;
 
     case "마감일":
-      const [isCalendarOpen, setIsCalendarOpen] = useState(false);
-      const [selectedDate, setSelectedDate] = useState(defaultValue);
-
-      const handleDateChange = (date: moment.Moment | string) => {
-        if (moment.isMoment(date)) {
-          setSelectedDate(date.format("YYYY.MM.DD"));
-          onValueChange([date.format("YYYY.MM.DD")]);
-        } else {
-          setSelectedDate(date);
-          onValueChange([date]);
-        }
-        setIsCalendarOpen(false);
-      };
-
       inputElement = (
         <div className="relative w-full max-w-[520px]">
           <div
