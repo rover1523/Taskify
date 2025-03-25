@@ -36,7 +36,7 @@ export default function ChangePassword() {
             onChange={setPassword}
             pattern=".{8,}"
             invalidMessage="8자 이상 입력해주세요."
-            className="max-w-[620px] mb-1"
+            className="max-w-[620px]"
           />
           <Input
             type="password"
@@ -47,7 +47,7 @@ export default function ChangePassword() {
             onChange={setNewPassword}
             pattern=".{8,}"
             invalidMessage="8자 이상 입력해주세요."
-            className="max-w-[620px] mb-1"
+            className="max-w-[620px]"
           />
 
           <label className="mb-2 text-sm sm:text-base text-black mt-3">
