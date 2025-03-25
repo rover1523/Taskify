@@ -2,9 +2,9 @@ import { useState } from "react";
 import Input from "../input/Input";
 
 export default function ChangePassword() {
-  const [passwd, setPw] = useState("");
-  const [newpw, setNewPw] = useState("");
-  const [checknewpw, setCheckNewPw] = useState("");
+  const [password, setPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [checkNewpassword, setCheckNewPassword] = useState("");
   const [isPasswordMismatch, setIsPasswordMismatch] = useState(false);
 
   const [showCheckNewPassword, setShowCheckNewPassword] = useState(false);
@@ -13,7 +13,11 @@ export default function ChangePassword() {
     setShowCheckNewPassword(!showCheckNewPassword);
 
   const isDisabled =
-    !passwd || !newpw || !checknewpw || isPasswordMismatch || passwd.length < 8;
+    !password ||
+    !newPassword ||
+    !checkNewpassword ||
+    isPasswordMismatch ||
+    password.length < 8;
 
   return (
     <div className="sm:w-[672px] sm:h-[466px] w-[284px] h-[454px] bg-white rounded-[16px] shadow-md p-[24px] flex flex-col">
@@ -29,7 +33,7 @@ export default function ChangePassword() {
             label="비밀번호"
             labelClassName="font-16r"
             placeholder="비밀번호 입력"
-            onChange={setPw}
+            onChange={setPassword}
             pattern=".{8,}"
             invalidMessage="8자 이상 입력해주세요."
             className="max-w-[620px] mb-1"
@@ -40,7 +44,7 @@ export default function ChangePassword() {
             label="새 비밀번호"
             labelClassName="font-16r"
             placeholder="새 비밀번호 입력"
-            onChange={setNewPw}
+            onChange={setNewPassword}
             pattern=".{8,}"
             invalidMessage="8자 이상 입력해주세요."
             className="max-w-[620px] mb-1"
@@ -52,13 +56,13 @@ export default function ChangePassword() {
           <div className="relative w-full">
             <input
               type={showCheckNewPassword ? "text" : "password"}
-              value={checknewpw}
+              value={checkNewpassword}
               placeholder="새 비밀번호 입력"
-              onChange={(e) => setCheckNewPw(e.target.value)}
+              onChange={(e) => setCheckNewPassword(e.target.value)}
               className={`mt-3 sm:w-[624px] sm:h-[50px] w-[236px] h-[50px] px-[16px] pr-12 rounded-[8px] transition-colors focus:outline-none
       ${
-        checknewpw
-          ? checknewpw === newpw
+        checkNewpassword
+          ? checkNewpassword === newPassword
             ? "border border-gray-300"
             : "border border-[var(--color-red)]"
           : "border border-gray-300 focus:border-purple-500"
@@ -80,7 +84,7 @@ export default function ChangePassword() {
               />
             </button>
 
-            {checknewpw && checknewpw !== newpw && (
+            {checkNewpassword && checkNewpassword !== newPassword && (
               <p className="mt-2 font-16m block text-[var(--color-red)]">
                 비밀번호가 일치하지 않습니다.
               </p>

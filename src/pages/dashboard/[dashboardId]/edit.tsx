@@ -3,7 +3,7 @@ import ChangeBebridge from "@/components/modal/ChangeBebridge";
 
 export default function EditDashboard() {
   const router = useRouter();
-  const { dashboardId } = router.query; // 동적 파라미터 가져오기
+  const { dashboardId } = router.query;
 
   return (
     <div>
