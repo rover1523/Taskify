@@ -6,10 +6,10 @@ import ModalInviting from "./ModalInviting";
 /*dummy data*/
 const user = {
   nickname: "배유철",
-  profileImageUrl: "../svgs/dummy-icon.png",
+  profileImageUrl: "/svgs/dummy-icon.png",
 };
 
-const headerDashboard = () => {
+const HeaderDashboard = () => {
   /*관리 버튼 클릭 이벤트 함수*/
   const router = useRouter();
   const goToDashboardEdit = () => {
@@ -40,7 +40,7 @@ const headerDashboard = () => {
               className="flex items-center justify-center w-[49px] h-[30px] md:w-[88px] md:h-[40px] rounded-[8px] border-[1px] border-[#D9D9D9] gap-[10px] cursor-pointer"
             >
               <img
-                src="../svgs/settings.svg"
+                src="/svgs/settings.svg"
                 alt="관리 아이콘"
                 className="w-[20px] h-[20px] hidden md:block"
               />
@@ -52,7 +52,7 @@ const headerDashboard = () => {
               className="flex items-center justify-center w-[73px] h-[30px] md:w-[116px] md:h-[40px] rounded-[8px] border-[1px] border-[#D9D9D9] gap-[10px] cursor-pointer"
             >
               <img
-                src="../svgs/add-box.svg"
+                src="/svgs/add-box.svg"
                 alt="초대하기 아이콘"
                 className="w-[20px] h-[20px] hidden md:block"
               />
@@ -77,7 +77,7 @@ const headerDashboard = () => {
                   className="w-full h-full rounded-full object-cover"
                 />
               ) : (
-                <RandomProfile />
+                <RandomProfile name={user.nickname} index={2} />
               )}
             </div>
             <span className="hidden md:block text-black3 md:text-base md:font-medium">
@@ -90,4 +90,4 @@ const headerDashboard = () => {
   );
 };
 
-export default headerDashboard;
+export default HeaderDashboard;

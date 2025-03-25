@@ -18,13 +18,13 @@ const HeaderDefaultBk = () => {
       <div className="w-full flex items-center justify-between px-[16px] sm:px-[24px] md:px-[40px] lg:px-[70px]">
         <div className="flex items-center cursor-pointer">
           <img
-            src="../svgs/logo-large-white.svg"
+            src="/svgs/logo-large-white.svg"
             alt="Taskify Logo"
             onClick={goToMain}
             className="h-[39px] hidden md:block"
           />
           <img
-            src="../svgs/logo-small-white.svg"
+            src="/svgs/logo-small-white.svg"
             alt="Taskify Mobile Logo"
             onClick={goToMain}
             className="h-[27px] block md:hidden"
