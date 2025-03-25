@@ -13,9 +13,11 @@ interface GeneralInputProps {
 
 interface SignInputProps extends Omit<GeneralInputProps, "type"> {
   type: Extract<HTMLInputTypeAttribute, "text" | "email" | "password">;
-  name: "email" | "nickname" | "password" | "passwordCheck";
+  name: "email" | "nickname" | "password" | "passwordCheck ";
   pattern: string;
   invalidMessage: string;
+  labelClassName?: string; // 폰트 스타일 조절
+  wrapperClassName?: string; // 전체 div의 스타일을 조절
 }
 
 type InputProps = GeneralInputProps | SignInputProps;
@@ -30,6 +32,9 @@ export default function Input(props: InputProps) {
     pattern,
     invalidMessage,
     className,
+    labelClassName,
+    wrapperClassName,
+
     ...rest
   } = props as SignInputProps;
 
@@ -66,9 +71,15 @@ export default function Input(props: InputProps) {
   };
 
   return (
-    <div className="flex w-full max-w-[520px] flex-col items-start gap-2">
+    <div className={clsx("flex flex-col items-start gap-2", wrapperClassName)}>
       {label && (
-        <label htmlFor={id} className="font-18sb text-[var(--color-black)]">
+        <label
+          htmlFor={id}
+          className={clsx(
+            "text-[var(--color-black)]",
+            labelClassName ? labelClassName : "font-18sb"
+          )}
+        >
           {label}
         </label>
       )}
@@ -107,7 +118,7 @@ export default function Input(props: InputProps) {
           <button
             type="button"
             onClick={togglePasswordTypeOnClick}
-            className="absolute right-4 top-2.5 flex size-6 items-center justify-center"
+            className="cursor-pointer absolute right-4 top-2.5 flex size-6 items-center justify-center"
           >
             <img
               src={
