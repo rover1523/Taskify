@@ -1,6 +1,6 @@
 // src/pages/dashboards.tsx
 import { useEffect, useState } from "react";
-import { getDashboards, getColumns, getCardsByColumn } from "./api/dashboard";
+import { getDashboards, getColumns, getCardsByColumn } from "../api/dashboard";
 import Column from "@/components/ColumnCard/Column";
 import { CardType } from "@/types/task";
 
