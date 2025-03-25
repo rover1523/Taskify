@@ -11,7 +11,10 @@ export default function ProfileCard() {
     if (event.target.files && event.target.files[0]) {
       const reader = new FileReader();
       reader.onload = (e) => {
-        setImage(e.target?.result as string);
+        const result = e.target?.result;
+        if (typeof result === "string") {
+          setImage(result);
+        }
       };
       reader.readAsDataURL(event.target.files[0]);
     }
