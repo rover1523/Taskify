@@ -20,6 +20,7 @@ interface SignInputProps extends Omit<GeneralInputProps, "type"> {
   wrapperClassName?: string;
 }
 
+//주석석
 type InputProps = GeneralInputProps | SignInputProps;
 
 export default function Input(props: InputProps) {
