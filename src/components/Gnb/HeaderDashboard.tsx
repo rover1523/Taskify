@@ -12,8 +12,10 @@ const user = {
 const headerDashboard = () => {
   /*관리 버튼 클릭 이벤트 함수*/
   const router = useRouter();
+  const { dashboardId } = router.query;
+
   const goToDashboardEdit = () => {
-    router.push(`/dashboard/${dashboardid}/edit`);
+    router.push(`/dashboard/${dashboardId}/edit`);
   };
   /*초대하기 버튼 클릭 시 모달 팝업 오픈*/
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -77,7 +79,7 @@ const headerDashboard = () => {
                   className="w-full h-full rounded-full object-cover"
                 />
               ) : (
-                <RandomProfile />
+                <RandomProfile name={user.nickname} index={2} />
               )}
             </div>
             <span className="hidden md:block text-black3 md:text-base md:font-medium">
