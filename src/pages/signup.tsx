@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Input from "@/components/input/Input";
 
 export default function SignUpPage() {
@@ -6,22 +6,20 @@ export default function SignUpPage() {
   const [nickName, setNickname] = useState("");
   const [password, setPassword] = useState("");
   const [passwordCheck, setPasswordCheck] = useState("");
-  const [isPasswordMatch, setIspasswordMatch] = useState(true);
   const [agree, setAgree] = useState(false);
 
   const isFormValid =
-    email && nickName && password && passwordCheck && isPasswordMatch && agree;
-
-  const handlePasswordCheckChange = (value: string) => {
-    setPasswordCheck(value);
-    setIspasswordMatch(value === password);
-  };
+    email.trim() !== "" &&
+    nickName.trim() !== "" &&
+    password.trim() !== "" &&
+    passwordCheck.trim() !== "" &&
+    agree;
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-[var(--color-gray5)] py-10">
       <div className="text-center mb-[40px]">
         <img
-          src="../svgs/main-logo.svg"
+          src="/svgs/main-logo.svg"
           alt="태스키파이 로고 이미지"
           className="w-[200px] h-[280px] relative"
         />
@@ -63,7 +61,7 @@ export default function SignUpPage() {
             name="passwordCheck"
             label="비밀번호 확인"
             placeholder="비밀번호를 한번 더 입력해 주세요"
-            onChange={handlePasswordCheckChange}
+            onChange={setPasswordCheck}
             pattern="{password}"
             invalidMessage=""
             className={
