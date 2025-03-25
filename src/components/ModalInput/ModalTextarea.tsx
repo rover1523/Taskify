@@ -1,4 +1,4 @@
-import { ChangeEvent, useRef, useState } from "react";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
 import TextButton from "./TextButton";
 import { inputClassNames } from "./InputClassNames";
 
@@ -7,6 +7,7 @@ interface ModalTextareaProps {
   required?: boolean;
   isButton: boolean;
   small?: boolean;
+  defaultValue?: string; // ✅ 추가됨
   onTextChange: (value: string) => void;
   onButtonClick?: () => void;
 }
@@ -16,11 +17,12 @@ export default function ModalTextarea({
   required = false,
   isButton,
   small = false,
+  defaultValue = "",
   onTextChange,
   onButtonClick,
 }: ModalTextareaProps) {
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
-  const [text, setText] = useState("");
+  const [text, setText] = useState(defaultValue);
 
   const handleTextareaChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
     const textarea = textareaRef.current;
@@ -32,6 +34,15 @@ export default function ModalTextarea({
       textarea.style.height = `${textarea.scrollHeight}px`;
     }
   };
+
+  // ✅ 초기 defaultValue 기준으로 height 조절
+  useEffect(() => {
+    const textarea = textareaRef.current;
+    if (textarea) {
+      textarea.style.height = "auto";
+      textarea.style.height = `${textarea.scrollHeight}px`;
+    }
+  }, [defaultValue]);
 
   return (
     <div className="inline-flex flex-col items-start gap-2.5 w-full">
@@ -52,6 +63,7 @@ export default function ModalTextarea({
           placeholder={
             label === "설명" ? `${label}을 입력해주세요` : `${label} 작성하기`
           }
+          value={text}
           onChange={handleTextareaChange}
           className={`
             w-full resize-none rounded-md border-none px-2 sm:px-4 py-3 font-16r text-[var(--color-black)] outline-none bg-transparent overflow-hidden

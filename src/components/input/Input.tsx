@@ -13,7 +13,7 @@ interface GeneralInputProps {
 
 interface SignInputProps extends Omit<GeneralInputProps, "type"> {
   type: Extract<HTMLInputTypeAttribute, "text" | "email" | "password">;
-  name: "email" | "nickname" | "password" | "passwordCheck ";
+  name: "email" | "nickname" | "password" | "passwordCheck";
   pattern: string;
   invalidMessage: string;
   labelClassName?: string; // 폰트 스타일 조절
@@ -76,8 +76,8 @@ export default function Input(props: InputProps) {
         <label
           htmlFor={id}
           className={clsx(
-            "text-[var(--color-black)]",
-            labelClassName ? labelClassName : "font-18sb"
+            "text-[var(--color-black3)]",
+            labelClassName ? labelClassName : "font-16r"
           )}
         >
           {label}
@@ -118,7 +118,7 @@ export default function Input(props: InputProps) {
           <button
             type="button"
             onClick={togglePasswordTypeOnClick}
-            className="cursor-pointer absolute right-4 top-2.5 flex size-6 items-center justify-center"
+            className="absolute cursor-pointer right-4 inset-y-0 my-auto flex size-6 items-center justify-center"
           >
             <img
               src={
@@ -127,12 +127,12 @@ export default function Input(props: InputProps) {
                   : "/svgs/eye-on.svg"
               }
               alt="비밀번호 표시 토글"
-              className="w-5 h-5"
+              className="w-22 h-22"
             />
           </button>
         )}
         {isInvalid && invalidMessage && (
-          <span className="mt-2 font-16m block text-[var(--color-red)]">
+          <span className="mt-2 font-14r block text-[var(--color-red)]">
             {invalidMessage}
           </span>
         )}
