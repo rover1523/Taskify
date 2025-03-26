@@ -35,6 +35,7 @@ const ChangeBebridge = () => {
       );
       console.log("업데이트 성공:", response.data);
       alert("대시보드가 업데이트되었습니다!");
+      window.location.reload();
     } catch (error) {
       console.error("업데이트 실패:", error);
       alert("업데이트에 실패했습니다.");
