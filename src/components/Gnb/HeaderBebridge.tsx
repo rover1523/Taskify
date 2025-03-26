@@ -8,13 +8,9 @@ import NewDashboard from "../modal/NewDashboard";
 
 interface HeaderBebridgeProps {
   dashboardId?: string | string[];
-  teamId: string;
 }
 
-const HeaderBebridge: React.FC<HeaderBebridgeProps> = ({
-  dashboardId,
-  teamId,
-}) => {
+const HeaderBebridge: React.FC<HeaderBebridgeProps> = ({ dashboardId }) => {
   const [user, setUser] = useState<UserType | null>(null);
   const [members, setMembers] = useState<MemberType[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -34,18 +30,19 @@ const HeaderBebridge: React.FC<HeaderBebridgeProps> = ({
 
   /*유저 정보 api 호출*/
   useEffect(() => {
-    const fetchUsers = async () => {
+    const fetchUser = async () => {
       try {
         const data = await getUserInfo();
         setUser(data);
       } catch (error) {
         console.log("유저 정보 불러오기 실패", error);
+      } finally {
+        setIsLoading(false);
       }
     };
-    if (teamId) {
-      fetchUsers();
-    }
-  }, [teamId]);
+
+    fetchUser();
+  }, []);
 
   /*멤버 목록 api 호출*/
   useEffect(() => {
