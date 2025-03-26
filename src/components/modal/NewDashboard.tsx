@@ -31,6 +31,7 @@ export default function NewDashboard({ onClose }: { onClose?: () => void }) {
         }
       );
       console.log("대시보드 생성 성공:", response.data);
+      alert("대시보드가 성공적으로 생성되었습니다.");
       console.log(loading);
 
       onClose?.(); // 모달 닫기
