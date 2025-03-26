@@ -71,26 +71,26 @@ function InvitedList({ searchTitle }: { searchTitle: string }) {
   );
 
   return (
-    <div className="relative bg-white w-[1022px] h-[458px] mx-auto mt-[40px]">
+    <div className="relative bg-white w-[260px] sm:w-[504px] lg:w-[1022px] h-[770px] sm:h-[592px] lg:h-[620px] w mx-auto mt-[40px]">
       {filteredData.length > 0 && (
-        <div className="p-6 flex w-[900px] h-[26px] justify-start items-center pl-[43px] pr-[76px] gap-x-[50px]">
-          <p className="font-normal text-[var(--color-gray2)] ml-5.5">이름</p>
-          <p className="font-normal text-[var(--color-gray2)] ml-54">초대자</p>
-          <p className="font-normal text-[var(--color-gray2)] ml-72">
-            수락여부
-          </p>
+        <div className="p-6 flex w-full h-[26px] justify-start items-center pl-[43px] pr-[76px] gap-x-[50px]">
+          <p className="font-normal text-[var(--color-gray2)] ">이름</p>
+          <p className="font-normal text-[var(--color-gray2)] ">초대자</p>
+          <p className="font-normal text-[var(--color-gray2)] ">수락여부</p>
         </div>
       )}
-      <div className="scroll-area h-[400px] overflow-y-auto overflow-x-hidden ">
+      <div className="scroll-area h-[400px] overflow-y-auto overflow-x-hidden">
         {filteredData.length > 0
           ? filteredData.map((invite, index) => (
               <div
                 key={index}
-                className="pb-5 mb-[20px] w-[1022px] h-[52px] grid grid-cols-[1fr_1fr_1fr] border-b border-[var(--color-gray4)] items-center"
+                className="pb-5 mb-[20px] w-[260px] sm:w-[504px] lg:w-[1022px] h-[50px] 
+            sm:grid sm:grid-cols-[1fr_1fr_1fr] sm:items-center 
+            flex flex-col gap-2 border-b border-[var(--color-gray4)]"
               >
-                <p className="flex ml-16 mt-1">{invite.title}</p>
-                <p className="justify-center ml-4.5 mt-1">{invite.nickname}</p>
-                <div className="flex gap-2 mt-1">
+                <p className="flex mt-1">{invite.title}</p>
+                <p className="justify-center mt-1">{invite.nickname}</p>
+                <div className="flex gap-2 mt-1 justify-between sm:justify-start">
                   <button className="cursor-pointer bg-[var(--primary)] text-white px-3 py-1 rounded-md w-[84px] h-[32px]">
                     수락
                   </button>
@@ -102,16 +102,6 @@ function InvitedList({ searchTitle }: { searchTitle: string }) {
             ))
           : // "대시보드가 없습니다." 메시지는 데이터가 아예 없을 때만 표시
             !hasMore && <NoDashboardMessage searchTitle={searchTitle} />}
-
-        {/* "더 이상 초대 목록이 없습니다." 메시지는 데이터가 있을 때만 표시 */}
-        {filteredData.length > 0 && !hasMore && (
-          <p className="text-center text-gray-400 py-4">
-            더 이상 초대 목록이 없습니다.
-          </p>
-        )}
-
-        {/*  Intersection Observer 감지 요소 */}
-        {hasMore && <div ref={observerRef} className="h-10"></div>}
       </div>
     </div>
   );
@@ -131,12 +121,12 @@ export default function InvitedDashBoard() {
 
   return (
     <div>
-      <div className="relative bg-white rounded-lg shadow-md w-[1022px] h-[650px] max-w-none mx-auto">
+      <div className="relative bg-white rounded-lg shadow-mdw-[260px] sm:w-[504px] lg:w-[1022px] h-[770px] sm:h-[592px] lg:h-[620px] max-w-none mx-auto">
         <div className="p-6 relative w-[966px] h-[104px]">
           <div className="flex justify-between items-center mb-[32px]">
             <p className="text-xl sm:text-2xl font-bold">초대받은 대시보드</p>
           </div>
-          <div className="relative w-[966px]">
+          <div className="relative w-[260px] sm:w-[448px] lg:w-[966px]">
             <input
               id="title"
               placeholder="검색"
