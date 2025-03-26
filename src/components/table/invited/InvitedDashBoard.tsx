@@ -73,7 +73,7 @@ function InvitedList({ searchTitle }: { searchTitle: string }) {
   return (
     <div className="relative bg-white w-[260px] sm:w-[504px] lg:w-[1022px] h-[770px] sm:h-[592px] lg:h-[620px] w mx-auto mt-[40px]">
       {filteredData.length > 0 && (
-        <div className="p-6 flex w-full h-[26px] justify-start items-center pl-[43px] pr-[76px] gap-x-[50px]">
+        <div className="p-6 flex w-full h-[26px] justify-start items-center pl-[43px] pr-[76px]  md:gap-x-[50px] lg:gap-x-[280px]">
           <p className="font-normal text-[var(--color-gray2)] ">이름</p>
           <p className="font-normal text-[var(--color-gray2)] ">초대자</p>
           <p className="font-normal text-[var(--color-gray2)] ">수락여부</p>
