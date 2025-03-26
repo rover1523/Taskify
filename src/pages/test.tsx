@@ -45,11 +45,7 @@ export default function TestPage() {
           추가
         </button>
 
-        {isModalOpen && (
-          <div className="fixed inset-0 backdrop-blur-sm backdrop-brightness-75 flex items-center justify-center">
-            <NewDashboard onClose={() => setIsModalOpen(false)} />
-          </div>
-        )}
+        {isModalOpen && <NewDashboard onClose={() => setIsModalOpen(false)} />}
       </div>
       <br />
       <br />
