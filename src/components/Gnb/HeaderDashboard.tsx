@@ -55,7 +55,7 @@ const HeaderDashboard = () => {
           <div className="flex gap-[6px] md:gap-[16px]">
             <button
               onClick={goToDashboardEdit}
-              className="flex items-center justify-center w-[49px] h-[30px] md:w-[88px] md:h-[40px] rounded-[8px] border-[1px] border-[#D9D9D9] gap-[10px] cursor-pointer"
+              className="flex items-center justify-center w-[49px] h-[30px] md:w-[88px] md:h-[40px] rounded-[8px] border border-[#D9D9D9] gap-[10px] cursor-pointer"
             >
               <img
                 src="/svgs/settings.svg"
@@ -67,7 +67,7 @@ const HeaderDashboard = () => {
 
             <button
               onClick={openInviteModal}
-              className="flex items-center justify-center w-[73px] h-[30px] md:w-[116px] md:h-[40px] rounded-[8px] border-[1px] border-[#D9D9D9] gap-[10px] cursor-pointer"
+              className="flex items-center justify-center w-[73px] h-[30px] md:w-[116px] md:h-[40px] rounded-[8px] border border-[#D9D9D9] gap-[10px] cursor-pointer"
             >
               <img
                 src="/svgs/add-box.svg"
