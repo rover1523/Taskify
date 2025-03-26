@@ -2,45 +2,33 @@ import { useState } from "react";
 import { useRouter } from "next/router";
 import Input from "../input/Input";
 import Image from "next/image";
-import axios from "axios";
+import axiosInstance from "@/api/axiosInstance";
+import { apiRoutes } from "@/api/apiRoutes";
 
 export default function InviteDashboard({ onClose }: { onClose?: () => void }) {
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const { dashboardId } = router.query;
-  const token = process.env.NEXT_PUBLIC_API_TOKEN;
 
   const isValidEmail = (email: string) => {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   };
 
   const handleSubmit = async () => {
+    const dashboardIdNumber = Number(dashboardId);
+    if (!dashboardId || !email) return;
     const payload = {
       email,
     };
-
     try {
-      setLoading(true);
-      const response = await axios.post(
-        `https://sp-taskify-api.vercel.app/13-4/dashboards/${dashboardId}/invitations`,
-        payload,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        }
+      const response = await axiosInstance.post(
+        apiRoutes.DashboardInvite(dashboardIdNumber),
+        payload
       );
-      console.log("초대 성공:", response.data);
-      alert("대시보드가 성공적으로 생성되었습니다.");
-      console.log(loading);
-
-      onClose?.(); // 모달 닫기
+      onClose?.(); // 함수 있을때만 실행
     } catch (error) {
-      console.error("대시보드 생성 실패:", error);
-    } finally {
-      setLoading(false);
+      console.error("초대 실패:", error);
     }
   };
 

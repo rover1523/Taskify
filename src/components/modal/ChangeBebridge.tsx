@@ -11,7 +11,6 @@ const ChangeBebridge = () => {
   const [title, setTitle] = useState("");
   const [selected, setSelected] = useState<number | null>(null);
   const colors = ["#7ac555", "#760DDE", "#FF9800", "#76A5EA", "#E876EA"];
-  const token = process.env.NEXT_PUBLIC_API_TOKEN;
 
   const handleUpdate = async () => {
     const dashboardIdNumber = Number(dashboardId); // string dashboradId 값 number로 변경
