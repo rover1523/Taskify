@@ -71,7 +71,10 @@ export default function Column({
             <div className="flex justify-between mt-1.5">
               <CustomBtn
                 variant="outlineDisabled"
-                onClick={() => setIsDeleteOpen(true)}
+                onClick={() => {
+                  setIsModalOpen(false);
+                  setIsDeleteOpen(true);
+                }}
               >
                 삭제
               </CustomBtn>
@@ -84,15 +87,17 @@ export default function Column({
       {/* 칼럼 삭제 확인 모달 */}
       {isDeleteOpen && (
         <Modal
-          className="w-[568px] h-[174px]"
+          // className="w-[568px] h-[174px]"
+          width="w-[568px"
+          height="h-[174px]"
           isOpen={isDeleteOpen}
           onClose={() => setIsDeleteOpen(false)}
         >
-          <div className=" flex flex-col gap-24 text-center">
+          <div className=" flex flex-col gap-10 text-center">
             <p className="text-lg font-medium">
               칼럼의 모든 카드가 삭제됩니다.
             </p>
-            <div className="flex justify-between">
+            <div className="flex justify-between gap-3">
               <CustomBtn
                 variant="outlineDisabled"
                 onClick={() => setIsDeleteOpen(false)}
