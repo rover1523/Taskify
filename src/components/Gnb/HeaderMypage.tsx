@@ -100,7 +100,7 @@ const HeaderMyPage = () => {
           {/*4개의 프로필 아이콘 표시, 나머지 멤버 숫자 +n 아이콘으로 표시*/}
           <div className="flex -space-x-3">
             {isLoading ? (
-              <p className="font-16m text-gray1">로딩 중...</p>
+              <SkeletonUser />
             ) : (
               <>
                 {members.slice(0, 4).map((member) => (
