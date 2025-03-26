@@ -1,4 +1,5 @@
 import { useRouter } from "next/router";
+import HeaderBebridge from "@/components/Gnb/HeaderBebridge";
 
 export default function Dashboard() {
   const router = useRouter();
@@ -12,6 +13,7 @@ export default function Dashboard() {
 
   return (
     <div>
+      <HeaderBebridge dashboardId={dashboardId} />
       <h1>대시보드 페이지 {dashboardId}</h1>
       <br />
       <h1>dashboardId : {dashboardId}</h1>
