@@ -35,7 +35,7 @@ const InviteRecords = () => {
   };
 
   return (
-    <div className="relative bg-white p-4 rounded-lg shadow-md max-w-md w-[620px] lg:h-[474px] sm:max-w-lg md:h-[477px] lg:max-w-2xl">
+    <div className="relative bg-white p-4 rounded-lg  lg:w-[620px] lg:h-[477px] md:w-[544px] md:h-[477px] sm:w-[284px] h-[406px] ">
       <div className="flex justify-between items-start sm:items-center">
         {/* 제목 */}
         <p className="sm:text-2xl text-xl font-bold">초대 내역</p>
