@@ -25,13 +25,7 @@ const ChangeBebridge = () => {
     try {
       const response = await axiosInstance.put(
         apiRoutes.DashboardDetail(dashboardIdNumber),
-        payload,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        }
+        payload
       );
       console.log("업데이트 성공:", response.data);
       alert("대시보드가 업데이트되었습니다!"); // 추후에 toast로 변경

@@ -3,6 +3,8 @@ import Pagination from "../TablePagination";
 import RandomProfile from "./RandomProfile";
 import { MemberType } from "@/components/Gnb/type";
 import { getMembers } from "@/api/members";
+import axiosInstance from "@/api/axiosInstance";
+import { apiRoutes } from "@/api/apiRoutes";
 
 interface HeaderBebridgeProps {
   dashboardId?: string | string[];

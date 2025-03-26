@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Pagination from "./TablePagination";
+import InviteDashboard from "../modal/InviteDashboard";
 
 const InviteRecords = () => {
   const [invitelog, setInvitelog] = useState([
@@ -15,6 +16,8 @@ const InviteRecords = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
   const totalPages = Math.ceil(invitelog.length / itemsPerPage);
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const paginatedInvitation = invitelog.slice(
     (currentPage - 1) * itemsPerPage,
@@ -51,10 +54,16 @@ const InviteRecords = () => {
           />
 
           {/* 초대하기 버튼 (모바일에서 페이지네이션 아래로 이동) */}
-          <button className="cursor-pointer sm:text-[14px] text-[12px] sm:w-[105px] w-[86px] sm:h-[32px] h-[26px] rounded-[4px] bg-[#5534DA] text-white flex items-center justify-center gap-2">
+          <button
+            onClick={() => setIsModalOpen(true)}
+            className="cursor-pointer sm:text-[14px] text-[12px] sm:w-[105px] w-[86px] sm:h-[32px] h-[26px] rounded-[4px] bg-[#5534DA] text-white flex items-center justify-center gap-2"
+          >
             <img src="/svgs/add_white_box.svg" alt="icon" className="w-4 h-4" />
             초대하기
           </button>
+          {isModalOpen && (
+            <InviteDashboard onClose={() => setIsModalOpen(false)} />
+          )}
         </div>
       </div>
 
