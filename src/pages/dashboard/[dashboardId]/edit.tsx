@@ -5,11 +5,15 @@ import HeaderBebridge from "@/components/Gnb/HeaderBebridge";
 import MemberList from "@/components/table/member/MemberList";
 import SideMenu from "@/components/SideMenu/SideMenu";
 import InviteRecords from "@/components/table/InviteRecords";
+import Image from "next/image";
 
 export default function EditDashboard() {
   const router = useRouter();
   const { dashboardId } = router.query;
-  const [isReady, setIsReady] = useState(false);
+
+  const goToDashboard = () => {
+    router.push(`/dashboard/${dashboardId}`);
+  };
 
   const dashboardList = [
     {
@@ -50,7 +54,22 @@ export default function EditDashboard() {
         <div className="flex flex-col">
           <HeaderBebridge dashboardId={dashboardId} />
         </div>
-        <div className="mt-8 ml-4">
+        <div className="mt-6 ml-4">
+          <button
+            onClick={goToDashboard}
+            className="cursor-pointer flex items-center gap-2"
+          >
+            <Image
+              src="/svgs/arrow-backward-black.svg"
+              alt="돌이가기"
+              width={20}
+              height={20}
+            />
+            돌아가기
+          </button>
+        </div>
+
+        <div className="mt-5 ml-4">
           <ChangeBebridge />
         </div>
 
