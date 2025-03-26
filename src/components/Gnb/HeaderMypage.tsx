@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
+import SkeletonUser from "./skeletonUser";
 import { MemberType, UserType } from "./type";
 import { getMembers } from "@/api/members";
 import { getUserInfo } from "@/api/user";
@@ -125,23 +126,27 @@ const HeaderMyPage = () => {
           </div>
 
           {/*유저 프로필 아이콘 & 유저 닉네임*/}
-          {user && (
-            <div className="flex items-center pr-[10px] md:pr-[30px] lg:pr-[80px] gap-[12px]">
-              <div className="w-[34px] h-[34px] md:w-[38px] md:h-[38px]">
-                {user.profileImageUrl ? (
-                  <img
-                    src={user.profileImageUrl}
-                    alt="유저 프로필 아이콘"
-                    className="w-full h-full rounded-full object-cover"
-                  />
-                ) : (
-                  <RandomProfile name={user.nickname} />
-                )}
+          {isLoading ? (
+            <SkeletonUser />
+          ) : (
+            user && (
+              <div className="flex items-center pr-[10px] md:pr-[30px] lg:pr-[80px] gap-[12px]">
+                <div className="w-[34px] h-[34px] md:w-[38px] md:h-[38px]">
+                  {user.profileImageUrl ? (
+                    <img
+                      src={user.profileImageUrl}
+                      alt="유저 프로필 아이콘"
+                      className="w-full h-full rounded-full object-cover"
+                    />
+                  ) : (
+                    <RandomProfile name={user.nickname} />
+                  )}
+                </div>
+                <span className="hidden md:block text-black3 md:text-base md:font-medium">
+                  {user.nickname}
+                </span>
               </div>
-              <span className="hidden md:block text-black3 md:text-base md:font-medium">
-                {user.nickname}
-              </span>
-            </div>
+            )
           )}
         </div>
       </div>
