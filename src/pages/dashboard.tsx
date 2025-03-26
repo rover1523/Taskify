@@ -51,14 +51,17 @@ export default function DashboardPage() {
   }, []);
 
   return (
-    <div className="flex gap-4 p-6">
-      {columns.map((col) => (
-        <Column
-          key={col.id}
-          title={col.title}
-          tasks={tasksByColumn[col.id] || []}
-        />
-      ))}
+    <div>
+      <div className="flex gap-4 p-6">
+        {/* <SideMenu /> */}
+        {columns.map((col) => (
+          <Column
+            key={col.id}
+            title={col.title}
+            tasks={tasksByColumn[col.id] || []}
+          />
+        ))}
+      </div>
     </div>
   );
 }
