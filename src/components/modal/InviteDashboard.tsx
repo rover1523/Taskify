@@ -4,6 +4,7 @@ import Input from "../input/Input";
 import Image from "next/image";
 import axiosInstance from "@/api/axiosInstance";
 import { apiRoutes } from "@/api/apiRoutes";
+import { AxiosError } from "axios";
 
 export default function InviteDashboard({ onClose }: { onClose?: () => void }) {
   const [email, setEmail] = useState("");
@@ -19,9 +20,11 @@ export default function InviteDashboard({ onClose }: { onClose?: () => void }) {
   const handleSubmit = async () => {
     const dashboardIdNumber = Number(dashboardId);
     if (!dashboardId || !email) return;
+
     const payload = {
       email,
     };
+
     try {
       const response = await axiosInstance.post(
         apiRoutes.DashboardInvite(dashboardIdNumber),
@@ -31,6 +34,20 @@ export default function InviteDashboard({ onClose }: { onClose?: () => void }) {
       window.location.reload();
     } catch (error) {
       console.error("초대 실패:", error);
+
+      if (error instanceof AxiosError) {
+        if (error.response?.status === 403) {
+          alert("초대 권한이 없습니다.");
+        } else if (error.response?.status === 404) {
+          alert("대시보드 또는 유저가 존재하지 않습니다.");
+        } else {
+          alert("오류가 발생했습니다.");
+        }
+      } else {
+        alert("네트워크 오류가 발생했습니다.");
+      }
+
+      window.location.reload(); // alert 확인 후 새로고침
     }
   };
 
