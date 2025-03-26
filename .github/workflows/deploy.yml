@@ -48,17 +48,17 @@ jobs:
 
         with:
 
-          source-directory: 'output'
+          sourceDirectory: 'output'
 
-          destination-github-username: MINJI121
+          destinationGithubUsername: MINJI121
 
-          destination-repository-name: Taskify
+          destinationRepositoryName: Taskify
 
-          user-email: ${{ secrets.EMAIL }}
+          userEmail: ${{ secrets.EMAIL }}
 
-          commit-message: ${{ github.event.commits[0].message }}
+          commitMessage: ${{ github.event.commits[0].message }}
 
-          target-branch: main
+          targetBranch: main
 
 
 
