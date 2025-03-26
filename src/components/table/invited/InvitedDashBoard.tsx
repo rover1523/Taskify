@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, ChangeEvent } from "react";
 import Image from "next/image";
-import NoDashboardMessage from "./NoResultDashBoard";
+import NoResultDashBoard from "./NoResultDashBoard";
 import EmptyInvitations from "./EmptyInvitations";
 
 interface Invite {
@@ -8,6 +8,7 @@ interface Invite {
   nickname: string;
 }
 
+// api데이터로 추후 변경
 const invitedData: Invite[] = [
   { title: "프로덕트 디자인", nickname: "손동희" },
   { title: "새로운 기획 문서", nickname: "안귀영" },
@@ -24,9 +25,9 @@ const invitedData: Invite[] = [
 const ITEMS_PER_PAGE = 6; // 한 번에 보여줄 개수
 
 function InvitedList({ searchTitle }: { searchTitle: string }) {
-  const [displayedData, setDisplayedData] = useState<Invite[]>([]); // 보여줄 데이터 상태
-  const [page, setPage] = useState(1); // 페이지 번호
-  const observerRef = useRef<HTMLDivElement | null>(null); // IntersectionObserver를 위한 ref
+  const [displayedData, setDisplayedData] = useState<Invite[]>([]);
+  const [page, setPage] = useState(1);
+  const observerRef = useRef<HTMLDivElement | null>(null);
 
   const hasMore = displayedData.length < invitedData.length;
 
@@ -41,13 +42,10 @@ function InvitedList({ searchTitle }: { searchTitle: string }) {
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            console.log("스크롤이 바닥에 도달했습니다.");
             if (hasMore) {
               console.log("Scroll reached the end. Loading more data...");
               setPage((prevPage) => prevPage + 1);
             }
-          } else {
-            console.log("스크롤이 바닥에서 벗어났습니다.");
           }
         });
       },
@@ -60,15 +58,15 @@ function InvitedList({ searchTitle }: { searchTitle: string }) {
 
     return () => {
       if (observerRef.current) {
-        observer.unobserve(observerRef.current); // cleanup
+        observer.unobserve(observerRef.current);
       }
     };
   }, [hasMore]);
 
-  // 데이터를 로드하는 함수
+  // 데이터를 로드 함수
   const loadMoreData = () => {
-    const nextData = invitedData.slice(0, page * ITEMS_PER_PAGE); // 페이지에 맞는 데이터만 가져옴
-    setDisplayedData(nextData); // 데이터를 갱신
+    const nextData = invitedData.slice(0, page * ITEMS_PER_PAGE);
+    setDisplayedData(nextData);
   };
 
   // 검색 기능
@@ -136,16 +134,15 @@ function InvitedList({ searchTitle }: { searchTitle: string }) {
                 </div>
               </div>
             ))
-          : !hasMore && <NoDashboardMessage searchTitle={searchTitle} />}
-
+          : !hasMore && <NoResultDashBoard searchTitle={searchTitle} />}{" "}
+        {/* 검색 내역이 없을 경우*/}
         {filteredData.length > 0 && !hasMore && (
           <p className="lg:mr-18 text-center text-gray-400 py-4">
             더 이상 초대 목록이 없습니다.
           </p>
         )}
-
         {hasMore && (
-          <div ref={observerRef} className="h-[50px] bg-transparent"></div> // 마지막 요소로 스크롤을 감지
+          <div ref={observerRef} className="h-[50px] bg-transparent"></div> // 마지막 요소로 스크롤 감지
         )}
       </div>
     </div>
@@ -159,7 +156,7 @@ export default function InvitedDashBoard() {
     setSearchTitle(event.target.value);
   };
 
-  // invitedData가 비어 있으면 EmptyInvitations만 렌더링
+  // invitedData가 비어 있으면 EmptyInvitations만 렌더링 > 초대내역이 아예 없을 경우
   if (invitedData.length === 0) {
     return <EmptyInvitations />;
   }
