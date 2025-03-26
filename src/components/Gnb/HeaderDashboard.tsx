@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useRouter } from "next/router";
 import RandomProfile from "../table/member/RandomProfile";
-import ModalInviting from "./ModalInviting";
+import NewDashboard from "../modal/NewDashboard";
 
 /*dummy data*/
 const user = {
@@ -28,7 +28,7 @@ const HeaderDashboard = () => {
 
   return (
     <header className="w-full h-[50px] sm:h-[60px] md:h-[70px] flex items-center justify-center bg-white border-b-[1px] border-b-[#D9D9D9]">
-      <div className="w-full flex items-center justify-between pl-[18vw]">
+      <div className="w-full flex items-center justify-between pl-[4vw]">
         <div className="flex items-center">
           <p className="text-base text-black3 font-bold md:text-xl">
             내 대시보드
@@ -60,8 +60,7 @@ const HeaderDashboard = () => {
               />
               <span className="text-sm md:text-base text-gray1">초대하기</span>
             </button>
-            {/*임시 컴포넌트명, 추후 정식 초대 모달 컴포넌트로 교체*/}
-            {isModalOpen && <ModalInviting onClose={closeInviteModal} />}
+            {isModalOpen && <NewDashboard onClose={closeInviteModal} />}
           </div>
 
           {/*구분선*/}
