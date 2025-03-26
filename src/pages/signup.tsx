@@ -53,30 +53,18 @@ export default function SignUpPage() {
           placeholder="비밀번호를 입력해 주세요"
           onChange={setPassword}
           pattern=".{8,}"
-          invalidMessage="비밀번호는 8자 이상이어야 해요"
+          invalidMessage="영문, 숫자를 포함한 8자 이상 입력해 주세요"
         />
 
-        <div className="gap-2">
-          <Input
-            type="password"
-            name="passwordCheck"
-            label="비밀번호 확인"
-            placeholder="비밀번호를 한번 더 입력해 주세요"
-            onChange={setPasswordCheck}
-            pattern="{password}"
-            invalidMessage=""
-            className={
-              passwordCheck && password !== passwordCheck
-                ? "border-[var(--color-red)] focus:border-[var(--color-red)]"
-                : ""
-            }
-          />
-          {passwordCheck && password !== passwordCheck && (
-            <span className="font-14r text-[var(--color-red)]">
-              비밀번호가 일치하지 않습니다.
-            </span>
-          )}
-        </div>
+        <Input
+          type="password"
+          name="passwordCheck"
+          label="비밀번호 확인"
+          placeholder="비밀번호를 한번 더 입력해 주세요"
+          onChange={setPasswordCheck}
+          pattern="{passwordCheckPattern}"
+          invalidMessage="비밀번호가 일치하지 않습니다."
+        />
 
         <label className="flex items-center gap-[8px] font-16r text-black3">
           <input
