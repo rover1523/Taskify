@@ -4,6 +4,7 @@ import { MemberType } from "@/components/Gnb/members";
 import { getMembers } from "@/api/members";
 import RandomProfile from "../table/member/RandomProfile";
 import ModalInviting from "./ModalInviting";
+import NewDashboard from "../modal/NewDashboard";
 
 interface HeaderBebridgeProps {
   dashboardId?: string | string[];
@@ -93,7 +94,8 @@ const HeaderBebridge: React.FC<HeaderBebridgeProps> = ({ dashboardId }) => {
               <span className="text-sm md:text-base text-gray1">초대하기</span>
             </button>
             {/*임시 컴포넌트명, 추후 정식 초대 모달 컴포넌트로 교체*/}
-            {isModalOpen && <ModalInviting onClose={closeInviteModal} />}
+
+            {isModalOpen && <NewDashboard onClose={closeInviteModal} />}
           </div>
 
           {/*4개의 프로필 아이콘 표시, 나머지 멤버 숫자 +n 아이콘으로 표시*/}

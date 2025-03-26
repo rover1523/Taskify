@@ -39,7 +39,7 @@ export function Modal({
 
   return createPortal(
     <div
-      className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50"
+      className="fixed inset-0 flex items-center justify-center bg-black/35 z-50"
       onClick={onClose} // 배경 클릭 시 모달 닫기
     >
       <div
