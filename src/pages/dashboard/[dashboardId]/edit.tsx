@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { useRouter } from "next/router";
 import ChangeBebridge from "@/components/modal/ChangeBebridge";
 import HeaderBebridge from "@/components/Gnb/HeaderBebridge";
@@ -10,6 +10,9 @@ import Image from "next/image";
 export default function EditDashboard() {
   const router = useRouter();
   const { dashboardId } = router.query;
+  const dashboardIdString = Array.isArray(dashboardId)
+    ? dashboardId[0]
+    : dashboardId;
 
   const goToDashboard = () => {
     router.push(`/dashboard/${dashboardId}`);
@@ -79,7 +82,8 @@ export default function EditDashboard() {
         </div>
 
         <div className="ml-4">
-          <InviteRecords />
+          <InviteRecords dashboardId={dashboardIdString || ""} />{" "}
+          {/* undefined일 경우 빈 문자열로 전달*/}
         </div>
         <div className="flex mt-15 sm:mt-0 ml-8">
           <button className="text-base sm:text-lg cursor-pointer w-[320px] h-[62px] text-[var(--color-black3)] rounded-[8px] border-[1px] border-[#D9D9D9]">

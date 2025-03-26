@@ -1,32 +1,67 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Pagination from "./TablePagination";
 import InviteDashboard from "../modal/InviteDashboard";
+import { apiRoutes } from "@/api/apiRoutes";
+import axiosInstance from "@/api/axiosInstance";
 
-const InviteRecords = () => {
-  const [invitelog, setInvitelog] = useState([
-    // 나중에 api 데이터로 변경
-    { email: "codeit1@codeit.com" },
-    { email: "codeit2@codeit.com" },
-    { email: "codeit3@codeit.com" },
-    { email: "codeit4@codeit.com" },
-    { email: "codeit5@codeit.com" },
-    { email: "codeit6@codeit.com" },
-  ]);
+const InviteRecords = ({ dashboardId }: { dashboardId: string }) => {
+  const [inviteList, setInviteList] = useState<
+    Array<{
+      email: string;
+    }>
+  >([]);
+
+  /* 초대내역 목록 api 호출*/
+  useEffect(() => {
+    const fetchMembers = async () => {
+      try {
+        const dashboardIdNumber = Number(dashboardId);
+        const res = await axiosInstance.get(
+          apiRoutes.DashboardInvite(dashboardIdNumber),
+          {
+            params: {
+              dashboardId,
+            },
+          }
+        );
+        if (res.data && Array.isArray(res.data.invitations)) {
+          // 이메일 리스트를 객체 배열로 저장
+          const inviteData = res.data.invitations.map(
+            (item: { invitee: { email: string } }) => ({
+              email: item.invitee.email,
+            })
+          );
+          setInviteList(inviteData);
+          console.log("inviteData", inviteData);
+        }
+      } catch (error) {
+        console.error("초대내역 불러오는데 오류 발생:", error);
+      }
+    };
+
+    if (dashboardId) {
+      fetchMembers();
+    }
+  }, [dashboardId]);
 
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
-  const totalPages = Math.ceil(invitelog.length / itemsPerPage);
+  const totalPages = Math.ceil(inviteList.length / itemsPerPage);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const paginatedInvitation = invitelog.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
-  );
+  const paginatedInvitation = Array.isArray(inviteList)
+    ? inviteList.slice(
+        (currentPage - 1) * itemsPerPage,
+        currentPage * itemsPerPage
+      )
+    : [];
 
   /*버튼(삭제, 이전, 다음)*/
   const handleDelete = (email: string) => {
-    setInvitelog(invitelog.filter((invitelog) => invitelog.email !== email));
+    setInviteList(
+      inviteList.filter((invite) => invite.email !== email) // 객체 배열에서 email로 필터링
+    );
   };
 
   const handlePrevPage = () => {
@@ -70,7 +105,7 @@ const InviteRecords = () => {
       {/* 구성원 리스트 */}
       <p className="sm:text-base text-sm text-gray-500 mt-6 ml-4">이메일</p>
       <ul>
-        {paginatedInvitation.map((invitelog, index) => (
+        {paginatedInvitation.map((invite, index) => (
           <li
             key={index}
             className={`flex items-center justify-between p-4 ${
@@ -80,11 +115,12 @@ const InviteRecords = () => {
             }`}
           >
             <div className="flex items-center gap-4">
-              <p className="sm:text-base text-sm">{invitelog.email}</p>
+              <p className="sm:text-base text-sm">{invite.email}</p>{" "}
+              {/* 이메일 출력 */}
             </div>
             <button
-              onClick={() => handleDelete(invitelog.email)}
-              className="cursor-pointer font-medium  sm:text-sm text-xs h-[32px] sm:h-[32px] w-[52px] sm:w-[84px] md:w-[84px] border border-gray-300 text-indigo-600 px-2 py-1 rounded-md hover:bg-gray-100"
+              onClick={() => handleDelete(invite.email)} // 이메일로 삭제
+              className="cursor-pointer font-medium sm:text-sm text-xs h-[32px] sm:h-[32px] w-[52px] sm:w-[84px] md:w-[84px] border border-gray-300 text-indigo-600 px-2 py-1 rounded-md hover:bg-gray-100"
             >
               취소
             </button>

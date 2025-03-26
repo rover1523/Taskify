@@ -15,6 +15,7 @@ export default function InviteDashboard({ onClose }: { onClose?: () => void }) {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   };
 
+  /* 초대하기 버튼 */
   const handleSubmit = async () => {
     const dashboardIdNumber = Number(dashboardId);
     if (!dashboardId || !email) return;
@@ -27,6 +28,7 @@ export default function InviteDashboard({ onClose }: { onClose?: () => void }) {
         payload
       );
       onClose?.(); // 함수 있을때만 실행
+      window.location.reload();
     } catch (error) {
       console.error("초대 실패:", error);
     }
