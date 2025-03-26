@@ -82,9 +82,9 @@ function InvitedList({ searchTitle }: { searchTitle: string }) {
     <div className="relative bg-white w-[260px] sm:w-[504px] lg:w-[1022px] h-[770px] sm:h-[592px] lg:h-[620px] mx-auto mt-[40px]">
       {filteredData.length > 0 && (
         <div className="p-6 flex w-full h-[26px] justify-start items-center pl-[43px] pr-[76px] md:gap-x-[130px] lg:gap-x-[280px]">
-          <p className="font-normal text-[var(--color-gray2)]">이름</p>
+          <p className="lg:ml-10 font-normal text-[var(--color-gray2)]">이름</p>
           <p className="font-normal text-[var(--color-gray2)]">초대자</p>
-          <p className="lg:ml-18 font-normal text-[var(--color-gray2)]">
+          <p className="lg:ml-6 font-normal text-[var(--color-gray2)]">
             수락여부
           </p>
         </div>
@@ -96,10 +96,10 @@ function InvitedList({ searchTitle }: { searchTitle: string }) {
                 key={index}
                 className="pb-5 mb-[20px] w-[260px] sm:w-[504px] lg:w-[1022px] h-[50px] sm:grid sm:grid-cols-[1fr_1fr_1fr] sm:items-center flex flex-col gap-2 border-b border-[var(--color-gray4)]"
               >
-                <p className="lg:ml-11 ml-9 flex justify-left mt-1 w-full">
+                <p className="lg:ml-21 ml-9 flex justify-left mt-1 w-full">
                   {invite.title}
                 </p>
-                <p className="lg:ml-2 ml-9 justify-center mt-1">
+                <p className="lg:ml-12 ml-9 justify-center mt-1">
                   {invite.nickname}
                 </p>
                 <div className="lg:mr-2 flex gap-2 mt-1 justify-between sm:justify-start">
@@ -113,6 +113,13 @@ function InvitedList({ searchTitle }: { searchTitle: string }) {
               </div>
             ))
           : !hasMore && <NoDashboardMessage searchTitle={searchTitle} />}
+
+        {filteredData.length > 0 && !hasMore && (
+          <p className="text-center text-gray-400 py-4">
+            더 이상 초대 목록이 없습니다.
+          </p>
+        )}
+
         {hasMore && (
           <div ref={observerRef} className="h-[50px] bg-transparent"></div> // 마지막 요소로 스크롤을 감지
         )}
