@@ -3,12 +3,6 @@ import { useRouter } from "next/router";
 import RandomProfile from "../table/member/RandomProfile";
 import NewDashboard from "../modal/NewDashboard";
 
-/*dummy data*/
-const user = {
-  nickname: "배유철",
-  profileImageUrl: "/svgs/dummy-icon.png",
-};
-
 const HeaderDashboard = () => {
   /*관리 버튼 클릭 이벤트 함수*/
   const router = useRouter();
