@@ -39,11 +39,9 @@ const HeaderBebridge: React.FC<HeaderBebridgeProps> = ({ dashboardId }) => {
   useEffect(() => {
     const fetchMembers = async () => {
       try {
-        console.log("dashboardId", dashboardId);
         if (dashboardId) {
           const members = await getMembers(dashboardId);
           setMembers(members);
-          console.log("member", members);
         }
       } catch (error) {
         console.error("멤버 불러오기 실패:", error);

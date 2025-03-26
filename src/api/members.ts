@@ -24,7 +24,8 @@ export const getMembers = async (dashboardId?: string | string[]) => {
       },
     }
   );
-  console.log("전체 응답:", response.data);
-  console.log("heaer로 보내는 데이터:", response.data.members);
+  console.log(response.data);
+  console.log(response.data.members);
+
   return response.data.members || [];
 };
