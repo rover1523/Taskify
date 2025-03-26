@@ -29,7 +29,7 @@ const CardButton: React.FC<ButtonProps> = ({
       <span className="font-semibold">{children}</span>
       <Image
         src="/svgs/icon-crown.svg"
-        alt="Plus Icon"
+        alt="crown Icon"
         width={32}
         height={32}
         className="w-[30px] h-[30px] p-1 rounded-md"

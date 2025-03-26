@@ -14,8 +14,10 @@ interface GeneralInputProps {
 interface SignInputProps extends Omit<GeneralInputProps, "type"> {
   type: Extract<HTMLInputTypeAttribute, "text" | "email" | "password">;
   name: "email" | "nickname" | "password" | "passwordCheck";
-  pattern: string;
-  invalidMessage: string;
+  pattern?: string;
+  invalidMessage?: string;
+  labelClassName?: string;
+  wrapperClassName?: string;
 }
 
 type InputProps = GeneralInputProps | SignInputProps;
@@ -30,20 +32,31 @@ export default function Input(props: InputProps) {
     pattern,
     invalidMessage,
     className,
+    labelClassName,
+    wrapperClassName,
     ...rest
   } = props as SignInputProps;
 
   const id = useId();
   const inputRef = useRef<HTMLInputElement>(null);
-  const [htmlType, setHtmlType] = useState(type);
+  const [htmlType, setHtmlType] = useState<HTMLInputTypeAttribute>(type);
   const [isInvalid, setIsInvalid] = useState(false);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value;
+
     if (onChange) {
-      onChange(event.target.value);
+      onChange(value);
     }
+
     event.target.setCustomValidity("");
-    setIsInvalid(false);
+
+    if (pattern) {
+      const regex = new RegExp(pattern);
+      setIsInvalid(!regex.test(value));
+    } else {
+      setIsInvalid(false);
+    }
   };
 
   const handleBlur = (event: React.FocusEvent<HTMLInputElement>) => {
@@ -60,15 +73,19 @@ export default function Input(props: InputProps) {
   };
 
   const togglePasswordTypeOnClick = () => {
-    setHtmlType((prev: HTMLInputTypeAttribute) =>
-      prev === "password" ? "text" : "password"
-    );
+    setHtmlType((prev) => (prev === "password" ? "text" : "password"));
   };
 
   return (
-    <div className="flex w-full max-w-[520px] flex-col items-start gap-2">
+    <div className={clsx("flex flex-col items-start gap-2", wrapperClassName)}>
       {label && (
-        <label htmlFor={id} className="font-18sb text-[var(--color-black)]">
+        <label
+          htmlFor={id}
+          className={clsx(
+            "text-[var(--color-black3)]",
+            labelClassName ? labelClassName : "font-16r"
+          )}
+        >
           {label}
         </label>
       )}
@@ -107,7 +124,7 @@ export default function Input(props: InputProps) {
           <button
             type="button"
             onClick={togglePasswordTypeOnClick}
-            className="absolute right-4 top-2.5 flex size-6 items-center justify-center"
+            className="absolute right-4 inset-y-0 my-auto flex size-6 items-center justify-center"
           >
             <img
               src={
@@ -120,12 +137,13 @@ export default function Input(props: InputProps) {
             />
           </button>
         )}
-        {isInvalid && invalidMessage && (
-          <span className="mt-2 font-16m block text-[var(--color-red)]">
-            {invalidMessage}
-          </span>
-        )}
       </div>
+
+      {isInvalid && invalidMessage && (
+        <span className="font-14r block text-[var(--color-red)] mt-1">
+          {invalidMessage}
+        </span>
+      )}
     </div>
   );
 }

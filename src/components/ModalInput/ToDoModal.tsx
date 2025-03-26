@@ -3,6 +3,7 @@ import ModalInput from "@/components/ModalInput/ModalInput";
 import ModalTextarea from "@/components/ModalInput/ModalTextarea";
 import ModalImage from "@/components/ModalInput/ModalImage";
 import TextButton from "@/components/ModalInput/TextButton";
+import AssigneeSelect from "@/components/ModalInput/AssigneeSelect";
 
 interface TaskModalProps {
   onClose: () => void;
@@ -46,10 +47,11 @@ export default function TaskModal({ onClose, onSubmit }: TaskModalProps) {
 
         {/* ✅ 반응형 입력 필드 그룹 */}
         <div className="flex flex-col gap-4 sm:gap-8">
-          <ModalInput
+          <AssigneeSelect
             label="담당자"
+            value={formData.assignee}
             required
-            onValueChange={(value) => handleChange("assignee", value[0])}
+            onChange={(value) => handleChange("assignee", value)}
           />
 
           <ModalInput
