@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 import Footer from "@/components/landing/Footer";
-import LandingHeader from "@/components/gnb/HeaderDefaultBk";
+import LandingHeader from "@/components/gdummy/HeaderDefaultBk";
 import LandingMain from "@/components/landing/LandingMain";
 
 export default function Home() {

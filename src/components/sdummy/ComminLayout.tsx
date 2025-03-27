@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 
-import SideMenu from "@/components/sideMenu/SideMenu";
+import SideMenu from "@/components/sdummy/SideMenu";
 
 export default function CommonLayout({ children }: { children: ReactNode }) {
   return (
