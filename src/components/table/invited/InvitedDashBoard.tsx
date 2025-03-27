@@ -71,6 +71,7 @@ function InvitedList({
       );
       console.log("대시보드 수락 성공:", response.data);
       alert("대시보드 수락 성공"); // 추후에 toast로 변경
+      window.location.reload();
     } catch (error) {
       console.error("대시보드 수락 실패:", error);
       alert("대시보드 수락 실패"); // 추후에 toast로 변경

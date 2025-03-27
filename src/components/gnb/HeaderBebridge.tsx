@@ -14,6 +14,7 @@ interface HeaderBebridgeProps {
 }
 
 interface DashboardDetail {
+  title: string;
   createdByMe: boolean;
 }
 
@@ -39,7 +40,7 @@ const HeaderBebridge: React.FC<HeaderBebridgeProps> = ({ dashboardId }) => {
     setIsModalOpen(false);
   };
 
-  /* 관리 버튼(대시보드 상세 조회) */
+  /*관리 버튼(대시보드 상세 조회) */
   useEffect(() => {
     const fetchDashboardTitle = async () => {
       try {
@@ -104,7 +105,7 @@ const HeaderBebridge: React.FC<HeaderBebridgeProps> = ({ dashboardId }) => {
       <div className="w-full flex items-center justify-between pl-[4vw]">
         <div className="flex items-center gap-[8px]">
           <p className="hidden lg:block text-base text-black3 font-bold md:text-xl">
-            비브리지
+            {dashboardDeatil?.title}
           </p>
           <img
             src="/svgs/crown.svg"
@@ -118,9 +119,9 @@ const HeaderBebridge: React.FC<HeaderBebridgeProps> = ({ dashboardId }) => {
             <button
               onClick={() => {
                 if (dashboardDeatil?.createdByMe === true) {
-                  goToDashboardEdit(); // Navigate to dashboard edit if true
+                  goToDashboardEdit();
                 } else {
-                  alert("대시보드 수정 권한이 없습니다."); // Show alert if false
+                  alert("대시보드 수정 권한이 없습니다.");
                 }
               }}
               className="flex items-center justify-center w-[49px] h-[30px] md:w-[85px] md:h-[36px] lg:w-[88px] lg:h-[40px] rounded-[8px] border border-[#D9D9D9] gap-[10px] cursor-pointer"
