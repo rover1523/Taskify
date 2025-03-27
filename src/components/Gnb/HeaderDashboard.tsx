@@ -15,7 +15,7 @@ const HeaderDashboard = () => {
   const { dashboardId } = router.query;
 
   const goToDashboardEdit = () => {
-    router.push(`/dashboard/${dashboardId}/edit`);
+    router.push(`/mypage`);
   };
   /*초대하기 버튼 클릭 시 모달 팝업 오픈*/
   const [isModalOpen, setIsModalOpen] = useState(false);

@@ -7,7 +7,7 @@ import ChangePassword from "@/components/card/ChangePassword";
 export default function MyPage() {
   return (
     <div className="flex">
-      <SideMenu dashboardList={[]} />
+      <SideMenu teamId="13-4" />
       <div className="flex flex-col w-full">
         <HeaderMyPage />
         <div className="flex flex-col items-center w-full mt-10">
