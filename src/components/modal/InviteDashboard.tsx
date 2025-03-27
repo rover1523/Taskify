@@ -8,7 +8,6 @@ import { AxiosError } from "axios";
 
 export default function InviteDashboard({ onClose }: { onClose?: () => void }) {
   const [email, setEmail] = useState("");
-  const [loading, setLoading] = useState(false);
   const router = useRouter();
   const { dashboardId } = router.query;
 
@@ -47,7 +46,7 @@ export default function InviteDashboard({ onClose }: { onClose?: () => void }) {
         alert("네트워크 오류가 발생했습니다.");
       }
 
-      window.location.reload(); // alert 확인 후 새로고침
+      window.location.reload();
     }
   };
 
