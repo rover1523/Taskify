@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import ChangeBebridge from "@/components/modal/ChangeBebridge";
 import HeaderBebridge from "@/components/gnb/HeaderBebridge";
@@ -8,14 +8,28 @@ import InviteRecords from "@/components/table/InviteRecords";
 import Image from "next/image";
 import axiosInstance from "@/api/axiosInstance";
 import { apiRoutes } from "@/api/apiRoutes";
+import { getDashboards } from "@/api/dashboard";
+
+interface Dashboard {
+  id: number;
+  title: string;
+  color: string;
+  userId: number;
+  createdAt: string;
+  updatedAt: string;
+  createdByMe: boolean;
+}
 
 export default function EditDashboard() {
+  const teamId = "13-4";
   const router = useRouter();
+  const [dashboardList, setDashboardList] = useState<Dashboard[]>([]);
   const { dashboardId } = router.query;
   const dashboardIdString = Array.isArray(dashboardId)
     ? dashboardId[0]
     : dashboardId;
 
+  /* 돌아가기 버튼 */
   const goToDashboard = () => {
     router.push(`/dashboard/${dashboardId}`);
   };
@@ -37,9 +51,23 @@ export default function EditDashboard() {
     }
   };
 
+  /* SideMenu 값 불러오기 */
+  const fetchDashboards = async () => {
+    try {
+      const res = await getDashboards({ teamId });
+      setDashboardList(res.dashboards);
+    } catch (error) {
+      console.error("대시보드 불러오기 실패:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchDashboards();
+  }, [teamId]);
+
   return (
     <div className="flex h-screen overflow-hidden">
-      <SideMenu teamId="13-4" />
+      <SideMenu teamId={teamId} dashboardList={dashboardList} />
 
       <div className="flex flex-col flex-1">
         {/* HeaderBebridge와 ChangeBebridge는 상단에 배치 */}
