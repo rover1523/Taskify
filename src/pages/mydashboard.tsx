@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import SideMenu from "@/components/SideMenu/SideMenu";
-import HeaderDashboard from "@/components/Gnb/HeaderDashboard";
+import HeaderDashboard from "@/components/gnb/HeaderDashboard";
 import InvitedDashBoard from "@/components/table/invited/InvitedDashBoard";
 import type { Dashboard } from "@/components/SideMenu/dashboard";
 import DashboardAddButton from "@/components/button/DashboardAddButton";

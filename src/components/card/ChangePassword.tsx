@@ -1,23 +1,60 @@
 import { useState } from "react";
 import Input from "../input/Input";
+import Image from "next/image";
+import { changePassword } from "@/api/changepassword";
+import { Modal } from "../common/Modal/Modal";
+import { CustomBtn } from "../button/CustomBtn";
 
 export default function ChangePassword() {
   const [password, setPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [checkNewpassword, setCheckNewPassword] = useState("");
-  const [isPasswordMismatch] = useState(false);
-
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
   const [showCheckNewPassword, setShowCheckNewPassword] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [showErrorModal, setShowErrorModal] = useState(false);
 
   const toggleCheckNewPasswordVisibility = () =>
     setShowCheckNewPassword(!showCheckNewPassword);
-
+  const isPasswordMismatch =
+    newPassword && checkNewpassword && newPassword !== checkNewpassword;
   const isDisabled =
     !password ||
     !newPassword ||
     !checkNewpassword ||
     isPasswordMismatch ||
     password.length < 8;
+
+  const handleChangePassword = async () => {
+    if (isDisabled) return;
+
+    setIsSubmitting(true);
+    setErrorMessage("");
+    setSuccessMessage("");
+
+    const result = await changePassword({ password, newPassword });
+
+    if (!result.success) {
+      const msg =
+        result.status === 400
+          ? result.message || "현재 비밀번호가 올바르지 않습니다."
+          : "비밀번호 변경 중 오류가 발생했습니다.";
+
+      setErrorMessage(msg);
+      setShowErrorModal(true);
+      setIsSubmitting(false);
+      return;
+    }
+
+    setSuccessMessage("비밀번호가 성공적으로 변경되었습니다.");
+    setShowSuccessModal(true);
+    setPassword("");
+    setNewPassword("");
+    setCheckNewPassword("");
+    setIsSubmitting(false);
+  };
 
   return (
     <div className="sm:w-[672px] sm:h-[466px] w-[284px] h-[454px] bg-white rounded-[16px] shadow-md p-[24px] flex flex-col">
@@ -60,26 +97,28 @@ export default function ChangePassword() {
               placeholder="새 비밀번호 입력"
               onChange={(e) => setCheckNewPassword(e.target.value)}
               className={`mt-3 sm:w-[624px] sm:h-[50px] w-[236px] h-[50px] px-[16px] pr-12 rounded-[8px] transition-colors focus:outline-none
-      ${
-        checkNewpassword
-          ? checkNewpassword === newPassword
-            ? "border border-gray-300"
-            : "border border-[var(--color-red)]"
-          : "border border-gray-300 focus:border-purple-500"
-      }`}
+                ${
+                  checkNewpassword
+                    ? checkNewpassword === newPassword
+                      ? "border border-gray-300"
+                      : "border border-[var(--color-red)]"
+                    : "border border-gray-300 focus:border-purple-500"
+                }`}
             />
             <button
               type="button"
               onClick={toggleCheckNewPasswordVisibility}
               className="absolute right-4 top-6 flex size-6 items-center justify-center"
             >
-              <img
+              <Image
                 src={
                   showCheckNewPassword
                     ? "/svgs/eye-on.svg"
                     : "/svgs/eye-off.svg"
                 }
                 alt="비밀번호 표시 토글"
+                width={20}
+                height={20}
                 className=" w-5 h-5"
               />
             </button>
@@ -93,11 +132,59 @@ export default function ChangePassword() {
         </div>
       </div>
 
+      {errorMessage && (
+        <p className="text-red-500 text-sm mt-4">{errorMessage}</p>
+      )}
+      {successMessage && (
+        <p className="text-green-600 text-sm mt-4">{successMessage}</p>
+      )}
+      <Modal
+        width="w-[357px]"
+        height="h-[192px]"
+        isOpen={showSuccessModal}
+        onClose={() => setShowSuccessModal(false)}
+      >
+        <div className=" flex flex-col gap-10 text-center">
+          <p className="text-xl mt-1.5">비밀번호 변경에 성공하였습니다.</p>
+          <div className="flex justify-between gap-3">
+            <CustomBtn
+              variant="outline"
+              onClick={() => setShowSuccessModal(false)}
+              className="cursor-pointer w-full sm:w-[400px] h-[54px] bg-[#5A3FFF] text-white rounded-[8px] text-lg font-medium mt-3"
+            >
+              확인
+            </CustomBtn>
+          </div>
+        </div>
+      </Modal>
+
+      <Modal
+        width="w-[357px]"
+        height="h-[192px]"
+        isOpen={showErrorModal}
+        onClose={() => setShowErrorModal(false)}
+      >
+        <div className=" flex flex-col gap-10 text-center">
+          <p className="text-xl mt-1.5">
+            비밀번호 변경에 실패했습니다. <br />
+          </p>
+          <div className="flex justify-between gap-3">
+            <CustomBtn
+              variant="outline"
+              onClick={() => setShowErrorModal(false)}
+              className="cursor-pointer w-full sm:w-[400px] h-[54px] bg-[#5A3FFF] text-white rounded-[8px] text-lg font-medium mt-3"
+            >
+              확인
+            </CustomBtn>
+          </div>
+        </div>
+      </Modal>
       <button
         className={`mt-2.5 cursor-pointer w-full sm:w-[624px] h-[54px] 
           rounded-[8px] text-lg font-medium  
           ${isDisabled ? "bg-gray-300 cursor-not-allowed" : "bg-[#5A3FFF] text-white"}`}
-        disabled={isDisabled}
+        onClick={() => handleChangePassword()}
+        disabled={isDisabled || isSubmitting}
       >
         변경
       </button>
