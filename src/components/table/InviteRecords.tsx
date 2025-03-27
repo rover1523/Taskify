@@ -3,10 +3,12 @@ import Pagination from "./TablePagination";
 import InviteDashboard from "../modal/InviteDashboard";
 import { apiRoutes } from "@/api/apiRoutes";
 import axiosInstance from "@/api/axiosInstance";
+import { AxiosError } from "axios";
 
 const InviteRecords = ({ dashboardId }: { dashboardId: string }) => {
   const [inviteList, setInviteList] = useState<
     Array<{
+      id: number;
       email: string;
     }>
   >([]);
@@ -27,7 +29,8 @@ const InviteRecords = ({ dashboardId }: { dashboardId: string }) => {
         if (res.data && Array.isArray(res.data.invitations)) {
           // 이메일 리스트를 객체 배열로 저장
           const inviteData = res.data.invitations.map(
-            (item: { invitee: { email: string } }) => ({
+            (item: { id: number; invitee: { email: string } }) => ({
+              id: item.id,
               email: item.invitee.email,
             })
           );
@@ -44,6 +47,31 @@ const InviteRecords = ({ dashboardId }: { dashboardId: string }) => {
     }
   }, [dashboardId]);
 
+  /* 초대 취소 버튼 */
+  const handleCancel = async (id: number) => {
+    const dashboardIdNumber = Number(dashboardId);
+    if (!dashboardId) return;
+    try {
+      const response = await axiosInstance.delete(
+        apiRoutes.DashboardInviteDelete(dashboardIdNumber, id)
+      );
+      window.location.reload();
+    } catch (error) {
+      console.error("초대 취소 실패:", error);
+      if (error instanceof AxiosError) {
+        if (error.response?.status === 403) {
+          alert("대시보드 초대 취소 권한이 없습니다.");
+        } else if (error.response?.status === 404) {
+          alert("대시보드가 존재하지 않습니다.");
+        } else {
+          alert("오류가 발생했습니다.");
+        }
+      } else {
+        alert("네트워크 오류가 발생했습니다.");
+      }
+    }
+  };
+
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
   const totalPages = Math.ceil(inviteList.length / itemsPerPage);
@@ -57,13 +85,7 @@ const InviteRecords = ({ dashboardId }: { dashboardId: string }) => {
       )
     : [];
 
-  /*버튼(삭제, 이전, 다음)*/
-  const handleDelete = (email: string) => {
-    setInviteList(
-      inviteList.filter((invite) => invite.email !== email) // 객체 배열에서 email로 필터링
-    );
-  };
-
+  /*버튼(이전, 다음)*/
   const handlePrevPage = () => {
     if (currentPage > 1) setCurrentPage(currentPage - 1);
   };
@@ -119,7 +141,7 @@ const InviteRecords = ({ dashboardId }: { dashboardId: string }) => {
               {/* 이메일 출력 */}
             </div>
             <button
-              onClick={() => handleDelete(invite.email)} // 이메일로 삭제
+              onClick={() => handleCancel(invite.id)}
               className="cursor-pointer font-medium sm:text-sm text-xs h-[32px] sm:h-[32px] w-[52px] sm:w-[84px] md:w-[84px] border border-gray-300 text-indigo-600 px-2 py-1 rounded-md hover:bg-gray-100"
             >
               취소
