@@ -2,9 +2,10 @@ import { useState } from "react";
 import { useRouter } from "next/router";
 import { getUserInfo } from "@/api/user";
 import useUserStore from "@/store/useUserStore";
-import axios from "axios";
+import axiosInstance from "@/api/axiosInstance";
 import Link from "next/link";
 import Input from "@/components/input/Input";
+import { TEAM_ID } from "@/constants/team";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -25,23 +26,20 @@ export default function LoginPage() {
     e.preventDefault();
     const { email, password } = values;
     try {
-      const response = await axios.post(
-        "https://sp-taskify-api.vercel.app/13-4/auth/login",
-        {
-          email,
-          password,
-        }
-        //{ withCredentials: true }
-      );
+      const response = await axiosInstance.post(`${TEAM_ID}/auth/login`, {
+        email,
+        password,
+      });
 
       const token = response.data.accessToken;
       localStorage.setItem("accessToken", token);
 
-      const userData = await getUserInfo({ teamId: "13-4" }); // 로그인 성공 후 사용자 정보 요청
+      const userData = await getUserInfo({ teamId: TEAM_ID }); // 로그인 성공 후 사용자 정보 요청
       useUserStore.getState().setUser(userData); // Zustand에 저장
 
       router.push("/mydashboard");
     } catch (error) {
+      console.error("로그인 실패:", error);
       alert("로그인에 실패했습니다.");
     }
   };
