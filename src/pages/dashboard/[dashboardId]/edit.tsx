@@ -1,9 +1,9 @@
 import React from "react";
 import { useRouter } from "next/router";
 import ChangeBebridge from "@/components/modal/ChangeBebridge";
-import HeaderBebridge from "@/components/Gnb/HeaderBebridge";
+import HeaderBebridge from "@/components/gnb/HeaderBebridge";
 import MemberList from "@/components/table/member/MemberList";
-import SideMenu from "@/components/SideMenu/SideMenu";
+import SideMenu from "@/components/sideMenu/SideMenu";
 import InviteRecords from "@/components/table/InviteRecords";
 import Image from "next/image";
 import axiosInstance from "@/api/axiosInstance";
