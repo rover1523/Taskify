@@ -1,6 +1,6 @@
 import React from "react";
-import HeaderMyPage from "@/components/gdummy/HeaderMypage";
-import SideMenu from "@/components/sdummy/SideMenu";
+import HeaderMyPage from "@/components/gnb/HeaderMypage";
+import SideMenu from "@/components/sideMenu/SideMenu";
 import ProfileCard from "@/components/card/Profile";
 import ChangePassword from "@/components/card/ChangePassword";
 
