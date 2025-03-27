@@ -1,16 +1,7 @@
-<<<<<<< HEAD
-import React, { useState } from "react";
-import SideMenu from "@/components/sideMenu/SideMenu";
-import HeaderDashboard from "@/components/gnb/HeaderDashboard";
-import InvitedDashBoard from "@/components/table/invited/InvitedDashBoard";
-import type { Dashboard } from "@/components/sideMenu/dashboard";
-import DashboardAddButton from "@/components/button/DashboardAddButton";
-=======
 import React, { useEffect, useState } from "react";
 import SideMenu from "@/components/sideMenu/SideMenu";
 import HeaderDashboard from "@/components/gnb/HeaderDashboard";
 import InvitedDashBoard from "@/components/table/invited/InvitedDashBoard";
->>>>>>> ae558cf0714a8402273531fe1efb35d0917e97ff
 import CardButton from "@/components/button/CardButton";
 import { PaginationBtn } from "@/components/button/PaginationBtn";
 import NewDashboard from "@/components/modal/NewDashboard";

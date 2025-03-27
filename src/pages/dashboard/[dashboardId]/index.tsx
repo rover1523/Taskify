@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import { getColumns, getCardsByColumn } from "@/api/dashboard";
+import { getColumns, getCardsByColumn, getDashboards } from "@/api/dashboard";
 import { CardType, ColumnType, TasksByColumn } from "@/types/task";
 import HeaderBebridge from "@/components/gnb/HeaderBebridge";
 import Column from "@/components/columnCard/Column";
@@ -21,6 +21,7 @@ export default function Dashboard() {
 
   const [columns, setColumns] = useState<ColumnType[]>([]);
   const [tasksByColumn, setTasksByColumn] = useState<TasksByColumn>({});
+  const [dashboardList, setDashboardList] = useState<Dashboard[]>([]);
 
   // router 준비되었을 때 렌더링
   useEffect(() => {
@@ -29,6 +30,19 @@ export default function Dashboard() {
     }
   }, [router.isReady, dashboardId]);
 
+  const fetchDashboards = async () => {
+    try {
+      const res = await getDashboards({ teamId });
+      setDashboardList(res.dashboards);
+    } catch (error) {
+      console.error("대시보드 불러오기 실패:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchDashboards();
+  }, [teamId]);
+  <SideMenu teamId={teamId} dashboardList={dashboardList} />;
   // 칼럼 + 카드 로딩
   useEffect(() => {
     if (!isReady || typeof dashboardId !== "string") return;
@@ -63,7 +77,7 @@ export default function Dashboard() {
 
   return (
     <div className="flex">
-      <SideMenu teamId={teamId} />
+      <SideMenu teamId={teamId} dashboardList={dashboardList} />
 
       <div className="flex-1">
         <HeaderBebridge dashboardId={dashboardId} />
