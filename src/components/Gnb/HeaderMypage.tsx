@@ -1,20 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import { MemberType } from "@/components/Gnb/members";
+import SkeletonUser from "./skeletonUser";
+import { MemberType, UserType } from "./type";
 import { getMembers } from "@/api/members";
+import { getUserInfo } from "@/api/user";
 import RandomProfile from "../table/member/RandomProfile";
-import ModalInviting from "./ModalInviting";
-
-/*dummy data*/
-const user = {
-  nickname: "배유철",
-  profileImageUrl: "/svgs/dummy-icon.png",
-};
+import NewDashboard from "../modal/NewDashboard";
 
 const HeaderMyPage = () => {
-  /*멤버 목록 profileImageUrl loading*/
-  const [isLoading, setIsLoading] = useState(true);
+  const [user, setUser] = useState<UserType | null>(null);
   const [members, setMembers] = useState<MemberType[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   /*관리 버튼 클릭 이벤트 함수*/
   const router = useRouter();
@@ -30,6 +26,22 @@ const HeaderMyPage = () => {
   const closeInviteModal = () => {
     setIsModalOpen(false);
   };
+
+  /*유저 정보 api 호출*/
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const data = await getUserInfo();
+        setUser(data);
+      } catch (error) {
+        console.log("유저 정보 불러오기 실패", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchUser();
+  }, []);
 
   /*멤버 목록 api 호출*/
   useEffect(() => {
@@ -60,7 +72,7 @@ const HeaderMyPage = () => {
           <div className="flex gap-[6px] md:gap-[16px] pr-[40px]">
             <button
               onClick={goToDashboardEdit}
-              className="flex items-center justify-center w-[49px] h-[30px] md:w-[85px] md:h-[36px] lg:w-[88px] lg:h-[40px] rounded-[8px] border-[1px] border-[#D9D9D9] gap-[10px] cursor-pointer"
+              className="flex items-center justify-center w-[49px] h-[30px] md:w-[85px] md:h-[36px] lg:w-[88px] lg:h-[40px] rounded-[8px] border border-[#D9D9D9] gap-[10px] cursor-pointer"
             >
               <img
                 src="/svgs/settings.svg"
@@ -72,7 +84,7 @@ const HeaderMyPage = () => {
 
             <button
               onClick={openInviteModal}
-              className="flex items-center justify-center w-[73px] h-[30px] md:w-[109px] md:h-[36px] lg:w-[116px] lg:h-[40px] rounded-[8px] border-[1px] border-[#D9D9D9] gap-[10px] cursor-pointer"
+              className="flex items-center justify-center w-[73px] h-[30px] md:w-[109px] md:h-[36px] lg:w-[116px] lg:h-[40px] rounded-[8px] border border-[#D9D9D9] gap-[10px] cursor-pointer"
             >
               <img
                 src="/svgs/add-box.svg"
@@ -82,13 +94,13 @@ const HeaderMyPage = () => {
               <span className="text-sm md:text-base text-gray1">초대하기</span>
             </button>
             {/*임시 컴포넌트명, 추후 정식 초대 모달 컴포넌트로 교체*/}
-            {isModalOpen && <ModalInviting onClose={closeInviteModal} />}
+            {isModalOpen && <NewDashboard onClose={closeInviteModal} />}
           </div>
 
           {/*4개의 프로필 아이콘 표시, 나머지 멤버 숫자 +n 아이콘으로 표시*/}
           <div className="flex -space-x-3">
             {isLoading ? (
-              <p className="text-gray-500 text-sm">로딩 중...</p>
+              <SkeletonUser />
             ) : (
               <>
                 {members.slice(0, 4).map((member) => (
@@ -114,22 +126,28 @@ const HeaderMyPage = () => {
           </div>
 
           {/*유저 프로필 아이콘 & 유저 닉네임*/}
-          <div className="flex items-center pr-[10px] md:pr-[30px] lg:pr-[80px] gap-[12px]">
-            <div className="w-[34px] h-[34px] md:w-[38px] md:h-[38px]">
-              {user.profileImageUrl ? (
-                <img
-                  src={user.profileImageUrl}
-                  alt="유저 프로필 아이콘"
-                  className="w-full h-full rounded-full object-cover"
-                />
-              ) : (
-                <RandomProfile name={user.nickname} index={2} />
-              )}
-            </div>
-            <span className="hidden md:block text-black3 md:text-base md:font-medium">
-              {user.nickname}
-            </span>
-          </div>
+          {isLoading ? (
+            <SkeletonUser />
+          ) : (
+            user && (
+              <div className="flex items-center pr-[10px] md:pr-[30px] lg:pr-[80px] gap-[12px]">
+                <div className="w-[34px] h-[34px] md:w-[38px] md:h-[38px]">
+                  {user.profileImageUrl ? (
+                    <img
+                      src={user.profileImageUrl}
+                      alt="유저 프로필 아이콘"
+                      className="w-full h-full rounded-full object-cover"
+                    />
+                  ) : (
+                    <RandomProfile name={user.nickname} />
+                  )}
+                </div>
+                <span className="hidden md:block text-black3 md:text-base md:font-medium">
+                  {user.nickname}
+                </span>
+              </div>
+            )
+          )}
         </div>
       </div>
     </header>
