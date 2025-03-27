@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import SkeletonUser from "./skeletonUser";
-import { UserType } from "./type";
+import SkeletonUser from "../../shared/skeletonUser";
+import { UserType } from "../../types/users";
 import { getUserInfo } from "@/api/user";
 import RandomProfile from "../table/member/RandomProfile";
 import NewDashboard from "../modal/NewDashboard";
