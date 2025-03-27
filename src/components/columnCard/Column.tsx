@@ -1,15 +1,14 @@
-// Column.tsx
 import { useState } from "react";
 import Image from "next/image";
 import { CardType } from "@/types/task";
 import Card from "./Card";
-import { Modal } from "../common/Modal/Modal";
-import ToDoModal from "@/components/modalInput/ToDoModal";
+import { Modal } from "../modal/Modal";
+import TodoModal from "@/components/modalInput/ToDoModal";
 import Input from "../input/Input";
 import TodoButton from "@/components/button/TodoButton";
 import { CustomBtn } from "../button/CustomBtn";
 
-type ColumnCardProps = {
+type ColumnProps = {
   title?: string;
   tasks?: CardType[];
 };
@@ -17,13 +16,14 @@ type ColumnCardProps = {
 export default function Column({
   title = "new Task",
   tasks = [],
-}: ColumnCardProps) {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isDeleteOpen, setIsDeleteOpen] = useState(false);
+}: ColumnProps) {
+  const [isColumnModalOpen, setIsColumnModalOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isTodoModalOpen, setIsTodoModalOpen] = useState(false);
 
   return (
     <div className="w-[354px] h-[1010px] border-[var(--color-gray4)] flex flex-col rounded-md border border-solid bg-gray-50 p-4">
+      {/* 칼럼 헤더 */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <h2 className="text-lg font-bold">
@@ -40,16 +40,16 @@ export default function Column({
           height={24}
           priority
           className="cursor-pointer"
-          onClick={() => setIsModalOpen(true)}
+          onClick={() => setIsColumnModalOpen(true)}
         />
       </div>
 
-      {/* ✅ 버튼 누르면 모달 열기 */}
-      <div>
-        <TodoButton onClick={() => setIsTodoModalOpen(true)} />
+      {/* Todo 추가 버튼 */}
+      <div onClick={() => setIsTodoModalOpen(true)}>
+        <TodoButton />
       </div>
 
-      {/* ✅ 카드 항상 표시 */}
+      {/* 카드 목록 */}
       {tasks.map((task) => (
         <Card
           key={task.id}
@@ -58,27 +58,33 @@ export default function Column({
           assignee={task.assignee}
         />
       ))}
-      {isTodoModalOpen && <ToDoModal />}
+
+      {/* Todo 추가 모달 */}
+      {isTodoModalOpen && (
+        <TodoModal
+          isOpen={isTodoModalOpen}
+          onClose={() => setIsTodoModalOpen(false)}
+        />
+      )}
 
       {/* 칼럼 관리 모달 */}
-      {isModalOpen && (
-        <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+      {isColumnModalOpen && (
+        <Modal
+          isOpen={isColumnModalOpen}
+          onClose={() => setIsColumnModalOpen(false)}
+        >
           <div className="flex flex-col gap-5">
             <h2 className="text-2xl font-bold">칼럼 관리</h2>
-
             <label className="font-medium flex flex-col gap-2">
               이름
-              <Input
-                type="text"
-                // value={columnName} // todo
-              />
+              <Input type="text" />
             </label>
             <div className="flex justify-between mt-1.5">
               <CustomBtn
                 variant="outlineDisabled"
                 onClick={() => {
-                  setIsModalOpen(false);
-                  setIsDeleteOpen(true);
+                  setIsColumnModalOpen(false);
+                  setIsDeleteModalOpen(true);
                 }}
               >
                 삭제
@@ -89,20 +95,20 @@ export default function Column({
         </Modal>
       )}
 
-      {/* 삭제 모달은 그대로 유지 */}
-      {isDeleteOpen && (
+      {/* 칼럼 삭제 확인 모달 */}
+      {isDeleteModalOpen && (
         <Modal
           width="w-[568px]"
           height="h-[174px]"
-          isOpen={isDeleteOpen}
-          onClose={() => setIsDeleteOpen(false)}
+          isOpen={isDeleteModalOpen}
+          onClose={() => setIsDeleteModalOpen(false)}
         >
-          <div className=" flex flex-col gap-10 text-center">
+          <div className="flex flex-col gap-10 text-center">
             <p className="text-xl mt-1.5">칼럼의 모든 카드가 삭제됩니다.</p>
             <div className="flex justify-between gap-3">
               <CustomBtn
                 variant="outlineDisabled"
-                onClick={() => setIsDeleteOpen(false)}
+                onClick={() => setIsDeleteModalOpen(false)}
               >
                 취소
               </CustomBtn>

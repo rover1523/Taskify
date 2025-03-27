@@ -6,7 +6,7 @@ import HeaderBebridge from "@/components/gnb/HeaderBebridge";
 import Column from "@/components/columnCard/Column";
 import SideMenu from "@/components/sideMenu/SideMenu";
 import ColumnsButton from "@/components/button/ColumnsButton";
-import { Modal } from "@/components/common/Modal/Modal";
+import { Modal } from "@/components/modal/Modal";
 import Input from "@/components/input/Input";
 import { CustomBtn } from "@/components/button/CustomBtn";
 
@@ -16,7 +16,7 @@ export default function Dashboard() {
   const [isReady, setIsReady] = useState(false);
   const [isAddColumnModalOpen, setIsAddColumnModalOpen] = useState(false);
   const openModal = () => setIsAddColumnModalOpen(true);
-  const closeModal = () => setIsAddColumnModalOpen(false);
+  // const closeModal = () => setIsAddColumnModalOpen(false);
   const teamId = "13-4";
 
   const [columns, setColumns] = useState<ColumnType[]>([]);
@@ -61,40 +61,9 @@ export default function Dashboard() {
 
   if (!isReady) return <div>로딩 중...</div>;
 
-  // ✅ dashboardList 더미 데이터
-  const dashboardList = [
-    {
-      id: 1,
-      title: "비브리지",
-      color: "#7AC555",
-      createdAt: "2024-01-26T05:42:12.264Z",
-      updatedAt: "2024-01-26T05:42:12.264Z",
-      createdByMe: true,
-      userId: 10,
-    },
-    {
-      id: 2,
-      title: "코드잇",
-      color: "#760DDE",
-      createdAt: "2024-01-26T05:42:12.264Z",
-      updatedAt: "2024-01-26T05:42:12.264Z",
-      createdByMe: true,
-      userId: 10,
-    },
-    {
-      id: 3,
-      title: "3분기 계획",
-      color: "#FFA500",
-      createdAt: "2024-01-26T05:42:12.264Z",
-      updatedAt: "2024-01-26T05:42:12.264Z",
-      createdByMe: false,
-      userId: 11,
-    },
-  ];
-
   return (
     <div className="flex">
-      <SideMenu dashboardList={dashboardList} teamId="13-4" />
+      <SideMenu teamId={teamId} />
 
       <div className="flex-1">
         <HeaderBebridge dashboardId={dashboardId} />
