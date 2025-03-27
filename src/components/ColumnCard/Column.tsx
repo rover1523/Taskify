@@ -4,7 +4,7 @@ import Image from "next/image";
 import { CardType } from "@/types/task";
 import Card from "./Card";
 import { Modal } from "../common/Modal/Modal";
-import ToDoModal from "@/components/ModalInput/ToDoModal";
+import ToDoModal from "@/components/modalInput/ToDoModal";
 import Input from "../input/Input";
 import TodoButton from "@/components/button/TodoButton";
 import { CustomBtn } from "../button/CustomBtn";
