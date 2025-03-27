@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import SideMenu from "@/components/sdummy/SideMenu";
-import HeaderDashboard from "@/components/gdummy/HeaderDashboard";
+import SideMenu from "@/components/sideMenu/SideMenu";
+import HeaderDashboard from "@/components/gnb/HeaderDashboard";
 import InvitedDashBoard from "@/components/table/invited/InvitedDashBoard";
-import type { Dashboard } from "@/components/sdummy/dashboard";
+import type { Dashboard } from "@/components/sideMenu/dashboard";
 import DashboardAddButton from "@/components/button/DashboardAddButton";
 import CardButton from "@/components/button/CardButton";
 import { PaginationBtn } from "@/components/button/PaginationBtn";
