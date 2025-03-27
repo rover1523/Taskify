@@ -2,6 +2,8 @@ import { useState, useEffect, useRef, ChangeEvent } from "react";
 import Image from "next/image";
 import NoResultDashBoard from "./NoResultDashBoard";
 import EmptyInvitations from "./EmptyInvitations";
+import { apiRoutes } from "@/api/apiRoutes";
+import axiosInstance from "@/api/axiosInstance";
 
 interface Invite {
   title: string;
@@ -24,17 +26,22 @@ const invitedData: Invite[] = [
 
 const ITEMS_PER_PAGE = 6; // 한 번에 보여줄 개수
 
-function InvitedList({ searchTitle }: { searchTitle: string }) {
+function InvitedList({
+  searchTitle,
+  inviationData,
+}: {
+  searchTitle: string;
+  inviationData: Invite[];
+}) {
   const [displayedData, setDisplayedData] = useState<Invite[]>([]);
   const [page, setPage] = useState(1);
   const observerRef = useRef<HTMLDivElement | null>(null);
-
-  const hasMore = displayedData.length < invitedData.length;
+  const hasMore = displayedData.length < inviationData.length;
 
   // 데이터 로드
   useEffect(() => {
     loadMoreData();
-  }, [page]);
+  }, [page, inviationData]);
 
   // IntersectionObserver 설정
   useEffect(() => {
@@ -65,7 +72,7 @@ function InvitedList({ searchTitle }: { searchTitle: string }) {
 
   // 데이터를 로드 함수
   const loadMoreData = () => {
-    const nextData = invitedData.slice(0, page * ITEMS_PER_PAGE);
+    const nextData = inviationData.slice(0, page * ITEMS_PER_PAGE);
     setDisplayedData(nextData);
   };
 
@@ -151,13 +158,40 @@ function InvitedList({ searchTitle }: { searchTitle: string }) {
 
 export default function InvitedDashBoard() {
   const [searchTitle, setSearchTitle] = useState("");
+  const [inviationData, setinviationData] = useState<Invite[]>([]);
 
   const handleSearchInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     setSearchTitle(event.target.value);
   };
 
+  useEffect(() => {
+    const fetchMembers = async () => {
+      try {
+        const res = await axiosInstance.get(apiRoutes.Invitations());
+        if (res.data && Array.isArray(res.data.invitations)) {
+          // 이메일 리스트를 객체 배열로 저장
+          const inviteData = res.data.invitations.map(
+            (item: {
+              dashboard: { title: string };
+              invitee: { nickname: string };
+            }) => ({
+              title: item.dashboard.title,
+              nickname: item.invitee.nickname,
+            })
+          );
+          setinviationData(inviteData);
+          console.log("inviteData>>", inviteData);
+        }
+      } catch (error) {
+        console.error("초대내역 불러오는데 오류 발생:", error);
+      }
+    };
+
+    fetchMembers();
+  }, []);
+
   // invitedData가 비어 있으면 EmptyInvitations만 렌더링 > 초대내역이 아예 없을 경우
-  if (invitedData.length === 0) {
+  if (inviationData.length === 0) {
     return <EmptyInvitations />;
   }
 
@@ -186,7 +220,7 @@ export default function InvitedDashBoard() {
             />
           </div>
         </div>
-        <InvitedList searchTitle={searchTitle} />
+        <InvitedList searchTitle={searchTitle} inviationData={inviationData} />
       </div>
     </div>
   );
