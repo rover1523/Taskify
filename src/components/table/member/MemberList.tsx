@@ -5,6 +5,7 @@ import { MemberType } from "@/components/gnb/type";
 import { getMembers } from "@/api/members";
 import { apiRoutes } from "@/api/apiRoutes";
 import axiosInstance from "@/api/axiosInstance";
+import Image from "next/image";
 
 interface HeaderBebridgeProps {
   dashboardId?: string | string[];
@@ -95,7 +96,10 @@ const MemberList: React.FC<HeaderBebridgeProps> = ({ dashboardId }) => {
                 <RandomProfile name={member.nickname} index={index} />
               )}
 
-              <p className="text-sm sm:text-base">{member.nickname}</p>
+              <p className="text-sm sm:text-base">
+                {member.nickname}
+                {member.isOwner && "(소유자)"}
+              </p>
             </div>
             {!member.isOwner && (
               <button
