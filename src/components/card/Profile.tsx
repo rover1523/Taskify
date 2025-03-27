@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Input from "../input/Input";
-
+import Image from "next/image";
 export default function ProfileCard() {
   const [image, setImage] = useState<string | null>(null);
   const [nickname, setNickname] = useState("");
@@ -33,7 +33,7 @@ export default function ProfileCard() {
           <div className="sm:w-[182px] sm:h-[182px] w-[100px] h-[100px] rounded-md flex items-center justify-center cursor-pointer bg-[#F5F5F5] border-transparent">
             <label className="cursor-pointer w-full h-full flex items-center justify-center">
               {image ? (
-                <img
+                <Image
                   src={image}
                   alt="Profile"
                   className="w-full h-full object-cover rounded-md"
