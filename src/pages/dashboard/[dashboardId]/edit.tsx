@@ -38,7 +38,7 @@ export default function EditDashboard() {
   };
 
   return (
-    <div className="flex h-screen ">
+    <div className="flex h-screen overflow-hidden">
       <SideMenu teamId="13-4" />
 
       <div className="flex flex-col flex-1">
@@ -46,45 +46,44 @@ export default function EditDashboard() {
         <div className="flex flex-col">
           <HeaderBebridge dashboardId={dashboardId} />
         </div>
-        <div className="mt-6 ml-4">
-          <button
-            onClick={goToDashboard}
-            className="cursor-pointer flex items-center gap-2"
-          >
-            <Image
-              src="/svgs/arrow-backward-black.svg"
-              alt="돌이가기"
-              width={20}
-              height={20}
-            />
-            돌아가기
-          </button>
-        </div>
+        <div className="overflow-auto flex-1 px-[50px] pt-[10px] pb-10">
+          <div className="mt-6">
+            <button
+              onClick={goToDashboard}
+              className="cursor-pointer flex items-center gap-2"
+            >
+              <Image
+                src="/svgs/arrow-backward-black.svg"
+                alt="돌이가기"
+                width={20}
+                height={20}
+              />
+              돌아가기
+            </button>
+          </div>
 
-        <div className="mt-5 ml-4">
-          <ChangeBebridge />
-        </div>
+          <div className="mt-5">
+            <ChangeBebridge />
+          </div>
 
-        {/* MemberList는 아래쪽에 배치 */}
-        <div className="ml-4">
-          <MemberList dashboardId={dashboardId} />
-        </div>
+          {/* MemberList는 아래쪽에 배치 */}
+          <div className="">
+            <MemberList dashboardId={dashboardId} />
+          </div>
 
-        <div className="ml-4">
-          <InviteRecords dashboardId={dashboardIdString || ""} />{" "}
-          {/* undefined일 경우 빈 문자열로 전달*/}
+          <div className="">
+            <InviteRecords dashboardId={dashboardIdString || ""} />{" "}
+            {/* undefined일 경우 빈 문자열로 전달*/}
+          </div>
+          <div className="flex mt-15 sm:mt-0 ml-8">
+            <button
+              onClick={handleDelete}
+              className="text-base sm:text-lg cursor-pointer w-[320px] h-[62px] text-[var(--color-black3)] rounded-[8px] border-[1px] border-[#D9D9D9]"
+            >
+              대시보드 삭제하기
+            </button>
+          </div>
         </div>
-        <div className="flex mt-15 sm:mt-0 ml-8">
-          <button
-            onClick={handleDelete}
-            className="text-base sm:text-lg cursor-pointer w-[320px] h-[62px] text-[var(--color-black3)] rounded-[8px] border-[1px] border-[#D9D9D9]"
-          >
-            대시보드 삭제하기
-          </button>
-        </div>
-
-        <br />
-        <br />
       </div>
     </div>
   );
