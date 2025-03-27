@@ -85,7 +85,16 @@ const MemberList: React.FC<HeaderBebridgeProps> = ({ dashboardId }) => {
             }`}
           >
             <div className="flex items-center gap-4">
-              <RandomProfile name={member.nickname} index={index} />
+              {member.profileImageUrl ? (
+                <img
+                  src={member.profileImageUrl}
+                  alt="유저 프로필 아이콘"
+                  className="w-full h-full rounded-full object-cover"
+                />
+              ) : (
+                <RandomProfile name={member.nickname} index={index} />
+              )}
+
               <p className="text-sm sm:text-base">{member.nickname}</p>
             </div>
             {!member.isOwner && (
