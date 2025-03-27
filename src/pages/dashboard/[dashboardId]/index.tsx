@@ -1,25 +1,26 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import HeaderBebridge from "@/components/Gnb/HeaderBebridge";
 import { getColumns, getCardsByColumn } from "@/api/dashboard";
-import Column from "@/components/ColumnCard/Column";
 import { CardType, ColumnType, TasksByColumn } from "@/types/task";
+import HeaderBebridge from "@/components/Gnb/HeaderBebridge";
+import Column from "@/components/ColumnCard/Column";
 import SideMenu from "@/components/SideMenu/SideMenu";
+import ColumnsButton from "@/components/button/ColumnsButton";
+import { Modal } from "@/components/common/Modal/Modal";
+import Input from "@/components/input/Input";
+import { CustomBtn } from "@/components/button/CustomBtn";
 
 export default function Dashboard() {
   const router = useRouter();
   const { dashboardId } = router.query;
   const [isReady, setIsReady] = useState(false);
+  const [isAddColumnModalOpen, setIsAddColumnModalOpen] = useState(false);
+  const openModal = () => setIsAddColumnModalOpen(true);
+  const closeModal = () => setIsAddColumnModalOpen(false);
   const teamId = "13-4";
 
-  // 칼럼 + 카드 상태
   const [columns, setColumns] = useState<ColumnType[]>([]);
   const [tasksByColumn, setTasksByColumn] = useState<TasksByColumn>({});
-
-  // 모달 상태
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const openInviteModal = () => setIsModalOpen(true);
-  const closeInviteModal = () => setIsModalOpen(false);
 
   // router 준비되었을 때 렌더링
   useEffect(() => {
@@ -34,11 +35,9 @@ export default function Dashboard() {
 
     const fetchColumnsAndCards = async () => {
       try {
-        // 1. 칼럼 목록
         const columnRes = await getColumns({ teamId, dashboardId });
         setColumns(columnRes.data);
 
-        // 2. 카드 목록
         const columnTasks: { [columnId: number]: CardType[] } = {};
 
         await Promise.all(
@@ -62,6 +61,7 @@ export default function Dashboard() {
 
   if (!isReady) return <div>로딩 중...</div>;
 
+  // ✅ dashboardList 더미 데이터
   const dashboardList = [
     {
       id: 1,
@@ -93,24 +93,49 @@ export default function Dashboard() {
   ];
 
   return (
-    <div>
-      <HeaderBebridge dashboardId={dashboardId} />
+    <div className="flex">
+      <SideMenu dashboardList={dashboardList} teamId="13-4" />
 
-      <div className="flex">
-        {/* 사이드메뉴 왼쪽 */}
-        <SideMenu dashboardList={dashboardList} />
+      <div className="flex-1">
+        <HeaderBebridge dashboardId={dashboardId} />
 
-        {/* 콘텐츠 오른쪽 */}
-        <div className="flex-1 p-6">
-          <div className="flex gap-4">
-            {columns.map((col) => (
-              <Column
-                key={col.id}
-                title={col.title}
-                tasks={tasksByColumn[col.id] || []}
-              />
-            ))}
-          </div>
+        <div className="flex gap-4 p-6">
+          {columns.map((col) => (
+            <Column
+              key={col.id}
+              title={col.title}
+              tasks={tasksByColumn[col.id] || []}
+            />
+          ))}
+
+          <ColumnsButton onClick={openModal} />
+
+          {isAddColumnModalOpen && (
+            <Modal
+              isOpen={isAddColumnModalOpen}
+              onClose={() => setIsAddColumnModalOpen(false)}
+            >
+              <div className="flex flex-col gap-5">
+                <h2 className="text-2xl font-bold">새 칼럼 생성</h2>
+
+                <label className="font-medium flex flex-col gap-2">
+                  이름
+                  <Input type="text" placeholder="새로운 프로젝트" />
+                </label>
+                <div className="flex justify-between mt-1.5">
+                  <CustomBtn
+                    variant="outlineDisabled"
+                    onClick={() => {
+                      setIsAddColumnModalOpen(false);
+                    }}
+                  >
+                    취소
+                  </CustomBtn>
+                  <CustomBtn>생성</CustomBtn>
+                </div>
+              </div>
+            </Modal>
+          )}
         </div>
       </div>
     </div>

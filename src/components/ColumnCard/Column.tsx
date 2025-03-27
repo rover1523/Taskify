@@ -1,11 +1,12 @@
 // Column.tsx
-import TodoButton from "@/components/button/TodoButton";
 import { useState } from "react";
+import Image from "next/image";
 import { CardType } from "@/types/task";
 import Card from "./Card";
-import Image from "next/image";
 import { Modal } from "../common/Modal/Modal";
+import ToDoModal from "@/components/ModalInput/ToDoModal";
 import Input from "../input/Input";
+import TodoButton from "@/components/button/TodoButton";
 import { CustomBtn } from "../button/CustomBtn";
 
 type ColumnCardProps = {
@@ -17,9 +18,9 @@ export default function Column({
   title = "new Task",
   tasks = [],
 }: ColumnCardProps) {
-  const [showCard, setShowCard] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
+  const [isTodoModalOpen, setIsTodoModalOpen] = useState(false);
 
   return (
     <div className="w-[354px] h-[1010px] border-[var(--color-gray4)] flex flex-col rounded-md border border-solid bg-gray-50 p-4">
@@ -43,18 +44,22 @@ export default function Column({
         />
       </div>
 
-      <div onClick={() => setShowCard(true)}>
-        <TodoButton />
+      {/* ✅ 버튼 누르면 모달 열기 */}
+      <div>
+        <TodoButton onClick={() => setIsTodoModalOpen(true)} />
       </div>
-      {showCard &&
-        tasks.map((task) => (
-          <Card
-            key={task.id}
-            {...task}
-            imageUrl={task.imageUrl}
-            assignee={task.assignee}
-          />
-        ))}
+
+      {/* ✅ 카드 항상 표시 */}
+      {tasks.map((task) => (
+        <Card
+          key={task.id}
+          {...task}
+          imageUrl={task.imageUrl}
+          assignee={task.assignee}
+        />
+      ))}
+      {isTodoModalOpen && <ToDoModal />}
+
       {/* 칼럼 관리 모달 */}
       {isModalOpen && (
         <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
@@ -84,19 +89,16 @@ export default function Column({
         </Modal>
       )}
 
-      {/* 칼럼 삭제 확인 모달 */}
+      {/* 삭제 모달은 그대로 유지 */}
       {isDeleteOpen && (
         <Modal
-          // className="w-[568px] h-[174px]"
-          width="w-[568px"
+          width="w-[568px]"
           height="h-[174px]"
           isOpen={isDeleteOpen}
           onClose={() => setIsDeleteOpen(false)}
         >
           <div className=" flex flex-col gap-10 text-center">
-            <p className="text-lg font-medium">
-              칼럼의 모든 카드가 삭제됩니다.
-            </p>
+            <p className="text-xl mt-1.5">칼럼의 모든 카드가 삭제됩니다.</p>
             <div className="flex justify-between gap-3">
               <CustomBtn
                 variant="outlineDisabled"
