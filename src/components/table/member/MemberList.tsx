@@ -3,6 +3,8 @@ import Pagination from "../TablePagination";
 import RandomProfile from "./RandomProfile";
 import { MemberType } from "@/components/gnb/type";
 import { getMembers } from "@/api/members";
+import { apiRoutes } from "@/api/apiRoutes";
+import axiosInstance from "@/api/axiosInstance";
 
 interface HeaderBebridgeProps {
   dashboardId?: string | string[];
@@ -22,8 +24,14 @@ const MemberList: React.FC<HeaderBebridgeProps> = ({ dashboardId }) => {
   );
 
   /*버튼(삭제, 이전, 다음)*/
-  const handleDelete = (nickname: string) => {
-    setMembers(members.filter((member) => member.nickname !== nickname));
+  const handleDelete = async (id: number) => {
+    try {
+      const response = await axiosInstance.delete(apiRoutes.memberDetail(id));
+      window.location.reload();
+    } catch (error) {
+      alert("구성원원 삭제에 실패하였습니다 .");
+      console.error("구성원 삭제 실패:", error);
+    }
   };
 
   const handlePrevPage = () => {
@@ -81,7 +89,7 @@ const MemberList: React.FC<HeaderBebridgeProps> = ({ dashboardId }) => {
               <p className="text-sm sm:text-base">{member.nickname}</p>
             </div>
             <button
-              onClick={() => handleDelete(member.nickname)}
+              onClick={() => handleDelete(member.id)}
               className="text-md-Medium cursor-pointer font-medium text-sm sm:text-base h-[32px] sm:h-[32px] w-[52px] sm:w-[84px] md:w-[84px] border border-gray-300 text-indigo-600 px-2 py-1 rounded-md hover:bg-gray-100"
             >
               삭제

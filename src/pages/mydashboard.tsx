@@ -8,7 +8,6 @@ import CardButton from "@/components/button/CardButton";
 import { PaginationBtn } from "@/components/button/PaginationBtn";
 
 export default function MyDashboardPage() {
-  const teamId = "13";
   const [dashCards, setDashCards] = useState<string[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6;
