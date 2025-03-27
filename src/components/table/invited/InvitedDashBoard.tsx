@@ -78,6 +78,26 @@ function InvitedList({
     }
   };
 
+  // 거절
+  const rejectInvite = async (inviteId: number) => {
+    const payload = {
+      inviationId: inviteId,
+      inviteAccepted: false,
+    };
+    try {
+      const response = await axiosInstance.put(
+        apiRoutes.invitationDetail(inviteId),
+        payload
+      );
+      console.log("대시보드 거절 성공:", response.data);
+      alert("대시보드 거절 성공"); // 추후에 toast로 변경
+      window.location.reload();
+    } catch (error) {
+      console.error("대시보드 거절 실패:", error);
+      alert("대시보드 거절 실패"); // 추후에 toast로 변경
+    }
+  };
+
   return (
     <div className="relative bg-white w-[260px] sm:w-[504px] lg:w-[1022px] h-[770px] sm:h-[592px] lg:h-[620px] mx-auto mt-[40px]">
       {filteredData.length > 0 && (
@@ -115,7 +135,10 @@ function InvitedList({
                     >
                       수락
                     </button>
-                    <button className="cursor-pointer border px-3 py-1 rounded-md w-[84px] h-[32px] text-[var(--primary)] border-[var(--color-gray3)]">
+                    <button
+                      className="cursor-pointer border px-3 py-1 rounded-md w-[84px] h-[32px] text-[var(--primary)] border-[var(--color-gray3)]"
+                      onClick={() => rejectInvite(invite.id)}
+                    >
                       거절
                     </button>
                   </div>
@@ -135,7 +158,10 @@ function InvitedList({
                   >
                     수락
                   </button>
-                  <button className="cursor-pointer border px-3 py-1 rounded-md w-[84px] h-[32px] text-[var(--primary)] border-[var(--color-gray3)]">
+                  <button
+                    className="cursor-pointer border px-3 py-1 rounded-md w-[84px] h-[32px] text-[var(--primary)] border-[var(--color-gray3)]"
+                    onClick={() => rejectInvite(invite.id)}
+                  >
                     거절
                   </button>
                 </div>
