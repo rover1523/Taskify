@@ -6,53 +6,34 @@ import { apiRoutes } from "@/api/apiRoutes";
 import axiosInstance from "@/api/axiosInstance";
 
 interface Invite {
+  id: number;
   title: string;
   nickname: string;
 }
-
-// api데이터로 추후 변경
-const invitedData: Invite[] = [
-  { title: "프로덕트 디자인", nickname: "손동희" },
-  { title: "새로운 기획 문서", nickname: "안귀영" },
-  { title: "유닛 A", nickname: "장혁" },
-  { title: "유닛 B", nickname: "강나무" },
-  { title: "유닛 C", nickname: "김태현" },
-  { title: "유닛 D", nickname: "김태현" },
-  { title: "유닛 E", nickname: "이정민" },
-  { title: "유닛 F", nickname: "박소영" },
-  { title: "유닛 G", nickname: "최준호" },
-  { title: "유닛 H", nickname: "배지훈" },
-];
 
 const ITEMS_PER_PAGE = 6; // 한 번에 보여줄 개수
 
 function InvitedList({
   searchTitle,
   inviationData,
+  fetchNextPage,
+  hasMore,
 }: {
   searchTitle: string;
   inviationData: Invite[];
+  fetchNextPage: () => void;
+  hasMore: boolean;
 }) {
-  const [displayedData, setDisplayedData] = useState<Invite[]>([]);
-  const [page, setPage] = useState(1);
   const observerRef = useRef<HTMLDivElement | null>(null);
-  const hasMore = displayedData.length < inviationData.length;
-
-  // 데이터 로드
-  useEffect(() => {
-    loadMoreData();
-  }, [page, inviationData]);
 
   // IntersectionObserver 설정
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            if (hasMore) {
-              console.log("Scroll reached the end. Loading more data...");
-              setPage((prevPage) => prevPage + 1);
-            }
+          if (entry.isIntersecting && hasMore) {
+            console.log("Scroll reached the end. Loading more data...");
+            fetchNextPage();
           }
         });
       },
@@ -68,20 +49,33 @@ function InvitedList({
         observer.unobserve(observerRef.current);
       }
     };
-  }, [hasMore]);
-
-  // 데이터를 로드 함수
-  const loadMoreData = () => {
-    const nextData = inviationData.slice(0, page * ITEMS_PER_PAGE);
-    setDisplayedData(nextData);
-  };
+  }, [hasMore, fetchNextPage]);
 
   // 검색 기능
-  const filteredData = displayedData.filter(
+  const filteredData = inviationData.filter(
     (invite) =>
       invite.title.toLowerCase().includes(searchTitle.toLowerCase()) ||
       invite.nickname.toLowerCase().includes(searchTitle.toLowerCase())
   );
+
+  // 수락
+  const acceptInvite = async (inviteId: number) => {
+    const payload = {
+      inviationId: inviteId,
+      inviteAccepted: true,
+    };
+    try {
+      const response = await axiosInstance.put(
+        apiRoutes.invitationDetail(inviteId),
+        payload
+      );
+      console.log("대시보드 수락 성공:", response.data);
+      alert("대시보드 수락 성공"); // 추후에 toast로 변경
+    } catch (error) {
+      console.error("대시보드 수락 실패:", error);
+      alert("대시보드 수락 실패"); // 추후에 toast로 변경
+    }
+  };
 
   return (
     <div className="relative bg-white w-[260px] sm:w-[504px] lg:w-[1022px] h-[770px] sm:h-[592px] lg:h-[620px] mx-auto mt-[40px]">
@@ -104,7 +98,6 @@ function InvitedList({
                 {/* 모바일 레이아웃 */}
                 <div className="flex flex-col sm:hidden">
                   <p className="ml-9 mt-1 w-full">
-                    {" "}
                     <span className="mr-8 text-[var(--color-gray2)]">이름</span>
                     <span className="text-[#333236]">{invite.title}</span>
                   </p>
@@ -115,7 +108,10 @@ function InvitedList({
                     <span className="text-[#333236]">{invite.nickname}</span>
                   </p>
                   <div className="flex gap-2 mt-2 justify-center">
-                    <button className="cursor-pointer bg-[var(--primary)] text-white px-3 py-1 rounded-md w-[84px] h-[32px]">
+                    <button
+                      className="cursor-pointer bg-[var(--primary)] text-white px-3 py-1 rounded-md w-[84px] h-[32px]"
+                      onClick={() => acceptInvite(invite.id)}
+                    >
                       수락
                     </button>
                     <button className="cursor-pointer border px-3 py-1 rounded-md w-[84px] h-[32px] text-[var(--primary)] border-[var(--color-gray3)]">
@@ -132,7 +128,10 @@ function InvitedList({
                   {invite.nickname}
                 </p>
                 <div className="lg:mr-5 gap-2 mt-1 mr-2 justify-between sm:justify-start hidden sm:flex">
-                  <button className="cursor-pointer bg-[var(--primary)] text-white px-3 py-1 rounded-md w-[84px] h-[32px]">
+                  <button
+                    className="cursor-pointer bg-[var(--primary)] text-white px-3 py-1 rounded-md w-[84px] h-[32px]"
+                    onClick={() => acceptInvite(invite.id)}
+                  >
                     수락
                   </button>
                   <button className="cursor-pointer border px-3 py-1 rounded-md w-[84px] h-[32px] text-[var(--primary)] border-[var(--color-gray3)]">
@@ -142,14 +141,14 @@ function InvitedList({
               </div>
             ))
           : !hasMore && <NoResultDashBoard searchTitle={searchTitle} />}{" "}
-        {/* 검색 내역이 없을 경우*/}
+        {/* 검색 내역이 없을 경우 */}
         {filteredData.length > 0 && !hasMore && (
           <p className="lg:mr-18 text-center text-gray-400 py-4">
             더 이상 초대 목록이 없습니다.
           </p>
         )}
         {hasMore && (
-          <div ref={observerRef} className="h-[50px] bg-transparent"></div> // 마지막 요소로 스크롤 감지
+          <div ref={observerRef} className="h-[50px] bg-transparent"></div>
         )}
       </div>
     </div>
@@ -158,36 +157,56 @@ function InvitedList({
 
 export default function InvitedDashBoard() {
   const [searchTitle, setSearchTitle] = useState("");
-  const [inviationData, setinviationData] = useState<Invite[]>([]);
+  const [inviationData, setInviationData] = useState<Invite[]>([]);
+  const [page, setPage] = useState(1); // 현재 페이지 상태
+  const [hasMore, setHasMore] = useState(true); // 더 불러올 데이터가 있는지 여부
+  const [cursorId, setCursorId] = useState<number | null>(null); // cursorId를 상태로 관리
 
   const handleSearchInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     setSearchTitle(event.target.value);
   };
 
-  useEffect(() => {
-    const fetchMembers = async () => {
-      try {
-        const res = await axiosInstance.get(apiRoutes.Invitations());
-        if (res.data && Array.isArray(res.data.invitations)) {
-          // 이메일 리스트를 객체 배열로 저장
-          const inviteData = res.data.invitations.map(
-            (item: {
-              dashboard: { title: string };
-              invitee: { nickname: string };
-            }) => ({
-              title: item.dashboard.title,
-              nickname: item.invitee.nickname,
-            })
-          );
-          setinviationData(inviteData);
-          console.log("inviteData>>", inviteData);
-        }
-      } catch (error) {
-        console.error("초대내역 불러오는데 오류 발생:", error);
-      }
-    };
+  const fetchNextPage = async () => {
+    try {
+      const res = await axiosInstance.get(apiRoutes.Invitations(), {
+        params: {
+          size: ITEMS_PER_PAGE,
+          cursorId: cursorId || undefined, // 커서가 있을 경우만 넘김
+        },
+      });
+      if (res.data && Array.isArray(res.data.invitations)) {
+        const newInvitations = res.data.invitations.map(
+          (item: {
+            id: number;
+            dashboard: { title: string };
+            invitee: { nickname: string };
+          }) => ({
+            id: item.id,
+            title: item.dashboard.title,
+            nickname: item.invitee.nickname,
+          })
+        );
 
-    fetchMembers();
+        // 새로 받아온 데이터가 있다면 cursorId 갱신
+        if (newInvitations.length > 0) {
+          setCursorId(res.data.cursorId); // 새 커서 ID로 업데이트
+        }
+
+        setInviationData((prev) => [...prev, ...newInvitations]);
+        setPage((prev) => prev + 1);
+
+        // 더 이상 데이터가 없으면 hasMore를 false로 설정
+        if (newInvitations.length < ITEMS_PER_PAGE) {
+          setHasMore(false);
+        }
+      }
+    } catch (error) {
+      console.error("초대내역 불러오는데 오류 발생:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchNextPage(); // 처음 6개 불러오기
   }, []);
 
   // invitedData가 비어 있으면 EmptyInvitations만 렌더링 > 초대내역이 아예 없을 경우
@@ -220,7 +239,12 @@ export default function InvitedDashBoard() {
             />
           </div>
         </div>
-        <InvitedList searchTitle={searchTitle} inviationData={inviationData} />
+        <InvitedList
+          searchTitle={searchTitle}
+          inviationData={inviationData}
+          fetchNextPage={fetchNextPage}
+          hasMore={hasMore}
+        />
       </div>
     </div>
   );

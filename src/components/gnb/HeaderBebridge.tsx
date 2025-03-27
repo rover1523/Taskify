@@ -6,15 +6,25 @@ import { getMembers } from "@/api/members";
 import { getUserInfo } from "@/api/user";
 import RandomProfile from "../table/member/RandomProfile";
 import InviteDashboard from "../modal/InviteDashboard";
+import axiosInstance from "@/api/axiosInstance";
+import { apiRoutes } from "@/api/apiRoutes";
 
 interface HeaderBebridgeProps {
   dashboardId?: string | string[];
+}
+
+interface DashboardDetail {
+  createdByMe: boolean;
 }
 
 const HeaderBebridge: React.FC<HeaderBebridgeProps> = ({ dashboardId }) => {
   const [user, setUser] = useState<UserType | null>(null);
   const [members, setMembers] = useState<MemberType[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [dashboardDeatil, setdashboardDetail] = useState<
+    DashboardDetail | undefined
+  >(undefined);
+
   /*관리 버튼 클릭 시 대시보드 수정하기 페이지 이동*/
   const router = useRouter();
   const goToDashboardEdit = () => {
@@ -28,6 +38,33 @@ const HeaderBebridge: React.FC<HeaderBebridgeProps> = ({ dashboardId }) => {
   const closeInviteModal = () => {
     setIsModalOpen(false);
   };
+
+  /* 관리 버튼(대시보드 상세 조회) */
+  useEffect(() => {
+    const fetchDashboardTitle = async () => {
+      try {
+        const dashboardIdNumber = Number(dashboardId);
+        const res = await axiosInstance.get(
+          apiRoutes.DashboardDetail(dashboardIdNumber),
+          {
+            params: {
+              dashboardId,
+            },
+          }
+        );
+        if (res.data) {
+          const dashboardData = res.data;
+          setdashboardDetail(dashboardData);
+          console.log("dashboardData 헤더", dashboardData);
+        }
+      } catch (error) {
+        console.error("대시보드 상세내용 불러오는데 오류 발생:", error);
+      }
+    };
+    if (dashboardId) {
+      fetchDashboardTitle();
+    }
+  }, [dashboardId]);
 
   /*유저 정보 api 호출*/
   useEffect(() => {
@@ -79,7 +116,13 @@ const HeaderBebridge: React.FC<HeaderBebridgeProps> = ({ dashboardId }) => {
         <div className="flex items-center">
           <div className="flex gap-[6px] md:gap-[16px] pr-[40px]">
             <button
-              onClick={goToDashboardEdit}
+              onClick={() => {
+                if (dashboardDeatil?.createdByMe === true) {
+                  goToDashboardEdit(); // Navigate to dashboard edit if true
+                } else {
+                  alert("대시보드 수정 권한이 없습니다."); // Show alert if false
+                }
+              }}
               className="flex items-center justify-center w-[49px] h-[30px] md:w-[85px] md:h-[36px] lg:w-[88px] lg:h-[40px] rounded-[8px] border border-[#D9D9D9] gap-[10px] cursor-pointer"
             >
               <img
