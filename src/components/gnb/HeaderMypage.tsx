@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import SkeletonUser from "./skeletonUser";
-import { MemberType, UserType } from "./type";
+import SkeletonUser from "../../shared/skeletonUser";
+import { MemberType, UserType } from "../../types/users";
 import { getMembers } from "@/api/members";
 import { getUserInfo } from "@/api/user";
 import RandomProfile from "../table/member/RandomProfile";
@@ -93,7 +93,6 @@ const HeaderMyPage = () => {
               />
               <span className="text-sm md:text-base text-gray1">초대하기</span>
             </button>
-            {/*임시 컴포넌트명, 추후 정식 초대 모달 컴포넌트로 교체*/}
             {isModalOpen && <NewDashboard onClose={closeInviteModal} />}
           </div>
 
@@ -106,7 +105,7 @@ const HeaderMyPage = () => {
                 {members.slice(0, 4).map((member) => (
                   <img
                     key={member.id}
-                    src={member.profileImageUrl || "/svgs/dummy-icon.png"}
+                    src={member.profileImageUrl}
                     alt={member.nickname}
                     className="w-[34px] h-[34px] md:w-[38px] md:h-[38px] rounded-full border-[2px] border-white"
                   />

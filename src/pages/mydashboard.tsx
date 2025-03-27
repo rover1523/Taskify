@@ -1,34 +1,14 @@
 import React, { useState } from "react";
-import SideMenu from "@/components/SideMenu/SideMenu";
-import HeaderDashboard from "@/components/Gnb/HeaderDashboard";
+import SideMenu from "@/components/sideMenu/SideMenu";
+import HeaderDashboard from "@/components/gnb/HeaderDashboard";
 import InvitedDashBoard from "@/components/table/invited/InvitedDashBoard";
-import type { Dashboard } from "@/components/SideMenu/dashboard";
+import type { Dashboard } from "@/components/sideMenu/dashboard";
 import DashboardAddButton from "@/components/button/DashboardAddButton";
 import CardButton from "@/components/button/CardButton";
 import { PaginationBtn } from "@/components/button/PaginationBtn";
 
-const dummyDashboards: Dashboard[] = [
-  {
-    id: 1,
-    title: "기획안",
-    color: "#F87171",
-    createdAt: "2024-01-01T00:00:00Z",
-    updatedAt: "2024-01-02T00:00:00Z",
-    createdByMe: true,
-    userId: 101,
-  },
-  {
-    id: 2,
-    title: "디자인 시안",
-    color: "#60A5FA",
-    createdAt: "2024-01-03T00:00:00Z",
-    updatedAt: "2024-01-04T00:00:00Z",
-    createdByMe: false,
-    userId: 102,
-  },
-];
-
 export default function MyDashboardPage() {
+  const teamId = "13";
   const [dashCards, setDashCards] = useState<string[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6;
@@ -57,7 +37,7 @@ export default function MyDashboardPage() {
 
   return (
     <div className="flex h-screen overflow-hidden">
-      <SideMenu dashboardList={dummyDashboards} />
+      <SideMenu teamId="13-4" />
 
       <div className="flex flex-col flex-1 overflow-hidden">
         <HeaderDashboard />
