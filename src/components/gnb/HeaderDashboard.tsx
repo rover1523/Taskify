@@ -18,7 +18,7 @@ interface HeaderDashboardProps {
 
 const MAX_VISIBLE_MEMBERS = 4;
 const memberIconWrapperClass =
-  "relative flex items-center justify-center w-[34px] h-[34px] md:w-[38px] md:h-[38px] rounded-full border-[2px] border-white";
+  "w-[34px] h-[34px] md:w-[38px] md:h-[38px] rounded-full border-[2px] border-white overflow-hidden";
 
 const HeaderDashboard: React.FC<HeaderDashboardProps> = ({
   variant,
@@ -173,53 +173,54 @@ const HeaderDashboard: React.FC<HeaderDashboardProps> = ({
           </div>
 
           {/*멤버 목록, 나머지 멤버 수 +n 아이콘으로 표시*/}
-
           {variant !== "mydashboard" && (
-            <div className="flex -space-x-3">
-              {isLoading ? (
-                <SkeletonUser />
-              ) : (
-                <>
-                  {members.slice(0, MAX_VISIBLE_MEMBERS).map((member) => (
-                    <div className={memberIconWrapperClass} key={member.id}>
-                      {member.profileImageUrl ? (
-                        <Image
-                          src={member.profileImageUrl}
-                          alt={member.nickname}
-                          fill
-                          className="object-cover"
-                        />
-                      ) : (
-                        <RandomProfile name={member.nickname} />
-                      )}
-                    </div>
-                  ))}
-                  {members.length > MAX_VISIBLE_MEMBERS && (
-                    <div
-                      className={`${memberIconWrapperClass} bg-[#F4D7DA] font-16m text-[#D25B68]`}
-                    >
-                      +{members.length - MAX_VISIBLE_MEMBERS}
-                    </div>
-                  )}
-                </>
-              )}
+            <div className="pr-[15px] md:pr-[25px] lg:pr-[30px]">
+              <div className="flex -space-x-3">
+                {isLoading ? (
+                  <SkeletonUser />
+                ) : (
+                  <>
+                    {members.slice(0, MAX_VISIBLE_MEMBERS).map((member) => (
+                      <div key={member.id}>
+                        {member.profileImageUrl ? (
+                          <Image
+                            key={member.id}
+                            src={member.profileImageUrl}
+                            alt={member.nickname}
+                            fill
+                            className={`${memberIconWrapperClass} object-cover`}
+                          />
+                        ) : (
+                          <RandomProfile name={member.nickname} />
+                        )}
+                      </div>
+                    ))}
+                    {members.length > MAX_VISIBLE_MEMBERS && (
+                      <div
+                        className={`${memberIconWrapperClass} bg-[#F4D7DA] font-16m text-[#D25B68]`}
+                      >
+                        +{members.length - MAX_VISIBLE_MEMBERS}
+                      </div>
+                    )}
+                  </>
+                )}
+              </div>
             </div>
           )}
 
-          {/*구분선*/}
-          <div className="pl-[15px] pr-[20px] md:pl-[25px] md:pr-[30px] lg:pl-[30px] lg:pr-[35px]">
-            <div className="flex items-center justify-center h-[34px] md:h-[38px] w-[1px] bg-[var(--color-gray3)]"></div>
-          </div>
+          {/*드롭다운 메뉴 너비 지정 목적의 섹션 구분*/}
+          <div className="relative flex items-center h-[60px] md:h-[70px] pr-[10px] md:pr-[30px] lg:pr-[80px]">
+            {/*구분선*/}
+            <div className="h-[34px] md:h-[38px] w-[1px] bg-[var(--color-gray3)]" />
 
-          {/*유저 정보*/}
-          {isLoading ? (
-            <SkeletonUser />
-          ) : (
-            user && (
-              <>
+            {/*유저 정보*/}
+            {isLoading ? (
+              <SkeletonUser />
+            ) : (
+              user && (
                 <div
                   onClick={toggleMenu}
-                  className="flex items-center pr-[10px] md:pr-[30px] lg:pr-[80px] gap-[12px] cursor-default"
+                  className="flex items-center gap-[12px] pl-[20px] md:pl-[30px] lg:pl-[35px] cursor-pointer"
                 >
                   <div className="relative w-[34px] h-[34px] md:w-[38px] md:h-[38px] rounded-full">
                     {user.profileImageUrl ? (
@@ -236,30 +237,34 @@ const HeaderDashboard: React.FC<HeaderDashboardProps> = ({
                   <span className="hidden md:block text-black3 md:text-base md:font-medium">
                     {user.nickname}
                   </span>
-                </div>
-                {isMenuOpen && (
-                  <div className="absolute right-8 top-[70px] w-[120px] bg-white border rounded shadow z-50">
+
+                  {/*드롭다운 메뉴*/}
+                  <div
+                    className={`absolute top-full right-0 text-center w-full
+                  bg-white border border-[#D9D9D9] shadow z-50
+                    transition-all duration-200 ease-out
+                    ${isMenuOpen ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-2 pointer-events-none"}`}
+                  >
                     <button
                       onClick={() => router.push("/mypage")}
-                      className="block w-full px-4 py-2 text-sm text-left hover:bg-gray-100"
+                      className="block w-full py-2 font-16r text-black3 hover:bg-[var(--color-gray5)]"
                     >
                       마이페이지
                     </button>
                     <button
                       onClick={() => {
                         localStorage.removeItem("accessToken");
-                        // useUserStore.getState().clearUser(); // Zustand 초기화 필요 시
                         router.push("/login");
                       }}
-                      className="block w-full px-4 py-2 text-sm text-left text-red-500 hover:bg-gray-100"
+                      className="block w-full py-2 font-16r text-black3 hover:bg-[var(--color-gray5)]"
                     >
                       로그아웃
                     </button>
                   </div>
-                )}
-              </>
-            )
-          )}
+                </div>
+              )
+            )}
+          </div>
         </div>
       </div>
     </header>
