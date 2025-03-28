@@ -104,7 +104,7 @@ export default function Dashboard() {
       <SideMenu teamId={teamId} dashboardList={dashboardList} />
 
       <div className="flex-1">
-        <HeaderBebridge dashboardId={dashboardId} />
+        <HeaderBebridge dashboardId={dashboardId} teamId={teamId} />
 
         <div className="flex gap-4 p-6 overflow-x-auto">
           {columns.map((col) => (

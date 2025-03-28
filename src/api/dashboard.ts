@@ -23,7 +23,7 @@ export const getColumns = async ({
   dashboardId,
 }: {
   teamId: string;
-  dashboardId: string;
+  dashboardId: number;
 }) => {
   const res = await axiosInstance.get(`/${teamId}/columns`, {
     params: {
