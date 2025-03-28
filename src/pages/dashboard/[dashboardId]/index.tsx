@@ -1,5 +1,18 @@
+// index.tsx
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
+import {
+  getColumns,
+  getCardsByColumn,
+  getDashboards,
+  createColumn,
+} from "@/api/dashboards";
+import {
+  CardType,
+  ColumnType,
+  DashboardType,
+  TasksByColumn,
+} from "@/types/task";
 import { getColumns, getCardsByColumn, getDashboards } from "@/api/dashboards";
 import { getMembers } from "@/api/card"; // ✅ card.ts에 정의된 getMembers 함수 사용
 import { CardType, ColumnType, TasksByColumn } from "@/types/task";
@@ -7,17 +20,42 @@ import HeaderDashboard from "@/components/gnb/HeaderDashboard";
 import Column from "@/components/columnCard/Column";
 import SideMenu from "@/components/sideMenu/SideMenu";
 import ColumnsButton from "@/components/button/ColumnsButton";
-import { Modal } from "@/components/modal/Modal";
-import Input from "@/components/input/Input";
-import { CustomBtn } from "@/components/button/CustomBtn";
+import AddColumnModal from "@/components/columnCard/AddColumnModal";
 
 export default function Dashboard() {
   const router = useRouter();
   const { dashboardId } = router.query;
   const teamId = "13-4";
+  const [columns, setColumns] = useState<ColumnType[]>([]);
+  const [tasksByColumn, setTasksByColumn] = useState<TasksByColumn>({});
+  const [dashboardList, setDashboardList] = useState<DashboardType[]>([]);
+
+  const teamId = "13-4";
 
   const [isReady, setIsReady] = useState(false);
   const [isAddColumnModalOpen, setIsAddColumnModalOpen] = useState(false);
+  const [newColumnTitle, setNewColumnTitle] = useState("");
+  const openModal = () => setIsAddColumnModalOpen(true);
+  // 칼럼 이름 유효성 검사용
+  const isDuplicate = columns.some(
+    (col) => col.title.toLowerCase() === newColumnTitle.trim().toLowerCase()
+  );
+  const pattern = isDuplicate ? "^$" : ".*\\S.*"; // 어떤 값이든 invalid처리. 공백이 있는 값은 invalid
+  const invalidMessage = isDuplicate
+    ? "중복된 칼럼 이름입니다."
+    : "칼럼 이름을 입력해 주세요.";
+  const isTitleEmpty = !newColumnTitle.trim();
+  const isMaxColumns = columns.length >= 10;
+  const isCreateDisabled = isTitleEmpty || isDuplicate || isMaxColumns;
+
+  // router 준비되었을 때 렌더링
+  useEffect(() => {
+    if (router.isReady && dashboardId) {
+      setIsReady(true);
+    }
+  }, [router.isReady, dashboardId]);
+
+  // 대시보드 목록 불러오기
 
   const [columns, setColumns] = useState<ColumnType[]>([]);
   const [tasksByColumn, setTasksByColumn] = useState<TasksByColumn>({});
@@ -53,6 +91,8 @@ export default function Dashboard() {
   }, [router.isReady, dashboardId]);
 
   useEffect(() => {
+    if (!isReady || !dashboardId) return;
+
     fetchDashboards();
     fetchMembers(); // ✅ 초기 멤버 로딩
   }, [teamId]);
@@ -62,9 +102,16 @@ export default function Dashboard() {
 
     const fetchColumnsAndCards = async () => {
       try {
-        const columnRes = await getColumns({ teamId, dashboardId });
+        const numericDashboardId = Number(dashboardId);
+
+        // 칼럼 목록 조회
+        const columnRes = await getColumns({
+          teamId,
+          dashboardId: numericDashboardId,
+        });
         setColumns(columnRes.data);
 
+        // 각 칼럼에 대한 카드 목록 조회
         const columnTasks: { [columnId: number]: CardType[] } = {};
 
         await Promise.all(
@@ -79,7 +126,7 @@ export default function Dashboard() {
 
         setTasksByColumn(columnTasks);
       } catch (err) {
-        console.error("❌ 에러 발생:", err);
+        console.error("❌ 칼럼 또는 카드 로딩 에러:", err);
       }
     };
 
@@ -91,18 +138,22 @@ export default function Dashboard() {
   if (!isReady) return <div>로딩 중...</div>;
 
   return (
-    <div className="flex">
+    <div className="flex overflow-x-auto min-w-fit">
       <SideMenu teamId={teamId} dashboardList={dashboardList} />
 
       <div className="flex-1">
-        <HeaderDashboard variant="dashboard" dashboardId={dashboardId} />
+        <HeaderDashboard dashboardId={dashboardId} />
 
-        <div className="flex gap-4 p-6">
+        <div className="flex gap-4 p-6 overflow-x-auto">
+          {/* 각 칼럼 렌더링 */}
           {columns.map((col) => (
             <Column
               key={col.id}
+              columnId={col.id}
               title={col.title}
               tasks={tasksByColumn[col.id] || []}
+              teamId={teamId}
+              dashboardId={Number(dashboardId)}
               teamId={teamId}
               dashboardId={Number(dashboardId)}
               columnId={col.id}
@@ -112,31 +163,38 @@ export default function Dashboard() {
 
           <ColumnsButton onClick={openModal} />
 
+          {/* 칼럼 추가 모달 */}
           {isAddColumnModalOpen && (
-            <Modal
+            <AddColumnModal
               isOpen={isAddColumnModalOpen}
               onClose={() => setIsAddColumnModalOpen(false)}
-            >
-              <div className="flex flex-col gap-5">
-                <h2 className="text-2xl font-bold">새 칼럼 생성</h2>
+              newColumnTitle={newColumnTitle}
+              setNewColumnTitle={setNewColumnTitle}
+              pattern={pattern}
+              invalidMessage={invalidMessage}
+              isCreateDisabled={isCreateDisabled}
+              onSubmit={async () => {
+                if (!newColumnTitle.trim()) {
+                  alert("칼럼 이름을 입력해 주세요.");
+                  return;
+                }
 
-                <label className="font-medium flex flex-col gap-2">
-                  이름
-                  <Input type="text" placeholder="새로운 프로젝트" />
-                </label>
-                <div className="flex justify-between mt-1.5">
-                  <CustomBtn
-                    variant="outlineDisabled"
-                    onClick={() => {
-                      setIsAddColumnModalOpen(false);
-                    }}
-                  >
-                    취소
-                  </CustomBtn>
-                  <CustomBtn>생성</CustomBtn>
-                </div>
-              </div>
-            </Modal>
+                try {
+                  const newColumn = await createColumn({
+                    teamId,
+                    title: newColumnTitle,
+                    dashboardId: Number(dashboardId),
+                  });
+
+                  setColumns((prev) => [...prev, newColumn]);
+                  setNewColumnTitle("");
+                  setIsAddColumnModalOpen(false);
+                } catch (error) {
+                  console.error("칼럼 생성 실패:", error);
+                  alert("칼럼 생성 중 에러가 발생했어요.");
+                }
+              }}
+            />
           )}
         </div>
       </div>
