@@ -21,7 +21,7 @@ function InvitedList({
 }) {
   const observerRef = useRef<HTMLDivElement | null>(null);
 
-  // IntersectionObserver 설정
+  /* IntersectionObserver 설정 */
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -32,7 +32,7 @@ function InvitedList({
           }
         });
       },
-      { threshold: 0.5 }
+      { threshold: 0.5 } // observerRef가 화면에 50% 이상 보일 때
     );
 
     if (observerRef.current) {
@@ -46,14 +46,14 @@ function InvitedList({
     };
   }, [hasMore, fetchNextPage]);
 
-  // 검색 기능
+  /* 검색 기능 */
   const filteredData = inviationData.filter(
     (invite) =>
       invite.title.toLowerCase().includes(searchTitle.toLowerCase()) ||
       invite.nickname.toLowerCase().includes(searchTitle.toLowerCase())
   );
 
-  // 수락
+  /* 수락 */
   const acceptInvite = async (inviteId: number) => {
     const payload = {
       inviationId: inviteId,
@@ -73,7 +73,7 @@ function InvitedList({
     }
   };
 
-  // 거절
+  /* 거절 */
   const rejectInvite = async (inviteId: number) => {
     const payload = {
       inviationId: inviteId,
@@ -183,17 +183,28 @@ export default function InvitedDashBoard() {
   const [page, setPage] = useState(1); // 현재 페이지 상태
   const [hasMore, setHasMore] = useState(true); // 더 불러올 데이터가 있는지 여부
   const [cursorId, setCursorId] = useState<number | null>(null); // cursorId를 상태로 관리
+  const [prevCursorId, setPrevCursorId] = useState<number | null>(0);
 
+  /* 검색 input */
   const handleSearchInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     setSearchTitle(event.target.value);
   };
 
+  /* 초대 목록 데이터 불러오기 */
   const fetchNextPage = async () => {
+    console.log("prevCursorId:", prevCursorId);
+    console.log("cursorId:", cursorId);
+
+    if (cursorId === prevCursorId) {
+      console.log("cursorId 중복");
+      return;
+    }
+
     try {
       const res = await axiosInstance.get(apiRoutes.Invitations(), {
         params: {
           size: ITEMS_PER_PAGE,
-          cursorId: cursorId || undefined, // 커서가 있을 경우만 넘김
+          cursorId: cursorId || null,
         },
       });
       if (res.data && Array.isArray(res.data.invitations)) {
@@ -211,7 +222,10 @@ export default function InvitedDashBoard() {
 
         // 새로 받아온 데이터가 있다면 cursorId 갱신
         if (newInvitations.length > 0) {
-          setCursorId(res.data.cursorId); // 새 커서 ID로 업데이트
+          // prevCursorId를 현재 cursorId로 업데이트
+          setPrevCursorId(cursorId);
+          // cursorId를 새로운 값으로 업데이트
+          setCursorId(res.data.cursorId);
         }
 
         setInviationData((prev) => [...prev, ...newInvitations]);
@@ -228,7 +242,7 @@ export default function InvitedDashBoard() {
   };
 
   useEffect(() => {
-    fetchNextPage(); // 처음 6개 불러오기
+    fetchNextPage(); // 초기 데이터 6개 불러오기
   }, []);
 
   // invitedData가 비어 있으면 EmptyInvitations만 렌더링 > 초대내역이 아예 없을 경우
