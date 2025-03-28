@@ -132,7 +132,13 @@ const HeaderDashboard: React.FC<HeaderDashboardProps> = ({
           {/*관리 / 초대하기 버튼*/}
           <div className="flex gap-[6px] md:gap-[16px] pr-[40px]">
             <button
-              onClick={() => router.push(`/dashboard/${dashboardId}/edit`)}
+              onClick={() => {
+                if (dashboardId) {
+                  router.push(`/dashboard/${dashboardId}/edit`);
+                } else {
+                  router.push("mydashboard");
+                }
+              }}
               className="flex items-center justify-center w-[49px] h-[30px] md:w-[85px] md:h-[36px] lg:w-[88px] lg:h-[40px] rounded-[8px] border border-[#D9D9D9] gap-[10px] cursor-pointer"
             >
               <Image
