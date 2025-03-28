@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { getColumns, getCardsByColumn, getDashboards } from "@/api/dashboard";
+import { getMembers } from "@/api/card"; // ✅ card.ts에 정의된 getMembers 함수 사용
 import { CardType, ColumnType, TasksByColumn } from "@/types/task";
 import HeaderBebridge from "@/components/gnb/HeaderBebridge";
 import Column from "@/components/columncard/Column";
@@ -13,23 +14,17 @@ import { CustomBtn } from "@/components/button/CustomBtn";
 export default function Dashboard() {
   const router = useRouter();
   const { dashboardId } = router.query;
+  const teamId = "13-4";
+
   const [isReady, setIsReady] = useState(false);
   const [isAddColumnModalOpen, setIsAddColumnModalOpen] = useState(false);
-  const openModal = () => setIsAddColumnModalOpen(true);
-  // const closeModal = () => setIsAddColumnModalOpen(false);
-  const teamId = "13-4";
 
   const [columns, setColumns] = useState<ColumnType[]>([]);
   const [tasksByColumn, setTasksByColumn] = useState<TasksByColumn>({});
   const [dashboardList, setDashboardList] = useState<Dashboard[]>([]);
+  const [members, setMembers] = useState<{ id: number; name: string }[]>([]);
 
-  // router 준비되었을 때 렌더링
-  useEffect(() => {
-    if (router.isReady && dashboardId) {
-      setIsReady(true);
-    }
-  }, [router.isReady, dashboardId]);
-
+  // 👉 대시보드 목록 가져오기
   const fetchDashboards = async () => {
     try {
       const res = await getDashboards({ teamId });
@@ -39,11 +34,29 @@ export default function Dashboard() {
     }
   };
 
+  // 👉 팀 멤버 목록 가져오기
+  const fetchMembers = async () => {
+    try {
+      if (dashboardId) {
+        const res = await getMembers(teamId, Number(dashboardId));
+        setMembers(res); // 올바른 데이터 구조로 설정
+      }
+    } catch (err) {
+      console.error("멤버 불러오기 실패:", err);
+    }
+  };
+
+  useEffect(() => {
+    if (router.isReady && dashboardId) {
+      setIsReady(true);
+    }
+  }, [router.isReady, dashboardId]);
+
   useEffect(() => {
     fetchDashboards();
+    fetchMembers(); // ✅ 초기 멤버 로딩
   }, [teamId]);
-  <SideMenu teamId={teamId} dashboardList={dashboardList} />;
-  // 칼럼 + 카드 로딩
+
   useEffect(() => {
     if (!isReady || typeof dashboardId !== "string") return;
 
@@ -73,6 +86,8 @@ export default function Dashboard() {
     fetchColumnsAndCards();
   }, [isReady, dashboardId]);
 
+  const openModal = () => setIsAddColumnModalOpen(true);
+
   if (!isReady) return <div>로딩 중...</div>;
 
   return (
@@ -88,6 +103,10 @@ export default function Dashboard() {
               key={col.id}
               title={col.title}
               tasks={tasksByColumn[col.id] || []}
+              teamId={teamId}
+              dashboardId={Number(dashboardId)}
+              columnId={col.id}
+              members={members} // ✅ 실제 멤버 전달
             />
           ))}
 

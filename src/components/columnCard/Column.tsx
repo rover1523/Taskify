@@ -11,11 +11,19 @@ import { CustomBtn } from "../button/CustomBtn";
 type ColumnProps = {
   title?: string;
   tasks?: CardType[];
+  teamId: string;
+  dashboardId: number;
+  columnId: number;
+  members: { id: number; name: string }[]; // ✅ 초대 유저
 };
 
 export default function Column({
   title = "new Task",
   tasks = [],
+  teamId,
+  dashboardId,
+  columnId,
+  members,
 }: ColumnProps) {
   const [isColumnModalOpen, setIsColumnModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -62,8 +70,11 @@ export default function Column({
       {/* Todo 추가 모달 */}
       {isTodoModalOpen && (
         <TodoModal
-          isOpen={isTodoModalOpen}
           onClose={() => setIsTodoModalOpen(false)}
+          teamId={teamId}
+          dashboardId={dashboardId}
+          columnId={columnId}
+          members={members}
         />
       )}
 
