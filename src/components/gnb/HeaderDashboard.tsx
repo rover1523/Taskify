@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import Image from "next/image";
 import SkeletonUser from "@/shared/skeletonUser";
+import Image from "next/image";
 import { MemberType, UserType } from "@/types/users";
 import { getMembers } from "@/api/members";
 import { getUserInfo } from "@/api/user";
