@@ -71,7 +71,7 @@ export default function Column({
       {/* Todo 모달 */}
       {isTodoModalOpen && (
         <TodoModal
-          isOpen={isTodoModalOpen}
+          isOpen={isTodoModalOpen} // todo todomodal에서 타입정의 추가하기 (isOpen, teamId, dashboardId)
           onClose={() => setIsTodoModalOpen(false)}
           teamId={teamId}
           dashboardId={dashboardId}

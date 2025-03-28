@@ -69,7 +69,7 @@ export default function Dashboard() {
   <SideMenu teamId={teamId} dashboardList={dashboardList} />;
   // 칼럼 + 카드 로딩
   useEffect(() => {
-    if (!isReady || typeof dashboardId !== "string") return;
+    if (!isReady || typeof dashboardId !== "number") return;
 
     const fetchColumnsAndCards = async () => {
       try {
@@ -113,7 +113,7 @@ export default function Dashboard() {
               title={col.title}
               tasks={tasksByColumn[col.id] || []}
               teamId={teamId}
-              dashboardId={dashboardId}
+              dashboardId={Number(dashboardId)}
             />
           ))}
 
