@@ -1,5 +1,3 @@
-// dashboards.ts
-import { ColumnType } from "@/types/task";
 import axiosInstance from "./axiosInstance";
 
 export const getCardsByColumn = async ({
@@ -52,20 +50,13 @@ export const getDashboards = async ({
   return res.data;
 };
 
-// 칼럼 생성
-export const createColumn = async ({
+export const getDashboardById = async ({
   teamId,
-  title,
   dashboardId,
 }: {
   teamId: string;
-  title: string;
   dashboardId: number;
-}): Promise<ColumnType> => {
-  const res = await axiosInstance.post(`/${teamId}/columns`, {
-    title,
-    dashboardId,
-  });
-
+}) => {
+  const res = await axiosInstance.get(`/${teamId}/dashboards/${dashboardId}`);
   return res.data;
 };

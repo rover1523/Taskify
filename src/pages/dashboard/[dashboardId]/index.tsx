@@ -6,15 +6,15 @@ import {
   getCardsByColumn,
   getDashboards,
   createColumn,
-} from "@/api/dashboard";
+} from "@/api/dashboards";
 import {
   CardType,
   ColumnType,
   DashboardType,
   TasksByColumn,
 } from "@/types/task";
-import HeaderBebridge from "@/components/gnb/HeaderBebridge";
-import Column from "@/components/columncard/Column";
+import HeaderDashboard from "@/components/gnb/HeaderDashboard";
+import Column from "@/components/columnCard/Column";
 import SideMenu from "@/components/sideMenu/SideMenu";
 import ColumnsButton from "@/components/button/ColumnsButton";
 import AddColumnModal from "@/components/columnCard/AddColumnModal";
@@ -104,7 +104,7 @@ export default function Dashboard() {
       <SideMenu teamId={teamId} dashboardList={dashboardList} />
 
       <div className="flex-1">
-        <HeaderBebridge dashboardId={dashboardId} teamId={teamId} />
+        <HeaderBebridge dashboardId={dashboardId} />
 
         <div className="flex gap-4 p-6 overflow-x-auto">
           {columns.map((col) => (
