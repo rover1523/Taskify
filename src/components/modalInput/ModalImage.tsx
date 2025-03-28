@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { ChangeEvent, useRef, useState } from "react";
 import AddButton from "./AddButton";
-import { uploadImage } from "@/api/card";
+import { uploadCardImage } from "@/api/card";
 
 interface ModalImageProps {
   label: string;
@@ -27,7 +27,7 @@ export default function ModalImage({
     const file = e.target.files?.[0];
     if (!file) return;
 
-    // 미리보기용 base64 이미지
+    // 이미지 미리보기
     const reader = new FileReader();
     reader.onload = (event) => {
       const imageSrc = event.target?.result as string;
@@ -36,10 +36,11 @@ export default function ModalImage({
     reader.readAsDataURL(file);
 
     try {
-      const formData = new FormData();
-      formData.append("image", file); // ✅ 정확한 키로 전달
-
-      const imageUrl = await uploadImage(teamId, columnId, formData); // ✅ API 호출
+      const imageUrl = await uploadCardImage({
+        teamId,
+        columnId,
+        imageFile: file, // ✅ File만 넘김
+      });
       onImageSelect(imageUrl); // 부모로 전달
     } catch (error) {
       console.error("이미지 업로드 실패:", error);

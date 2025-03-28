@@ -11,16 +11,20 @@ interface TaskModalProps {
   teamId: string;
   dashboardId: number;
   columnId: number;
-  members: { id: number; name: string }[]; // 멤버 정보를 전달
+  members: {
+    id: number;
+    userId: number;
+    nickname: string;
+  }[];
 }
 
 interface TaskData {
-  assignee: string;
+  assignee: string; // nickname
   title: string;
   description: string;
   deadline: string;
   tags: string[];
-  image?: string; // 업로드된 이미지 URL
+  image?: string;
 }
 
 export default function TaskModal({
@@ -55,9 +59,14 @@ export default function TaskModal({
   const handleSubmit = async () => {
     try {
       const selectedAssignee = members.find(
-        (m) => m.name === formData.assignee
+        (m) => m.nickname === formData.assignee
       );
-      const assigneeUserId = selectedAssignee?.id;
+      const assigneeUserId = selectedAssignee?.userId;
+
+      if (!assigneeUserId) {
+        alert("담당자를 선택해 주세요.");
+        return;
+      }
 
       await createCard({
         teamId,
@@ -71,7 +80,7 @@ export default function TaskModal({
         imageUrl: formData.image || undefined,
       });
 
-      onClose(); // 카드 생성 후 모달 닫기
+      onClose();
     } catch (err) {
       console.error("카드 생성 실패:", err);
       alert("카드 생성에 실패했습니다.");
@@ -88,7 +97,7 @@ export default function TaskModal({
             label="담당자"
             value={formData.assignee}
             required
-            users={members.map((m) => m.name)} // 이름만 전달
+            users={members.map((m) => m.nickname)}
             onChange={(value) => handleChange("assignee", value)}
           />
 

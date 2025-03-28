@@ -1,24 +1,18 @@
-import axiosInstance from "@/api/axiosInstance";
+import axiosInstance from "./axiosInstance";
 
-// 카드 생성에 필요한 파라미터 타입 정의
-interface CreateCardParams {
+/** 1. 카드 이미지 업로드 */
+export const uploadCardImage = async ({
+  teamId,
+  columnId,
+  imageFile,
+}: {
   teamId: string;
-  assigneeUserId?: number;
-  dashboardId: number;
   columnId: number;
-  title: string;
-  description?: string;
-  dueDate?: string;
-  tags?: string[];
-  imageUrl?: string;
-}
+  imageFile: File;
+}): Promise<string> => {
+  const formData = new FormData();
+  formData.append("image", imageFile);
 
-// ✅ 이미지 업로드 함수
-export const uploadImage = async (
-  teamId: string,
-  columnId: number,
-  formData: FormData
-): Promise<string> => {
   const response = await axiosInstance.post(
     `/${teamId}/columns/${columnId}/card-image`,
     formData,
@@ -32,23 +26,61 @@ export const uploadImage = async (
   return response.data.imageUrl;
 };
 
-// ✅ 카드 생성 함수
-export const createCard = async ({ teamId, ...body }: CreateCardParams) => {
-  const response = await axiosInstance.post(`/${teamId}/cards`, body);
+/** 2. 카드 생성 */
+export const createCard = async ({
+  teamId,
+  assigneeUserId,
+  dashboardId,
+  columnId,
+  title,
+  description,
+  dueDate,
+  tags,
+  imageUrl,
+}: {
+  teamId: string;
+  assigneeUserId: number;
+  dashboardId: number;
+  columnId: number;
+  title: string;
+  description: string;
+  dueDate: string;
+  tags: string[];
+  imageUrl?: string;
+}) => {
+  const response = await axiosInstance.post(`/${teamId}/cards`, {
+    assigneeUserId,
+    dashboardId,
+    columnId,
+    title,
+    description,
+    dueDate,
+    tags,
+    imageUrl,
+  });
+
   return response.data;
 };
 
-// ✅ 대시보드 초대 멤버 목록 가져오기 함수
-export const getMembers = async (
-  teamId: string,
-  dashboardId: number
-): Promise<{ id: number; name: string }[]> => {
-  const res = await axiosInstance.get(
-    `/${teamId}/members?page=1&size=20&dashboardId=${dashboardId}`
-  );
+/** 3. 대시보드 멤버 조회 (담당자용) */
+export const getDashboardMembers = async ({
+  teamId,
+  dashboardId,
+  page = 1,
+  size = 20,
+}: {
+  teamId: string;
+  dashboardId: number;
+  page?: number;
+  size?: number;
+}) => {
+  const res = await axiosInstance.get(`/${teamId}/members`, {
+    params: {
+      page,
+      size,
+      dashboardId,
+    },
+  });
 
-  return res.data.members.map((member: any) => ({
-    id: member.userId,
-    name: member.nickname,
-  }));
+  return res.data.members;
 };
