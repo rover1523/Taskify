@@ -6,6 +6,7 @@ import { getMembers } from "@/api/members";
 import { getUserInfo } from "@/api/user";
 import RandomProfile from "../table/member/RandomProfile";
 import InviteDashboard from "../modal/InviteDashboard";
+import { TEAM_ID } from "@/constants/team";
 
 interface HeaderBebridgeProps {
   dashboardId?: string | string[];
@@ -33,7 +34,7 @@ const HeaderBebridge: React.FC<HeaderBebridgeProps> = ({ dashboardId }) => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const data = await getUserInfo();
+        const data = await getUserInfo({ teamId: TEAM_ID });
         setUser(data);
       } catch (error) {
         console.log("유저 정보 불러오기 실패", error);
@@ -104,7 +105,7 @@ const HeaderBebridge: React.FC<HeaderBebridgeProps> = ({ dashboardId }) => {
             {isModalOpen && <InviteDashboard onClose={closeInviteModal} />}
           </div>
 
-          {/*4개의 프로필 아이콘 표시, 나머지 멤버 숫자 +n 아이콘으로 표시*/}
+          {/*4개의 프로필 아이콘 표시, 나머지 멤버 수 +n 아이콘으로 표시*/}
           <div className="flex -space-x-3">
             {isLoading ? (
               <SkeletonUser />

@@ -96,7 +96,7 @@ const HeaderMyPage = () => {
             {isModalOpen && <NewDashboard onClose={closeInviteModal} />}
           </div>
 
-          {/*4개의 프로필 아이콘 표시, 나머지 멤버 숫자 +n 아이콘으로 표시*/}
+          {/*4개의 프로필 아이콘 표시, 나머지 멤버 수 +n 아이콘으로 표시*/}
           <div className="flex -space-x-3">
             {isLoading ? (
               <SkeletonUser />

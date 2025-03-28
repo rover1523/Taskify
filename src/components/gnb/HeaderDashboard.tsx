@@ -5,6 +5,7 @@ import { UserType } from "../../types/users";
 import { getUserInfo } from "@/api/user";
 import RandomProfile from "../table/member/RandomProfile";
 import InviteDashboard from "../modal/InviteDashboard";
+import { TEAM_ID } from "@/constants/team";
 
 const HeaderDashboard = () => {
   const [user, setUser] = useState<UserType | null>(null);
@@ -30,7 +31,7 @@ const HeaderDashboard = () => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const data = await getUserInfo();
+        const data = await getUserInfo({ teamId: TEAM_ID });
         setUser(data);
       } catch (error) {
         console.log("유저 정보 불러오기 실패", error);
