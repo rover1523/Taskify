@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import SkeletonUser from "@/shared/skeletonUser";
 import Image from "next/image";

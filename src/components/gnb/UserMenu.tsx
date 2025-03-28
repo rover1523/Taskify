@@ -29,7 +29,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ isMenuOpen, setIsMenuOpen }) => {
 
   return (
     <div
-      className={`absolute top-full right-0 w-full bg-white border border-[#D9D9D9] shadow
+      className={`absolute top-full right-0 w-full bg-white border border-[#D9D9D9]
         z-50 transition-all duration-200 ease-out
         ${isMenuOpen ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-2 pointer-events-none"}`}
     >
