@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { useRouter } from "next/router";
 import { User, LogOut } from "lucide-react";
 
@@ -11,7 +11,6 @@ const UserMenu: React.FC<UserMenuProps> = ({ isMenuOpen, setIsMenuOpen }) => {
   const router = useRouter();
   const dropdownRef = useRef<HTMLDivElement | null>(null);
 
-  /*바깥 클릭 시 닫힘*/
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (
@@ -21,19 +20,21 @@ const UserMenu: React.FC<UserMenuProps> = ({ isMenuOpen, setIsMenuOpen }) => {
         setIsMenuOpen(false);
       }
     };
+
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, []);
+  }, [setIsMenuOpen]);
 
   return (
     <div
-      className={`absolute top-full right-0 w-full bg-white border border-[#D9D9D9]
-        z-50 transition-all duration-200 ease-out
+      ref={dropdownRef}
+      className={`absolute top-full right-0 w-full
+        bg-white border border-[#D9D9D9] shadow z-50
+        transition-all duration-200 ease-out
         ${isMenuOpen ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-2 pointer-events-none"}`}
     >
-      {/*마이페이지 버튼*/}
       <button
         onClick={() => router.push("/mypage")}
         className="flex justify-center items-center w-full pt-3 pb-2 font-16r text-black3 hover:bg-[var(--color-gray5)]"
@@ -41,12 +42,10 @@ const UserMenu: React.FC<UserMenuProps> = ({ isMenuOpen, setIsMenuOpen }) => {
         <User size={20} className="md:hidden" />
         <span className="hidden md:block">마이페이지</span>
       </button>
-
-      {/*로그아웃 버튼*/}
       <button
         onClick={() => {
           localStorage.removeItem("accessToken");
-          router.push("/");
+          router.push("/login");
         }}
         className="flex justify-center items-center w-full pt-2 pb-3 font-16r text-black3 hover:bg-[var(--color-gray5)]"
       >

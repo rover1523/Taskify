@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/router";
 import SkeletonUser from "@/shared/skeletonUser";
 import Image from "next/image";
 import { MemberType, UserType } from "@/types/users";
-import { getMembers } from "@/api/members";
 import { getUserInfo } from "@/api/user";
 import { getDashboardById } from "@/api/dashboards";
 import { TEAM_ID } from "@/constants/team";
@@ -57,24 +56,6 @@ const HeaderDashboard: React.FC<HeaderDashboardProps> = ({
 
     fetchUser();
   }, []);
-
-  /*멤버 목록 api 호출*/
-  useEffect(() => {
-    const fetchMembers = async () => {
-      try {
-        const members = await getMembers(dashboardId);
-        setMembers(members);
-      } catch (error) {
-        console.error("멤버 불러오기 실패:", error);
-        setErrorMessage("멤버 정보를 불러오지 못했습니다.");
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    if ((variant === "dashboard" || variant === "mypage") && dashboardId) {
-      fetchMembers();
-    }
-  }, [dashboardId, variant]);
 
   /*대시보드 api 호출*/
   useEffect(() => {
