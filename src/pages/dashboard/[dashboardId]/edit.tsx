@@ -70,7 +70,6 @@ export default function EditDashboard() {
       <SideMenu teamId={teamId} dashboardList={dashboardList} />
 
       <div className="flex flex-col flex-1">
-        {/* HeaderBebridge와 ChangeBebridge는 상단에 배치 */}
         <div className="flex flex-col">
           <HeaderDashboardEdit variant="dashboard" dashboardId={dashboardId} />
         </div>

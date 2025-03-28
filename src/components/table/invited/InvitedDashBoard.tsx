@@ -203,7 +203,6 @@ export default function InvitedDashBoard() {
         cursorId !== null && cursorId !== undefined
           ? invitationData.get(cursorId)
           : undefined;
-      console.log("existingCursorId", existingCursorId);
 
       if (existingCursorId && existingCursorId.length > 0) {
         // 이미 데이터가 존재하면 더 이상 요청하지 않음
@@ -233,9 +232,7 @@ export default function InvitedDashBoard() {
           })
         ) as Invite[];
 
-        // 새로 받아온 데이터가 있다면 cursorId 갱신
         if (newInvitations.length > 0) {
-          // cursorId를 새로운 값으로 업데이트
           setCursorId(res.data.cursorId);
         }
 
@@ -245,7 +242,6 @@ export default function InvitedDashBoard() {
           return newMap;
         });
 
-        // 더 이상 데이터가 없으면 hasMore를 false로 설정
         if (newInvitations.length < ITEMS_PER_PAGE) {
           setHasMore(false);
         }
@@ -257,46 +253,44 @@ export default function InvitedDashBoard() {
     }
   };
 
-  // invitedData가 비어 있으면 EmptyInvitations만 렌더링 > 초대내역이 아예 없을 경우
-  if (invitationData.size === 0) {
-    return <EmptyInvitations />;
-  }
-
   const invitationArray = Array.from(invitationData.values()).flat();
-  console.log("$$ invitationArray", invitationArray);
 
   return (
     <div>
-      <div className="relative bg-white rounded-lg shadow-md w-[260px] sm:w-[504px] lg:w-[1022px] h-[770px] sm:h-[592px] lg:h-[620px] max-w-none">
-        <div className="p-6 relative w-full h-[104px]">
-          <div className="flex justify-between items-center mb-[32px]">
-            <p className="text-xl sm:text-2xl font-bold">초대받은 대시보드</p>
+      {invitationArray.length === 0 ? (
+        <EmptyInvitations />
+      ) : (
+        <div className="relative bg-white rounded-lg shadow-md w-[260px] sm:w-[504px] lg:w-[1022px] h-[770px] sm:h-[592px] lg:h-[620px] max-w-none">
+          <div className="p-6 relative w-full h-[104px]">
+            <div className="flex justify-between items-center mb-[32px]">
+              <p className="text-xl sm:text-2xl font-bold">초대받은 대시보드</p>
+            </div>
+            <div className="relative w-[228px] sm:w-[448px] lg:w-[966px]">
+              <input
+                id="title"
+                placeholder="검색"
+                type="text"
+                value={searchTitle}
+                onChange={handleSearchInputChange}
+                className="text-[var(--color-gray2)] w-full h-[40px] px-[40px] py-[6px] border border-[#D9D9D9] bg-white rounded-[6px] placeholder-gray-400 outline-none"
+              />
+              <Image
+                src="/svgs/search.svg"
+                alt="검색 아이콘"
+                width={20}
+                height={20}
+                className="absolute left-[12px] top-1/2 transform -translate-y-1/2"
+              />
+            </div>
           </div>
-          <div className="relative w-[228px] sm:w-[448px] lg:w-[966px]">
-            <input
-              id="title"
-              placeholder="검색"
-              type="text"
-              value={searchTitle}
-              onChange={handleSearchInputChange}
-              className="text-[var(--color-gray2)] w-full h-[40px] px-[40px] py-[6px] border border-[#D9D9D9] bg-white rounded-[6px] placeholder-gray-400 outline-none"
-            />
-            <Image
-              src="/svgs/search.svg"
-              alt="검색 아이콘"
-              width={20}
-              height={20}
-              className="absolute left-[12px] top-1/2 transform -translate-y-1/2"
-            />
-          </div>
+          <InvitedList
+            searchTitle={searchTitle}
+            invitationData={invitationArray}
+            fetchNextPage={fetchNextPage}
+            hasMore={hasMore}
+          />
         </div>
-        <InvitedList
-          searchTitle={searchTitle}
-          invitationData={invitationArray}
-          fetchNextPage={fetchNextPage}
-          hasMore={hasMore}
-        />
-      </div>
+      )}
     </div>
   );
 }
