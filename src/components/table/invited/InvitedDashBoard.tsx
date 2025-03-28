@@ -206,11 +206,11 @@ export default function InvitedDashBoard() {
           (item: {
             id: number;
             dashboard: { title: string };
-            invitee: { nickname: string };
+            inviter: { nickname: string };
           }) => ({
             id: item.id,
             title: item.dashboard.title,
-            nickname: item.invitee.nickname,
+            nickname: item.inviter.nickname,
           })
         );
 
