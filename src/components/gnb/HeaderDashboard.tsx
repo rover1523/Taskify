@@ -25,14 +25,19 @@ const HeaderDashboard: React.FC<HeaderDashboardProps> = ({
   dashboardId,
 }) => {
   const router = useRouter();
+  const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState<UserType | null>(null);
   const [members, setMembers] = useState<MemberType[]>([]);
+  const [errorMessage, setErrorMessage] = useState("");
   const [dashboard, setDashboard] = useState<{
     title: string;
     createdByMe: boolean;
   } | null>(null);
-  const [errorMessage, setErrorMessage] = useState("");
-  const [isLoading, setIsLoading] = useState(true);
+
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const toggleMenu = () => {
+    setIsMenuOpen((prev) => !prev);
+  };
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const openInviteModal = () => {
@@ -211,26 +216,48 @@ const HeaderDashboard: React.FC<HeaderDashboardProps> = ({
             <SkeletonUser />
           ) : (
             user && (
-              <div
-                onClick={() => router.push("/mypage")}
-                className="flex items-center pr-[10px] md:pr-[30px] lg:pr-[80px] gap-[12px] cursor-default"
-              >
-                <div className="relative w-[34px] h-[34px] md:w-[38px] md:h-[38px] rounded-full">
-                  {user.profileImageUrl ? (
-                    <Image
-                      src={user.profileImageUrl}
-                      alt="유저 프로필 아이콘"
-                      fill
-                      className="object-cover"
-                    />
-                  ) : (
-                    <RandomProfile name={user.nickname} />
-                  )}
+              <>
+                <div
+                  onClick={toggleMenu}
+                  className="flex items-center pr-[10px] md:pr-[30px] lg:pr-[80px] gap-[12px] cursor-default"
+                >
+                  <div className="relative w-[34px] h-[34px] md:w-[38px] md:h-[38px] rounded-full">
+                    {user.profileImageUrl ? (
+                      <Image
+                        src={user.profileImageUrl}
+                        alt="유저 프로필 아이콘"
+                        fill
+                        className="object-cover"
+                      />
+                    ) : (
+                      <RandomProfile name={user.nickname} />
+                    )}
+                  </div>
+                  <span className="hidden md:block text-black3 md:text-base md:font-medium">
+                    {user.nickname}
+                  </span>
                 </div>
-                <span className="hidden md:block text-black3 md:text-base md:font-medium">
-                  {user.nickname}
-                </span>
-              </div>
+                {isMenuOpen && (
+                  <div className="absolute right-8 top-[70px] w-[120px] bg-white border rounded shadow z-50">
+                    <button
+                      onClick={() => router.push("/mypage")}
+                      className="block w-full px-4 py-2 text-sm text-left hover:bg-gray-100"
+                    >
+                      마이페이지
+                    </button>
+                    <button
+                      onClick={() => {
+                        localStorage.removeItem("accessToken");
+                        // useUserStore.getState().clearUser(); // Zustand 초기화 필요 시
+                        router.push("/login");
+                      }}
+                      className="block w-full px-4 py-2 text-sm text-left text-red-500 hover:bg-gray-100"
+                    >
+                      로그아웃
+                    </button>
+                  </div>
+                )}
+              </>
             )
           )}
         </div>
