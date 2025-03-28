@@ -1,3 +1,4 @@
+import { ColumnType } from "@/types/task";
 import axiosInstance from "./axiosInstance";
 
 export const getCardsByColumn = async ({
@@ -59,4 +60,34 @@ export const getDashboardById = async ({
 }) => {
   const res = await axiosInstance.get(`/${teamId}/dashboards/${dashboardId}`);
   return res.data;
+};
+
+// 칼럼 생성
+export const createColumn = async ({
+  teamId,
+  title,
+  dashboardId,
+}: {
+  teamId: string;
+  title: string;
+  dashboardId: number;
+}): Promise<ColumnType> => {
+  const res = await axiosInstance.post(`/${teamId}/columns`, {
+    title,
+    dashboardId,
+  });
+
+  return res.data;
+};
+
+// 칼럼 삭제
+export const deleteColumn = async ({
+  teamId,
+  columnId,
+}: {
+  teamId: string;
+  columnId: number;
+}) => {
+  const res = await axiosInstance.delete(`/${teamId}/columns/${columnId}`);
+  return res;
 };

@@ -5,10 +5,12 @@ import { CardType } from "@/types/task";
 import Card from "./Card";
 import TodoModal from "@/components/modalInput/ToDoModal";
 import TodoButton from "@/components/button/TodoButton";
-import ColumnManageModal from "./ColumnManageModal";
-import ColumnDeleteModal from "./ColumnDeleteModal";
+import ColumnManageModal from "@/components/columnCard/ColumnManageModal";
+import ColumnDeleteModal from "@/components/columnCard/ColumnDeleteModal";
+import { deleteColumn } from "@/api/dashboards";
 
 type ColumnProps = {
+  columnId: number;
   title?: string;
   tasks?: CardType[];
   teamId: string;
@@ -16,6 +18,7 @@ type ColumnProps = {
 };
 
 export default function Column({
+  columnId,
   title = "new Task",
   tasks = [],
   teamId,
@@ -25,9 +28,16 @@ export default function Column({
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isTodoModalOpen, setIsTodoModalOpen] = useState(false);
 
-  const handleDeleteColumn = () => {
-    // 칼럼 삭제 API 호출 예정
-    setIsDeleteModalOpen(false);
+  const handleDeleteColumn = async () => {
+    try {
+      await deleteColumn({ teamId, columnId });
+      setIsDeleteModalOpen(false);
+      alert("칼럼이 삭제되었습니다.");
+      // 👉 부모에서 상태를 관리 중이라면 삭제 후 다시 데이터를 불러오거나, 상태 업데이트 필요!
+    } catch (error) {
+      console.error("칼럼 삭제 실패:", error);
+      alert("칼럼 삭제에 실패했습니다.");
+    }
   };
 
   return (

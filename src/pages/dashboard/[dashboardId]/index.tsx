@@ -29,20 +29,16 @@ export default function Dashboard() {
 
   const [isReady, setIsReady] = useState(false);
   const [isAddColumnModalOpen, setIsAddColumnModalOpen] = useState(false);
-  const openModal = () => setIsAddColumnModalOpen(true);
-  // const closeModal = () => setIsAddColumnModalOpen(false);
   const [newColumnTitle, setNewColumnTitle] = useState("");
-  // 칼럼 중복 체크
+  const openModal = () => setIsAddColumnModalOpen(true);
+  // 칼럼 이름 유효성 검사용
   const isDuplicate = columns.some(
     (col) => col.title.toLowerCase() === newColumnTitle.trim().toLowerCase()
   );
-  //정규식 패턴: 중복이면 무효한 값이 되게끔
   const pattern = isDuplicate ? "^$" : ".*\\S.*"; // 어떤 값이든 invalid처리. 공백이 있는 값은 invalid
-  // 경고 메시지 설정
   const invalidMessage = isDuplicate
     ? "중복된 칼럼 이름입니다."
     : "칼럼 이름을 입력해 주세요.";
-  // 버튼 활성화 조건
   const isTitleEmpty = !newColumnTitle.trim();
   const isMaxColumns = columns.length >= 10;
   const isCreateDisabled = isTitleEmpty || isDuplicate || isMaxColumns;
@@ -54,6 +50,7 @@ export default function Dashboard() {
     }
   }, [router.isReady, dashboardId]);
 
+  // 대시보드 목록 불러오기
   const fetchDashboards = async () => {
     try {
       const res = await getDashboards({ teamId });
@@ -63,19 +60,24 @@ export default function Dashboard() {
     }
   };
 
+  // 대시보드 및 칼럼/카드 데이터 패칭
   useEffect(() => {
+    if (!isReady || !dashboardId) return;
+
     fetchDashboards();
-  }, [teamId]);
-  <SideMenu teamId={teamId} dashboardList={dashboardList} />;
-  // 칼럼 + 카드 로딩
-  useEffect(() => {
-    if (!isReady || typeof dashboardId !== "number") return;
 
     const fetchColumnsAndCards = async () => {
       try {
-        const columnRes = await getColumns({ teamId, dashboardId });
+        const numericDashboardId = Number(dashboardId);
+
+        // 칼럼 목록 조회
+        const columnRes = await getColumns({
+          teamId,
+          dashboardId: numericDashboardId,
+        });
         setColumns(columnRes.data);
 
+        // 각 칼럼에 대한 카드 목록 조회
         const columnTasks: { [columnId: number]: CardType[] } = {};
 
         await Promise.all(
@@ -90,7 +92,7 @@ export default function Dashboard() {
 
         setTasksByColumn(columnTasks);
       } catch (err) {
-        console.error("❌ 에러 발생:", err);
+        console.error("❌ 칼럼 또는 카드 로딩 에러:", err);
       }
     };
 
@@ -104,12 +106,14 @@ export default function Dashboard() {
       <SideMenu teamId={teamId} dashboardList={dashboardList} />
 
       <div className="flex-1">
-        <HeaderBebridge dashboardId={dashboardId} />
+        <HeaderDashboard dashboardId={dashboardId} />
 
         <div className="flex gap-4 p-6 overflow-x-auto">
+          {/* 각 칼럼 렌더링 */}
           {columns.map((col) => (
             <Column
               key={col.id}
+              columnId={col.id}
               title={col.title}
               tasks={tasksByColumn[col.id] || []}
               teamId={teamId}
@@ -119,6 +123,7 @@ export default function Dashboard() {
 
           <ColumnsButton onClick={openModal} />
 
+          {/* 칼럼 추가 모달 */}
           {isAddColumnModalOpen && (
             <AddColumnModal
               isOpen={isAddColumnModalOpen}
