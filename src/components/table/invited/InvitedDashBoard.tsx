@@ -183,7 +183,6 @@ export default function InvitedDashBoard() {
   const [invitationData, setInvitationData] = useState<Map<CursorId, Invite[]>>(
     new Map()
   );
-  const [page, setPage] = useState(1); // 현재 페이지 상태
   const [hasMore, setHasMore] = useState(true); // 더 불러올 데이터가 있는지 여부
   const [cursorId, setCursorId] = useState<number | null>(null); // cursorId를 상태로 관리
   const isFetchingRef = useRef(false); // 데이터가 불러와졌는지 여부를 확인하기 위한 ref
@@ -200,11 +199,10 @@ export default function InvitedDashBoard() {
   /* 초대 목록 데이터 불러오기 */
   const fetchNextPage = async () => {
     try {
-      /**
-       * `-1`은 임의로 작성한 값. (있을 수 없는 값)
-       * @fixme -1 보다 `if`를 통하여 cursorId를 확인하는 방법으로 변경
-       */
-      const existingCursorId = invitationData.get(cursorId ?? -1);
+      const existingCursorId =
+        cursorId !== null && cursorId !== undefined
+          ? invitationData.get(cursorId)
+          : undefined;
       console.log("existingCursorId", existingCursorId);
 
       if (existingCursorId && existingCursorId.length > 0) {
@@ -237,22 +235,15 @@ export default function InvitedDashBoard() {
 
         // 새로 받아온 데이터가 있다면 cursorId 갱신
         if (newInvitations.length > 0) {
-          // prevCursorId를 현재 cursorId로 업데이트
-          // setPrevCursorId(cursorId);
           // cursorId를 새로운 값으로 업데이트
           setCursorId(res.data.cursorId);
         }
 
-        // setInvitationData((prev) => [...prev, ...newInvitations]);
         setInvitationData((prev) => {
           const newMap = new Map(prev);
           newMap.set(cursorId as CursorId, newInvitations);
           return newMap;
         });
-
-        // setInvitationData((prev) => [...prev, ...newInvitations]);
-
-        setPage((prev) => prev + 1);
 
         // 더 이상 데이터가 없으면 hasMore를 false로 설정
         if (newInvitations.length < ITEMS_PER_PAGE) {
