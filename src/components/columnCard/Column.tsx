@@ -7,7 +7,7 @@ import TodoModal from "@/components/modalInput/ToDoModal";
 import TodoButton from "@/components/button/TodoButton";
 import ColumnManageModal from "@/components/columnCard/ColumnManageModal";
 import ColumnDeleteModal from "@/components/columnCard/ColumnDeleteModal";
-import { deleteColumn } from "@/api/dashboards";
+import { updateColumn, deleteColumn } from "@/api/dashboards";
 
 type ColumnProps = {
   columnId: number;
@@ -27,6 +27,24 @@ export default function Column({
   const [isColumnModalOpen, setIsColumnModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isTodoModalOpen, setIsTodoModalOpen] = useState(false);
+  const [columnTitle, setColmnTitle] = useState(title);
+
+  const handleEditColumn = async (newTitle: string) => {
+    if (!newTitle.trim()) {
+      alert("칼럼 이름을 입력해주세요.");
+      return;
+    }
+
+    try {
+      const updated = await updateColumn({ teamId, columnId, title: newTitle });
+      setColmnTitle(updated.title);
+      setIsColumnModalOpen(false);
+      alert("칼럼 이름이 변경되었습니다.");
+    } catch (error) {
+      console.error("칼럼 이름 수정 실패:", error);
+      alert("칼럼 이름 수정 중 오류가 발생했습니다.");
+    }
+  };
 
   const handleDeleteColumn = async () => {
     try {
@@ -46,7 +64,7 @@ export default function Column({
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <h2 className="text-lg font-bold">
-            <span className="text-[var(--primary)]">•</span> {title}
+            <span className="text-[var(--primary)]">•</span> {columnTitle}
           </h2>
           <span className="bg-gray-200 text-gray-700 px-2 py-1 rounded-full text-sm">
             {tasks.length}
@@ -96,7 +114,8 @@ export default function Column({
           setIsColumnModalOpen(false);
           setIsDeleteModalOpen(true);
         }}
-        columnTitle={title}
+        columnTitle={columnTitle}
+        onEditSubmit={handleEditColumn}
       />
 
       {/* 칼럼 삭제 확인 모달 */}

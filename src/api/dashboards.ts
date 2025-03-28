@@ -91,3 +91,19 @@ export const deleteColumn = async ({
   const res = await axiosInstance.delete(`/${teamId}/columns/${columnId}`);
   return res;
 };
+
+// 칼럼 수정
+export const updateColumn = async ({
+  teamId,
+  columnId,
+  title,
+}: {
+  teamId: string;
+  columnId: number;
+  title: string;
+}) => {
+  const res = await axiosInstance.put(`/${teamId}/columns/${columnId}`, {
+    title,
+  });
+  return res.data;
+};
