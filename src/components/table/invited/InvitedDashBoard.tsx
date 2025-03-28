@@ -10,12 +10,12 @@ const ITEMS_PER_PAGE = 6; // 한 번에 보여줄 개수
 
 function InvitedList({
   searchTitle,
-  inviationData,
+  invitationData: invitationData,
   fetchNextPage,
   hasMore,
 }: {
   searchTitle: string;
-  inviationData: Invite[];
+  invitationData: Invite[];
   fetchNextPage: () => void;
   hasMore: boolean;
 }) {
@@ -27,7 +27,6 @@ function InvitedList({
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting && hasMore) {
-            console.log("Scroll reached the end. Loading more data...");
             fetchNextPage();
           }
         });
@@ -47,7 +46,7 @@ function InvitedList({
   }, [hasMore, fetchNextPage]);
 
   /* 검색 기능 */
-  const filteredData = inviationData.filter(
+  const filteredData = invitationData.filter(
     (invite) =>
       invite.title.toLowerCase().includes(searchTitle.toLowerCase()) ||
       invite.nickname.toLowerCase().includes(searchTitle.toLowerCase())
@@ -170,43 +169,59 @@ function InvitedList({
           </p>
         )}
         {hasMore && (
-          <div ref={observerRef} className="h-[50px] bg-transparent"></div>
+          <div ref={observerRef} className="h-[50px] w-[50px] bg-red"></div>
         )}
       </div>
     </div>
   );
 }
 
+type CursorId = number;
+
 export default function InvitedDashBoard() {
   const [searchTitle, setSearchTitle] = useState("");
-  const [inviationData, setInviationData] = useState<Invite[]>([]);
+  const [invitationData, setInvitationData] = useState<Map<CursorId, Invite[]>>(
+    new Map()
+  );
   const [page, setPage] = useState(1); // 현재 페이지 상태
   const [hasMore, setHasMore] = useState(true); // 더 불러올 데이터가 있는지 여부
   const [cursorId, setCursorId] = useState<number | null>(null); // cursorId를 상태로 관리
-  const [prevCursorId, setPrevCursorId] = useState<number | null>(0);
+  const isFetchingRef = useRef(false); // 데이터가 불러와졌는지 여부를 확인하기 위한 ref
 
   /* 검색 input */
   const handleSearchInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     setSearchTitle(event.target.value);
   };
 
+  useEffect(() => {
+    fetchNextPage(); // 초기 데이터 6개 불러오기
+  }, []);
+
   /* 초대 목록 데이터 불러오기 */
   const fetchNextPage = async () => {
-    console.log("prevCursorId:", prevCursorId);
-    console.log("cursorId:", cursorId);
-
-    if (cursorId === prevCursorId) {
-      console.log("cursorId 중복");
-      return;
-    }
-
     try {
+      /**
+       * `-1`은 임의로 작성한 값. (있을 수 없는 값)
+       * @fixme -1 보다 `if`를 통하여 cursorId를 확인하는 방법으로 변경
+       */
+      const existingCursorId = invitationData.get(cursorId ?? -1);
+      console.log("existingCursorId", existingCursorId);
+
+      if (existingCursorId && existingCursorId.length > 0) {
+        // 이미 데이터가 존재하면 더 이상 요청하지 않음
+        return;
+      }
+
+      if (isFetchingRef.current) return; // 이미 데이터가 불러와졌다면 중복 요청 방지
+      isFetchingRef.current = true; // 데이터 요청 시작
+
       const res = await axiosInstance.get(apiRoutes.Invitations(), {
         params: {
           size: ITEMS_PER_PAGE,
           cursorId: cursorId || null,
         },
       });
+
       if (res.data && Array.isArray(res.data.invitations)) {
         const newInvitations = res.data.invitations.map(
           (item: {
@@ -218,17 +233,25 @@ export default function InvitedDashBoard() {
             title: item.dashboard.title,
             nickname: item.inviter.nickname,
           })
-        );
+        ) as Invite[];
 
         // 새로 받아온 데이터가 있다면 cursorId 갱신
         if (newInvitations.length > 0) {
           // prevCursorId를 현재 cursorId로 업데이트
-          setPrevCursorId(cursorId);
+          // setPrevCursorId(cursorId);
           // cursorId를 새로운 값으로 업데이트
           setCursorId(res.data.cursorId);
         }
 
-        setInviationData((prev) => [...prev, ...newInvitations]);
+        // setInvitationData((prev) => [...prev, ...newInvitations]);
+        setInvitationData((prev) => {
+          const newMap = new Map(prev);
+          newMap.set(cursorId as CursorId, newInvitations);
+          return newMap;
+        });
+
+        // setInvitationData((prev) => [...prev, ...newInvitations]);
+
         setPage((prev) => prev + 1);
 
         // 더 이상 데이터가 없으면 hasMore를 false로 설정
@@ -238,17 +261,18 @@ export default function InvitedDashBoard() {
       }
     } catch (error) {
       console.error("초대내역 불러오는데 오류 발생:", error);
+    } finally {
+      isFetchingRef.current = false; // 데이터 요청 완료
     }
   };
 
-  useEffect(() => {
-    fetchNextPage(); // 초기 데이터 6개 불러오기
-  }, []);
-
   // invitedData가 비어 있으면 EmptyInvitations만 렌더링 > 초대내역이 아예 없을 경우
-  if (inviationData.length === 0) {
+  if (invitationData.size === 0) {
     return <EmptyInvitations />;
   }
+
+  const invitationArray = Array.from(invitationData.values()).flat();
+  console.log("$$ invitationArray", invitationArray);
 
   return (
     <div>
@@ -277,7 +301,7 @@ export default function InvitedDashBoard() {
         </div>
         <InvitedList
           searchTitle={searchTitle}
-          inviationData={inviationData}
+          invitationData={invitationArray}
           fetchNextPage={fetchNextPage}
           hasMore={hasMore}
         />

@@ -82,7 +82,7 @@ export default function EditDashboard() {
             >
               <Image
                 src="/svgs/arrow-backward-black.svg"
-                alt="돌이가기"
+                alt="돌아가기"
                 width={20}
                 height={20}
               />
