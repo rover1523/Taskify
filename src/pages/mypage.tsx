@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import HeaderMyPage from "@/components/gnb/HeaderMypage";
+import HeaderMyPage from "@/components/gnb/HeaderDashboard";
 import SideMenu from "@/components/sideMenu/SideMenu";
 import ProfileCard from "@/components/card/Profile";
 import ChangePassword from "@/components/card/ChangePassword";
-import { getDashboards } from "@/api/dashboard";
+import { getDashboards } from "@/api/dashboards";
 
 export default function MyPage() {
   const teamId = "13-4";
@@ -37,7 +37,7 @@ export default function MyPage() {
     <div className="flex">
       <SideMenu teamId={"13-4"} dashboardList={[]} />
       <div className="flex flex-col w-full">
-        <HeaderMyPage />
+        <HeaderMyPage variant="mypage" />
         <div className="flex flex-col items-center w-full mt-10">
           <ProfileCard />
           <ChangePassword />
