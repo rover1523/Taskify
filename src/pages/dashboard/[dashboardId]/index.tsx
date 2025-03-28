@@ -17,9 +17,7 @@ import HeaderBebridge from "@/components/gnb/HeaderBebridge";
 import Column from "@/components/columnCard/Column";
 import SideMenu from "@/components/sideMenu/SideMenu";
 import ColumnsButton from "@/components/button/ColumnsButton";
-import { Modal } from "@/components/modal/Modal";
-import Input from "@/components/input/Input";
-import { CustomBtn } from "@/components/button/CustomBtn";
+import AddColumnModal from "@/components/columnCard/AddColumnModal";
 
 export default function Dashboard() {
   const router = useRouter();
@@ -122,64 +120,36 @@ export default function Dashboard() {
           <ColumnsButton onClick={openModal} />
 
           {isAddColumnModalOpen && (
-            <Modal
+            <AddColumnModal
               isOpen={isAddColumnModalOpen}
               onClose={() => setIsAddColumnModalOpen(false)}
-            >
-              <div className="flex flex-col gap-3">
-                <h2 className="text-2xl font-bold">새 칼럼 생성</h2>
+              newColumnTitle={newColumnTitle}
+              setNewColumnTitle={setNewColumnTitle}
+              pattern={pattern}
+              invalidMessage={invalidMessage}
+              isCreateDisabled={isCreateDisabled}
+              onSubmit={async () => {
+                if (!newColumnTitle.trim()) {
+                  alert("칼럼 이름을 입력해 주세요.");
+                  return;
+                }
 
-                <label className="font-medium flex flex-col gap-2">
-                  이름
-                  <Input
-                    type="text"
-                    placeholder="새로운 프로젝트"
-                    value={newColumnTitle}
-                    onChange={setNewColumnTitle}
-                    pattern={pattern}
-                    invalidMessage={invalidMessage}
-                  />
-                </label>
-                <div className="flex justify-between ">
-                  <CustomBtn
-                    variant="outlineDisabled"
-                    onClick={() => {
-                      setIsAddColumnModalOpen(false);
-                    }}
-                  >
-                    취소
-                  </CustomBtn>
-                  <CustomBtn
-                    variant={isCreateDisabled ? "primaryDisabled" : "primary"}
-                    // cursor={isCreateDisabled ? "default" : "pointer" }
-                    disabled={isCreateDisabled}
-                    onClick={async () => {
-                      if (!newColumnTitle.trim()) {
-                        alert("칼럼 이름을 입력해 주세요.");
-                        return;
-                      }
+                try {
+                  const newColumn = await createColumn({
+                    teamId,
+                    title: newColumnTitle,
+                    dashboardId: Number(dashboardId),
+                  });
 
-                      try {
-                        const newColumn = await createColumn({
-                          teamId,
-                          title: newColumnTitle,
-                          dashboardId: Number(dashboardId),
-                        });
-
-                        setColumns((prev) => [...prev, newColumn]);
-                        setNewColumnTitle("");
-                        setIsAddColumnModalOpen(false);
-                      } catch (error) {
-                        console.error("칼럼 생성 실패:", error);
-                        alert("칼럼 생성 중 에러가 발생했어요.");
-                      }
-                    }}
-                  >
-                    생성
-                  </CustomBtn>
-                </div>
-              </div>
-            </Modal>
+                  setColumns((prev) => [...prev, newColumn]);
+                  setNewColumnTitle("");
+                  setIsAddColumnModalOpen(false);
+                } catch (error) {
+                  console.error("칼럼 생성 실패:", error);
+                  alert("칼럼 생성 중 에러가 발생했어요.");
+                }
+              }}
+            />
           )}
         </div>
       </div>

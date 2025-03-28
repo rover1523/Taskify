@@ -1,7 +1,7 @@
 // components/column/ColumnManageModal.tsx
 import Input from "../input/Input";
 import { Modal } from "../modal/Modal";
-import { CustomBtn } from "../button/CustomBtn";
+import { CustomBtn } from "../button/CustomButton";
 
 type ColumnManageModalProps = {
   isOpen: boolean;

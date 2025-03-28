@@ -1,6 +1,6 @@
 // components/column/ColumnDeleteModal.tsx
 import { Modal } from "../modal/Modal";
-import { CustomBtn } from "../button/CustomBtn";
+import { CustomBtn } from "../button/CustomButton";
 
 type ColumnDeleteModalProps = {
   isOpen: boolean;
