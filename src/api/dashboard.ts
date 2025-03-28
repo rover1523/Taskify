@@ -1,4 +1,5 @@
-// 예: src/lib/api/cards.ts
+// dashboards.ts
+import { ColumnType } from "@/types/task";
 import axiosInstance from "./axiosInstance";
 
 export const getCardsByColumn = async ({
@@ -22,7 +23,7 @@ export const getColumns = async ({
   dashboardId,
 }: {
   teamId: string;
-  dashboardId: number;
+  dashboardId: string;
 }) => {
   const res = await axiosInstance.get(`/${teamId}/columns`, {
     params: {
@@ -46,6 +47,24 @@ export const getDashboards = async ({
 }) => {
   const res = await axiosInstance.get(`/${teamId}/dashboards`, {
     params: { navigationMethod, page, size },
+  });
+
+  return res.data;
+};
+
+// 칼럼 생성
+export const createColumn = async ({
+  teamId,
+  title,
+  dashboardId,
+}: {
+  teamId: string;
+  title: string;
+  dashboardId: number;
+}): Promise<ColumnType> => {
+  const res = await axiosInstance.post(`/${teamId}/columns`, {
+    title,
+    dashboardId,
   });
 
   return res.data;

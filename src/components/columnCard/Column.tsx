@@ -1,25 +1,34 @@
+// components/column/Column.tsx
 import { useState } from "react";
 import Image from "next/image";
 import { CardType } from "@/types/task";
 import Card from "./Card";
-import { Modal } from "../modal/Modal";
 import TodoModal from "@/components/modalInput/ToDoModal";
-import Input from "../input/Input";
 import TodoButton from "@/components/button/TodoButton";
-import { CustomBtn } from "../button/CustomBtn";
+import ColumnManageModal from "./ColumnManageModal";
+import ColumnDeleteModal from "./ColumnDeleteModal";
 
 type ColumnProps = {
   title?: string;
   tasks?: CardType[];
+  teamId: string;
+  dashboardId: number;
 };
 
 export default function Column({
   title = "new Task",
   tasks = [],
+  teamId,
+  dashboardId,
 }: ColumnProps) {
   const [isColumnModalOpen, setIsColumnModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isTodoModalOpen, setIsTodoModalOpen] = useState(false);
+
+  const handleDeleteColumn = () => {
+    // 칼럼 삭제 API 호출 예정
+    setIsDeleteModalOpen(false);
+  };
 
   return (
     <div className="w-[354px] h-[1010px] border-[var(--color-gray4)] flex flex-col rounded-md border border-solid bg-gray-50 p-4">
@@ -59,64 +68,33 @@ export default function Column({
         />
       ))}
 
-      {/* Todo 추가 모달 */}
+      {/* Todo 모달 */}
       {isTodoModalOpen && (
         <TodoModal
           isOpen={isTodoModalOpen}
           onClose={() => setIsTodoModalOpen(false)}
+          teamId={teamId}
+          dashboardId={dashboardId}
         />
       )}
 
       {/* 칼럼 관리 모달 */}
-      {isColumnModalOpen && (
-        <Modal
-          isOpen={isColumnModalOpen}
-          onClose={() => setIsColumnModalOpen(false)}
-        >
-          <div className="flex flex-col gap-5">
-            <h2 className="text-2xl font-bold">칼럼 관리</h2>
-            <label className="font-medium flex flex-col gap-2">
-              이름
-              <Input type="text" />
-            </label>
-            <div className="flex justify-between mt-1.5">
-              <CustomBtn
-                variant="outlineDisabled"
-                onClick={() => {
-                  setIsColumnModalOpen(false);
-                  setIsDeleteModalOpen(true);
-                }}
-              >
-                삭제
-              </CustomBtn>
-              <CustomBtn>변경</CustomBtn>
-            </div>
-          </div>
-        </Modal>
-      )}
+      <ColumnManageModal
+        isOpen={isColumnModalOpen}
+        onClose={() => setIsColumnModalOpen(false)}
+        onDeleteClick={() => {
+          setIsColumnModalOpen(false);
+          setIsDeleteModalOpen(true);
+        }}
+        columnTitle={title}
+      />
 
       {/* 칼럼 삭제 확인 모달 */}
-      {isDeleteModalOpen && (
-        <Modal
-          width="w-[568px]"
-          height="h-[174px]"
-          isOpen={isDeleteModalOpen}
-          onClose={() => setIsDeleteModalOpen(false)}
-        >
-          <div className="flex flex-col gap-10 text-center">
-            <p className="text-xl mt-1.5">칼럼의 모든 카드가 삭제됩니다.</p>
-            <div className="flex justify-between gap-3">
-              <CustomBtn
-                variant="outlineDisabled"
-                onClick={() => setIsDeleteModalOpen(false)}
-              >
-                취소
-              </CustomBtn>
-              <CustomBtn variant="primary">삭제</CustomBtn>
-            </div>
-          </div>
-        </Modal>
-      )}
+      <ColumnDeleteModal
+        isOpen={isDeleteModalOpen}
+        onClose={() => setIsDeleteModalOpen(false)}
+        onDelete={handleDeleteColumn}
+      />
     </div>
   );
 }
