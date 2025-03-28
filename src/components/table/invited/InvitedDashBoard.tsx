@@ -4,12 +4,7 @@ import NoResultDashBoard from "./NoResultDashBoard";
 import EmptyInvitations from "./EmptyInvitations";
 import { apiRoutes } from "@/api/apiRoutes";
 import axiosInstance from "@/api/axiosInstance";
-
-interface Invite {
-  id: number;
-  title: string;
-  nickname: string;
-}
+import { Invite } from "@/types/invite";
 
 const ITEMS_PER_PAGE = 6; // 한 번에 보여줄 개수
 
