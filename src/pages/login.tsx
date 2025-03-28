@@ -31,8 +31,12 @@ export default function LoginPage() {
         password,
       });
 
-      const token = response.data.accessToken;
-      localStorage.setItem("accessToken", token);
+      const { accessToken, expiresIn } = response.data;
+
+      // 만료 시간 계산 후 저장
+      const expiresAt = new Date().getTime() + expiresIn * 1000;
+      localStorage.setItem("accessToken", accessToken);
+      localStorage.setItem("expiresAt", expiresAt.toString());
 
       const userData = await getUserInfo({ teamId: TEAM_ID }); // 로그인 성공 후 사용자 정보 요청
       useUserStore.getState().setUser(userData); // Zustand에 저장
