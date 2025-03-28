@@ -1,9 +1,8 @@
 import { useState } from "react";
+import { changePassword } from "@/api/changepassword";
+import MypageModal from "../modal/MypageModal";
 import Input from "../input/Input";
 import Image from "next/image";
-import { changePassword } from "@/api/changepassword";
-import { Modal } from "../common/Modal/Modal";
-import { CustomBtn } from "../button/CustomBtn";
 
 export default function ChangePassword() {
   const [password, setPassword] = useState("");
@@ -67,12 +66,12 @@ export default function ChangePassword() {
           <Input
             type="password"
             name="password"
-            label="비밀번호"
+            label="현재 비밀번호"
             labelClassName="font-16r"
-            placeholder="비밀번호 입력"
+            placeholder="현재 비밀번호 입력"
+            value={password}
             onChange={setPassword}
             pattern=".{8,}"
-            invalidMessage="8자 이상 입력해주세요."
             className="max-w-[620px]"
           />
           <Input
@@ -81,6 +80,7 @@ export default function ChangePassword() {
             label="새 비밀번호"
             labelClassName="font-16r"
             placeholder="새 비밀번호 입력"
+            value={newPassword}
             onChange={setNewPassword}
             pattern=".{8,}"
             invalidMessage="8자 이상 입력해주세요."
@@ -138,47 +138,17 @@ export default function ChangePassword() {
       {successMessage && (
         <p className="text-green-600 text-sm mt-4">{successMessage}</p>
       )}
-      <Modal
-        width="w-[357px]"
-        height="h-[192px]"
+      <MypageModal
         isOpen={showSuccessModal}
         onClose={() => setShowSuccessModal(false)}
-      >
-        <div className=" flex flex-col gap-10 text-center">
-          <p className="text-xl mt-1.5">비밀번호 변경에 성공하였습니다.</p>
-          <div className="flex justify-between gap-3">
-            <CustomBtn
-              variant="outline"
-              onClick={() => setShowSuccessModal(false)}
-              className="cursor-pointer w-full sm:w-[400px] h-[54px] bg-[#5A3FFF] text-white rounded-[8px] text-lg font-medium mt-3"
-            >
-              확인
-            </CustomBtn>
-          </div>
-        </div>
-      </Modal>
+        message="비밀번호 변경에 성공하였습니다."
+      />
 
-      <Modal
-        width="w-[357px]"
-        height="h-[192px]"
+      <MypageModal
         isOpen={showErrorModal}
         onClose={() => setShowErrorModal(false)}
-      >
-        <div className=" flex flex-col gap-10 text-center">
-          <p className="text-xl mt-1.5">
-            비밀번호 변경에 실패했습니다. <br />
-          </p>
-          <div className="flex justify-between gap-3">
-            <CustomBtn
-              variant="outline"
-              onClick={() => setShowErrorModal(false)}
-              className="cursor-pointer w-full sm:w-[400px] h-[54px] bg-[#5A3FFF] text-white rounded-[8px] text-lg font-medium mt-3"
-            >
-              확인
-            </CustomBtn>
-          </div>
-        </div>
-      </Modal>
+        message="비밀번호 변경에 실패하였습니다."
+      />
       <button
         className={`mt-2.5 cursor-pointer w-full sm:w-[624px] h-[54px] 
           rounded-[8px] text-lg font-medium  
