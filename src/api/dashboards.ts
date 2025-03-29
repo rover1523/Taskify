@@ -43,7 +43,7 @@ export const getDashboards = async ({
   teamId,
   navigationMethod = "pagination",
   page = 1,
-  size = 10,
+  size = 100,
 }: {
   teamId: string;
   navigationMethod?: "pagination";
