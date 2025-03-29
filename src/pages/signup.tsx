@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
 import { signUp } from "@/api/user";
+import { TEAM_ID } from "@/constants/team";
 import Input from "@/components/input/Input";
 import Link from "next/link";
-import { TEAM_ID } from "@/constants/team";
+import { Modal } from "@/components/modal/Modal";
+import { CustomBtn } from "@/components/button/CustomButton";
 
 export default function SignUpPage() {
   const [email, setEmail] = useState("");
@@ -11,6 +13,7 @@ export default function SignUpPage() {
   const [password, setPassword] = useState("");
   const [passwordCheck, setPasswordCheck] = useState("");
   const [agree, setAgree] = useState(false);
+  const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
 
   const router = useRouter();
   const teamId = TEAM_ID;
@@ -21,6 +24,12 @@ export default function SignUpPage() {
     password.trim() !== "" &&
     passwordCheck.trim() !== "" &&
     agree;
+
+  /*모달 닫고 로그인 페이지 이동*/
+  const handleSuccessConfirm = () => {
+    setIsSuccessModalOpen(false);
+    router.push("/login");
+  };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -35,7 +44,7 @@ export default function SignUpPage() {
           password,
         },
       });
-      router.push("/login");
+      setIsSuccessModalOpen(true);
     } catch (error) {
       console.error("회원가입 실패", error);
       alert("회원가입에 실패했습니다.");
@@ -133,6 +142,27 @@ export default function SignUpPage() {
           </Link>
         </span>
       </form>
+      {isSuccessModalOpen && (
+        <Modal
+          width="w-[300px]"
+          height="h-[180px]"
+          isOpen={isSuccessModalOpen}
+          onClose={handleSuccessConfirm}
+          className="flex flex-col items-center justify-center text-center"
+        >
+          <p className="text-black3 font-16m">
+            회원가입에 성공했습니다.
+            <br />
+            로그인 화면으로 이동합니다.
+          </p>
+          <CustomBtn
+            onClick={handleSuccessConfirm}
+            className="w-[180px] h-[40px] bg-[var(--primary)] font-16m text-white rounded-[8px] cursor-pointer"
+          >
+            확인
+          </CustomBtn>
+        </Modal>
+      )}
     </div>
   );
 }
