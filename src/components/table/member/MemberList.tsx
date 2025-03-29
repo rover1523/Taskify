@@ -28,7 +28,7 @@ const MemberList: React.FC<HeaderBebridgeProps> = ({ dashboardId }) => {
   /*버튼(삭제, 이전, 다음)*/
   const handleDelete = async (id: number) => {
     try {
-      const response = await axiosInstance.delete(apiRoutes.memberDetail(id));
+      await axiosInstance.delete(apiRoutes.memberDetail(id));
       window.location.reload();
     } catch (error) {
       toast.error("구성원원 삭제에 실패하였습니다 .");
@@ -49,7 +49,9 @@ const MemberList: React.FC<HeaderBebridgeProps> = ({ dashboardId }) => {
     const fetchMembers = async () => {
       try {
         if (dashboardId) {
-          const members = await getMembers(dashboardId);
+          const members = await getMembers({
+            dashboardId: Number(dashboardId),
+          });
           setMembers(members);
           console.log("member_list", members);
         }

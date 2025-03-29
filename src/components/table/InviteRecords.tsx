@@ -54,7 +54,7 @@ const InviteRecords = ({ dashboardId }: { dashboardId: string }) => {
     const dashboardIdNumber = Number(dashboardId);
     if (!dashboardId) return;
     try {
-      const response = await axiosInstance.delete(
+      await axiosInstance.delete(
         apiRoutes.DashboardInviteDelete(dashboardIdNumber, id)
       );
       window.location.reload();
