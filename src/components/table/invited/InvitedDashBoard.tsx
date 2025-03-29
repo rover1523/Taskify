@@ -164,13 +164,11 @@ function InvitedList({
           : !hasMore && <NoResultDashBoard searchTitle={searchTitle} />}{" "}
         {/* 검색 내역이 없을 경우 */}
         {filteredData.length > 0 && !hasMore && (
-          <p className="lg:mr-18 text-center text-gray-400 py-4">
+          <p className="lg:mr-18 text-center text-gray-400 bg-transparent">
             더 이상 초대 목록이 없습니다.
           </p>
         )}
-        {hasMore && (
-          <div ref={observerRef} className="h-[50px] w-[50px] bg-red"></div>
-        )}
+        {hasMore && <div ref={observerRef} className="h-[50px] w-[50px]"></div>}
       </div>
     </div>
   );

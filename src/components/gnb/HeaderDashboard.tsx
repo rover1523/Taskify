@@ -136,7 +136,7 @@ const HeaderDashboard: React.FC<HeaderDashboardProps> = ({
                 if (dashboardId) {
                   router.push(`/dashboard/${dashboardId}/edit`);
                 } else {
-                  router.push("/mydashboard");
+                  router.push("/mypage");
                 }
               }}
               className="flex items-center justify-center w-[49px] h-[30px] md:w-[85px] md:h-[36px] lg:w-[88px] lg:h-[40px] rounded-[8px] border border-[#D9D9D9] gap-[10px] cursor-pointer"
