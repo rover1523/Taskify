@@ -5,6 +5,8 @@ import EmptyInvitations from "./EmptyInvitations";
 import { apiRoutes } from "@/api/apiRoutes";
 import axiosInstance from "@/api/axiosInstance";
 import { Invite } from "@/types/invite";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const ITEMS_PER_PAGE = 6; // 한 번에 보여줄 개수
 
@@ -64,11 +66,13 @@ function InvitedList({
         payload
       );
       console.log("대시보드 수락 성공:", response.data);
-      alert("대시보드 수락 성공"); // 추후에 toast로 변경
-      window.location.reload();
+      toast.success("대시보드 수락 성공");
+      setTimeout(() => {
+        window.location.reload();
+      }, 100);
     } catch (error) {
       console.error("대시보드 수락 실패:", error);
-      alert("대시보드 수락 실패"); // 추후에 toast로 변경
+      toast.error("대시보드 수락 실패");
     }
   };
 
@@ -84,16 +88,19 @@ function InvitedList({
         payload
       );
       console.log("대시보드 거절 성공:", response.data);
-      alert("대시보드 거절 성공"); // 추후에 toast로 변경
-      window.location.reload();
+      toast.success("대시보드 거절 성공");
+      setTimeout(() => {
+        window.location.reload();
+      }, 100);
     } catch (error) {
       console.error("대시보드 거절 실패:", error);
-      alert("대시보드 거절 실패"); // 추후에 toast로 변경
+      toast.error("대시보드 거절 실패");
     }
   };
 
   return (
     <div className="relative bg-white w-[260px] sm:w-[504px] lg:w-[1022px] h-[770px] sm:h-[592px] lg:h-[620px] mx-auto mt-[40px]">
+      <ToastContainer position="top-center" autoClose={2000} />
       {filteredData.length > 0 && (
         <div className="hidden sm:flex p-6 w-full h-[26px] justify-start items-center pl-[43px] pr-[76px] md:gap-x-[130px] lg:gap-x-[280px]">
           <p className="lg:ml-10 font-normal text-[var(--color-gray2)]">이름</p>

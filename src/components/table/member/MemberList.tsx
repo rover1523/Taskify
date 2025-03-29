@@ -5,7 +5,8 @@ import { MemberType } from "@/types/users";
 import { getMembers } from "@/api/members";
 import { apiRoutes } from "@/api/apiRoutes";
 import axiosInstance from "@/api/axiosInstance";
-import Image from "next/image";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 interface HeaderBebridgeProps {
   dashboardId?: string | string[];
@@ -30,7 +31,7 @@ const MemberList: React.FC<HeaderBebridgeProps> = ({ dashboardId }) => {
       const response = await axiosInstance.delete(apiRoutes.memberDetail(id));
       window.location.reload();
     } catch (error) {
-      alert("구성원원 삭제에 실패하였습니다 .");
+      toast.error("구성원원 삭제에 실패하였습니다 .");
       console.error("구성원 삭제 실패:", error);
     }
   };
@@ -62,6 +63,7 @@ const MemberList: React.FC<HeaderBebridgeProps> = ({ dashboardId }) => {
 
   return (
     <div className="lg:h-[404px] md:h-[404px] sm:h-[337px] lg:w-[620px] md:w-[544px] sm:w-[337px] relative bg-white p-6 rounded-lg max-w-md w-full  sm:max-w-lg md:max-w-xl lg:max-w-2xl">
+      <ToastContainer position="top-center" autoClose={2000} />
       <div className="flex justify-between items-center">
         <p className="text-xl sm:text-2xl font-bold">구성원</p>
         <Pagination

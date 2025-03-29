@@ -46,10 +46,12 @@ export default function InviteDashboard({ onClose }: { onClose?: () => void }) {
         } else {
           toast.error("오류가 발생했습니다.");
         }
-        // Next.js가 감지하기 전에 강제 새로고침 실행 > 추후 더 좋은 방법 있으면 변경
-        // setTimeout(() => {
-        //   window.location.reload();
-        // }, 50);
+        /** Next.js가 감지하기 전에 강제 새로고침 실행
+         * @fixme 추후 더 좋은 방법 있으면 변경
+         * setTimeout(() => {
+         * window.location.reload();
+         * }, 50);
+         */
       } else {
         toast.error("네트워크 오류가 발생했습니다.");
       }
@@ -58,7 +60,7 @@ export default function InviteDashboard({ onClose }: { onClose?: () => void }) {
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black/35 z-50">
-      <ToastContainer position="top-center" />
+      <ToastContainer position="top-center" autoClose={2000} />
       <div className="bg-white p-6 rounded-lg shadow-lg w-[327px] sm:w-[568px] sm:h-[279px]">
         <div className="flex justify-between items-center">
           <h2 className="text-sm sm:text-[24px] font-bold">초대하기</h2>

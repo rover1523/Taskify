@@ -4,6 +4,8 @@ import InviteDashboard from "../modal/InviteDashboard";
 import { apiRoutes } from "@/api/apiRoutes";
 import axiosInstance from "@/api/axiosInstance";
 import { AxiosError } from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const InviteRecords = ({ dashboardId }: { dashboardId: string }) => {
   const [inviteList, setInviteList] = useState<
@@ -60,14 +62,14 @@ const InviteRecords = ({ dashboardId }: { dashboardId: string }) => {
       console.error("초대 취소 실패:", error);
       if (error instanceof AxiosError) {
         if (error.response?.status === 403) {
-          alert("대시보드 초대 취소 권한이 없습니다.");
+          toast.error("대시보드 초대 취소 권한이 없습니다.");
         } else if (error.response?.status === 404) {
-          alert("대시보드가 존재하지 않습니다.");
+          toast.error("대시보드가 존재하지 않습니다.");
         } else {
-          alert("오류가 발생했습니다.");
+          toast.error("오류가 발생했습니다.");
         }
       } else {
-        alert("네트워크 오류가 발생했습니다.");
+        toast.error("네트워크 오류가 발생했습니다.");
       }
     }
   };
@@ -96,6 +98,7 @@ const InviteRecords = ({ dashboardId }: { dashboardId: string }) => {
 
   return (
     <div className="relative bg-white p-4 rounded-lg  lg:w-[620px] lg:h-[477px] md:w-[544px] md:h-[477px] sm:w-[284px] h-[406px] ">
+      <ToastContainer position="top-center" autoClose={2000} />
       <div className="flex justify-between items-start sm:items-center">
         {/* 제목 */}
         <p className="sm:text-2xl text-xl font-bold">초대 내역</p>
