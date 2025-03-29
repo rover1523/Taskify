@@ -47,7 +47,9 @@ const HeaderDashboard: React.FC<HeaderDashboardProps> = ({
   useEffect(() => {
     const fetchMembers = async () => {
       try {
-        const members = await getMembers(dashboardId);
+        const members = await getMembers({
+          dashboardId: Number(dashboardId),
+        });
         setMembers(members);
       } catch (error) {
         console.error("멤버 불러오기 실패:", error);
