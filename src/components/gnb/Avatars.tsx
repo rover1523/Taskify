@@ -44,7 +44,7 @@ export const MemberAvatars: React.FC<MemberAvatarsProps> = ({
               </div>
             ))}
             {members.length > MAX_VISIBLE_MEMBERS && (
-              <div className="relative w-[34px] h-[34px] md:w-[38px] md:h-[38px] rounded-full bg-[#F4D7DA] font-16m text-[#D25B68] border-[2px] border-white overflow-hidden">
+              <div className="relative flex items-center justify-center w-[34px] h-[34px] md:w-[38px] md:h-[38px] rounded-full bg-[#F4D7DA] font-16m text-[#D25B68] border-[2px] border-white overflow-hidden">
                 +{members.length - MAX_VISIBLE_MEMBERS}
               </div>
             )}

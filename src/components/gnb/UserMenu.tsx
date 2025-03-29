@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { useRouter } from "next/router";
-import { User, LogOut } from "lucide-react";
+import { User, LogOut, FolderPen } from "lucide-react";
 
 interface UserMenuProps {
   isMenuOpen: boolean;
@@ -40,7 +40,14 @@ const UserMenu: React.FC<UserMenuProps> = ({ isMenuOpen, setIsMenuOpen }) => {
         className="flex justify-center items-center w-full pt-3 pb-2 font-16r text-black3 hover:bg-[var(--color-gray5)]"
       >
         <User size={20} className="md:hidden" />
-        <span className="hidden md:block">마이페이지</span>
+        <span className="hidden md:block">내 정보</span>
+      </button>
+      <button
+        onClick={() => router.push("/mydashboard")}
+        className="flex justify-center items-center w-full pt-2 pb-2 font-16r text-black3 hover:bg-[var(--color-gray5)]"
+      >
+        <FolderPen size={20} className="md:hidden" />
+        <span className="hidden md:block">내 대시보드</span>
       </button>
       <button
         onClick={() => {
