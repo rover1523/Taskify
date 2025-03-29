@@ -22,14 +22,10 @@ export default function InviteDashboard({ onClose }: { onClose?: () => void }) {
     const dashboardIdNumber = Number(dashboardId);
     if (!dashboardId || !email) return;
 
-    const payload = {
-      email,
-    };
-
     try {
       const response = await axiosInstance.post(
         apiRoutes.DashboardInvite(dashboardIdNumber),
-        payload
+        { email }
       );
       onClose?.(); // 함수 있을때만 실행
       window.location.reload();
