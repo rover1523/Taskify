@@ -1,6 +1,9 @@
 import { useState } from "react";
+import { useRouter } from "next/router";
+import { signUp } from "@/api/user";
 import Input from "@/components/input/Input";
 import Link from "next/link";
+import { TEAM_ID } from "@/constants/team";
 
 export default function SignUpPage() {
   const [email, setEmail] = useState("");
@@ -9,12 +12,35 @@ export default function SignUpPage() {
   const [passwordCheck, setPasswordCheck] = useState("");
   const [agree, setAgree] = useState(false);
 
+  const router = useRouter();
+  const teamId = TEAM_ID;
+
   const isFormValid =
     email.trim() !== "" &&
     nickName.trim() !== "" &&
     password.trim() !== "" &&
     passwordCheck.trim() !== "" &&
     agree;
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    if (!isFormValid) return;
+    try {
+      await signUp({
+        teamId,
+        payload: {
+          email,
+          nickname: nickName,
+          password,
+        },
+      });
+      router.push("/login");
+    } catch (error) {
+      console.error("회원가입 실패", error);
+      alert("회원가입에 실패했습니다.");
+    }
+  };
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-[var(--color-gray5)] py-10">
@@ -27,7 +53,10 @@ export default function SignUpPage() {
         <p className="font-20m text-black3">첫 방문을 환영합니다!</p>
       </div>
 
-      <form className="flex flex-col w-[350px] md:w-[520px] gap-[20px] font-16r text-black3">
+      <form
+        onSubmit={handleSubmit}
+        className="flex flex-col w-[350px] md:w-[520px] gap-[20px] font-16r text-black3"
+      >
         <Input
           type="email"
           name="email"
