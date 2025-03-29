@@ -115,14 +115,22 @@ const HeaderDashboard: React.FC<HeaderDashboardProps> = ({
           </p>
         )}
         <div className="flex items-center gap-[8px]">
-          <p className="text-base text-black3 font-bold md:text-xl">{title}</p>
+          <p
+            className={`text-base text-black3 font-bold md:text-xl ${variant !== "mydashboard" ? "hidden md:block" : ""}`}
+          >
+            {title}
+          </p>
           {dashboard?.createdByMe && (
             <Image
               src="/svgs/crown.svg"
               alt="왕관 아이콘"
               width={22}
               height={22}
-              className="inline-block"
+              className={
+                variant === "mydashboard"
+                  ? "inline-block"
+                  : "hidden md:inline-block"
+              }
               unoptimized
               priority
             />
@@ -131,7 +139,7 @@ const HeaderDashboard: React.FC<HeaderDashboardProps> = ({
 
         <div className="flex items-center">
           {/*관리 버튼*/}
-          <div className="flex gap-[6px] md:gap-[16px] pr-[40px]">
+          <div className="flex gap-[6px] md:gap-[16px]">
             <button
               onClick={() => {
                 if (dashboardId) {
