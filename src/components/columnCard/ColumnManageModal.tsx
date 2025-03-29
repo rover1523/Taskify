@@ -31,6 +31,11 @@ export default function ColumnManageModal({
             type="text"
             value={newTitle}
             onChange={(value) => setNewTile(value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                onEditSubmit(newTitle);
+              }
+            }}
           />
         </label>
         <div className="flex justify-between mt-1.5">
