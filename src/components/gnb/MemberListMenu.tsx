@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import { useOutsideClick } from "@/hooks/useOutSideClick";
+import { useClosePopup } from "@/hooks/useClosePopup";
 import { UserAvatars } from "@/components/gnb/Avatars";
 import { MemberType } from "@/types/users";
 
@@ -16,7 +16,7 @@ const MemberListMenu: React.FC<MemberListMenuProps> = ({
 }) => {
   const ref = useRef<HTMLDivElement>(null);
 
-  useOutsideClick(ref, () => setIsListOpen(false));
+  useClosePopup(ref, () => setIsListOpen(false));
 
   return (
     <div

@@ -139,7 +139,9 @@ const HeaderDashboard: React.FC<HeaderDashboardProps> = ({
 
         <div className="flex items-center">
           {/*관리 버튼*/}
-          <div className="flex gap-[6px] md:gap-[16px]">
+          <div
+            className={`flex gap-[6px] md:gap-[16px] ${variant === "mydashboard" ? "pr-[22px] md:pr-[32px]" : ""}`}
+          >
             <button
               onClick={() => {
                 if (dashboardId) {

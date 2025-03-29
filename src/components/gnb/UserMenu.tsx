@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
 import { useRouter } from "next/router";
+import { useClosePopup } from "@/hooks/useClosePopup";
 import { User, LogOut, FolderPen } from "lucide-react";
-import { useOutsideClick } from "@/hooks/useOutSideClick";
 
 interface UserMenuProps {
   isMenuOpen: boolean;
@@ -12,7 +12,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ isMenuOpen, setIsMenuOpen }) => {
   const router = useRouter();
   const ref = useRef<HTMLDivElement>(null);
 
-  useOutsideClick(ref, () => setIsMenuOpen(false));
+  useClosePopup(ref, () => setIsMenuOpen(false));
 
   return (
     <div

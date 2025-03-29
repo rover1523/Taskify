@@ -1,19 +1,28 @@
 import { useEffect } from "react";
 
-export const useOutsideClick = (
+export const useClosePopup = (
   ref: React.RefObject<HTMLElement | null>,
-  onClickOutSide: () => void
+  onClose: () => void
 ) => {
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (ref.current && !ref.current.contains(e.target as Node)) {
-        onClickOutSide();
+        onClose();
+      }
+    };
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        onClose();
       }
     };
 
     document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("keydown", handleKeyDown);
+
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("keydown", handleKeyDown);
     };
-  }, [ref, onClickOutSide]);
+  }, [ref, onClose]);
 };
