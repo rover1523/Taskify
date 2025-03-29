@@ -1,4 +1,4 @@
-import axios from "axios";
+import axiosInstance from "./axiosInstance";
 
 interface UserResponse {
   id: number;
@@ -7,19 +7,11 @@ interface UserResponse {
   profileImageUrl: string;
   createdAt: string;
   updatedAt: string;
+  isOwner?: boolean;
+  userId?: number;
 }
 
-export const getUserInfo = async () => {
-  const token = process.env.NEXT_PUBLIC_API_TOKEN;
-
-  const response = await axios.get<UserResponse>(
-    `https://sp-taskify-api.vercel.app/13-4/users/me`,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }
-  );
-
-  return response.data || [];
+export const getUserInfo = async ({ teamId }: { teamId: string }) => {
+  const response = await axiosInstance.get<UserResponse>(`/${teamId}/users/me`);
+  return response.data;
 };

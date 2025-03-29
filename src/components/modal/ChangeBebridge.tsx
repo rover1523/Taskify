@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import Input from "../input/Input";
 import Image from "next/image";
@@ -8,11 +8,41 @@ import { apiRoutes } from "@/api/apiRoutes";
 const ChangeBebridge = () => {
   const router = useRouter();
   const { dashboardId } = router.query; // dashboardId 쿼리값 받기
+  const [dashboardDetail, setdashboardDetail] = useState<{ title?: string }>(
+    {}
+  );
   const [title, setTitle] = useState("");
   const [selected, setSelected] = useState<number | null>(null);
   const colors = ["#7ac555", "#760DDE", "#FF9800", "#76A5EA", "#E876EA"];
-  const token = process.env.NEXT_PUBLIC_API_TOKEN;
 
+  /* 대시보드 이름 데이터 */
+  useEffect(() => {
+    const fetchDashboardTitle = async () => {
+      try {
+        const dashboardIdNumber = Number(dashboardId);
+        const res = await axiosInstance.get(
+          apiRoutes.DashboardDetail(dashboardIdNumber),
+          {
+            params: {
+              dashboardId,
+            },
+          }
+        );
+        if (res.data) {
+          const dashboardData = res.data;
+          setdashboardDetail(dashboardData);
+          console.log("dashboardData", dashboardData);
+        }
+      } catch (error) {
+        console.error("대시보드 상세내용 불러오는데 오류 발생:", error);
+      }
+    };
+    if (dashboardId) {
+      fetchDashboardTitle();
+    }
+  }, [dashboardId]);
+
+  /* 대시보드 이름 변경 버튼 */
   const handleUpdate = async () => {
     const dashboardIdNumber = Number(dashboardId); // string dashboradId 값 number로 변경
     if (!dashboardId || !title || selected === null) return;
@@ -25,13 +55,7 @@ const ChangeBebridge = () => {
     try {
       const response = await axiosInstance.put(
         apiRoutes.DashboardDetail(dashboardIdNumber),
-        payload,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        }
+        payload
       );
       console.log("업데이트 성공:", response.data);
       alert("대시보드가 업데이트되었습니다!"); // 추후에 toast로 변경
@@ -44,7 +68,9 @@ const ChangeBebridge = () => {
 
   return (
     <div className="sm:w-[620px] sm:h-[344px] w-[327px] h-[312px] bg-white sm:rounded-[16px] rounded-[8px] p-[24px] flex flex-col">
-      <h2 className="text-sm sm:text-[24px] font-bold">비브리지</h2>
+      <h2 className="text-sm sm:text-[24px] font-bold">
+        {dashboardDetail.title}
+      </h2>
       <Input
         type="text"
         onChange={setTitle}
@@ -53,6 +79,7 @@ const ChangeBebridge = () => {
         placeholder="뉴프로젝트"
         className="max-w-[620px] mb-1"
       />
+
       <div className="flex mt-3">
         {colors.map((color, index) => (
           <div key={index} className="relative">

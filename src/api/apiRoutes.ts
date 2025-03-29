@@ -4,7 +4,7 @@ export const apiRoutes = {
   //로그인
   Login: () => `/${TEAM_ID}/login`, //post
   //비밀번호변경
-  Password: () => `/${TEAM_ID}/password`, //put
+  Password: () => `/${TEAM_ID}/auth/password`, //put
   //카드
   Cards: () => `/${TEAM_ID}/cards`, //post,get
   CardDetail: (cardId: number) => `/${TEAM_ID}/cards/${cardId}`, //get,put,delete
@@ -22,11 +22,11 @@ export const apiRoutes = {
     `/${TEAM_ID}/dashboards/${dashboardId}`, //get,put,delete
   //대시보드 초대하기
   DashboardInvite: (dashboardId: number) =>
-    `/${TEAM_ID}/dashboards/${dashboardId}/dashboard-invite`, //post,get
+    `/${TEAM_ID}/dashboards/${dashboardId}/invitations`, //post,get
   DashboardInviteDelete: (dashboardId: number, invitationId: number) =>
-    `/${TEAM_ID}/dashboards/${dashboardId}/dashboard-invite/${invitationId}`, //delete
+    `/${TEAM_ID}/dashboards/${dashboardId}/invitations/${invitationId}`, //delete
   //초대 받은 대시보드
-  Invitations: () => `/${TEAM_ID}/members`, //get
+  Invitations: () => `/${TEAM_ID}/invitations`, //get
   invitationDetail: (invitationId: number) =>
     `/${TEAM_ID}/invitations/${invitationId}`, //put
   // [Members]

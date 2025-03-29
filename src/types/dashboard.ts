@@ -1,5 +1,4 @@
-// 📌 Dashboard 데이터 타입 정의
-export interface Dashboard {
+export interface DashboardType {
   id: number;
   title: string;
   color: string;
