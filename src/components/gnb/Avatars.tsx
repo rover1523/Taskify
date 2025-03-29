@@ -63,7 +63,7 @@ interface UserAvatarProps {
 }
 
 export const UserAvatars: React.FC<UserAvatarProps> = ({ user }) => (
-  <div className="relative w-[34px] h-[34px] md:w-[38px] md:h-[38px] rounded-full">
+  <div className="relative w-[34px] h-[34px] md:w-[38px] md:h-[38px] rounded-full overflow-hidden">
     {user.profileImageUrl ? (
       <Image
         src={user.profileImageUrl}
