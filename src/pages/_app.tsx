@@ -2,6 +2,7 @@ import type { AppProps } from "next/app";
 import { useRouter } from "next/router";
 import HeaderDefault from "@/components/gnb/HeaderDefault";
 import "@/styles/globals.css";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter();

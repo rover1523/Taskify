@@ -16,6 +16,10 @@
   scrollbar-width: none;
 }
 
+.Toastify__toast {
+  width: 380px !important;
+}
+
 @layer base {
   :root {
     --primary: #5534da;
