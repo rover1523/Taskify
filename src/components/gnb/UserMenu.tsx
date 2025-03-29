@@ -1,6 +1,7 @@
-import React, { useEffect, useRef } from "react";
+import React, { useRef } from "react";
 import { useRouter } from "next/router";
 import { User, LogOut, FolderPen } from "lucide-react";
+import { useOutsideClick } from "@/hooks/useOutSideClick";
 
 interface UserMenuProps {
   isMenuOpen: boolean;
@@ -9,27 +10,13 @@ interface UserMenuProps {
 
 const UserMenu: React.FC<UserMenuProps> = ({ isMenuOpen, setIsMenuOpen }) => {
   const router = useRouter();
-  const dropdownRef = useRef<HTMLDivElement | null>(null);
+  const ref = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(e.target as Node)
-      ) {
-        setIsMenuOpen(false);
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [setIsMenuOpen]);
+  useOutsideClick(ref, () => setIsMenuOpen(false));
 
   return (
     <div
-      ref={dropdownRef}
+      ref={ref}
       className={`absolute top-full right-0 w-full
         bg-white border border-[#D9D9D9] shadow z-50
         transition-all duration-200 ease-out

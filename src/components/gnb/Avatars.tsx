@@ -21,36 +21,34 @@ export const MemberAvatars: React.FC<MemberAvatarsProps> = ({
   if (variant === "mydashboard") return null;
 
   return (
-    <div className="pr-[15px] md:pr-[25px] lg:pr-[30px]">
-      <div className="flex items-center justify-center -space-x-3">
-        {isLoading ? (
-          <SkeletonUser />
-        ) : (
-          <>
-            {members.slice(0, MAX_VISIBLE_MEMBERS).map((member) => (
-              <div key={member.id} className="relative rounded-full">
-                {member.profileImageUrl ? (
-                  <div className="relative w-[34px] h-[34px] md:w-[38px] md:h-[38px] rounded-full border-[2px] border-white overflow-hidden">
-                    <Image
-                      src={member.profileImageUrl}
-                      alt={member.nickname}
-                      fill
-                      className="object-cover"
-                    />
-                  </div>
-                ) : (
-                  <RandomProfile name={member.nickname} />
-                )}
-              </div>
-            ))}
-            {members.length > MAX_VISIBLE_MEMBERS && (
-              <div className="relative flex items-center justify-center w-[34px] h-[34px] md:w-[38px] md:h-[38px] rounded-full bg-[#F4D7DA] font-16m text-[#D25B68] border-[2px] border-white overflow-hidden">
-                +{members.length - MAX_VISIBLE_MEMBERS}
-              </div>
-            )}
-          </>
-        )}
-      </div>
+    <div className="flex items-center justify-center -space-x-3">
+      {isLoading ? (
+        <SkeletonUser />
+      ) : (
+        <>
+          {members.slice(0, MAX_VISIBLE_MEMBERS).map((member) => (
+            <div key={member.id} className="relative rounded-full">
+              {member.profileImageUrl ? (
+                <div className="relative w-[34px] h-[34px] md:w-[38px] md:h-[38px] rounded-full border-[2px] border-white overflow-hidden">
+                  <Image
+                    src={member.profileImageUrl}
+                    alt={member.nickname}
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+              ) : (
+                <RandomProfile name={member.nickname} />
+              )}
+            </div>
+          ))}
+          {members.length > MAX_VISIBLE_MEMBERS && (
+            <div className="relative flex items-center justify-center w-[34px] h-[34px] md:w-[38px] md:h-[38px] rounded-full bg-[#F4D7DA] font-16m text-[#D25B68] border-[2px] border-white overflow-hidden">
+              +{members.length - MAX_VISIBLE_MEMBERS}
+            </div>
+          )}
+        </>
+      )}
     </div>
   );
 };
