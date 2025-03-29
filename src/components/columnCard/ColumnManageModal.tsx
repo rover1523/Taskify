@@ -1,8 +1,9 @@
 // components/column/ColumnManageModal.tsx
 import { useState } from "react";
-import Input from "../input/Input";
 import { Modal } from "../modal/Modal";
 import { CustomBtn } from "../button/CustomButton";
+import Input from "../input/Input";
+import Image from "next/image";
 
 type ColumnManageModalProps = {
   isOpen: boolean;
@@ -23,7 +24,16 @@ export default function ColumnManageModal({
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
-      <div className="flex flex-col gap-5">
+      <div className="relative flex flex-col gap-5">
+        <Image
+          src="/svgs/close.svg"
+          alt="close icon"
+          width={24}
+          height={24}
+          priority
+          className="absolute  right-4 cursor-pointer hover:opacity-70"
+          onClick={onClose}
+        />
         <h2 className="text-2xl font-bold">칼럼 관리</h2>
         <label className="font-medium flex flex-col gap-2">
           이름
