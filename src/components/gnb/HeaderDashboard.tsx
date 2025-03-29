@@ -168,33 +168,34 @@ const HeaderDashboard: React.FC<HeaderDashboardProps> = ({
             {isModalOpen && <InviteDashboard onClose={closeInviteModal} />}
           </div>
 
-          {/*드롭다운 메뉴 너비 지정 목적 섹션 구분용 div*/}
-          <div className="relative flex items-center justify-center w-[150px] md:w-[190px] h-[60px] md:h-[70px]">
-            {/*멤버 목록*/}
-            {isLoading ? (
-              <SkeletonUser />
-            ) : (
-              members && (
-                <div
-                  onClick={() => setIsListOpen((prev) => !prev)}
-                  className="flex items-center pl-[15px] md:pl-[25px] lg:pl-[30px] pr-[15px] md:pr-[25px] lg:pr-[30px] cursor-pointer"
-                >
-                  <MemberAvatars
-                    members={members}
-                    isLoading={isLoading}
-                    variant={variant}
-                  />
-                </div>
-              )
-            )}
-            <MemberListMenu
-              members={members}
-              isListOpen={isListOpen}
-              setIsListOpen={setIsListOpen}
-            />
-          </div>
+          {/*멤버 목록*/}
+          {variant !== "mydashboard" && (
+            <div className="relative flex items-center justify-center w-[150px] md:w-[190px] h-[60px] md:h-[70px]">
+              {isLoading ? (
+                <SkeletonUser />
+              ) : (
+                members && (
+                  <div
+                    onClick={() => setIsListOpen((prev) => !prev)}
+                    className="flex items-center pl-[15px] md:pl-[25px] lg:pl-[30px] pr-[15px] md:pr-[25px] lg:pr-[30px] cursor-pointer"
+                  >
+                    <MemberAvatars
+                      members={members}
+                      isLoading={isLoading}
+                      variant={variant}
+                    />
+                  </div>
+                )
+              )}
+              <MemberListMenu
+                members={members}
+                isListOpen={isListOpen}
+                setIsListOpen={setIsListOpen}
+              />
+            </div>
+          )}
 
-          {/*드롭다운 메뉴 너비 지정 목적 섹션 구분용 div*/}
+          {/*드롭다운 메뉴 너비 지정 목적의 유저 정보 섹션 div*/}
           <div className="relative flex items-center h-[60px] md:h-[70px] pr-[10px] md:pr-[30px] lg:pr-[80px]">
             {/*구분선*/}
             <div className="h-[34px] md:h-[38px] w-[1px] bg-[var(--color-gray3)]" />
