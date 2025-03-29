@@ -108,7 +108,7 @@ export default function Column({
       </div>
 
       {/* 카드 영역 */}
-      <div className="flex-1 px-4 pb-4 flex flex-col gap-3 ">
+      <div className="flex-1 pb-4 flex flex-col items-center gap-3">
         <div onClick={() => setIsTodoModalOpen(true)}>
           <TodoButton />
         </div>
