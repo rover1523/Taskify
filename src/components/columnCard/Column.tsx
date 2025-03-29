@@ -27,7 +27,7 @@ export default function Column({
   const [isColumnModalOpen, setIsColumnModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isTodoModalOpen, setIsTodoModalOpen] = useState(false);
-  const [columnTitle, setColmnTitle] = useState(title);
+  const [columnTitle, setColumnTitle] = useState(title);
 
   const [members, setMembers] = useState<
     { id: number; userId: number; nickname: string }[]
@@ -65,7 +65,7 @@ export default function Column({
 
     try {
       const updated = await updateColumn({ teamId, columnId, title: newTitle });
-      setColmnTitle(updated.title);
+      setColumnTitle(updated.title);
       setIsColumnModalOpen(false);
       alert("칼럼 이름이 변경되었습니다.");
     } catch (error) {
