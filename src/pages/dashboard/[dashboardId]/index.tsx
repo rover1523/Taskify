@@ -107,7 +107,7 @@ export default function Dashboard() {
       <div className="flex-1">
         <HeaderDashboard variant="dashboard" dashboardId={dashboardId} />
 
-        <div className="flex gap-4 p-6 overflow-x-auto ">
+        <div className="flex  overflow-x-auto ">
           {/* 각 칼럼 렌더링 */}
           {columns.map((col) => (
             <Column
@@ -119,9 +119,9 @@ export default function Dashboard() {
               dashboardId={Number(dashboardId)}
             />
           ))}
-
-          <ColumnsButton onClick={openModal} />
-
+          <div className="p-5">
+            <ColumnsButton onClick={openModal} />
+          </div>
           {/* 칼럼 추가 모달 */}
           {isAddColumnModalOpen && (
             <AddColumnModal

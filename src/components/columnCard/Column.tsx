@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+//column.tsx
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { CardType } from "@/types/task";
 import Card from "./Card";
@@ -6,13 +7,13 @@ import TodoModal from "@/components/modalInput/ToDoModal";
 import TodoButton from "@/components/button/TodoButton";
 import ColumnManageModal from "@/components/columnCard/ColumnManageModal";
 import ColumnDeleteModal from "@/components/columnCard/ColumnDeleteModal";
-import { updateColumn, deleteColumn } from "@/api/dashboards";
+import { updateColumn, deleteColumn, getCardsByColumn } from "@/api/dashboards";
 import { getDashboardMembers } from "@/api/card";
 
 type ColumnProps = {
   columnId: number;
   title?: string;
-  tasks?: CardType[];
+  // tasks?: CardType[];
   teamId: string;
   dashboardId: number;
 };
@@ -20,18 +21,69 @@ type ColumnProps = {
 export default function Column({
   columnId,
   title = "new Task",
-  tasks = [],
+  // tasks = [],
   teamId,
   dashboardId,
 }: ColumnProps) {
+  const [columnTitle, setColumnTitle] = useState(title);
   const [isColumnModalOpen, setIsColumnModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isTodoModalOpen, setIsTodoModalOpen] = useState(false);
-  const [columnTitle, setColumnTitle] = useState(title);
 
   const [members, setMembers] = useState<
     { id: number; userId: number; nickname: string }[]
   >([]);
+  const [cards, setCards] = useState<CardType[]>([]);
+  const [cursorId, setCursorId] = useState<number | null>(null);
+  const [isIntersecting, setIsIntersecting] = useState(false);
+  const [isEnd, setIsEnd] = useState(false);
+  const endRef = useRef<HTMLDivElement | null>(null);
+
+  // 카드 페이징 로딩
+  const fetchCards = async () => {
+    if (isEnd) return;
+    try {
+      const res = await getCardsByColumn({
+        teamId,
+        columnId,
+        cursorId: cursorId || undefined,
+        size: 5,
+      });
+
+      if (res.cards.length === 0) {
+        setIsEnd(true);
+        return;
+      }
+
+      setCards((prev) => [...prev, ...res.cards]);
+      setCursorId(res.cards[res.cards.length - 1].id);
+    } catch (error) {
+      console.error("카드 로딩 실패:", error);
+    }
+  };
+
+  // 무한 스크롤 감지
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          setIsIntersecting(entry.isIntersecting);
+        });
+      },
+      { threshold: 0.5, rootMargin: "300px" }
+    );
+
+    if (endRef.current) observer.observe(endRef.current);
+
+    return () => {
+      if (endRef.current) observer.unobserve(endRef.current);
+    };
+  }, []);
+
+  // 첫 카드 로딩
+  useEffect(() => {
+    if (isIntersecting) fetchCards();
+  }, [isIntersecting]);
 
   // ✅ 멤버 불러오기
   useEffect(() => {
@@ -87,15 +139,15 @@ export default function Column({
   };
 
   return (
-    <div className="w-[354px] h-[1010px] border-[var(--color-gray4)] flex flex-col rounded-md border border-solid bg-gray-50 p-4">
+    <div className="w-[354px] flex flex-col rounded-md border-r border-gray-200 bg-gray-50 p-4 ">
       {/* 칼럼 헤더 */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <h2 className="text-lg font-bold">
             <span className="text-[var(--primary)]">•</span> {columnTitle}
           </h2>
-          <span className="bg-gray-200 text-gray-700 px-2 py-1 rounded-full text-sm">
-            {tasks.length}
+          <span className="w-5 h-5 text-sm bg-gray-200 text-gray-700 rounded-[4px] flex items-center justify-center ">
+            {cards.length}
           </span>
         </div>
         <Image
@@ -110,19 +162,21 @@ export default function Column({
       </div>
 
       {/* Todo 추가 버튼 */}
-      <div onClick={() => setIsTodoModalOpen(true)}>
+      <div onClick={() => setIsTodoModalOpen(true)} className="mb-3">
         <TodoButton />
       </div>
 
       {/* 카드 목록 */}
-      {tasks.map((task) => (
-        <Card
-          key={task.id}
-          {...task}
-          imageUrl={task.imageUrl}
-          assignee={task.assignee}
-        />
-      ))}
+      <div className="flex flex-col gap-3">
+        {cards.map((task) => (
+          <Card
+            key={task.id}
+            {...task}
+            imageUrl={task.imageUrl}
+            assignee={task.assignee}
+          />
+        ))}
+      </div>
 
       {/* Todo 모달 */}
       {isTodoModalOpen && (
