@@ -2,17 +2,28 @@ import React, { useRef } from "react";
 import { useRouter } from "next/router";
 import { useClosePopup } from "@/hooks/useClosePopup";
 import { User, LogOut, FolderPen } from "lucide-react";
+import { UserType } from "@/types/users";
+import useUserStore from "@/store/useUserStore";
 
 interface UserMenuProps {
+  user: UserType | null;
   isMenuOpen: boolean;
   setIsMenuOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const UserMenu: React.FC<UserMenuProps> = ({ isMenuOpen, setIsMenuOpen }) => {
+  const { clearUser } = useUserStore();
   const router = useRouter();
   const ref = useRef<HTMLDivElement>(null);
 
   useClosePopup(ref, () => setIsMenuOpen(false));
+
+  const handleLogout = () => {
+    clearUser();
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("expiresAt");
+    router.push("/");
+  };
 
   return (
     <div
@@ -37,10 +48,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ isMenuOpen, setIsMenuOpen }) => {
         <span className="hidden md:block">내 대시보드</span>
       </button>
       <button
-        onClick={() => {
-          localStorage.removeItem("accessToken");
-          router.push("/login");
-        }}
+        onClick={handleLogout}
         className="flex justify-center items-center w-full pt-2 pb-3 font-16r text-black3 hover:bg-[var(--color-gray5)]"
       >
         <LogOut size={20} className="md:hidden" />

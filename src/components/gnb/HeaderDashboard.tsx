@@ -205,31 +205,34 @@ const HeaderDashboard: React.FC<HeaderDashboardProps> = ({
             </div>
           )}
 
-          {/*드롭다운 메뉴 너비 지정 목적의 유저 정보 섹션 div*/}
+          {/*드롭다운 메뉴 너비 지정 목적의 유저 섹션 div*/}
           <div className="relative flex items-center h-[60px] md:h-[70px] pr-[10px] md:pr-[30px] lg:pr-[80px]">
             {/*구분선*/}
             <div className="h-[34px] md:h-[38px] w-[1px] bg-[var(--color-gray3)]" />
-
-            {/*유저 정보*/}
-            {isLoading ? (
-              <SkeletonUser />
-            ) : (
-              user && (
-                <div
-                  onClick={() => setIsMenuOpen((prev) => !prev)}
-                  className="flex items-center gap-[12px] pl-[20px] md:pl-[30px] lg:pl-[35px] cursor-pointer"
-                >
-                  <UserAvatars user={user} />
-                  <span className="hidden md:block text-black3 md:text-base md:font-medium">
-                    {user.nickname}
-                  </span>
-                  <UserMenu
-                    isMenuOpen={isMenuOpen}
-                    setIsMenuOpen={setIsMenuOpen}
-                  />
-                </div>
-              )
-            )}
+            {/*유저 드롭다운 메뉴*/}
+            <div
+              onClick={() => setIsMenuOpen((prev) => !prev)}
+              className="flex items-center gap-[12px] pl-[20px] md:pl-[30px] lg:pl-[35px] cursor-pointer"
+            >
+              <UserMenu
+                user={user}
+                isMenuOpen={isMenuOpen}
+                setIsMenuOpen={setIsMenuOpen}
+              />
+              {/*유저 프로필*/}
+              {isLoading ? (
+                <SkeletonUser />
+              ) : (
+                user && (
+                  <>
+                    <UserAvatars user={user} />
+                    <span className="hidden md:block text-black3 md:text-base md:font-medium">
+                      {user.nickname}
+                    </span>
+                  </>
+                )
+              )}
+            </div>
           </div>
         </div>
       </div>
