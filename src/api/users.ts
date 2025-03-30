@@ -1,6 +1,6 @@
 import axiosInstance from "./axiosInstance";
 
-interface UserResponse {
+export interface UserResponse {
   id: number;
   email: string;
   nickname: string;

@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
-import { getUserInfo } from "@/api/user";
 import useUserStore from "@/store/useUserStore";
-import axiosInstance from "@/api/axiosInstance";
+import { getUserInfo } from "@/api/users";
+import { postAuthData } from "@/api/auth";
+import { parseJwt } from "@/utils/parseJwt";
 import Link from "next/link";
 import Input from "@/components/input/Input";
 import { TEAM_ID } from "@/constants/team";
@@ -26,16 +27,23 @@ export default function LoginPage() {
     e.preventDefault();
     const { email, password } = values;
     try {
-      const response = await axiosInstance.post(`${TEAM_ID}/auth/login`, {
+      const { accessToken, expiresIn } = await postAuthData({
         email,
         password,
       });
 
-      const token = response.data.accessToken;
-      localStorage.setItem("accessToken", token);
+      // 현재 백엔드에서 exp 없어서 로그인 만료 설정 불가능, 요청해보고 안 되면 제거
+      // 만료 시간 계산 후 저장
+      const payload = parseJwt(accessToken);
+      console.log(payload.exp);
+      const expiresAt = new Date().getTime() + expiresIn * 1000;
+      localStorage.setItem("accessToken", accessToken);
+      localStorage.setItem("expiresAt", expiresAt.toString());
 
-      const userData = await getUserInfo({ teamId: TEAM_ID }); // 로그인 성공 후 사용자 정보 요청
-      useUserStore.getState().setUser(userData); // Zustand에 저장
+      // 로그인 성공 시 사용자 정보 요청
+      const userData = await getUserInfo({ teamId: TEAM_ID });
+      // Zustand에 저장
+      useUserStore.getState().setUser(userData);
 
       router.push("/mydashboard");
     } catch (error) {
