@@ -30,7 +30,7 @@ export const useAuthGuard = (redirectTo: string = "/login") => {
     restoreUser();
   }, [user, redirectTo, setUser, router]);
 
-  // ✅ 로그아웃 상태에서 인증 페이지 접근 시 로그인 페이지로 이동
+  // 로그아웃 상태에서 인증 페이지 접근 시 로그인 페이지로 이동
   useEffect(() => {
     const isLoggingOut = localStorage.getItem("isLoggingOut");
 
