@@ -24,11 +24,10 @@ export default function Column({
   teamId,
   dashboardId,
 }: ColumnProps) {
+  const [columnTitle, setColumnTitle] = useState(title);
   const [isColumnModalOpen, setIsColumnModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isTodoModalOpen, setIsTodoModalOpen] = useState(false);
-  const [columnTitle, setColmnTitle] = useState(title);
-
   const [members, setMembers] = useState<
     { id: number; userId: number; nickname: string }[]
   >([]);
@@ -65,7 +64,7 @@ export default function Column({
 
     try {
       const updated = await updateColumn({ teamId, columnId, title: newTitle });
-      setColmnTitle(updated.title);
+      setColumnTitle(updated.title);
       setIsColumnModalOpen(false);
       alert("칼럼 이름이 변경되었습니다.");
     } catch (error) {
@@ -79,7 +78,6 @@ export default function Column({
       await deleteColumn({ teamId, columnId });
       setIsDeleteModalOpen(false);
       alert("칼럼이 삭제되었습니다.");
-      // :point_right: 부모에서 상태를 관리 중이라면 삭제 후 다시 데이터를 불러오거나, 상태 업데이트 필요!
     } catch (error) {
       console.error("칼럼 삭제 실패:", error);
       alert("칼럼 삭제에 실패했습니다.");
@@ -87,14 +85,14 @@ export default function Column({
   };
 
   return (
-    <div className="w-[354px] h-[1010px] border-[var(--color-gray4)] flex flex-col rounded-md border border-solid bg-gray-50 p-4">
+    <div className="w-[354px] flex flex-col rounded-md border-r border-gray-200 bg-gray-50 p-4 min-h-screen">
       {/* 칼럼 헤더 */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <h2 className="text-lg font-bold">
             <span className="text-[var(--primary)]">•</span> {columnTitle}
           </h2>
-          <span className="bg-gray-200 text-gray-700 px-2 py-1 rounded-full text-sm">
+          <span className="w-5 h-5 text-sm bg-gray-200 text-gray-700 rounded-[4px] flex items-center justify-center ">
             {tasks.length}
           </span>
         </div>
@@ -109,20 +107,21 @@ export default function Column({
         />
       </div>
 
-      {/* Todo 추가 버튼 */}
-      <div onClick={() => setIsTodoModalOpen(true)}>
-        <TodoButton />
-      </div>
+      {/* 카드 영역 */}
+      <div className="flex-1 pb-4 flex flex-col items-center gap-3">
+        <div onClick={() => setIsTodoModalOpen(true)}>
+          <TodoButton />
+        </div>
 
-      {/* 카드 목록 */}
-      {tasks.map((task) => (
-        <Card
-          key={task.id}
-          {...task}
-          imageUrl={task.imageUrl}
-          assignee={task.assignee}
-        />
-      ))}
+        {tasks.map((task) => (
+          <Card
+            key={task.id}
+            {...task}
+            imageUrl={task.imageUrl}
+            assignee={task.assignee}
+          />
+        ))}
+      </div>
 
       {/* Todo 모달 */}
       {isTodoModalOpen && (
@@ -132,7 +131,7 @@ export default function Column({
           teamId={teamId}
           dashboardId={dashboardId}
           columnId={columnId}
-          members={members} // ✅ 멤버 넘겨줌
+          members={members}
         />
       )}
 

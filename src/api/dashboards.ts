@@ -4,13 +4,19 @@ import axiosInstance from "./axiosInstance";
 export const getCardsByColumn = async ({
   teamId,
   columnId,
+  cursorId,
+  size = 10,
 }: {
   teamId: string;
   columnId: number;
+  cursorId?: number;
+  size?: number;
 }) => {
   const res = await axiosInstance.get(`/${teamId}/cards`, {
     params: {
       columnId,
+      cursorId,
+      size,
     },
   });
 
