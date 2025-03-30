@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
-import { getUserInfo } from "@/api/user";
 import useUserStore from "@/store/useUserStore";
-import axiosInstance from "@/api/axiosInstance";
+import { getUserInfo } from "@/api/users";
+import { postAuthData } from "@/api/auth";
 import Link from "next/link";
 import Input from "@/components/input/Input";
 import { TEAM_ID } from "@/constants/team";
@@ -26,12 +26,10 @@ export default function LoginPage() {
     e.preventDefault();
     const { email, password } = values;
     try {
-      const response = await axiosInstance.post(`${TEAM_ID}/auth/login`, {
+      const { accessToken, expiresIn } = await postAuthData({
         email,
         password,
       });
-
-      const { accessToken, expiresIn } = response.data;
 
       // 만료 시간 계산 후 저장
       const expiresAt = new Date().getTime() + expiresIn * 1000;

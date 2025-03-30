@@ -4,7 +4,7 @@ import SkeletonUser from "@/shared/skeletonUser";
 import Image from "next/image";
 import { MemberType, UserType } from "@/types/users";
 import { getMembers } from "@/api/members";
-import { getUserInfo } from "@/api/user";
+import { getUserInfo } from "@/api/users";
 import { getDashboardById } from "@/api/dashboards";
 import { TEAM_ID } from "@/constants/team";
 import RandomProfile from "@/components/table/member/RandomProfile";

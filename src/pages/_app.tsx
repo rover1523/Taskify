@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { useRouter } from "next/router";
 import useUserStore from "@/store/useUserStore";
 import HeaderDefault from "@/components/gnb/HeaderDefault";
-import { getUserInfo } from "@/api/user";
+import { getUserInfo } from "@/api/users";
 import { TEAM_ID } from "@/constants/team";
 
 // 토큰 만료 설정

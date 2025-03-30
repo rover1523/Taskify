@@ -1,9 +1,10 @@
 import axiosInstance from "./axiosInstance";
 import { apiRoutes } from "./apiRoutes";
-import { UserResponse } from "./user";
+import { UserResponse } from "./users";
 
 interface AuthResponse extends UserResponse {
   accessToken: string;
+  expiresIn: number;
 }
 
 export const postAuthData = async ({
