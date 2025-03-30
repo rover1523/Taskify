@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import SkeletonUser from "@/shared/skeletonUser";
 import Image from "next/image";
@@ -9,6 +9,7 @@ import { getDashboardById } from "@/api/dashboards";
 import { TEAM_ID } from "@/constants/team";
 import { MemberAvatars, UserAvatars } from "@/components/gnb/Avatars";
 import UserMenu from "@/components/gnb/UserMenu";
+import MemberListMenu from "@/components/gnb/MemberListMenu";
 import InviteDashboard from "@/components/modal/InviteDashboard";
 
 interface HeaderDashboardProps {
@@ -26,6 +27,7 @@ const HeaderDashboard: React.FC<HeaderDashboardProps> = ({
   const [user, setUser] = useState<UserType | null>(null);
   const [members, setMembers] = useState<MemberType[]>([]);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isListOpen, setIsListOpen] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [dashboard, setDashboard] = useState<{
     title: string;
@@ -113,14 +115,22 @@ const HeaderDashboard: React.FC<HeaderDashboardProps> = ({
           </p>
         )}
         <div className="flex items-center gap-[8px]">
-          <p className="text-base text-black3 font-bold md:text-xl">{title}</p>
+          <p
+            className={`text-base text-black3 font-bold md:text-xl ${variant !== "mydashboard" ? "hidden md:block" : ""}`}
+          >
+            {title}
+          </p>
           {dashboard?.createdByMe && (
             <Image
               src="/svgs/crown.svg"
               alt="왕관 아이콘"
               width={22}
               height={22}
-              className="inline-block"
+              className={
+                variant === "mydashboard"
+                  ? "inline-block"
+                  : "hidden md:inline-block"
+              }
               unoptimized
               priority
             />
@@ -129,7 +139,9 @@ const HeaderDashboard: React.FC<HeaderDashboardProps> = ({
 
         <div className="flex items-center">
           {/*관리 버튼*/}
-          <div className="flex gap-[6px] md:gap-[16px] pr-[40px]">
+          <div
+            className={`flex gap-[6px] md:gap-[16px] ${variant === "mydashboard" ? "pr-[22px] md:pr-[32px]" : ""}`}
+          >
             <button
               onClick={() => {
                 if (dashboardId) {
@@ -167,13 +179,33 @@ const HeaderDashboard: React.FC<HeaderDashboardProps> = ({
           </div>
 
           {/*멤버 목록*/}
-          <MemberAvatars
-            members={members}
-            isLoading={isLoading}
-            variant={variant}
-          />
+          {variant !== "mydashboard" && (
+            <div className="relative flex items-center justify-center w-[150px] md:w-[190px] h-[60px] md:h-[70px]">
+              {isLoading ? (
+                <SkeletonUser />
+              ) : (
+                members && (
+                  <div
+                    onClick={() => setIsListOpen((prev) => !prev)}
+                    className="flex items-center pl-[15px] md:pl-[25px] lg:pl-[30px] pr-[15px] md:pr-[25px] lg:pr-[30px] cursor-pointer"
+                  >
+                    <MemberAvatars
+                      members={members}
+                      isLoading={isLoading}
+                      variant={variant}
+                    />
+                  </div>
+                )
+              )}
+              <MemberListMenu
+                members={members}
+                isListOpen={isListOpen}
+                setIsListOpen={setIsListOpen}
+              />
+            </div>
+          )}
 
-          {/*드롭다운 메뉴 너비 지정 목적의 섹션 구분용 div*/}
+          {/*드롭다운 메뉴 너비 지정 목적의 유저 정보 섹션 div*/}
           <div className="relative flex items-center h-[60px] md:h-[70px] pr-[10px] md:pr-[30px] lg:pr-[80px]">
             {/*구분선*/}
             <div className="h-[34px] md:h-[38px] w-[1px] bg-[var(--color-gray3)]" />
