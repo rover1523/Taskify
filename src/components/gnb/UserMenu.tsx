@@ -19,6 +19,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ isMenuOpen, setIsMenuOpen }) => {
   useClosePopup(ref, () => setIsMenuOpen(false));
 
   const handleLogout = () => {
+    localStorage.setItem("isLoggingOut", "true");
     clearUser();
     localStorage.removeItem("accessToken");
     localStorage.removeItem("expiresAt");

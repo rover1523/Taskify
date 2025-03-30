@@ -74,8 +74,10 @@ const HeaderDashboard: React.FC<HeaderDashboardProps> = ({
         setIsLoading(false);
       }
     };
-
-    fetchUser();
+    const token = localStorage.getItem("accessToken");
+    if (token) {
+      fetchUser();
+    }
   }, []);
 
   /*대시보드 api 호출*/
