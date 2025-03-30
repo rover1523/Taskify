@@ -1,4 +1,3 @@
-// index.tsx
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import {
@@ -106,9 +105,9 @@ export default function Dashboard() {
       <SideMenu teamId={teamId} dashboardList={dashboardList} />
 
       <div className="flex-1">
-        <HeaderDashboard dashboardId={dashboardId} />
+        <HeaderDashboard variant="dashboard" dashboardId={dashboardId} />
 
-        <div className="flex gap-4 p-6 overflow-x-auto">
+        <div className="flex gap-4 p-6 overflow-x-auto ">
           {/* 각 칼럼 렌더링 */}
           {columns.map((col) => (
             <Column

@@ -1,32 +1,60 @@
 import Image from "next/image";
-import { ChangeEvent, useRef, useState } from "react";
-
+import { ChangeEvent, useEffect, useRef, useState } from "react";
 import AddButton from "./AddButton";
+import { uploadCardImage } from "@/api/card";
 
 interface ModalImageProps {
   label: string;
-  onImageSelect: (imageUrl: File) => void;
+  teamId: string;
+  columnId: number;
+  defaultImageUrl?: string;
+  onImageSelect: (imageUrl: string) => void; // ✅ string만 넘김
 }
 
-export default function ModalImage({ label, onImageSelect }: ModalImageProps) {
+export default function ModalImage({
+  label,
+  teamId,
+  columnId,
+  defaultImageUrl,
+  onImageSelect,
+}: ModalImageProps) {
   const [backgroundImage, setBackgroundImage] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
+
+  // 기존 이미지 표시
+  useEffect(() => {
+    if (defaultImageUrl) {
+      setBackgroundImage(defaultImageUrl);
+    }
+  }, [defaultImageUrl]);
 
   const handleFileInputClick = () => {
     fileInputRef.current?.click();
   };
 
-  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const selectedFile = e.target.files?.[0];
+  const handleFileChange = async (e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
 
-    if (selectedFile) {
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        const imageSrc = event.target?.result as string;
-        setBackgroundImage(imageSrc);
-        onImageSelect(selectedFile);
-      };
-      reader.readAsDataURL(selectedFile);
+    // 미리보기용
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const imageSrc = event.target?.result as string;
+      setBackgroundImage(imageSrc);
+    };
+    reader.readAsDataURL(file);
+
+    // ✅ 업로드 후 URL 전달
+    try {
+      const imageUrl = await uploadCardImage({
+        teamId,
+        columnId,
+        imageFile: file,
+      });
+      onImageSelect(imageUrl);
+    } catch (error) {
+      console.error("이미지 업로드 실패:", error);
+      alert("이미지 업로드에 실패했어요.");
     }
   };
 
@@ -46,7 +74,7 @@ export default function ModalImage({ label, onImageSelect }: ModalImageProps) {
               src={backgroundImage}
               fill
               alt="Selected Image"
-              className="rounded-md"
+              className="rounded-md object-cover"
               unoptimized
             />
             <div className="z-10 flex w-[76px] h-[76px] items-center justify-center rounded-md bg-[var(--color-black4)] opacity-0 transition-opacity duration-200 ease-in-out group-hover:opacity-60">
@@ -67,6 +95,7 @@ export default function ModalImage({ label, onImageSelect }: ModalImageProps) {
           type="file"
           ref={fileInputRef}
           className="hidden"
+          accept="image/*"
           onChange={handleFileChange}
         />
       </button>
