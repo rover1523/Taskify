@@ -36,8 +36,10 @@ export default function LoginPage() {
       localStorage.setItem("accessToken", accessToken);
       localStorage.setItem("expiresAt", expiresAt.toString());
 
-      const userData = await getUserInfo({ teamId: TEAM_ID }); // 로그인 성공 후 사용자 정보 요청
-      useUserStore.getState().setUser(userData); // Zustand에 저장
+      // 로그인 성공 시 사용자 정보 요청
+      const userData = await getUserInfo({ teamId: TEAM_ID });
+      // Zustand에 저장
+      useUserStore.getState().setUser(userData);
 
       router.push("/mydashboard");
     } catch (error) {
