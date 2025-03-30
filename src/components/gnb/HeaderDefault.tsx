@@ -11,7 +11,7 @@ const HeaderDefault: React.FC<HeaderDefaultProps> = ({ variant = "white" }) => {
   const router = useRouter();
   const { user, clearUser } = useUserStore();
 
-  const isLoggedIn = !user;
+  const isLoggedIn = !!user;
   const isWhite = variant === "white";
 
   const handleAuthClick = () => {
