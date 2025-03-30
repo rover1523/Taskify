@@ -9,6 +9,7 @@ import DashboardAddButton from "@/components/button/DashboardAddButton";
 import { getDashboards } from "@/api/dashboards";
 import { useRouter } from "next/router";
 import { useAuthGuard } from "@/hooks/useAuthGuard";
+import LoadingSpinner from "@/components/common/LoadingSpinner";
 
 interface Dashboard {
   id: number;
@@ -28,21 +29,6 @@ export default function MyDashboardPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const itemsPerPage = 6;
-
-  useEffect(() => {
-    if (isInitialized && user) {
-      fetchDashboards();
-    }
-  }, [isInitialized, user]);
-
-  // 로그인 여부 파악 전 렌더링 X, 로딩 중 표시
-  if (!isInitialized) {
-    return (
-      <div className="flex justify-center items-center h-screen">
-        로딩 중...
-      </div>
-    );
-  }
 
   const totalPages = Math.ceil((dashboardList.length + 1) / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
@@ -69,6 +55,12 @@ export default function MyDashboardPage() {
     }
   };
 
+  useEffect(() => {
+    if (isInitialized && user) {
+      fetchDashboards();
+    }
+  }, [isInitialized, user]);
+
   const handlePrevPage = () => {
     if (currentPage > 1) setCurrentPage((prev) => prev - 1);
   };
@@ -76,6 +68,10 @@ export default function MyDashboardPage() {
   const handleNextPage = () => {
     if (currentPage < totalPages) setCurrentPage((prev) => prev + 1);
   };
+
+  if (!isInitialized || !user) {
+    return <LoadingSpinner />;
+  }
 
   return (
     <div className="flex h-screen overflow-hidden">

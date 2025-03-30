@@ -31,7 +31,7 @@ export const useAuthGuard = (redirectTo: string = "/login") => {
     restoreUser();
   }, [user, redirectTo, setUser, router]);
 
-  // 비로그인 상태, 직접 로그아웃이 아닐 때만 로그인 페이지로 이동
+  // 직접 로그아웃한 게 아닐 때만 로그인 페이지로 이동
   useEffect(() => {
     const isLoggingOut = localStorage.getItem("isLoggingOut");
 
