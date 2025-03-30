@@ -1,8 +1,8 @@
-const TEAM_ID = "13-4";
+import { TEAM_ID } from "@/constants/team";
 
 export const apiRoutes = {
   //로그인
-  Login: () => `/${TEAM_ID}/login`, //post
+  Login: () => `/${TEAM_ID}/auth/login`, //post
   //비밀번호변경
   Password: () => `/${TEAM_ID}/auth/password`, //put
   //카드

@@ -1,3 +1,5 @@
+// 창 바깥 클릭 시, esc 키다운 시 닫힘 공통 훅
+
 import { useEffect } from "react";
 
 export const useClosePopup = (

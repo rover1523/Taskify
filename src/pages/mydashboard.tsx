@@ -8,6 +8,7 @@ import NewDashboard from "@/components/modal/NewDashboard";
 import DashboardAddButton from "@/components/button/DashboardAddButton";
 import { getDashboards } from "@/api/dashboards";
 import { useRouter } from "next/router";
+import { useAuthGuard } from "@/hooks/useAuthGuard";
 
 interface Dashboard {
   id: number;
@@ -20,12 +21,28 @@ interface Dashboard {
 }
 
 export default function MyDashboardPage() {
+  const { user, isInitialized } = useAuthGuard();
   const teamId = "13-4";
   const router = useRouter();
   const [dashboardList, setDashboardList] = useState<Dashboard[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const itemsPerPage = 6;
+
+  useEffect(() => {
+    if (isInitialized && user) {
+      fetchDashboards();
+    }
+  }, [isInitialized, user]);
+
+  // 로그인 여부 파악 전 렌더링 X, 로딩 중 표시
+  if (!isInitialized) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        로딩 중...
+      </div>
+    );
+  }
 
   const totalPages = Math.ceil((dashboardList.length + 1) / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
@@ -51,10 +68,6 @@ export default function MyDashboardPage() {
       console.error("대시보드 불러오기 실패:", error);
     }
   };
-
-  useEffect(() => {
-    fetchDashboards();
-  }, [teamId]);
 
   const handlePrevPage = () => {
     if (currentPage > 1) setCurrentPage((prev) => prev - 1);

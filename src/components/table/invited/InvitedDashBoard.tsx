@@ -5,6 +5,7 @@ import EmptyInvitations from "./EmptyInvitations";
 import { apiRoutes } from "@/api/apiRoutes";
 import axiosInstance from "@/api/axiosInstance";
 import { Invite } from "@/types/invite";
+import useUserStore from "@/store/useUserStore";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -184,6 +185,7 @@ function InvitedList({
 type CursorId = number;
 
 export default function InvitedDashBoard() {
+  const { user } = useUserStore();
   const [searchTitle, setSearchTitle] = useState("");
   const [invitationData, setInvitationData] = useState<Map<CursorId, Invite[]>>(
     new Map()
@@ -198,63 +200,67 @@ export default function InvitedDashBoard() {
   };
 
   useEffect(() => {
-    fetchNextPage(); // 초기 데이터 6개 불러오기
-  }, []);
+    if (user) {
+      fetchNextPage();
+    } // 초기 데이터 6개 불러오기
+  }, [user]);
 
   /* 초대 목록 데이터 불러오기 */
   const fetchNextPage = async () => {
-    try {
-      const existingCursorId =
-        cursorId !== null && cursorId !== undefined
-          ? invitationData.get(cursorId)
-          : undefined;
+    if (user) {
+      try {
+        const existingCursorId =
+          cursorId !== null && cursorId !== undefined
+            ? invitationData.get(cursorId)
+            : undefined;
 
-      if (existingCursorId && existingCursorId.length > 0) {
-        // 이미 데이터가 존재하면 더 이상 요청하지 않음
-        return;
-      }
-
-      if (isFetchingRef.current) return; // 이미 데이터가 불러와졌다면 중복 요청 방지
-      isFetchingRef.current = true; // 데이터 요청 시작
-
-      const res = await axiosInstance.get(apiRoutes.Invitations(), {
-        params: {
-          size: ITEMS_PER_PAGE,
-          cursorId: cursorId || null,
-        },
-      });
-
-      if (res.data && Array.isArray(res.data.invitations)) {
-        const newInvitations = res.data.invitations.map(
-          (item: {
-            id: number;
-            dashboard: { title: string };
-            inviter: { nickname: string };
-          }) => ({
-            id: item.id,
-            title: item.dashboard.title,
-            nickname: item.inviter.nickname,
-          })
-        ) as Invite[];
-
-        if (newInvitations.length > 0) {
-          setCursorId(res.data.cursorId);
+        if (existingCursorId && existingCursorId.length > 0) {
+          // 이미 데이터가 존재하면 더 이상 요청하지 않음
+          return;
         }
 
-        setInvitationData((prev) => {
-          const newMap = new Map(prev);
-          newMap.set(cursorId as CursorId, newInvitations);
-          return newMap;
+        if (isFetchingRef.current) return; // 이미 데이터가 불러와졌다면 중복 요청 방지
+        isFetchingRef.current = true; // 데이터 요청 시작
+
+        const res = await axiosInstance.get(apiRoutes.Invitations(), {
+          params: {
+            size: ITEMS_PER_PAGE,
+            cursorId: cursorId || null,
+          },
         });
 
-        if (newInvitations.length < ITEMS_PER_PAGE) {
-          setHasMore(false);
+        if (res.data && Array.isArray(res.data.invitations)) {
+          const newInvitations = res.data.invitations.map(
+            (item: {
+              id: number;
+              dashboard: { title: string };
+              inviter: { nickname: string };
+            }) => ({
+              id: item.id,
+              title: item.dashboard.title,
+              nickname: item.inviter.nickname,
+            })
+          ) as Invite[];
+
+          if (newInvitations.length > 0) {
+            setCursorId(res.data.cursorId);
+          }
+
+          setInvitationData((prev) => {
+            const newMap = new Map(prev);
+            newMap.set(cursorId as CursorId, newInvitations);
+            return newMap;
+          });
+
+          if (newInvitations.length < ITEMS_PER_PAGE) {
+            setHasMore(false);
+          }
         }
+      } catch (error) {
+        console.error("초대내역 불러오는데 오류 발생:", error);
+      } finally {
+        isFetchingRef.current = false; // 데이터 요청 완료
       }
-    } catch (error) {
-      console.error("초대내역 불러오는데 오류 발생:", error);
-    } finally {
-      isFetchingRef.current = false; // 데이터 요청 완료
     }
   };
 
