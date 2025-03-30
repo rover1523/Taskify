@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
-import { signUp } from "@/api/user";
+import { signUp } from "@/api/users";
 import { TEAM_ID } from "@/constants/team";
 import Input from "@/components/input/Input";
 import Link from "next/link";
