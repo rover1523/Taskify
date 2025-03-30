@@ -8,6 +8,7 @@ import NewDashboard from "@/components/modal/NewDashboard";
 import DashboardAddButton from "@/components/button/DashboardAddButton";
 import { getDashboards } from "@/api/dashboards";
 import { useRouter } from "next/router";
+import { useAuthGuard } from "@/hooks/useAuthGuard";
 
 interface Dashboard {
   id: number;
@@ -20,6 +21,7 @@ interface Dashboard {
 }
 
 export default function MyDashboardPage() {
+  const { user } = useAuthGuard();
   const teamId = "13-4";
   const router = useRouter();
   const [dashboardList, setDashboardList] = useState<Dashboard[]>([]);
@@ -44,11 +46,13 @@ export default function MyDashboardPage() {
   ].slice(startIndex, startIndex + itemsPerPage);
 
   const fetchDashboards = async () => {
-    try {
-      const res = await getDashboards({ teamId });
-      setDashboardList(res.dashboards);
-    } catch (error) {
-      console.error("대시보드 불러오기 실패:", error);
+    if (user) {
+      try {
+        const res = await getDashboards({ teamId });
+        setDashboardList(res.dashboards);
+      } catch (error) {
+        console.error("대시보드 불러오기 실패:", error);
+      }
     }
   };
 
