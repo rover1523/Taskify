@@ -6,6 +6,7 @@ import { getMembers } from "@/api/members";
 import { apiRoutes } from "@/api/apiRoutes";
 import axiosInstance from "@/api/axiosInstance";
 import { ToastContainer, toast } from "react-toastify";
+import Image from "next/image";
 import "react-toastify/dist/ReactToastify.css";
 
 interface HeaderBebridgeProps {
@@ -91,11 +92,14 @@ const MemberList: React.FC<HeaderBebridgeProps> = ({ dashboardId }) => {
           >
             <div className="flex items-center gap-4">
               {member.profileImageUrl ? (
-                <img
-                  src={member.profileImageUrl}
-                  alt="유저 프로필 아이콘"
-                  className="w-full h-full rounded-full object-cover"
-                />
+                <div className="relative w-[34px] h-[34px] md:w-[38px] md:h-[38px] rounded-full border-[2px] border-white overflow-hidden">
+                  <Image
+                    src={member.profileImageUrl}
+                    alt={member.nickname}
+                    fill
+                    className="object-cover"
+                  />
+                </div>
               ) : (
                 <RandomProfile name={member.nickname} index={index} />
               )}
