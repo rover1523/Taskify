@@ -48,7 +48,6 @@ export default function MyDashboardPage() {
         showCrown={dashboard.createdByMe}
         color={dashboard.color}
         isEditMode={isEditMode}
-        onClick={() => router.push(`/dashboard/${dashboard.id}`)}
         onDeleteClick={(id) => {
           setSelectedDashboardId(id);
           setIsDeleteModalOpen(true);

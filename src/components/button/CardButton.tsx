@@ -27,8 +27,18 @@ const CardButton: React.FC<CardButtonProps> = ({
 }) => {
   const router = useRouter();
 
+  const handleCardClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    // 관리 상태에서 카드 클릭 이벤트 차단
+    if (isEditMode) {
+      e.preventDefault();
+      return;
+    }
+    // 카드 클릭 시 해당 대시보드로 이동
+    router.push(`/dashboard/${dashboardId}`);
+  };
+
   const handleEdit = (e: React.MouseEvent) => {
-    e.stopPropagation(); // 관리 상태에서 카드 클릭 이벤트 차단
+    e.stopPropagation();
     router.push(`/dashboard/${dashboardId}/edit`);
   };
 
@@ -41,18 +51,22 @@ const CardButton: React.FC<CardButtonProps> = ({
 
   return (
     <button
+      {...props}
+      onClick={handleCardClick}
       className={clsx(
         "flex justify-between items-center bg-white transition-all",
         "rounded-lg px-4 py-3 font-16sb",
-        "border border-gray-300 hover:border-purple-500",
+        "border border-gray-300",
         fullWidth ? "w-full" : "w-[260px] md:w-[247px] lg:w-[332px]",
         "h-[58px] md:h-[68px] lg:h-[70px]",
         "mt-[10px] md:mt-[16px] lg:mt-[20px]",
         "text-lg md:text-2lg lg:text-2lg",
-        "cursor-pointer",
+        "transition-all",
+        isEditMode
+          ? "cursor-default hover:border-gray-300"
+          : "cursor-pointer hover:border-purple-500",
         className
       )}
-      {...props}
     >
       {/* 왼쪽: 색상 도트 + 제목 + 왕관 */}
       <div className="flex items-center gap-[10px] overflow-hidden">
