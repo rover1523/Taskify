@@ -146,7 +146,7 @@ export default function MyDashboardPage() {
             {totalPages > 1 && (
               <div className="justify-end flex items-center w-full max-w-[1035px]">
                 <span className="font-14r text-black3 pr-[16px]">
-                  {`${currentPage}페이지 중 ${totalPages}`}
+                  {`${totalPages}페이지 중 ${currentPage}`}
                 </span>
                 <PaginationButton
                   direction="left"
@@ -186,13 +186,15 @@ export default function MyDashboardPage() {
         onClose={() => setIsDeleteModalOpen(false)}
         className="flex items-center justify-center text-center"
       >
-        <p className="text-black3 font-16m">
-          {selectedTitle}
-          <br />
-          {selectedCreatedByMe
-            ? "대시보드를 삭제하시겠습니까?"
-            : "대시보드에서 나가시겠습니까?"}
-        </p>
+        <div className="flex flex-col items-center gap-1 text-center">
+          <div className="text-[var(--primary)] font-16m">{selectedTitle}</div>
+
+          <div className="text-black3 font-16m">
+            {selectedCreatedByMe
+              ? "대시보드를 삭제하시겠습니까?"
+              : "대시보드에서 나가시겠습니까?"}
+          </div>
+        </div>
         <div className="flex items-center justify-center gap-2">
           <CustomBtn
             onClick={
