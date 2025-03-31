@@ -25,7 +25,6 @@ const UserMenu: React.FC<UserMenuProps> = ({ isMenuOpen, setIsMenuOpen }) => {
     localStorage.setItem("isLoggingOut", "true");
     clearUser();
     localStorage.removeItem("accessToken");
-    localStorage.removeItem("expiresAt");
     router.push("/");
   };
 
