@@ -19,7 +19,6 @@ const HeaderDefault: React.FC<HeaderDefaultProps> = ({ variant = "white" }) => {
     if (isLoggedIn) {
       clearUser();
       localStorage.removeItem("accessToken");
-      localStorage.removeItem("expiresAt");
       router.push("/");
     } else {
       router.push("/login");

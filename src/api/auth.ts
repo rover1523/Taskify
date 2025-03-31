@@ -4,7 +4,6 @@ import { UserResponse } from "./users";
 
 interface AuthResponse extends UserResponse {
   accessToken: string;
-  expiresIn: number;
 }
 
 export const postAuthData = async ({
