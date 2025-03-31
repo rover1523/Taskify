@@ -15,12 +15,12 @@ export default function ColumnDeleteModal({
 }: ColumnDeleteModalProps) {
   return (
     <Modal
-      width="w-[568px]"
-      height="h-[174px]"
       isOpen={isOpen}
       onClose={onClose}
+      width="w-[327px] sm:w-[568px]"
+      height="h-[160px] sm:h-[174px]"
     >
-      <div className="flex flex-col gap-10 text-center">
+      <div className="flex flex-col sm:gap-10 gap-6 text-center">
         <p className="text-xl mt-1.5">칼럼의 모든 카드가 삭제됩니다.</p>
         <div className="flex justify-between gap-3">
           <CustomBtn variant="outlineDisabled" onClick={onClose}>

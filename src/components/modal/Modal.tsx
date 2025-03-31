@@ -8,8 +8,6 @@ interface ButtonProps {
   onClick: () => void;
   variant?: "primary" | "outline"; // 버튼 스타일 지정 가능 (기본값: primary)
   className?: string; // 추가적인 버튼 스타일 적용 가능
-  width?: string; // 반응형을 위한 추가 크기 조정
-  height?: string;
 }
 
 interface ModalProps {
