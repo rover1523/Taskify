@@ -12,7 +12,6 @@ import InvitedDashBoard from "@/components/table/invited/InvitedDashBoard";
 import NewDashboard from "@/components/modal/NewDashboard";
 import { Modal } from "@/components/modal/Modal";
 import { CustomBtn } from "@/components/button/CustomButton";
-
 import LoadingSpinner from "@/components/common/LoadingSpinner";
 
 interface Dashboard {
