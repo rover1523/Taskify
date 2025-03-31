@@ -164,7 +164,7 @@ export default function SideMenu({
         <NewDashboard
           onClose={() => setIsModalOpen(false)}
           onCreate={(newDashboard) => {
-            onCreateDashboard?.(newDashboard); // ✅ 부모에게 알림
+            onCreateDashboard?.(newDashboard);
             setIsModalOpen(false);
           }}
         />
