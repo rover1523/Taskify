@@ -144,7 +144,7 @@ const HeaderDashboard: React.FC<HeaderDashboardProps> = ({
             className={`flex gap-[6px] md:gap-[16px] ${variant === "mydashboard" ? "pr-[22px] md:pr-[32px]" : ""}`}
           >
             {/*관리 버튼*/}
-            {dashboard?.createdByMe && (
+            {(variant === "mydashboard" || dashboard?.createdByMe) && (
               <button
                 onClick={() => {
                   if (dashboardId) {
@@ -166,19 +166,23 @@ const HeaderDashboard: React.FC<HeaderDashboardProps> = ({
               </button>
             )}
             {/*초대하기 버튼*/}
-            <button
-              onClick={openInviteModal}
-              className="flex items-center justify-center w-[73px] h-[30px] md:w-[109px] md:h-[36px] lg:w-[116px] lg:h-[40px] rounded-[8px] border border-[#D9D9D9] gap-[10px] cursor-pointer"
-            >
-              <Image
-                src="/svgs/add-box.svg"
-                alt="초대하기 아이콘"
-                width={20}
-                height={20}
-                className="hidden md:block"
-              />
-              <span className="text-sm md:text-base text-gray1">초대하기</span>
-            </button>
+            {variant !== "mydashboard" && (
+              <button
+                onClick={openInviteModal}
+                className="flex items-center justify-center w-[73px] h-[30px] md:w-[109px] md:h-[36px] lg:w-[116px] lg:h-[40px] rounded-[8px] border border-[#D9D9D9] gap-[10px] cursor-pointer"
+              >
+                <Image
+                  src="/svgs/add-box.svg"
+                  alt="초대하기 아이콘"
+                  width={20}
+                  height={20}
+                  className="hidden md:block"
+                />
+                <span className="text-sm md:text-base text-gray1">
+                  초대하기
+                </span>
+              </button>
+            )}
             {isModalOpen && <InviteDashboard onClose={closeInviteModal} />}
           </div>
 
