@@ -8,12 +8,12 @@ import { MemberType, UserType } from "@/types/users";
 interface MemberAvatarsProps {
   members: MemberType[];
   isLoading: boolean;
-  variant?: "mydashboard" | "dashboard" | "mypage";
+  variant?: "mydashboard" | "dashboard" | "edit" | "mypage";
 }
 
 const MAX_VISIBLE_MEMBERS = 4;
 
-export const MemberAvatars: React.FC<MemberAvatarsProps> = ({
+export const MemberList: React.FC<MemberAvatarsProps> = ({
   members,
   isLoading,
   variant,
