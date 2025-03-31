@@ -1,6 +1,11 @@
 import { useState } from "react";
+import { useRouter } from "next/router";
+import { signUp } from "@/api/users";
+import { TEAM_ID } from "@/constants/team";
 import Input from "@/components/input/Input";
 import Link from "next/link";
+import { Modal } from "@/components/modal/Modal";
+import { CustomBtn } from "@/components/button/CustomButton";
 
 export default function SignUpPage() {
   const [email, setEmail] = useState("");
@@ -8,6 +13,10 @@ export default function SignUpPage() {
   const [password, setPassword] = useState("");
   const [passwordCheck, setPasswordCheck] = useState("");
   const [agree, setAgree] = useState(false);
+  const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
+
+  const router = useRouter();
+  const teamId = TEAM_ID;
 
   const isFormValid =
     email.trim() !== "" &&
@@ -15,6 +24,32 @@ export default function SignUpPage() {
     password.trim() !== "" &&
     passwordCheck.trim() !== "" &&
     agree;
+
+  /*모달 닫고 로그인 페이지 이동*/
+  const handleSuccessConfirm = () => {
+    setIsSuccessModalOpen(false);
+    router.push("/login");
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    if (!isFormValid) return;
+    try {
+      await signUp({
+        teamId,
+        payload: {
+          email,
+          nickname: nickName,
+          password,
+        },
+      });
+      setIsSuccessModalOpen(true);
+    } catch (error) {
+      console.error("회원가입 실패", error);
+      alert("회원가입에 실패했습니다.");
+    }
+  };
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-[var(--color-gray5)] py-10">
@@ -27,7 +62,10 @@ export default function SignUpPage() {
         <p className="font-20m text-black3">첫 방문을 환영합니다!</p>
       </div>
 
-      <form className="flex flex-col w-[350px] md:w-[520px] gap-[20px] font-16r text-black3">
+      <form
+        onSubmit={handleSubmit}
+        className="flex flex-col w-[350px] md:w-[520px] gap-[20px] font-16r text-black3"
+      >
         <Input
           type="email"
           name="email"
@@ -53,30 +91,18 @@ export default function SignUpPage() {
           placeholder="비밀번호를 입력해 주세요"
           onChange={setPassword}
           pattern=".{8,}"
-          invalidMessage="비밀번호는 8자 이상이어야 해요"
+          invalidMessage="영문, 숫자를 포함한 8자 이상 입력해 주세요"
         />
 
-        <div className="gap-2">
-          <Input
-            type="password"
-            name="passwordCheck"
-            label="비밀번호 확인"
-            placeholder="비밀번호를 한번 더 입력해 주세요"
-            onChange={setPasswordCheck}
-            pattern="{password}"
-            invalidMessage=""
-            className={
-              passwordCheck && password !== passwordCheck
-                ? "border-[var(--color-red)] focus:border-[var(--color-red)]"
-                : ""
-            }
-          />
-          {passwordCheck && password !== passwordCheck && (
-            <span className="font-14r text-[var(--color-red)]">
-              비밀번호가 일치하지 않습니다.
-            </span>
-          )}
-        </div>
+        <Input
+          type="password"
+          name="passwordCheck"
+          label="비밀번호 확인"
+          placeholder="비밀번호를 한번 더 입력해 주세요"
+          onChange={setPasswordCheck}
+          pattern="{passwordCheckPattern}"
+          invalidMessage="비밀번호가 일치하지 않습니다."
+        />
 
         <label className="flex items-center gap-[8px] font-16r text-black3">
           <input
@@ -116,6 +142,27 @@ export default function SignUpPage() {
           </Link>
         </span>
       </form>
+      {isSuccessModalOpen && (
+        <Modal
+          width="w-[300px]"
+          height="h-[180px]"
+          isOpen={isSuccessModalOpen}
+          onClose={handleSuccessConfirm}
+          className="flex flex-col items-center justify-center text-center"
+        >
+          <p className="text-black3 font-16m">
+            회원가입에 성공했습니다.
+            <br />
+            로그인 화면으로 이동합니다.
+          </p>
+          <CustomBtn
+            onClick={handleSuccessConfirm}
+            className="w-[180px] h-[40px] bg-[var(--primary)] font-16m text-white rounded-[8px] cursor-pointer"
+          >
+            확인
+          </CustomBtn>
+        </Modal>
+      )}
     </div>
   );
 }
