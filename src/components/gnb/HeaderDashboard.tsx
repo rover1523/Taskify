@@ -140,29 +140,31 @@ const HeaderDashboard: React.FC<HeaderDashboardProps> = ({
         </div>
 
         <div className="flex items-center">
-          {/*관리 버튼*/}
           <div
             className={`flex gap-[6px] md:gap-[16px] ${variant === "mydashboard" ? "pr-[22px] md:pr-[32px]" : ""}`}
           >
-            <button
-              onClick={() => {
-                if (dashboardId) {
-                  router.push(`/dashboard/${dashboardId}/edit`);
-                } else {
-                  router.push("/mypage");
-                }
-              }}
-              className="flex items-center justify-center w-[49px] h-[30px] md:w-[85px] md:h-[36px] lg:w-[88px] lg:h-[40px] rounded-[8px] border border-[#D9D9D9] gap-[10px] cursor-pointer"
-            >
-              <Image
-                src="/svgs/settings.svg"
-                alt="관리 아이콘"
-                width={20}
-                height={20}
-                className="hidden md:block"
-              />
-              <span className="text-sm md:text-base text-gray1">관리</span>
-            </button>
+            {/*관리 버튼*/}
+            {dashboard?.createdByMe && (
+              <button
+                onClick={() => {
+                  if (dashboardId) {
+                    router.push(`/dashboard/${dashboardId}/edit`);
+                  } else {
+                    router.push("/mypage");
+                  }
+                }}
+                className="flex items-center justify-center w-[49px] h-[30px] md:w-[85px] md:h-[36px] lg:w-[88px] lg:h-[40px] rounded-[8px] border border-[#D9D9D9] gap-[10px] cursor-pointer"
+              >
+                <Image
+                  src="/svgs/settings.svg"
+                  alt="관리 아이콘"
+                  width={20}
+                  height={20}
+                  className="hidden md:block"
+                />
+                <span className="text-sm md:text-base text-gray1">관리</span>
+              </button>
+            )}
             {/*초대하기 버튼*/}
             <button
               onClick={openInviteModal}
