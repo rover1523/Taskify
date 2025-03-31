@@ -25,7 +25,12 @@ export default function AddColumnModal({
   pattern,
 }: AddColumnModalProps) {
   return (
-    <Modal isOpen={isOpen} onClose={onClose}>
+    <Modal
+      isOpen={isOpen}
+      onClose={onClose}
+      width="w-[327px] sm:w-[568px]"
+      height="h-[258px] sm:h-[266px]"
+    >
       <div className="flex flex-col gap-3">
         <h2 className="text-2xl font-bold">새 칼럼 생성</h2>
 
@@ -41,7 +46,7 @@ export default function AddColumnModal({
           />
         </label>
 
-        <div className="flex justify-between">
+        <div className="flex justify-between gap-4">
           <CustomBtn variant="outlineDisabled" onClick={onClose}>
             취소
           </CustomBtn>

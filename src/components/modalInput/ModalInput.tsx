@@ -1,10 +1,12 @@
 import moment from "moment";
 import Image from "next/image";
 import { ChangeEvent, useState, KeyboardEvent, useEffect } from "react";
-import Datetime from "react-datetime";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 import ColorTagChip, { getTagColor } from "./chips/ColorTagChip";
 import { inputClassNames } from "./InputClassNames";
 import clsx from "clsx";
+import { format } from "date-fns";
 
 type ModalInputType = "제목" | "마감일" | "태그";
 
@@ -31,8 +33,9 @@ export default function ModalInput({
 }: ModalInputProps) {
   const [tagInput, setTagInput] = useState<string>("");
   const [tags, setTags] = useState<Tag[]>([]);
-  const [isCalendarOpen, setIsCalendarOpen] = useState(false);
-  const [selectedDate, setSelectedDate] = useState(defaultValue);
+  const [selectedDate, setSelectedDate] = useState<Date | null>(
+    defaultValue ? new Date(defaultValue) : null
+  );
 
   useEffect(() => {
     if (label === "태그" && defaultValueArray.length > 0) {
@@ -77,17 +80,12 @@ export default function ModalInput({
     onValueChange(updatedTags.map((tag) => tag.text));
   };
 
-  // ✅ 마감일 포맷 수정 (YYYY-MM-DD HH:mm)
-  const handleDateChange = (date: moment.Moment | string) => {
-    if (moment.isMoment(date)) {
-      const formatted = date.format("YYYY-MM-DD HH:mm"); // ← 이 줄이 핵심!
-      setSelectedDate(formatted);
+  const handleDateChange = (date: Date | null) => {
+    setSelectedDate(date);
+    if (date) {
+      const formatted = format(date, "yyyy-MM-dd HH:mm");
       onValueChange([formatted]);
-    } else {
-      setSelectedDate(date);
-      onValueChange([date]);
     }
-    setIsCalendarOpen(false);
   };
 
   let inputElement = null;
@@ -110,10 +108,7 @@ export default function ModalInput({
     case "마감일":
       inputElement = (
         <div className="relative w-full max-w-[520px]">
-          <div
-            className="flex items-center gap-2 w-full h-[48px] border border-[var(--color-gray3)] rounded-md px-2 sm:px-4 cursor-pointer focus-within:border-[var(--primary)]"
-            onClick={() => setIsCalendarOpen(!isCalendarOpen)}
-          >
+          <div className="flex items-center gap-2 w-full h-[48px] border border-[var(--color-gray3)] rounded-md px-2 sm:px-4 focus-within:border-[var(--primary)]">
             <Image
               src="/svgs/calendar.svg"
               width={20}
@@ -121,28 +116,20 @@ export default function ModalInput({
               alt="Deadline"
               priority
             />
-            <input
-              type="text"
-              placeholder="날짜를 입력해주세요"
-              value={selectedDate}
+            <DatePicker
+              selected={selectedDate}
+              onChange={handleDateChange}
+              showTimeSelect
+              timeFormat="HH:mm"
+              timeIntervals={15}
+              dateFormat="yyyy-MM-dd HH:mm"
+              placeholderText="날짜를 입력해주세요"
               className="w-full h-full font-18r outline-none bg-transparent"
-              readOnly
+              popperPlacement="bottom-start"
+              popperContainer={({ children }) => <div>{children}</div>}
+              popperClassName="custom-datepicker-popper"
             />
           </div>
-
-          {isCalendarOpen && (
-            <div
-              className="absolute top-full left-0 mt-2 w-full max-w-[520px] z-50 bg-white border border-[var(--color-gray3)] rounded-md shadow-lg"
-              onMouseDown={(e) => e.preventDefault()}
-            >
-              <Datetime
-                dateFormat="YYYY.MM.DD"
-                timeFormat="HH:mm"
-                input={false}
-                onChange={handleDateChange}
-              />
-            </div>
-          )}
         </div>
       );
       break;

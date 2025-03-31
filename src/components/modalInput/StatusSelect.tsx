@@ -11,8 +11,8 @@ interface StatusSelectProps {
 
 const STATUS_OPTIONS = [
   { label: "To Do", color: "bg-[#9D8CFC]" },
-  { label: "On Progress", color: "bg-[#A0E6FF]" },
-  { label: "Done", color: "bg-[#B8F986]" },
+  { label: "On Progress", color: "bg-[#9D8CFC]" },
+  { label: "Done", color: "bg-[#9D8CFC]" },
 ];
 
 export default function StatusSelect({
@@ -23,29 +23,36 @@ export default function StatusSelect({
 }: StatusSelectProps) {
   const [isOpen, setIsOpen] = useState(false);
 
+  const selectedStatus = STATUS_OPTIONS.find((opt) => opt.label === value);
+
   return (
     <div className="inline-flex flex-col items-start gap-2.5 w-full max-w-[520px]">
       {label && (
         <p className="font-18m text-[var(--color-black)]">
-          {label}{" "}
+          {label}
           {required && <span className="text-[var(--color-purple)]">*</span>}
         </p>
       )}
 
       <div className="relative w-full">
+        {/* 현재 선택된 값 */}
         <div
           className="flex items-center justify-between h-[48px] px-4 border border-[var(--color-gray3)] rounded-md cursor-pointer focus-within:border-[var(--primary)]"
           onClick={() => setIsOpen(!isOpen)}
         >
           <div className="flex items-center gap-2">
-            <span
-              className={clsx(
-                "w-2 h-2 rounded-full",
-                STATUS_OPTIONS.find((opt) => opt.label === value)?.color ||
-                  "bg-gray-300"
-              )}
-            ></span>
-            <span className="font-18r">{value || "상태를 선택해주세요"}</span>
+            {selectedStatus ? (
+              <>
+                <span
+                  className={clsx("w-2 h-2 rounded-full", selectedStatus.color)}
+                ></span>
+                <span className="font-18r">{selectedStatus.label}</span>
+              </>
+            ) : (
+              <span className="font-18r text-[var(--color-gray2)]">
+                상태를 선택해주세요
+              </span>
+            )}
           </div>
           <Image
             src="/svgs/arrow-down.svg"
@@ -55,6 +62,7 @@ export default function StatusSelect({
           />
         </div>
 
+        {/* 드롭다운 리스트 */}
         {isOpen && (
           <ul className="absolute top-full left-0 mt-1 w-full bg-white border border-[var(--color-gray3)] rounded-md shadow-lg z-10">
             {STATUS_OPTIONS.map((status) => (

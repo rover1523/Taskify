@@ -1,4 +1,3 @@
-// components/column/ColumnManageModal.tsx
 import { useState } from "react";
 import { Modal } from "../modal/Modal";
 import { CustomBtn } from "../button/CustomButton";
@@ -23,7 +22,12 @@ export default function ColumnManageModal({
   const [newTitle, setNewTile] = useState(columnTitle);
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose}>
+    <Modal
+      isOpen={isOpen}
+      onClose={onClose}
+      width="w-[327px] sm:w-[568px]"
+      height="h-[258px] sm:h-[266px]"
+    >
       <div className="relative flex flex-col gap-5">
         <Image
           src="/svgs/close.svg"
