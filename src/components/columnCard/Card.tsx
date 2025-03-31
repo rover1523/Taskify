@@ -19,7 +19,7 @@ export default function Card({
     <div
       className={`
         rounded-md bg-white border border-gray-200 p-4
-        w-full sm:w-[284px] lg:w-[314px] h-auto 
+      w-[284px] sm:w-full lg:w-[314px] h-auto
       `}
     >
       {imageUrl && (
