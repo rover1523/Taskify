@@ -26,7 +26,7 @@ interface Dashboard {
 }
 
 export default function MyDashboardPage() {
-  const { user, isInitialized } = useAuthGuard(); // 미인증 접근 시 로그인 페이지 이동
+  const { user, isInitialized } = useAuthGuard();
   const teamId = "13-4";
   const [dashboardList, setDashboardList] = useState<Dashboard[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -58,13 +58,13 @@ export default function MyDashboardPage() {
         createdByMe={dashboard.createdByMe}
         onDeleteClick={(id) => {
           setSelectedDashboardId(id);
-          setSelectedCreatedByMe(true); // 내가 만든 대시보드일 때는 삭제
+          setSelectedCreatedByMe(true);
           setSelectedTitle(dashboard.title);
           setIsDeleteModalOpen(true);
         }}
         onLeaveClick={(id) => {
           setSelectedDashboardId(id);
-          setSelectedCreatedByMe(false); // 내가 만든 대시보드 아닐 때는 탈퇴
+          setSelectedCreatedByMe(false);
           setSelectedTitle(dashboard.title);
           setIsDeleteModalOpen(true);
         }}
@@ -80,7 +80,7 @@ export default function MyDashboardPage() {
       console.error("대시보드 불러오기 실패:", error);
     }
   };
-  // 유저 정보 복원된 상태 & 로그인 상태일 때만 api 호출 실행
+
   useEffect(() => {
     if (isInitialized && user) {
       fetchDashboards();
@@ -95,7 +95,6 @@ export default function MyDashboardPage() {
     if (currentPage < totalPages) setCurrentPage((prev) => prev + 1);
   };
 
-  //대시보드 삭제
   const handleDelete = async () => {
     if (!selectedDashboardId) return;
     try {
@@ -103,15 +102,14 @@ export default function MyDashboardPage() {
         apiRoutes.DashboardDetail(selectedDashboardId)
       );
       setIsDeleteModalOpen(false);
-      setSelectedDashboardId(null); // 선택 초기화
-      fetchDashboards(); // 목록 갱신
+      setSelectedDashboardId(null);
+      fetchDashboards();
     } catch (error) {
       alert("대시보드 삭제에 실패했습니다.");
       console.error("삭제 실패:", error);
     }
   };
 
-  // 대시보드 탈퇴(백엔드 설정 없음, 로컬에서만 제거)
   const handleLeave = () => {
     if (!selectedDashboardId) return;
     setDashboardList((prev) =>
@@ -137,22 +135,23 @@ export default function MyDashboardPage() {
         />
 
         <main className="flex-1 overflow-auto px-[25px] pt-[40px] pb-10 bg-[#f9f9f9] space-y-10">
-          {/* 대시보드 카드 + 페이지네이션 */}
-          <section className="flex flex-col items-start space-y-6">
-            <div className="flex flex-wrap gap-x-[20px] gap-y-[16px] w-full max-w-[1100px]">
+          <section className="w-full max-w-[1100px] mx-auto">
+            {/* 카드 영역 */}
+            <div className="flex flex-wrap gap-[16px] justify-center">
               {currentItems}
             </div>
 
+            {/* 페이지네이션 */}
             {totalPages > 1 && (
-              <div className="justify-end flex items-center w-full max-w-[1035px]">
-                <span className="font-14r text-black3 pr-[16px]">
-                  {`${totalPages}페이지 중 ${currentPage}`}
-                </span>
+              <div className="flex justify-center items-center pt-6">
                 <PaginationButton
                   direction="left"
                   disabled={currentPage === 1}
                   onClick={handlePrevPage}
                 />
+                <span className="font-14r text-black3 px-[8px] whitespace-nowrap">
+                  {`${totalPages} 페이지 중 ${currentPage}`}
+                </span>
                 <PaginationButton
                   direction="right"
                   disabled={currentPage === totalPages}
@@ -162,23 +161,22 @@ export default function MyDashboardPage() {
             )}
           </section>
 
-          <div className="mt-[74px] flex justify-start">
+          {/* 초대받은 대시보드 */}
+          <div className="mt-[74px] flex justify-center">
             <InvitedDashBoard />
           </div>
         </main>
       </div>
 
-      {/* 새로운 대시보드 모달 */}
       {isModalOpen && (
         <NewDashboard
           onClose={() => {
             setIsModalOpen(false);
-            fetchDashboards(); // 생성 후 목록 새로고침
+            fetchDashboards();
           }}
         />
       )}
 
-      {/*대시보드 삭제 모달*/}
       <Modal
         width="w-[260px]"
         height="h-[150px]"
@@ -197,18 +195,18 @@ export default function MyDashboardPage() {
         </div>
         <div className="flex items-center justify-center gap-2">
           <CustomBtn
+            onClick={() => setIsDeleteModalOpen(false)}
+            className="cursor-pointer border px-3 py-1 rounded-md w-[84px] h-[32px] text-[var(--primary)] border-[var(--color-gray3)]"
+          >
+            취소
+          </CustomBtn>
+          <CustomBtn
             onClick={
               selectedCreatedByMe ? () => handleDelete() : () => handleLeave()
             }
             className="cursor-pointer bg-[var(--primary)] text-white px-3 py-1 rounded-md w-[84px] h-[32px]"
           >
             확인
-          </CustomBtn>
-          <CustomBtn
-            onClick={() => setIsDeleteModalOpen(false)}
-            className="cursor-pointer border px-3 py-1 rounded-md w-[84px] h-[32px] text-[var(--primary)] border-[var(--color-gray3)]"
-          >
-            취소
           </CustomBtn>
         </div>
       </Modal>
