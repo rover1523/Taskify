@@ -39,9 +39,7 @@ export default function EditDashboard() {
     const dashboardIdNumber = Number(dashboardId);
     if (!dashboardId) return;
     try {
-      const response = await axiosInstance.delete(
-        apiRoutes.DashboardDetail(dashboardIdNumber)
-      );
+      await axiosInstance.delete(apiRoutes.DashboardDetail(dashboardIdNumber));
       router.push(`/mydashboard`);
     } catch (error) {
       alert("대시보드 삭제에 실패하였습니다 .");

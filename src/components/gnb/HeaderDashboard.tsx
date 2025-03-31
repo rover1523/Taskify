@@ -11,6 +11,8 @@ import { MemberAvatars, UserAvatars } from "@/components/gnb/Avatars";
 import UserMenu from "@/components/gnb/UserMenu";
 import MemberListMenu from "@/components/gnb/MemberListMenu";
 import InviteDashboard from "@/components/modal/InviteDashboard";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 interface HeaderDashboardProps {
   variant?: "mydashboard" | "dashboard" | "mypage";
@@ -47,7 +49,9 @@ const HeaderDashboard: React.FC<HeaderDashboardProps> = ({
   useEffect(() => {
     const fetchMembers = async () => {
       try {
-        const members = await getMembers(dashboardId);
+        const members = await getMembers({
+          dashboardId: Number(dashboardId),
+        });
         setMembers(members);
       } catch (error) {
         console.error("멤버 불러오기 실패:", error);
@@ -110,6 +114,7 @@ const HeaderDashboard: React.FC<HeaderDashboardProps> = ({
 
   return (
     <header className="w-full h-[60px] md:h-[70px] flex items-center justify-center bg-white border-b-[1px] border-b-[#D9D9D9]">
+      <ToastContainer position="top-center" />
       <div className="w-full flex items-center justify-between pl-[4vw]">
         {errorMessage && (
           <p className="text-sm text-[var(--color-red)] px-4 py-2">
@@ -147,7 +152,11 @@ const HeaderDashboard: React.FC<HeaderDashboardProps> = ({
             <button
               onClick={() => {
                 if (dashboardId) {
-                  router.push(`/dashboard/${dashboardId}/edit`);
+                  if (dashboard && dashboard.createdByMe === true) {
+                    router.push(`/dashboard/${dashboardId}/edit`);
+                  } else {
+                    toast.error("대시보드 수정 권한이 없습니다.");
+                  }
                 } else {
                   router.push("/mypage");
                 }
