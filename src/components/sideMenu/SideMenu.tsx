@@ -23,7 +23,6 @@ interface SideMenuProps {
 }
 
 export default function SideMenu({
-  teamId,
   dashboardList,
   onCreateDashboard,
 }: SideMenuProps) {
