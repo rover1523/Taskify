@@ -1,3 +1,4 @@
+// src/pages/dashboard/[dashboardId]/index.tsx
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import {
@@ -101,7 +102,7 @@ export default function Dashboard() {
   if (!isReady) return <div>로딩 중...</div>;
 
   return (
-    <div className="flex overflow-x-auto min-w-fit min-h-screen">
+    <div className="flex overflow-x-auto min-w-fit">
       <SideMenu teamId={teamId} dashboardList={dashboardList} />
 
       <div className="flex-1">
@@ -119,7 +120,7 @@ export default function Dashboard() {
               dashboardId={Number(dashboardId)}
             />
           ))}
-          <div className="p-5">
+          <div className="p-12">
             <ColumnsButton onClick={openModal} />
           </div>
           {/* 칼럼 추가 모달 */}

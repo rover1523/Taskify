@@ -1,3 +1,4 @@
+// Column.tsx
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { CardType } from "@/types/task";
@@ -8,6 +9,7 @@ import ColumnManageModal from "@/components/columnCard/ColumnManageModal";
 import ColumnDeleteModal from "@/components/columnCard/ColumnDeleteModal";
 import { updateColumn, deleteColumn } from "@/api/dashboards";
 import { getDashboardMembers } from "@/api/card";
+import { MemberType } from "@/types/users";
 
 type ColumnProps = {
   columnId: number;
@@ -41,7 +43,7 @@ export default function Column({
           dashboardId,
         });
 
-        const parsed = result.map((m: any) => ({
+        const parsed = result.map((m: MemberType) => ({
           id: m.id,
           userId: m.userId,
           nickname: m.nickname || m.email,

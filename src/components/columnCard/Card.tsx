@@ -1,3 +1,4 @@
+// Card.tsx
 import { AssigneeType, CardType } from "@/types/task";
 import Image from "next/image";
 
@@ -14,7 +15,7 @@ export default function Card({
   imageUrl,
 }: CardProps) {
   return (
-    <div className="w-[314px] border border-[0.25px] border-gray-200 rounded-md p-4">
+    <div className="w-[314px] border-1 border-gray-200 bg-white rounded-md p-4">
       {imageUrl && (
         <Image
           className="w-full h-40 object-cover rounded-md"
@@ -24,7 +25,7 @@ export default function Card({
           alt="Task Image"
         />
       )}
-      <h3 className="text-lg ">{title}</h3>
+      <h3 className="text-lg mt-2">{title}</h3>
       <div className="flex items-center gap-2 mt-2">
         {tags.map((tag, idx) => (
           <span
