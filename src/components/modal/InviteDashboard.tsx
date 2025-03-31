@@ -92,7 +92,7 @@ export default function InviteDashboard({ onClose }: { onClose?: () => void }) {
                 border border-[var(--color-gray3)] text-[var(--color-white)] 
             ${!email || !isValidEmail(email) ? "bg-gray-300 cursor-not-allowed" : "bg-[var(--primary)]"}`}
           >
-            생성
+            초대
           </button>
         </div>
       </div>
