@@ -108,7 +108,7 @@ export default function Dashboard() {
       <div className="flex-1">
         <HeaderDashboard variant="dashboard" dashboardId={dashboardId} />
 
-        <div className="flex  overflow-x-auto ">
+        <div className="flex-1 overflow-x-auto flex flex-col gap-6 p-4 md:flex-col lg:flex-row ">
           {/* 각 칼럼 렌더링 */}
           {columns.map((col) => (
             <Column
@@ -122,6 +122,7 @@ export default function Dashboard() {
           ))}
           <div className="p-12">
             <ColumnsButton onClick={openModal} />
+            {/* todo 모바일, 테블릿 위치에서 뷰포트 아래로 가도록 */}
           </div>
           {/* 칼럼 추가 모달 */}
           {isAddColumnModalOpen && (

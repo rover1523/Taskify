@@ -7,6 +7,7 @@ type CardProps = CardType & {
   assignee: AssigneeType;
 };
 
+// Card.tsx
 export default function Card({
   title = "new Task",
   dueDate,
@@ -15,7 +16,12 @@ export default function Card({
   imageUrl,
 }: CardProps) {
   return (
-    <div className="w-[314px] border-1 border-gray-200 bg-white rounded-md p-4">
+    <div
+      className={`
+        rounded-md bg-white border border-gray-200 p-4
+        w-full sm:w-[284px] lg:w-[314px] h-auto 
+      `}
+    >
       {imageUrl && (
         <Image
           className="w-full h-40 object-cover rounded-md"
@@ -26,6 +32,7 @@ export default function Card({
         />
       )}
       <h3 className="text-lg mt-2">{title}</h3>
+
       <div className="flex items-center gap-2 mt-2">
         {tags.map((tag, idx) => (
           <span
@@ -42,14 +49,14 @@ export default function Card({
           </span>
         ))}
       </div>
+
       <div className="flex items-center justify-between mt-2">
         <div className="flex items-center gap-2.5 text-gray-500 text-sm">
           <Image
             src="/svgs/calendar.svg"
-            alt="calendar icon"
+            alt="calendar"
             width={16}
             height={16}
-            priority
           />
           <p>{dueDate}</p>
         </div>

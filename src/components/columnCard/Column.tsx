@@ -5,8 +5,8 @@ import { CardType } from "@/types/task";
 import Card from "./Card";
 import TodoModal from "@/components/modalInput/ToDoModal";
 import TodoButton from "@/components/button/TodoButton";
-import ColumnManageModal from "@/components/columncard/ColumnManageModal";
-import ColumnDeleteModal from "@/components/columncard/ColumnDeleteModal";
+import ColumnManageModal from "@/components/columnCard/ColumnManageModal";
+import ColumnDeleteModal from "@/components/columnCard/ColumnDeleteModal";
 import { updateColumn, deleteColumn } from "@/api/dashboards";
 import { getDashboardMembers } from "@/api/card";
 import { MemberType } from "@/types/users";
@@ -110,8 +110,8 @@ export default function Column({
       </div>
 
       {/* 카드 영역 */}
-      <div className="flex-1 pb-4 flex flex-col items-center gap-3">
-        <div onClick={() => setIsTodoModalOpen(true)}>
+      <div className=" flex-1 pb-4 flex flex-col items-center gap-3">
+        <div onClick={() => setIsTodoModalOpen(true)} className="mb-2">
           <TodoButton />
         </div>
 
