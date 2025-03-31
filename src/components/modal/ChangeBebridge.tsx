@@ -89,7 +89,8 @@ const ChangeBebridge = () => {
         {colors.map((color, index) => (
           <div key={index} className="relative">
             <button
-              className={`cursor-pointer w-[30px] h-[30px] rounded-[15px] mr-2`}
+              className={`cursor-pointer w-[30px] h-[30px] rounded-[15px] mr-2 transition-all duration-200 
+                    hover:opacity-70 hover:scale-110`}
               style={{ backgroundColor: color }}
               onClick={() => setSelected(index)} // 색상 선택 시 selected 업데이트
             />
