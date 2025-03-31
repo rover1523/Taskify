@@ -18,11 +18,14 @@ interface HeaderDashboardProps {
   variant?: "mydashboard" | "dashboard" | "mypage";
   dashboardTitle?: string;
   dashboardId?: string | string[];
+  isEditMode?: boolean;
+  onToggleEditMode?: () => void;
 }
 
 const HeaderDashboard: React.FC<HeaderDashboardProps> = ({
   variant,
   dashboardId,
+  onToggleEditMode,
 }) => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(true);
@@ -148,6 +151,7 @@ const HeaderDashboard: React.FC<HeaderDashboardProps> = ({
           <div
             className={`flex gap-[6px] md:gap-[16px] ${variant === "mydashboard" ? "pr-[22px] md:pr-[32px]" : ""}`}
           >
+            {/*관리 버튼*/}
             <button
               onClick={() => {
                 if (dashboardId) {
@@ -157,7 +161,9 @@ const HeaderDashboard: React.FC<HeaderDashboardProps> = ({
                     toast.error("대시보드 수정 권한이 없습니다.");
                   }
                 } else {
-                  router.push("/mypage");
+                  if (onToggleEditMode) {
+                    onToggleEditMode();
+                  }
                 }
               }}
               className="flex items-center justify-center w-[49px] h-[30px] md:w-[85px] md:h-[36px] lg:w-[88px] lg:h-[40px] rounded-[8px] border border-[#D9D9D9] gap-[10px] cursor-pointer"

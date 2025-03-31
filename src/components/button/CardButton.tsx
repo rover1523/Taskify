@@ -1,4 +1,5 @@
 import React from "react";
+import { useRouter } from "next/router";
 import clsx from "clsx";
 import Image from "next/image";
 
@@ -8,6 +9,9 @@ interface CardButtonProps
   title?: string;
   showCrown?: boolean;
   color?: string;
+  isEditMode?: boolean;
+  dashboardId: number;
+  onDeleteClick?: (id: number) => void;
 }
 
 const CardButton: React.FC<CardButtonProps> = ({
@@ -16,8 +20,25 @@ const CardButton: React.FC<CardButtonProps> = ({
   title = "비브리지",
   showCrown = true,
   color = "#7ac555", // 기본 색상
+  isEditMode = false,
+  dashboardId,
+  onDeleteClick,
   ...props
 }) => {
+  const router = useRouter();
+
+  const handleEdit = (e: React.MouseEvent) => {
+    e.stopPropagation(); // 관리 상태에서 카드 클릭 이벤트 차단
+    router.push(`/dashboard/${dashboardId}/edit`);
+  };
+
+  const handleDelete = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (onDeleteClick) {
+      onDeleteClick(dashboardId);
+    }
+  };
+
   return (
     <button
       className={clsx(
@@ -54,14 +75,31 @@ const CardButton: React.FC<CardButtonProps> = ({
         )}
       </div>
 
-      {/* 오른쪽: 화살표 아이콘 */}
-      <Image
-        src="/svgs/arrow-forward-black.svg"
-        alt="arrow icon"
-        width={16}
-        height={16}
-        className="ml-2"
-      />
+      {/* 오른쪽: 화살표 아이콘 or 수정/삭제 버튼 */}
+      {isEditMode ? (
+        <div className="flex gap-2">
+          <button
+            onClick={handleEdit}
+            className="text-sm text-gray-700 border border-gray-300 px-2 py-1 rounded hover:bg-gray-100"
+          >
+            수정
+          </button>
+          <button
+            onClick={handleDelete}
+            className="text-sm text-red-500 border border-red-300 px-2 py-1 rounded hover:bg-red-100"
+          >
+            삭제
+          </button>
+        </div>
+      ) : (
+        <Image
+          src="/svgs/arrow-forward-black.svg"
+          alt="arrow icon"
+          width={16}
+          height={16}
+          className="ml-2"
+        />
+      )}
     </button>
   );
 };

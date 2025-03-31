@@ -28,6 +28,11 @@ export default function MyDashboardPage() {
   const [dashboardList, setDashboardList] = useState<Dashboard[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isEditMode, setIsEditMode] = useState(false);
+  const [selectedDashboardId, setSelectedDashboardId] = useState<number | null>(
+    null
+  );
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const itemsPerPage = 6;
 
   const totalPages = Math.ceil((dashboardList.length + 1) / itemsPerPage);
@@ -38,10 +43,16 @@ export default function MyDashboardPage() {
     ...dashboardList.map((dashboard) => (
       <CardButton
         key={dashboard.id}
+        dashboardId={dashboard.id}
         title={dashboard.title}
         showCrown={dashboard.createdByMe}
         color={dashboard.color}
+        isEditMode={isEditMode}
         onClick={() => router.push(`/dashboard/${dashboard.id}`)}
+        onDeleteClick={(id) => {
+          setSelectedDashboardId(id);
+          setIsDeleteModalOpen(true);
+        }}
       />
     )),
   ].slice(startIndex, startIndex + itemsPerPage);
@@ -78,7 +89,11 @@ export default function MyDashboardPage() {
       <SideMenu teamId={teamId} dashboardList={dashboardList} />
 
       <div className="flex flex-col flex-1 overflow-hidden">
-        <HeaderDashboard variant="mydashboard" />
+        <HeaderDashboard
+          variant="mydashboard"
+          isEditMode={isEditMode}
+          onToggleEditMode={() => setIsEditMode((prev) => !prev)}
+        />
 
         <main className="flex-1 overflow-auto px-[25px] pt-[40px] pb-10 bg-[#f9f9f9] space-y-10">
           {/* 대시보드 카드 + 페이지네이션 */}
