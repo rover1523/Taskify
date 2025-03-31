@@ -13,7 +13,7 @@ interface MemberAvatarsProps {
 
 const MAX_VISIBLE_MEMBERS = 4;
 
-export const MemberAvatars: React.FC<MemberAvatarsProps> = ({
+export const MemberList: React.FC<MemberAvatarsProps> = ({
   members,
   isLoading,
   variant,

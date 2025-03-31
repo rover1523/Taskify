@@ -8,7 +8,7 @@ import { getMembers } from "@/api/members";
 import { getUserInfo } from "@/api/users";
 import { getDashboardById } from "@/api/dashboards";
 import { TEAM_ID } from "@/constants/team";
-import { MemberAvatars, UserAvatars } from "@/components/gnb/Avatars";
+import { MemberList, UserAvatars } from "@/components/gnb/Avatars";
 import UserMenu from "@/components/gnb/UserMenu";
 import MemberListMenu from "@/components/gnb/MemberListMenu";
 import InviteDashboard from "@/components/modal/InviteDashboard";
@@ -176,10 +176,8 @@ const HeaderDashboard: React.FC<HeaderDashboardProps> = ({
                 className={clsx(
                   "flex items-center justify-center",
                   "w-[49px] h-[30px] md:w-[85px] md:h-[36px] lg:w-[88px] lg:h-[40px]",
-                  "rounded-[8px] border gap-[10px] cursor-pointer",
-                  isEditMode
-                    ? "border-[var(--primary)]"
-                    : "border-[var(--color-gray3)]"
+                  "border border-[var(--color-gray3)] rounded-[8px] gap-[10px] cursor-pointer",
+                  isEditMode ? "hover:border-2" : ""
                 )}
               >
                 <Image
@@ -227,7 +225,7 @@ const HeaderDashboard: React.FC<HeaderDashboardProps> = ({
                     onClick={() => setIsListOpen((prev) => !prev)}
                     className="flex items-center pl-[15px] md:pl-[25px] lg:pl-[30px] pr-[15px] md:pr-[25px] lg:pr-[30px] cursor-pointer"
                   >
-                    <MemberAvatars
+                    <MemberList
                       members={members}
                       isLoading={isLoading}
                       variant={variant}
