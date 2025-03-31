@@ -75,13 +75,7 @@ export default function MyDashboardPage() {
 
   return (
     <div className="flex h-screen overflow-hidden">
-      <SideMenu
-        teamId={teamId}
-        dashboardList={dashboardList}
-        onCreateDashboard={(newDashboard) =>
-          setDashboardList((prev) => [newDashboard, ...prev])
-        }
-      />
+      <SideMenu teamId={teamId} dashboardList={dashboardList} />
 
       <div className="flex flex-col flex-1 overflow-hidden">
         <HeaderDashboard variant="mydashboard" />
@@ -118,11 +112,12 @@ export default function MyDashboardPage() {
         </main>
       </div>
 
+      {/* 새로운 대시보드 모달 */}
       {isModalOpen && (
         <NewDashboard
           onClose={() => {
             setIsModalOpen(false);
-            fetchDashboards();
+            fetchDashboards(); // 생성 후 목록 새로고침
           }}
         />
       )}
