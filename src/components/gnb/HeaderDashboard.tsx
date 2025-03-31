@@ -11,6 +11,8 @@ import { MemberAvatars, UserAvatars } from "@/components/gnb/Avatars";
 import UserMenu from "@/components/gnb/UserMenu";
 import MemberListMenu from "@/components/gnb/MemberListMenu";
 import InviteDashboard from "@/components/modal/InviteDashboard";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 interface HeaderDashboardProps {
   variant?: "mydashboard" | "dashboard" | "mypage";
@@ -47,7 +49,9 @@ const HeaderDashboard: React.FC<HeaderDashboardProps> = ({
   useEffect(() => {
     const fetchMembers = async () => {
       try {
-        const members = await getMembers(dashboardId);
+        const members = await getMembers({
+          dashboardId: Number(dashboardId),
+        });
         setMembers(members);
       } catch (error) {
         console.error("멤버 불러오기 실패:", error);
@@ -110,6 +114,7 @@ const HeaderDashboard: React.FC<HeaderDashboardProps> = ({
 
   return (
     <header className="w-full h-[60px] md:h-[70px] flex items-center justify-center bg-white border-b-[1px] border-b-[#D9D9D9]">
+      <ToastContainer position="top-center" />
       <div className="w-full flex items-center justify-between pl-[4vw]">
         {errorMessage && (
           <p className="text-sm text-[var(--color-red)] px-4 py-2">
@@ -143,28 +148,30 @@ const HeaderDashboard: React.FC<HeaderDashboardProps> = ({
           <div
             className={`flex gap-[6px] md:gap-[16px] ${variant === "mydashboard" ? "pr-[22px] md:pr-[32px]" : ""}`}
           >
-            {/*관리 버튼*/}
-            {(variant === "mydashboard" || dashboard?.createdByMe) && (
-              <button
-                onClick={() => {
-                  if (dashboardId) {
+            <button
+              onClick={() => {
+                if (dashboardId) {
+                  if (dashboard && dashboard.createdByMe === true) {
                     router.push(`/dashboard/${dashboardId}/edit`);
                   } else {
-                    router.push("/mypage");
+                    toast.error("대시보드 수정 권한이 없습니다.");
                   }
-                }}
-                className="flex items-center justify-center w-[49px] h-[30px] md:w-[85px] md:h-[36px] lg:w-[88px] lg:h-[40px] rounded-[8px] border border-[#D9D9D9] gap-[10px] cursor-pointer"
-              >
-                <Image
-                  src="/svgs/settings.svg"
-                  alt="관리 아이콘"
-                  width={20}
-                  height={20}
-                  className="hidden md:block"
-                />
-                <span className="text-sm md:text-base text-gray1">관리</span>
-              </button>
-            )}
+                } else {
+                  router.push("/mypage");
+                }
+              }}
+              className="flex items-center justify-center w-[49px] h-[30px] md:w-[85px] md:h-[36px] lg:w-[88px] lg:h-[40px] rounded-[8px] border border-[#D9D9D9] gap-[10px] cursor-pointer"
+            >
+              <Image
+                src="/svgs/settings.svg"
+                alt="관리 아이콘"
+                width={20}
+                height={20}
+                className="hidden md:block"
+              />
+              <span className="text-sm md:text-base text-gray1">관리</span>
+            </button>
+
             {/*초대하기 버튼*/}
             {variant !== "mydashboard" && (
               <button
