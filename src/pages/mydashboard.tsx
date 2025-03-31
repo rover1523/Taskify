@@ -145,7 +145,7 @@ export default function MyDashboardPage() {
 
             {totalPages > 1 && (
               <div className="justify-end flex items-center w-full max-w-[1035px]">
-                <span className="text-sm text-gray-500">
+                <span className="font-14r text-black3 pr-[16px]">
                   {`${currentPage}페이지 중 ${totalPages}`}
                 </span>
                 <PaginationButton
