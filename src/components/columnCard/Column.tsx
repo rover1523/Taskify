@@ -90,8 +90,8 @@ export default function Column({
     <div
       className={`
     flex flex-col border-r border-gray-200 bg-gray-50 rounded-md p-4
-    h-auto sm:max-h-screen
-    max-h-[401px]
+    h-auto sm:m-h-screen
+    max-h-[401px] sm:max-h-none
   `}
     >
       {/* 칼럼 헤더 */}
