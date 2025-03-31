@@ -13,6 +13,7 @@ interface CardButtonProps
   dashboardId: number;
   createdByMe?: boolean;
   onDeleteClick?: (id: number) => void;
+  onLeaveClick?: (id: number) => void;
 }
 
 const CardButton: React.FC<CardButtonProps> = ({
@@ -25,6 +26,7 @@ const CardButton: React.FC<CardButtonProps> = ({
   dashboardId,
   createdByMe,
   onDeleteClick,
+  onLeaveClick,
   ...props
 }) => {
   const router = useRouter();
@@ -46,8 +48,12 @@ const CardButton: React.FC<CardButtonProps> = ({
 
   const handleDelete = (e: React.MouseEvent) => {
     e.stopPropagation();
-    if (onDeleteClick) {
-      onDeleteClick(dashboardId);
+    if (createdByMe) {
+      // 실제 삭제 API 요청
+      if (onDeleteClick) onDeleteClick(dashboardId);
+    } else {
+      // 나만 탈퇴
+      if (onLeaveClick) onLeaveClick(dashboardId);
     }
   };
 

@@ -35,6 +35,10 @@ export default function MyDashboardPage() {
   const [selectedDashboardId, setSelectedDashboardId] = useState<number | null>(
     null
   );
+  const [selectedCreatedByMe, setSelectedCreatedByMe] = useState<
+    boolean | null
+  >(null);
+  const [selectedTitle, setSelectedTitle] = useState<string | null>(null);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const itemsPerPage = 6;
 
@@ -54,6 +58,14 @@ export default function MyDashboardPage() {
         createdByMe={dashboard.createdByMe}
         onDeleteClick={(id) => {
           setSelectedDashboardId(id);
+          setSelectedCreatedByMe(true); // 내가 만든 대시보드일 때는 삭제
+          setSelectedTitle(dashboard.title);
+          setIsDeleteModalOpen(true);
+        }}
+        onLeaveClick={(id) => {
+          setSelectedDashboardId(id);
+          setSelectedCreatedByMe(false); // 내가 만든 대시보드 아닐 때는 탈퇴
+          setSelectedTitle(dashboard.title);
           setIsDeleteModalOpen(true);
         }}
       />
@@ -83,6 +95,7 @@ export default function MyDashboardPage() {
     if (currentPage < totalPages) setCurrentPage((prev) => prev + 1);
   };
 
+  //대시보드 삭제
   const handleDelete = async () => {
     if (!selectedDashboardId) return;
     try {
@@ -96,6 +109,16 @@ export default function MyDashboardPage() {
       alert("대시보드 삭제에 실패했습니다.");
       console.error("삭제 실패:", error);
     }
+  };
+
+  // 대시보드 탈퇴(백엔드 설정 없음, 로컬에서만 제거)
+  const handleLeave = () => {
+    if (!selectedDashboardId) return;
+    setDashboardList((prev) =>
+      prev.filter((d) => d.id !== selectedDashboardId)
+    );
+    setIsDeleteModalOpen(false);
+    setSelectedDashboardId(null);
   };
 
   if (!isInitialized || !user) {
@@ -155,6 +178,7 @@ export default function MyDashboardPage() {
         />
       )}
 
+      {/*대시보드 삭제 모달*/}
       <Modal
         width="w-[260px]"
         height="h-[150px]"
@@ -162,10 +186,18 @@ export default function MyDashboardPage() {
         onClose={() => setIsDeleteModalOpen(false)}
         className="flex items-center justify-center text-center"
       >
-        <p className="text-black3 font-16m">대시보드를 삭제하시겠습니까?</p>
+        <p className="text-black3 font-16m">
+          {selectedTitle}
+          <br />
+          {selectedCreatedByMe
+            ? "대시보드를 삭제하시겠습니까?"
+            : "대시보드에서 나가시겠습니까?"}
+        </p>
         <div className="flex items-center justify-center gap-2">
           <CustomBtn
-            onClick={handleDelete}
+            onClick={
+              selectedCreatedByMe ? () => handleDelete() : () => handleLeave()
+            }
             className="w-[80px] h-[35px] bg-[var(--primary)] font-16m text-white rounded-[8px] cursor-pointer"
           >
             확인
