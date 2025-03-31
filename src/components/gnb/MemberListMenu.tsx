@@ -1,4 +1,5 @@
 import React, { useRef } from "react";
+import clsx from "clsx";
 import { useClosePopup } from "@/hooks/useClosePopup";
 import { UserAvatars } from "@/components/gnb/Avatars";
 import { MemberType } from "@/types/users";
@@ -21,10 +22,14 @@ const MemberListMenu: React.FC<MemberListMenuProps> = ({
   return (
     <div
       ref={ref}
-      className={`absolute top-full right-0 w-full z-50
-        bg-white border border-[var(--color-gray3)] shadow
-        transition-all duration-200 ease-out
-        ${isListOpen ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-2 pointer-events-none"}`}
+      className={clsx(
+        "absolute top-full right-0 w-full z-50",
+        "bg-white border border-[var(--color-gray3)] shadow",
+        "transition-all duration-200 ease-out",
+        isListOpen
+          ? "opacity-100 translate-y-0"
+          : "opacity-0 -translate-y-2 pointer-events-none"
+      )}
     >
       <ul className="flex flex-col font-16r max-h-[300px] overflow-y-auto">
         {members.map((member) => (
@@ -33,7 +38,7 @@ const MemberListMenu: React.FC<MemberListMenuProps> = ({
             className="px-4 py-2 flex items-center gap-2 hover:bg-[#f9f9f9]"
           >
             <UserAvatars user={member} />
-            <span className="text-black3 text-sm md:text-base">
+            <span className="text-black3 text-sm md:text-base truncate max-w-[60px] md:max-w-[90px]">
               {member.nickname}
             </span>
           </li>
