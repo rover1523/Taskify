@@ -39,9 +39,7 @@ export default function EditDashboard() {
     const dashboardIdNumber = Number(dashboardId);
     if (!dashboardId) return;
     try {
-      const response = await axiosInstance.delete(
-        apiRoutes.DashboardDetail(dashboardIdNumber)
-      );
+      await axiosInstance.delete(apiRoutes.DashboardDetail(dashboardIdNumber));
       router.push(`/mydashboard`);
     } catch (error) {
       alert("대시보드 삭제에 실패하였습니다 .");
@@ -105,7 +103,7 @@ export default function EditDashboard() {
           <div className="flex mt-15 sm:mt-0 ml-8">
             <button
               onClick={handleDelete}
-              className="text-base sm:text-lg cursor-pointer w-[320px] h-[62px] text-[var(--color-black3)] rounded-[8px] border-[1px] border-[#D9D9D9]"
+              className="text-base sm:text-lg cursor-pointer w-[320px] h-[62px] text-[var(--color-black3)] rounded-[8px] border-[1px] border-[#D9D9D9] hover:scale-105 transition-transform duration-200"
             >
               대시보드 삭제하기
             </button>

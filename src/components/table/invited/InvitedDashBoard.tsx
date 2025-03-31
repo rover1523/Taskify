@@ -5,6 +5,9 @@ import EmptyInvitations from "./EmptyInvitations";
 import { apiRoutes } from "@/api/apiRoutes";
 import axiosInstance from "@/api/axiosInstance";
 import { Invite } from "@/types/invite";
+import useUserStore from "@/store/useUserStore";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const ITEMS_PER_PAGE = 6; // 한 번에 보여줄 개수
 
@@ -64,11 +67,13 @@ function InvitedList({
         payload
       );
       console.log("대시보드 수락 성공:", response.data);
-      alert("대시보드 수락 성공"); // 추후에 toast로 변경
-      window.location.reload();
+      toast.success("대시보드 수락 성공");
+      setTimeout(() => {
+        window.location.reload();
+      }, 100);
     } catch (error) {
       console.error("대시보드 수락 실패:", error);
-      alert("대시보드 수락 실패"); // 추후에 toast로 변경
+      toast.error("대시보드 수락 실패");
     }
   };
 
@@ -84,16 +89,19 @@ function InvitedList({
         payload
       );
       console.log("대시보드 거절 성공:", response.data);
-      alert("대시보드 거절 성공"); // 추후에 toast로 변경
-      window.location.reload();
+      toast.success("대시보드 거절 성공");
+      setTimeout(() => {
+        window.location.reload();
+      }, 100);
     } catch (error) {
       console.error("대시보드 거절 실패:", error);
-      alert("대시보드 거절 실패"); // 추후에 toast로 변경
+      toast.error("대시보드 거절 실패");
     }
   };
 
   return (
     <div className="relative bg-white w-[260px] sm:w-[504px] lg:w-[1022px] h-[770px] sm:h-[592px] lg:h-[620px] mx-auto mt-[40px]">
+      <ToastContainer position="top-center" autoClose={2000} />
       {filteredData.length > 0 && (
         <div className="hidden sm:flex p-6 w-full h-[26px] justify-start items-center pl-[43px] pr-[76px] md:gap-x-[130px] lg:gap-x-[280px]">
           <p className="lg:ml-10 font-normal text-[var(--color-gray2)]">이름</p>
@@ -164,13 +172,11 @@ function InvitedList({
           : !hasMore && <NoResultDashBoard searchTitle={searchTitle} />}{" "}
         {/* 검색 내역이 없을 경우 */}
         {filteredData.length > 0 && !hasMore && (
-          <p className="lg:mr-18 text-center text-gray-400 py-4">
+          <p className="lg:mr-18 text-center text-gray-400 bg-transparent">
             더 이상 초대 목록이 없습니다.
           </p>
         )}
-        {hasMore && (
-          <div ref={observerRef} className="h-[50px] w-[50px] bg-red"></div>
-        )}
+        {hasMore && <div ref={observerRef} className="h-[50px] w-[50px]"></div>}
       </div>
     </div>
   );
@@ -179,6 +185,7 @@ function InvitedList({
 type CursorId = number;
 
 export default function InvitedDashBoard() {
+  const { user } = useUserStore();
   const [searchTitle, setSearchTitle] = useState("");
   const [invitationData, setInvitationData] = useState<Map<CursorId, Invite[]>>(
     new Map()
@@ -193,63 +200,67 @@ export default function InvitedDashBoard() {
   };
 
   useEffect(() => {
-    fetchNextPage(); // 초기 데이터 6개 불러오기
-  }, []);
+    if (user) {
+      fetchNextPage();
+    } // 초기 데이터 6개 불러오기
+  }, [user]);
 
   /* 초대 목록 데이터 불러오기 */
   const fetchNextPage = async () => {
-    try {
-      const existingCursorId =
-        cursorId !== null && cursorId !== undefined
-          ? invitationData.get(cursorId)
-          : undefined;
+    if (user) {
+      try {
+        const existingCursorId =
+          cursorId !== null && cursorId !== undefined
+            ? invitationData.get(cursorId)
+            : undefined;
 
-      if (existingCursorId && existingCursorId.length > 0) {
-        // 이미 데이터가 존재하면 더 이상 요청하지 않음
-        return;
-      }
-
-      if (isFetchingRef.current) return; // 이미 데이터가 불러와졌다면 중복 요청 방지
-      isFetchingRef.current = true; // 데이터 요청 시작
-
-      const res = await axiosInstance.get(apiRoutes.Invitations(), {
-        params: {
-          size: ITEMS_PER_PAGE,
-          cursorId: cursorId || null,
-        },
-      });
-
-      if (res.data && Array.isArray(res.data.invitations)) {
-        const newInvitations = res.data.invitations.map(
-          (item: {
-            id: number;
-            dashboard: { title: string };
-            inviter: { nickname: string };
-          }) => ({
-            id: item.id,
-            title: item.dashboard.title,
-            nickname: item.inviter.nickname,
-          })
-        ) as Invite[];
-
-        if (newInvitations.length > 0) {
-          setCursorId(res.data.cursorId);
+        if (existingCursorId && existingCursorId.length > 0) {
+          // 이미 데이터가 존재하면 더 이상 요청하지 않음
+          return;
         }
 
-        setInvitationData((prev) => {
-          const newMap = new Map(prev);
-          newMap.set(cursorId as CursorId, newInvitations);
-          return newMap;
+        if (isFetchingRef.current) return; // 이미 데이터가 불러와졌다면 중복 요청 방지
+        isFetchingRef.current = true; // 데이터 요청 시작
+
+        const res = await axiosInstance.get(apiRoutes.Invitations(), {
+          params: {
+            size: ITEMS_PER_PAGE,
+            cursorId: cursorId || null,
+          },
         });
 
-        if (newInvitations.length < ITEMS_PER_PAGE) {
-          setHasMore(false);
+        if (res.data && Array.isArray(res.data.invitations)) {
+          const newInvitations = res.data.invitations.map(
+            (item: {
+              id: number;
+              dashboard: { title: string };
+              inviter: { nickname: string };
+            }) => ({
+              id: item.id,
+              title: item.dashboard.title,
+              nickname: item.inviter.nickname,
+            })
+          ) as Invite[];
+
+          if (newInvitations.length > 0) {
+            setCursorId(res.data.cursorId);
+          }
+
+          setInvitationData((prev) => {
+            const newMap = new Map(prev);
+            newMap.set(cursorId as CursorId, newInvitations);
+            return newMap;
+          });
+
+          if (newInvitations.length < ITEMS_PER_PAGE) {
+            setHasMore(false);
+          }
         }
+      } catch (error) {
+        console.error("초대내역 불러오는데 오류 발생:", error);
+      } finally {
+        isFetchingRef.current = false; // 데이터 요청 완료
       }
-    } catch (error) {
-      console.error("초대내역 불러오는데 오류 발생:", error);
-    } finally {
-      isFetchingRef.current = false; // 데이터 요청 완료
     }
   };
 

@@ -1,17 +1,51 @@
-import type { AppProps } from "next/app";
-import { useRouter } from "next/router";
-import HeaderDefault from "@/components/gnb/HeaderDefault";
 import "@/styles/globals.css";
+import type { AppProps } from "next/app";
+import { NextPage } from "next";
+import { useEffect } from "react";
+import { useRouter } from "next/router";
+import useUserStore from "@/store/useUserStore";
+import HeaderDefault from "@/components/gnb/HeaderDefault";
+import { getUserInfo } from "@/api/users";
+import { TEAM_ID } from "@/constants/team";
 
-export default function App({ Component, pageProps }: AppProps) {
+type NextPageWithLayout = NextPage & {
+  hideHeader?: boolean;
+};
+
+type AppPropsWithLayout = AppProps & {
+  Component: NextPageWithLayout;
+};
+
+export default function App({ Component, pageProps }: AppPropsWithLayout) {
+  // 앱 최초 실행 시 로그인 여부 판단
+  useEffect(() => {
+    const initializeUser = async () => {
+      const token = localStorage.getItem("accessToken");
+      if (token) {
+        try {
+          const userData = await getUserInfo({ teamId: TEAM_ID });
+          useUserStore.getState().setUser(userData);
+        } catch {
+          useUserStore.getState().clearUser();
+        }
+      } else {
+        useUserStore.getState().clearUser();
+        localStorage.removeItem("accessToken");
+      }
+    };
+
+    initializeUser();
+  }, []);
+
   const router = useRouter();
   const pathname = router.pathname;
 
+  // 헤더 기본 출력 설정
   const isDashboardPage = pathname.startsWith("/dashboard");
   // 헤더 숨길 페이지
   const noHeaderRoutes = ["/login", "/signup", "/mydashboard", "/mypage"];
   const isHeaderHidden =
-    (Component as any).hideHeader ||
+    Component.hideHeader ||
     noHeaderRoutes.includes(pathname) ||
     isDashboardPage;
 

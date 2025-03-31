@@ -4,6 +4,8 @@ import Input from "../input/Input";
 import Image from "next/image";
 import axiosInstance from "@/api/axiosInstance";
 import { apiRoutes } from "@/api/apiRoutes";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const ChangeBebridge = () => {
   const router = useRouter();
@@ -45,7 +47,7 @@ const ChangeBebridge = () => {
   /* 대시보드 이름 변경 버튼 */
   const handleUpdate = async () => {
     const dashboardIdNumber = Number(dashboardId); // string dashboradId 값 number로 변경
-    if (!dashboardId || !title || selected === null) return;
+    if (!dashboardId || selected === null) return;
 
     const payload = {
       title,
@@ -58,16 +60,19 @@ const ChangeBebridge = () => {
         payload
       );
       console.log("업데이트 성공:", response.data);
-      alert("대시보드가 업데이트되었습니다!"); // 추후에 toast로 변경
-      window.location.reload();
+      toast.success("대시보드가 업데이트되었습니다!");
+      setTimeout(() => {
+        window.location.reload();
+      }, 100);
     } catch (error) {
       console.error("업데이트 실패:", error);
-      alert("업데이트에 실패했습니다."); // 추후에 toast로 변경
+      toast.error("업데이트에 실패했습니다.");
     }
   };
 
   return (
     <div className="sm:w-[620px] sm:h-[344px] w-[327px] h-[312px] bg-white sm:rounded-[16px] rounded-[8px] p-[24px] flex flex-col">
+      <ToastContainer position="top-center" />
       <h2 className="text-sm sm:text-[24px] font-bold">
         {dashboardDetail.title}
       </h2>
@@ -84,7 +89,8 @@ const ChangeBebridge = () => {
         {colors.map((color, index) => (
           <div key={index} className="relative">
             <button
-              className={`cursor-pointer w-[30px] h-[30px] rounded-[15px] mr-2`}
+              className={`cursor-pointer w-[30px] h-[30px] rounded-[15px] mr-2 transition-all duration-200 
+                    hover:opacity-70 hover:scale-110`}
               style={{ backgroundColor: color }}
               onClick={() => setSelected(index)} // 색상 선택 시 selected 업데이트
             />
@@ -103,8 +109,8 @@ const ChangeBebridge = () => {
       <div className="mt-8 flex">
         <button
           onClick={handleUpdate} // 버튼 클릭 시 handleUpdate 함수 호출
-          disabled={!title || selected === null} // title 또는 color가 없으면 버튼 비활성화
-          className={`cursor-pointer sm:w-[564px] sm:h-[54px] w-[252px] h-[54px] rounded-[8px] border border-[var(--color-gray3)] bg-[var(--primary)] text-[var(--color-white)] ${!title || selected === null ? "bg-gray-300 cursor-not-allowed" : "bg-[var(--primary)]"}`}
+          disabled={selected === null} // color가 없으면 버튼 비활성화
+          className={`cursor-pointer sm:w-[564px] sm:h-[54px] w-[252px] h-[54px] rounded-[8px] border border-[var(--color-gray3)] bg-[var(--primary)] text-[var(--color-white)] ${selected === null ? "bg-gray-300 cursor-not-allowed" : "bg-[var(--primary)]"}`}
         >
           변경
         </button>

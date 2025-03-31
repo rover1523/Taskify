@@ -8,6 +8,8 @@ import NewDashboard from "@/components/modal/NewDashboard";
 import DashboardAddButton from "@/components/button/DashboardAddButton";
 import { getDashboards } from "@/api/dashboards";
 import { useRouter } from "next/router";
+import { useAuthGuard } from "@/hooks/useAuthGuard";
+import LoadingSpinner from "@/components/common/LoadingSpinner";
 
 interface Dashboard {
   id: number;
@@ -20,6 +22,7 @@ interface Dashboard {
 }
 
 export default function MyDashboardPage() {
+  const { user, isInitialized } = useAuthGuard();
   const teamId = "13-4";
   const router = useRouter();
   const [dashboardList, setDashboardList] = useState<Dashboard[]>([]);
@@ -53,8 +56,10 @@ export default function MyDashboardPage() {
   };
 
   useEffect(() => {
-    fetchDashboards();
-  }, [teamId]);
+    if (isInitialized && user) {
+      fetchDashboards();
+    }
+  }, [isInitialized, user]);
 
   const handlePrevPage = () => {
     if (currentPage > 1) setCurrentPage((prev) => prev - 1);
@@ -63,6 +68,10 @@ export default function MyDashboardPage() {
   const handleNextPage = () => {
     if (currentPage < totalPages) setCurrentPage((prev) => prev + 1);
   };
+
+  if (!isInitialized || !user) {
+    return <LoadingSpinner />;
+  }
 
   return (
     <div className="flex h-screen overflow-hidden">

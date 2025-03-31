@@ -1,35 +1,36 @@
-import React, { useEffect, useRef } from "react";
+import React, { useRef } from "react";
 import { useRouter } from "next/router";
-import { User, LogOut } from "lucide-react";
+import { useClosePopup } from "@/hooks/useClosePopup";
+import { User, LogOut, FolderPen } from "lucide-react";
+import { UserType } from "@/types/users";
+import useUserStore from "@/store/useUserStore";
 
 interface UserMenuProps {
+  user: UserType | null;
   isMenuOpen: boolean;
   setIsMenuOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
+const dropdownButtonStyles =
+  "flex justify-center md:justify-start items-center w-full px-3 py-3 gap-3 font-16r text-black3 hover:text-[var(--primary)] hover:bg-[#f9f9f9] cursor-pointer";
+
 const UserMenu: React.FC<UserMenuProps> = ({ isMenuOpen, setIsMenuOpen }) => {
+  const { clearUser } = useUserStore();
   const router = useRouter();
-  const dropdownRef = useRef<HTMLDivElement | null>(null);
+  const ref = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(e.target as Node)
-      ) {
-        setIsMenuOpen(false);
-      }
-    };
+  useClosePopup(ref, () => setIsMenuOpen(false));
 
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [setIsMenuOpen]);
+  const handleLogout = () => {
+    localStorage.setItem("isLoggingOut", "true");
+    clearUser();
+    localStorage.removeItem("accessToken");
+    router.push("/");
+  };
 
   return (
     <div
-      ref={dropdownRef}
+      ref={ref}
       className={`absolute top-full right-0 w-full
         bg-white border border-[#D9D9D9] shadow z-50
         transition-all duration-200 ease-out
@@ -37,19 +38,20 @@ const UserMenu: React.FC<UserMenuProps> = ({ isMenuOpen, setIsMenuOpen }) => {
     >
       <button
         onClick={() => router.push("/mypage")}
-        className="flex justify-center items-center w-full pt-3 pb-2 font-16r text-black3 hover:bg-[var(--color-gray5)]"
+        className={dropdownButtonStyles}
       >
-        <User size={20} className="md:hidden" />
-        <span className="hidden md:block">마이페이지</span>
+        <User size={20} />
+        <span className="hidden md:block">내 정보</span>
       </button>
       <button
-        onClick={() => {
-          localStorage.removeItem("accessToken");
-          router.push("/login");
-        }}
-        className="flex justify-center items-center w-full pt-2 pb-3 font-16r text-black3 hover:bg-[var(--color-gray5)]"
+        onClick={() => router.push("/mydashboard")}
+        className={dropdownButtonStyles}
       >
-        <LogOut size={20} className="md:hidden" />
+        <FolderPen size={20} />
+        <span className="hidden md:block">내 대시보드</span>
+      </button>
+      <button onClick={handleLogout} className={dropdownButtonStyles}>
+        <LogOut size={20} />
         <span className="hidden md:block">로그아웃</span>
       </button>
     </div>

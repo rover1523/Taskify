@@ -9,19 +9,19 @@ interface HeaderDefaultProps {
 
 const HeaderDefault: React.FC<HeaderDefaultProps> = ({ variant = "white" }) => {
   const router = useRouter();
-  const { user, clearUser } = useUserStore();
+  const user = useUserStore((state) => state.user);
+  const { clearUser } = useUserStore();
 
-  const isLoggedIn = !user;
+  const isLoggedIn = !!user;
   const isWhite = variant === "white";
 
   const handleAuthClick = () => {
     if (isLoggedIn) {
       clearUser();
       localStorage.removeItem("accessToken");
-      localStorage.removeItem("expiresAt");
-      window.location.reload();
+      router.push("/");
     } else {
-      router.push("login");
+      router.push("/login");
     }
   };
 
