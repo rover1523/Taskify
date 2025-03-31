@@ -8,7 +8,7 @@ import { MemberType, UserType } from "@/types/users";
 interface MemberAvatarsProps {
   members: MemberType[];
   isLoading: boolean;
-  variant?: "mydashboard" | "dashboard" | "mypage";
+  variant?: "mydashboard" | "dashboard" | "edit" | "mypage";
 }
 
 const MAX_VISIBLE_MEMBERS = 4;

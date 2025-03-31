@@ -69,7 +69,7 @@ export default function EditDashboard() {
 
       <div className="flex flex-col flex-1">
         <div className="flex flex-col">
-          <HeaderDashboardEdit variant="dashboard" dashboardId={dashboardId} />
+          <HeaderDashboardEdit variant="edit" dashboardId={dashboardId} />
         </div>
         <div className="overflow-auto flex-1 px-[50px] pt-[10px] pb-10">
           <div className="mt-6">

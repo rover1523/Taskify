@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import SkeletonUser from "@/shared/skeletonUser";
+import clsx from "clsx";
 import Image from "next/image";
+import SkeletonUser from "@/shared/skeletonUser";
 import { MemberType, UserType } from "@/types/users";
 import { getMembers } from "@/api/members";
 import { getUserInfo } from "@/api/users";
@@ -15,7 +16,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 interface HeaderDashboardProps {
-  variant?: "mydashboard" | "dashboard" | "mypage";
+  variant?: "mydashboard" | "dashboard" | "edit" | "mypage";
   dashboardTitle?: string;
   dashboardId?: string | string[];
   isEditMode?: boolean;
@@ -64,7 +65,10 @@ const HeaderDashboard: React.FC<HeaderDashboardProps> = ({
         setIsLoading(false);
       }
     };
-    if ((variant === "dashboard" || variant === "mypage") && dashboardId) {
+    if (
+      (variant === "dashboard" || variant === "mypage" || variant === "edit") &&
+      dashboardId
+    ) {
       fetchMembers();
     }
   }, [dashboardId, variant]);
@@ -111,9 +115,10 @@ const HeaderDashboard: React.FC<HeaderDashboardProps> = ({
 
   /*헤더 종류에 따라 다른 제목 표시*/
   const title = (() => {
+    if (variant === "mydashboard") return "내 대시보드";
+    if (variant === "edit") return "대시보드 수정";
     if (variant === "mypage") return "계정 관리";
     if (variant === "dashboard" && dashboard?.title) return dashboard.title;
-    return "내 대시보드";
   })();
 
   return (
@@ -153,36 +158,45 @@ const HeaderDashboard: React.FC<HeaderDashboardProps> = ({
             className={`flex gap-[6px] md:gap-[16px] ${variant === "mydashboard" ? "pr-[22px] md:pr-[32px]" : ""}`}
           >
             {/*관리 버튼*/}
-            <button
-              onClick={() => {
-                if (dashboardId) {
-                  if (dashboard && dashboard.createdByMe === true) {
-                    router.push(`/dashboard/${dashboardId}/edit`);
+            {variant !== "edit" && (
+              <button
+                onClick={() => {
+                  if (dashboardId) {
+                    if (dashboard && dashboard.createdByMe === true) {
+                      router.push(`/dashboard/${dashboardId}/edit`);
+                    } else {
+                      toast.error("대시보드 수정 권한이 없습니다.");
+                    }
                   } else {
-                    toast.error("대시보드 수정 권한이 없습니다.");
+                    if (onToggleEditMode) {
+                      onToggleEditMode();
+                    }
                   }
-                } else {
-                  if (onToggleEditMode) {
-                    onToggleEditMode();
-                  }
-                }
-              }}
-              className="flex items-center justify-center w-[49px] h-[30px] md:w-[85px] md:h-[36px] lg:w-[88px] lg:h-[40px] rounded-[8px] border border-[var(--color-gray3)] gap-[10px] cursor-pointer"
-            >
-              <Image
-                src="/svgs/settings.svg"
-                alt="관리 아이콘"
-                width={20}
-                height={20}
-                className="hidden md:block"
-              />
-              <span className="text-sm md:text-base text-gray1">
-                {isEditMode ? "완료" : "관리"}
-              </span>
-            </button>
+                }}
+                className={clsx(
+                  "flex items-center justify-center",
+                  "w-[49px] h-[30px] md:w-[85px] md:h-[36px] lg:w-[88px] lg:h-[40px]",
+                  "rounded-[8px] border gap-[10px] cursor-pointer",
+                  isEditMode
+                    ? "border-[var(--primary)]"
+                    : "border-[var(--color-gray3)]"
+                )}
+              >
+                <Image
+                  src="/svgs/settings.svg"
+                  alt="관리 아이콘"
+                  width={20}
+                  height={20}
+                  className="hidden md:block"
+                />
+                <span className="text-sm md:text-base text-gray1">
+                  {isEditMode ? "완료" : "관리"}
+                </span>
+              </button>
+            )}
 
             {/*초대하기 버튼*/}
-            {variant !== "mydashboard" && (
+            {variant !== "mydashboard" && variant !== "edit" && (
               <button
                 onClick={openInviteModal}
                 className="flex items-center justify-center w-[73px] h-[30px] md:w-[109px] md:h-[36px] lg:w-[116px] lg:h-[40px] rounded-[8px] border border-[var(--color-gray3)] gap-[10px] cursor-pointer"
