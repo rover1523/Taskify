@@ -84,7 +84,9 @@ const CardButton: React.FC<CardButtonProps> = ({
         </svg>
 
         {/* 제목 */}
-        <span className="font-16sb truncate">{title}</span>
+        <span className="font-16sb truncate max-w-[90px] sm:max-w-[100px] md:max-w-[120px] lg:max-w-[160px]">
+          {title}
+        </span>
 
         {/* 왕관 */}
         {showCrown && (
@@ -93,7 +95,7 @@ const CardButton: React.FC<CardButtonProps> = ({
             alt="crown Icon"
             width={20}
             height={20}
-            className="w-[20px] h-[20px]"
+            className="hidden sm:block w-[20px] h-[20px]"
           />
         )}
       </div>
