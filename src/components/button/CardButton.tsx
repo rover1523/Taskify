@@ -11,6 +11,7 @@ interface CardButtonProps
   color?: string;
   isEditMode?: boolean;
   dashboardId: number;
+  createdByMe?: boolean;
   onDeleteClick?: (id: number) => void;
 }
 
@@ -22,6 +23,7 @@ const CardButton: React.FC<CardButtonProps> = ({
   color = "#7ac555", // 기본 색상
   isEditMode = false,
   dashboardId,
+  createdByMe,
   onDeleteClick,
   ...props
 }) => {
@@ -93,12 +95,14 @@ const CardButton: React.FC<CardButtonProps> = ({
       {/* 오른쪽: 화살표 아이콘 or 수정/삭제 버튼 */}
       {isEditMode ? (
         <div className="flex flex-col gap-2">
-          <button
-            onClick={handleEdit}
-            className="font-12m text-gray1 border border-[var(--color-gray3)] px-2 rounded hover:bg-gray-100 cursor-pointer"
-          >
-            수정
-          </button>
+          {createdByMe && (
+            <button
+              onClick={handleEdit}
+              className="font-12m text-gray1 border border-[var(--color-gray3)] px-2 rounded hover:bg-gray-100 cursor-pointer"
+            >
+              수정
+            </button>
+          )}
           <button
             onClick={handleDelete}
             className="font-12m text-red-400 border border-red-400 px-2 rounded hover:bg-red-100 cursor-pointer"

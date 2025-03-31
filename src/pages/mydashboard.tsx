@@ -1,14 +1,18 @@
 import React, { useEffect, useState } from "react";
+import axiosInstance from "@/api/axiosInstance";
+import { apiRoutes } from "@/api/apiRoutes";
+import { getDashboards } from "@/api/dashboards";
+import { useAuthGuard } from "@/hooks/useAuthGuard";
 import SideMenu from "@/components/sideMenu/SideMenu";
 import HeaderDashboard from "@/components/gnb/HeaderDashboard";
-import InvitedDashBoard from "@/components/table/invited/InvitedDashBoard";
 import CardButton from "@/components/button/CardButton";
-import { PaginationButton } from "@/components/button/PaginationButton";
-import NewDashboard from "@/components/modal/NewDashboard";
 import DashboardAddButton from "@/components/button/DashboardAddButton";
-import { getDashboards } from "@/api/dashboards";
-import { useRouter } from "next/router";
-import { useAuthGuard } from "@/hooks/useAuthGuard";
+import { PaginationButton } from "@/components/button/PaginationButton";
+import InvitedDashBoard from "@/components/table/invited/InvitedDashBoard";
+import NewDashboard from "@/components/modal/NewDashboard";
+import { Modal } from "@/components/modal/Modal";
+import { CustomBtn } from "@/components/button/CustomButton";
+
 import LoadingSpinner from "@/components/common/LoadingSpinner";
 
 interface Dashboard {
@@ -22,9 +26,8 @@ interface Dashboard {
 }
 
 export default function MyDashboardPage() {
-  const { user, isInitialized } = useAuthGuard();
+  const { user, isInitialized } = useAuthGuard(); // 미인증 접근 시 로그인 페이지 이동
   const teamId = "13-4";
-  const router = useRouter();
   const [dashboardList, setDashboardList] = useState<Dashboard[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -48,6 +51,7 @@ export default function MyDashboardPage() {
         showCrown={dashboard.createdByMe}
         color={dashboard.color}
         isEditMode={isEditMode}
+        createdByMe={dashboard.createdByMe}
         onDeleteClick={(id) => {
           setSelectedDashboardId(id);
           setIsDeleteModalOpen(true);
@@ -64,7 +68,7 @@ export default function MyDashboardPage() {
       console.error("대시보드 불러오기 실패:", error);
     }
   };
-
+  // 유저 정보 복원된 상태 & 로그인 상태일 때만 api 호출 실행
   useEffect(() => {
     if (isInitialized && user) {
       fetchDashboards();
@@ -77,6 +81,21 @@ export default function MyDashboardPage() {
 
   const handleNextPage = () => {
     if (currentPage < totalPages) setCurrentPage((prev) => prev + 1);
+  };
+
+  const handleDelete = async () => {
+    if (!selectedDashboardId) return;
+    try {
+      await axiosInstance.delete(
+        apiRoutes.DashboardDetail(selectedDashboardId)
+      );
+      setIsDeleteModalOpen(false);
+      setSelectedDashboardId(null); // 선택 초기화
+      fetchDashboards(); // 목록 갱신
+    } catch (error) {
+      alert("대시보드 삭제에 실패했습니다.");
+      console.error("삭제 실패:", error);
+    }
   };
 
   if (!isInitialized || !user) {
@@ -135,6 +154,30 @@ export default function MyDashboardPage() {
           }}
         />
       )}
+
+      <Modal
+        width="w-[260px]"
+        height="h-[150px]"
+        isOpen={isDeleteModalOpen}
+        onClose={() => setIsDeleteModalOpen(false)}
+        className="flex items-center justify-center text-center"
+      >
+        <p className="text-black3 font-16m">대시보드를 삭제하시겠습니까?</p>
+        <div className="flex items-center justify-center gap-2">
+          <CustomBtn
+            onClick={handleDelete}
+            className="w-[80px] h-[35px] bg-[var(--primary)] font-16m text-white rounded-[8px] cursor-pointer"
+          >
+            확인
+          </CustomBtn>
+          <CustomBtn
+            onClick={() => setIsDeleteModalOpen(false)}
+            className="w-[80px] h-[35px] bg-white font-16m text-[var(--primary)] border-2 border-[var(--primary)] rounded-[8px] cursor-pointer hover:bg-[var(--color-violet8)]"
+          >
+            취소
+          </CustomBtn>
+        </div>
+      </Modal>
     </div>
   );
 }
