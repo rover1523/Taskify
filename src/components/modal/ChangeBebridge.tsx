@@ -47,7 +47,7 @@ const ChangeBebridge = () => {
   /* 대시보드 이름 변경 버튼 */
   const handleUpdate = async () => {
     const dashboardIdNumber = Number(dashboardId); // string dashboradId 값 number로 변경
-    if (!dashboardId || !title || selected === null) return;
+    if (!dashboardId || selected === null) return;
 
     const payload = {
       title,
@@ -109,8 +109,8 @@ const ChangeBebridge = () => {
       <div className="mt-8 flex">
         <button
           onClick={handleUpdate} // 버튼 클릭 시 handleUpdate 함수 호출
-          disabled={!title || selected === null} // title 또는 color가 없으면 버튼 비활성화
-          className={`cursor-pointer sm:w-[564px] sm:h-[54px] w-[252px] h-[54px] rounded-[8px] border border-[var(--color-gray3)] bg-[var(--primary)] text-[var(--color-white)] ${!title || selected === null ? "bg-gray-300 cursor-not-allowed" : "bg-[var(--primary)]"}`}
+          disabled={selected === null} // color가 없으면 버튼 비활성화
+          className={`cursor-pointer sm:w-[564px] sm:h-[54px] w-[252px] h-[54px] rounded-[8px] border border-[var(--color-gray3)] bg-[var(--primary)] text-[var(--color-white)] ${selected === null ? "bg-gray-300 cursor-not-allowed" : "bg-[var(--primary)]"}`}
         >
           변경
         </button>
