@@ -9,6 +9,7 @@ import Image from "next/image";
 import axiosInstance from "@/api/axiosInstance";
 import { apiRoutes } from "@/api/apiRoutes";
 import { getDashboards } from "@/api/dashboards";
+import DeleteDashboardModal from "@/components/modal/DeleteDashboardModal";
 
 interface Dashboard {
   id: number;
@@ -25,6 +26,7 @@ export default function EditDashboard() {
   const router = useRouter();
   const [dashboardList, setDashboardList] = useState<Dashboard[]>([]);
   const { dashboardId } = router.query;
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const dashboardIdString = Array.isArray(dashboardId)
     ? dashboardId[0]
     : dashboardId;
@@ -34,19 +36,13 @@ export default function EditDashboard() {
     router.push(`/dashboard/${dashboardId}`);
   };
 
-  /* 대시보드 삭제 */
-  const handleDelete = async () => {
-    const dashboardIdNumber = Number(dashboardId);
-    if (!dashboardId) return;
-    try {
-      await axiosInstance.delete(apiRoutes.DashboardDetail(dashboardIdNumber));
-      router.push(`/mydashboard`);
-    } catch (error) {
-      alert("대시보드 삭제에 실패하였습니다 .");
-      console.error("초대 실패:", error);
+  /* 대시보드 삭제 모달 */
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
 
-      window.location.reload();
-    }
+  const closeModal = () => {
+    setIsModalOpen(false);
   };
 
   /* SideMenu 값 불러오기 */
@@ -102,11 +98,19 @@ export default function EditDashboard() {
           </div>
           <div className="flex mt-15 sm:mt-0 ml-8">
             <button
-              onClick={handleDelete}
+              onClick={openModal}
               className="text-base sm:text-lg cursor-pointer w-[320px] h-[62px] text-black3 rounded-[8px] border-[1px] border-[var(--color-gray3)] hover:scale-105 transition-transform duration-200"
             >
               대시보드 삭제하기
             </button>
+
+            {isModalOpen && (
+              <DeleteDashboardModal
+                isOpen={isModalOpen}
+                onClose={closeModal}
+                dashboardid={String(dashboardId)}
+              />
+            )}
           </div>
         </div>
       </div>
