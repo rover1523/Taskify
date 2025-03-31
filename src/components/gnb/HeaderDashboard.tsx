@@ -117,7 +117,7 @@ const HeaderDashboard: React.FC<HeaderDashboardProps> = ({
   })();
 
   return (
-    <header className="w-full h-[60px] md:h-[70px] flex items-center justify-center bg-white border-b-[1px] border-b-[#D9D9D9]">
+    <header className="w-full h-[60px] md:h-[70px] flex items-center justify-center bg-white border-b-[1px] border-b-[var(--color-gray3)]">
       <ToastContainer position="top-center" />
       <div className="w-full flex items-center justify-between pl-[4vw]">
         {errorMessage && (
@@ -167,7 +167,7 @@ const HeaderDashboard: React.FC<HeaderDashboardProps> = ({
                   }
                 }
               }}
-              className="flex items-center justify-center w-[49px] h-[30px] md:w-[85px] md:h-[36px] lg:w-[88px] lg:h-[40px] rounded-[8px] border border-[#D9D9D9] gap-[10px] cursor-pointer"
+              className="flex items-center justify-center w-[49px] h-[30px] md:w-[85px] md:h-[36px] lg:w-[88px] lg:h-[40px] rounded-[8px] border border-[var(--color-gray3)] gap-[10px] cursor-pointer"
             >
               <Image
                 src="/svgs/settings.svg"
@@ -185,7 +185,7 @@ const HeaderDashboard: React.FC<HeaderDashboardProps> = ({
             {variant !== "mydashboard" && (
               <button
                 onClick={openInviteModal}
-                className="flex items-center justify-center w-[73px] h-[30px] md:w-[109px] md:h-[36px] lg:w-[116px] lg:h-[40px] rounded-[8px] border border-[#D9D9D9] gap-[10px] cursor-pointer"
+                className="flex items-center justify-center w-[73px] h-[30px] md:w-[109px] md:h-[36px] lg:w-[116px] lg:h-[40px] rounded-[8px] border border-[var(--color-gray3)] gap-[10px] cursor-pointer"
               >
                 <Image
                   src="/svgs/add-box.svg"

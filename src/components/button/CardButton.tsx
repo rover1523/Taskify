@@ -92,16 +92,16 @@ const CardButton: React.FC<CardButtonProps> = ({
 
       {/* 오른쪽: 화살표 아이콘 or 수정/삭제 버튼 */}
       {isEditMode ? (
-        <div className="flex gap-2">
+        <div className="flex flex-col gap-2">
           <button
             onClick={handleEdit}
-            className="text-sm text-gray-700 border border-gray-300 px-2 py-1 rounded hover:bg-gray-100 cursor-pointer"
+            className="font-12m text-gray1 border border-[var(--color-gray3)] px-2 rounded hover:bg-gray-100 cursor-pointer"
           >
             수정
           </button>
           <button
             onClick={handleDelete}
-            className="text-sm text-red-500 border border-red-300 px-2 py-1 rounded hover:bg-red-100 cursor-pointer"
+            className="font-12m text-red-400 border border-red-400 px-2 rounded hover:bg-red-100 cursor-pointer"
           >
             삭제
           </button>

@@ -22,7 +22,7 @@ const MemberListMenu: React.FC<MemberListMenuProps> = ({
     <div
       ref={ref}
       className={`absolute top-full right-0 w-full z-50
-        bg-white border border-[#D9D9D9] shadow
+        bg-white border border-[var(--color-gray3)] shadow
         transition-all duration-200 ease-out
         ${isListOpen ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-2 pointer-events-none"}`}
     >
