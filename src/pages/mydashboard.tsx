@@ -198,13 +198,13 @@ export default function MyDashboardPage() {
             onClick={
               selectedCreatedByMe ? () => handleDelete() : () => handleLeave()
             }
-            className="w-[80px] h-[35px] bg-[var(--primary)] font-16m text-white rounded-[8px] cursor-pointer"
+            className="cursor-pointer bg-[var(--primary)] text-white px-3 py-1 rounded-md w-[84px] h-[32px]"
           >
             확인
           </CustomBtn>
           <CustomBtn
             onClick={() => setIsDeleteModalOpen(false)}
-            className="w-[80px] h-[35px] bg-white font-16m text-[var(--primary)] border-2 border-[var(--primary)] rounded-[8px] cursor-pointer hover:bg-[var(--color-violet8)]"
+            className="cursor-pointer border px-3 py-1 rounded-md w-[84px] h-[32px] text-[var(--primary)] border-[var(--color-gray3)]"
           >
             취소
           </CustomBtn>
