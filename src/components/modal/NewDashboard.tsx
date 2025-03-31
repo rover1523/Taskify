@@ -2,14 +2,28 @@ import { useState } from "react";
 import Input from "../input/Input";
 import Image from "next/image";
 import axios from "axios";
+interface Dashboard {
+  id: number;
+  title: string;
+  color: string;
+  userId: number;
+  createdAt: string;
+  updatedAt: string;
+  createdByMe: boolean;
+}
 
-export default function NewDashboard({ onClose }: { onClose?: () => void }) {
+export default function NewDashboard({
+  onClose,
+  onCreate,
+}: {
+  onClose?: () => void;
+  onCreate?: (newDashboard: Dashboard) => void;
+}) {
   const [title, setTitle] = useState("");
   const [selected, setSelected] = useState<number | null>(null);
   const [loading, setLoading] = useState(false);
 
   const colors = ["#7ac555", "#760DDE", "#FF9800", "#76A5EA", "#E876EA"];
-
   const token = localStorage.getItem("accessToken");
 
   const handleSubmit = async () => {
@@ -30,13 +44,11 @@ export default function NewDashboard({ onClose }: { onClose?: () => void }) {
           },
         }
       );
-      console.log("대시보드 생성 성공:", response.data);
-      alert("대시보드가 성공적으로 생성되었습니다.");
-      console.log(loading);
 
-      onClose?.(); // 모달 닫기
+      onCreate?.(response.data);
+      onClose?.();
     } catch (error) {
-      console.error("대시보드 생성 실패:", error);
+      alert("대시보드 생성에 실패했습니다.");
     } finally {
       setLoading(false);
     }
@@ -88,10 +100,10 @@ export default function NewDashboard({ onClose }: { onClose?: () => void }) {
             onClick={handleSubmit}
             disabled={!title || selected === null}
             className={`cursor-pointer sm:w-[256px] sm:h-[54px] w-[295px] h-[54px] rounded-[8px] 
-                      border border-[var(--color-gray3)] text-[var(--color-white)] 
-          ${!title || selected === null ? "bg-gray-300 cursor-not-allowed" : "bg-[var(--primary)]"}`}
+            border border-[var(--color-gray3)] text-[var(--color-white)] 
+            ${!title || selected === null ? "bg-gray-300 cursor-not-allowed" : "bg-[var(--primary)]"}`}
           >
-            생성
+            {loading ? "생성 중..." : "생성"}
           </button>
         </div>
       </div>
