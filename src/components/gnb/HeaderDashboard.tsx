@@ -130,9 +130,14 @@ const HeaderDashboard: React.FC<HeaderDashboardProps> = ({
             {errorMessage}
           </p>
         )}
+
+        {/*헤더 제목*/}
         <div className="flex items-center gap-[8px]">
           <p
-            className={`text-base text-black3 font-bold md:text-xl ${variant !== "mydashboard" ? "hidden md:block" : ""}`}
+            className={clsx(
+              "font-20b text-black3 whitespace-nowrap",
+              variant !== "mydashboard" ? "hidden md:block" : ""
+            )}
           >
             {title}
           </p>
@@ -145,7 +150,7 @@ const HeaderDashboard: React.FC<HeaderDashboardProps> = ({
               className={
                 variant === "mydashboard"
                   ? "inline-block"
-                  : "hidden md:inline-block"
+                  : "hidden lg:inline-block"
               }
               unoptimized
               priority
@@ -155,7 +160,10 @@ const HeaderDashboard: React.FC<HeaderDashboardProps> = ({
 
         <div className="flex items-center">
           <div
-            className={`flex gap-[6px] md:gap-[16px] ${variant === "mydashboard" ? "pr-[22px] md:pr-[32px]" : ""}`}
+            className={clsx(
+              "flex gap-[6px] md:gap-[16px]",
+              variant === "mydashboard" ? "pr-[22px] md:pr-[32px]" : ""
+            )}
           >
             {/*관리 버튼*/}
             {variant !== "edit" && (
@@ -197,7 +205,11 @@ const HeaderDashboard: React.FC<HeaderDashboardProps> = ({
             {variant !== "mydashboard" && variant !== "edit" && (
               <button
                 onClick={openInviteModal}
-                className="flex items-center justify-center w-[73px] h-[30px] md:w-[109px] md:h-[36px] lg:w-[116px] lg:h-[40px] rounded-[8px] border border-[var(--color-gray3)] gap-[10px] cursor-pointer"
+                className={clsx(
+                  "flex items-center justify-center",
+                  "w-[73px] h-[30px] md:w-[109px] md:h-[36px] lg:w-[116px] lg:h-[40px]",
+                  "border border-[var(--color-gray3)] rounded-[8px] gap-[10px] cursor-pointer"
+                )}
               >
                 <Image
                   src="/svgs/add-box.svg"
@@ -248,7 +260,7 @@ const HeaderDashboard: React.FC<HeaderDashboardProps> = ({
             {/*유저 드롭다운 메뉴*/}
             <div
               onClick={() => setIsMenuOpen((prev) => !prev)}
-              className="flex items-center gap-[12px] pl-[20px] md:pl-[30px] lg:pl-[35px] cursor-pointer"
+              className="flex items-center gap-[12px] pl-[20px] md:pl-[30px] lg:pl-[35px] cursor-pointer overflow-hidden"
             >
               <UserMenu
                 user={user}
@@ -262,7 +274,7 @@ const HeaderDashboard: React.FC<HeaderDashboardProps> = ({
                 user && (
                   <>
                     <UserAvatars user={user} />
-                    <span className="hidden md:block text-black3 md:text-base md:font-medium">
+                    <span className="hidden md:block text-black3 md:text-base md:font-medium max-w-[90px] truncate whitespace-nowrap">
                       {user.nickname}
                     </span>
                   </>
