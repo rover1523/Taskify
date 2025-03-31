@@ -11,6 +11,9 @@ interface UserMenuProps {
   setIsMenuOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
+const dropdownButtonStyles =
+  "flex justify-center md:justify-start items-center w-full px-3 py-3 gap-3 font-16r text-black3 hover:text-[var(--primary)] hover:bg-[#f9f9f9] cursor-pointer";
+
 const UserMenu: React.FC<UserMenuProps> = ({ isMenuOpen, setIsMenuOpen }) => {
   const { clearUser } = useUserStore();
   const router = useRouter();
@@ -36,23 +39,20 @@ const UserMenu: React.FC<UserMenuProps> = ({ isMenuOpen, setIsMenuOpen }) => {
     >
       <button
         onClick={() => router.push("/mypage")}
-        className="flex justify-center items-center w-full pt-3 pb-2 font-16r text-black3 hover:bg-[var(--color-gray5)]"
+        className={dropdownButtonStyles}
       >
-        <User size={20} className="md:hidden" />
+        <User size={20} />
         <span className="hidden md:block">내 정보</span>
       </button>
       <button
         onClick={() => router.push("/mydashboard")}
-        className="flex justify-center items-center w-full pt-2 pb-2 font-16r text-black3 hover:bg-[var(--color-gray5)]"
+        className={dropdownButtonStyles}
       >
-        <FolderPen size={20} className="md:hidden" />
+        <FolderPen size={20} />
         <span className="hidden md:block">내 대시보드</span>
       </button>
-      <button
-        onClick={handleLogout}
-        className="flex justify-center items-center w-full pt-2 pb-3 font-16r text-black3 hover:bg-[var(--color-gray5)]"
-      >
-        <LogOut size={20} className="md:hidden" />
+      <button onClick={handleLogout} className={dropdownButtonStyles}>
+        <LogOut size={20} />
         <span className="hidden md:block">로그아웃</span>
       </button>
     </div>

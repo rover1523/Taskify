@@ -1,4 +1,5 @@
-// 로그아웃 상태에서 인증 필수 페이지 접근 시, 로그인 페이지로 이동
+// 로그아웃 상태에서 인증 필수 페이지 접근 시, 로그인 페이지로 이동시키는 역할
+// 각 페이지에 import 해서 실행 함수 추가해 줘야 작동함
 import { useEffect } from "react";
 import { useRouter } from "next/router";
 import useUserStore from "@/store/useUserStore";
@@ -30,7 +31,7 @@ export const useAuthGuard = (redirectTo: string = "/login") => {
     restoreUser();
   }, [user, redirectTo, setUser, router]);
 
-  // 로그아웃 상태에서 인증 페이지 접근 시 로그인 페이지로 이동
+  // 직접 로그아웃한 게 아닐 때만 로그인 페이지로 이동
   useEffect(() => {
     const isLoggingOut = localStorage.getItem("isLoggingOut");
 
