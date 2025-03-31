@@ -74,11 +74,12 @@ const InviteRecords = ({ dashboardId }: { dashboardId: string }) => {
     }
   };
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  /* 페이지네이션 */
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
-  const totalPages = Math.ceil(inviteList.length / itemsPerPage);
-
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const totalPages = Math.max(1, Math.ceil(inviteList.length / itemsPerPage));
 
   const paginatedInvitation = Array.isArray(inviteList)
     ? inviteList.slice(
