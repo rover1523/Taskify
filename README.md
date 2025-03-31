@@ -1,6 +1,6 @@
 <div style="text-align: center;">
-  <a href="https://taskify-theta-seven.vercel.app/">
-    <img alt="Taskify" src='/public/images/landing_hero' width="300" height="300">
+  <a href="여기에 vercel 주소 올려주시면 됩니다.">
+    <img alt="Taskify" src='/images/landing_hero' width="200" height="200">
   </a>
 </div>
 
@@ -28,7 +28,7 @@
 
 - 
 
-## 정종
+## 정종우
 
 - 
 
