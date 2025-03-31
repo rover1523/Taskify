@@ -47,7 +47,7 @@ export default function NewDashboard({
 
       onCreate?.(response.data);
       onClose?.();
-    } catch (error) {
+    } catch {
       alert("대시보드 생성에 실패했습니다.");
     } finally {
       setLoading(false);
