@@ -6,25 +6,14 @@ import MemberList from "@/components/table/member/MemberList";
 import SideMenu from "@/components/sideMenu/SideMenu";
 import InviteRecords from "@/components/table/InviteRecords";
 import Image from "next/image";
-import axiosInstance from "@/api/axiosInstance";
-import { apiRoutes } from "@/api/apiRoutes";
 import { getDashboards } from "@/api/dashboards";
 import DeleteDashboardModal from "@/components/modal/DeleteDashboardModal";
-
-interface Dashboard {
-  id: number;
-  title: string;
-  color: string;
-  userId: number;
-  createdAt: string;
-  updatedAt: string;
-  createdByMe: boolean;
-}
+import { DashboardType } from "@/types/task";
 
 export default function EditDashboard() {
   const teamId = "13-4";
   const router = useRouter();
-  const [dashboardList, setDashboardList] = useState<Dashboard[]>([]);
+  const [dashboardList, setDashboardList] = useState<DashboardType[]>([]);
   const { dashboardId } = router.query;
   const [isModalOpen, setIsModalOpen] = useState(false);
   const dashboardIdString = Array.isArray(dashboardId)
