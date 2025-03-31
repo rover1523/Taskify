@@ -25,6 +25,7 @@ interface HeaderDashboardProps {
 const HeaderDashboard: React.FC<HeaderDashboardProps> = ({
   variant,
   dashboardId,
+  isEditMode,
   onToggleEditMode,
 }) => {
   const router = useRouter();
@@ -175,7 +176,9 @@ const HeaderDashboard: React.FC<HeaderDashboardProps> = ({
                 height={20}
                 className="hidden md:block"
               />
-              <span className="text-sm md:text-base text-gray1">관리</span>
+              <span className="text-sm md:text-base text-gray1">
+                {isEditMode ? "완료" : "관리"}
+              </span>
             </button>
 
             {/*초대하기 버튼*/}

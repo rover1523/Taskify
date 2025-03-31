@@ -43,12 +43,13 @@ const CardButton: React.FC<CardButtonProps> = ({
     <button
       className={clsx(
         "flex justify-between items-center bg-white transition-all",
-        "rounded-lg px-4 py-3 font-semibold",
+        "rounded-lg px-4 py-3 font-16sb",
         "border border-gray-300 hover:border-purple-500",
         fullWidth ? "w-full" : "w-[260px] md:w-[247px] lg:w-[332px]",
         "h-[58px] md:h-[68px] lg:h-[70px]",
         "mt-[10px] md:mt-[16px] lg:mt-[20px]",
         "text-lg md:text-2lg lg:text-2lg",
+        "cursor-pointer",
         className
       )}
       {...props}
@@ -61,7 +62,7 @@ const CardButton: React.FC<CardButtonProps> = ({
         </svg>
 
         {/* 제목 */}
-        <span className="font-semibold truncate">{title}</span>
+        <span className="font-16sb truncate">{title}</span>
 
         {/* 왕관 */}
         {showCrown && (
@@ -80,13 +81,13 @@ const CardButton: React.FC<CardButtonProps> = ({
         <div className="flex gap-2">
           <button
             onClick={handleEdit}
-            className="text-sm text-gray-700 border border-gray-300 px-2 py-1 rounded hover:bg-gray-100"
+            className="text-sm text-gray-700 border border-gray-300 px-2 py-1 rounded hover:bg-gray-100 cursor-pointer"
           >
             수정
           </button>
           <button
             onClick={handleDelete}
-            className="text-sm text-red-500 border border-red-300 px-2 py-1 rounded hover:bg-red-100"
+            className="text-sm text-red-500 border border-red-300 px-2 py-1 rounded hover:bg-red-100 cursor-pointer"
           >
             삭제
           </button>
