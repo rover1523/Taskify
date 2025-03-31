@@ -123,7 +123,7 @@ export default function TaskModal({
             color="third"
             buttonSize="md"
             onClick={onClose}
-            className="w-full sm:w-[256px] h-[54px] border border-gray bg-white text-black rounded-lg"
+            className="w-full sm:w-[256px] h-[54px] border border-[var(--color-gray3)] bg-white text-black rounded-lg"
           >
             취소
           </TextButton>

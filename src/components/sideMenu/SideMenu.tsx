@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { PaginationButton } from "@/components/button/PaginationButton";
+import NewDashboard from "@/components/modal/NewDashboard";
 
 interface Dashboard {
   id: number;
@@ -18,16 +19,22 @@ interface Dashboard {
 interface SideMenuProps {
   teamId: string;
   dashboardList: Dashboard[];
+  onCreateDashboard?: (dashboard: Dashboard) => void; // ✅ 부모 상태 갱신용 콜백
 }
 
-export default function SideMenu({ teamId, dashboardList }: SideMenuProps) {
+export default function SideMenu({
+  teamId,
+  dashboardList,
+  onCreateDashboard,
+}: SideMenuProps) {
   const router = useRouter();
   const { boardid } = router.query;
   const boardId = parseInt(boardid as string);
 
-  const itemsPerPage = 18;
   const [currentPage, setCurrentPage] = useState(1);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
+  const itemsPerPage = 18;
   const totalPages = Math.ceil(dashboardList.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
@@ -46,7 +53,7 @@ export default function SideMenu({ teamId, dashboardList }: SideMenuProps) {
       {/* 로고 */}
       <div className="mb-14 px-3 sm:mb-9 sm:px-0">
         <Link
-          href={"/"}
+          href={"/mydashboard"}
           className="flex lg:justify-start md:justify-start sm:justify-center"
         >
           <Image
@@ -78,7 +85,7 @@ export default function SideMenu({ teamId, dashboardList }: SideMenuProps) {
             <span className="hidden md:block font-12sb text-[var(--color-black)]">
               Dash Boards
             </span>
-            <button className="ml-auto">
+            <button className="ml-auto" onClick={() => setIsModalOpen(true)}>
               <Image
                 src="/svgs/icon-add-box.svg"
                 width={20}
@@ -151,6 +158,17 @@ export default function SideMenu({ teamId, dashboardList }: SideMenuProps) {
           </div>
         )}
       </nav>
+
+      {/* 대시보드 생성 모달 */}
+      {isModalOpen && (
+        <NewDashboard
+          onClose={() => setIsModalOpen(false)}
+          onCreate={(newDashboard) => {
+            onCreateDashboard?.(newDashboard); // ✅ 부모에게 알림
+            setIsModalOpen(false);
+          }}
+        />
+      )}
     </aside>
   );
 }

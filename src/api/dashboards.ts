@@ -113,3 +113,19 @@ export const updateColumn = async ({
   });
   return res.data;
 };
+
+export const createDashboard = async ({
+  teamId,
+  title,
+  color,
+}: {
+  teamId: string;
+  title: string;
+  color: string;
+}) => {
+  const res = await axiosInstance.post(`/${teamId}/dashboards`, {
+    title,
+    color,
+  });
+  return res.data;
+};
