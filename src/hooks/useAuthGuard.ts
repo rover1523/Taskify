@@ -22,7 +22,6 @@ export const useAuthGuard = (redirectTo: string = "/login") => {
         } catch (error) {
           console.error("유저 복원 실패:", error);
           localStorage.removeItem("accessToken");
-          localStorage.removeItem("expiresAt");
           router.replace(redirectTo);
         }
       }
