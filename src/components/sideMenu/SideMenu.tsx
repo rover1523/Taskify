@@ -131,10 +131,8 @@ export default function SideMenu({
         </div>
       </div>
 
-      {/* 메뉴 전체 */}
       <nav className="flex flex-col flex-1 justify-between">
         <div>
-          {/* 대시보드 타이틀 */}
           {!isCollapsed && (
             <div className="mb-4 flex items-center justify-between px-3 md:px-2">
               <span className="hidden md:block font-12sb text-[var(--color-black)]">

@@ -1,4 +1,3 @@
-import moment from "moment";
 import Image from "next/image";
 import { ChangeEvent, useState, KeyboardEvent, useEffect } from "react";
 import DatePicker from "react-datepicker";
