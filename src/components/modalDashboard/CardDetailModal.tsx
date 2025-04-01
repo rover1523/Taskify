@@ -6,11 +6,11 @@ import CardInput from "@/components/modalInput/CardInput";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createComment } from "@/api/comment";
 import { deleteCard } from "@/api/card";
-import type { CardType } from "@/types/cards";
+import type { CardDetailType } from "@/types/cards";
 import TaskModal from "@/components/modalInput/TaskModal"; // 경로는 실제 위치에 맞게 조정하세요
 
 interface CardDetailModalProps {
-  card: CardType;
+  card: CardDetailType;
   currentUserId: number;
   dashboardId: number;
   onClose: () => void;
@@ -22,7 +22,7 @@ export default function CardDetailPage({
   dashboardId,
   onClose,
 }: CardDetailModalProps) {
-  const [cardData, setCardData] = useState<CardType>(card);
+  const [cardData, setCardData] = useState<CardDetailType>(card);
   const [commentText, setCommentText] = useState("");
   const [showMenu, setShowMenu] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
