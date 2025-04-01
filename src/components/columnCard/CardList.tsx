@@ -30,7 +30,6 @@ export default function CardList({
     if (isFetchingRef.current || !hasMore) return;
 
     isFetchingRef.current = true;
-    console.log("fetchMoreCards 호출됨, 현재 cursorId:", cursorId);
 
     try {
       const res = await getCardsByColumn({
@@ -39,7 +38,6 @@ export default function CardList({
         cursorId: cursorId ?? undefined, // 최신 cursorId 사용
       });
 
-      console.log("API 응답 데이터:", res);
       const newCards = res.cards as CardType[];
 
       if (newCards.length > 0) {
@@ -48,14 +46,12 @@ export default function CardList({
           const uniqueCards = newCards.filter(
             (card) => !existingIds.has(card.id)
           );
-          console.log("추가할 카드 목록:", uniqueCards);
           return [...prev, ...uniqueCards];
         });
 
         // cursorId 안전하게 업데이트
         setCursorId((prevCursorId) => {
           const newCursor = newCards[newCards.length - 1]?.id ?? prevCursorId;
-          console.log("새로운 cursorId 설정됨:", newCursor);
           return newCursor;
         });
       }
@@ -77,7 +73,6 @@ export default function CardList({
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting && hasMore) {
-          console.log("바닥 도달, 새로운 데이터 요청");
           fetchMoreCards();
         }
       },

@@ -88,9 +88,9 @@ export default function Column({
 
   const handleCardClick = async (cardId: number) => {
     try {
-      const detail = await getCardDetail(cardId); // ✅ API 호출
-      setSelectedCard(detail); // ✅ 모달에 넘길 데이터 저장
-      setIsCardDetailModalOpen(true); // ✅ 모달 열기
+      const detail = await getCardDetail(cardId);
+      setSelectedCard(detail);
+      setIsCardDetailModalOpen(true);
     } catch (e) {
       console.error("카드 상세 불러오기 실패:", e);
     }
@@ -173,7 +173,7 @@ export default function Column({
         onDelete={handleDeleteColumn}
       />
 
-      {/* ✅ 카드 상세 모달 */}
+      {/* 카드 상세 모달 */}
       {isCardDetailModalOpen && selectedCard && (
         <CardDetailModal
           card={selectedCard}
