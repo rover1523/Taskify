@@ -39,7 +39,7 @@ export default function CardDetailPage({
   });
 
   const { mutate: deleteCardMutate } = useMutation({
-    mutationFn: () => deleteCard(teamId, card.id),
+    mutationFn: () => deleteCard(card.id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["cards"] });
       onClose();
