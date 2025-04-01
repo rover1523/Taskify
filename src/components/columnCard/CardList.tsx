@@ -9,6 +9,7 @@ type CardListProps = {
   teamId: string;
   initialTasks: CardType[];
   onCardClick: (card: CardType) => void;
+  onCardCountChange?: (count: number) => void;
 };
 
 const ITEMS_PER_PAGE = 6;
