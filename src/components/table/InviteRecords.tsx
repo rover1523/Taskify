@@ -37,7 +37,6 @@ const InviteRecords = ({ dashboardId }: { dashboardId: string }) => {
             })
           );
           setInviteList(inviteData);
-          console.log("inviteData", inviteData);
         }
       } catch (error) {
         console.error("초대내역 불러오는데 오류 발생:", error);
