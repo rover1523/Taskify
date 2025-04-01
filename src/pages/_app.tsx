@@ -1,12 +1,13 @@
 import "@/styles/globals.css";
 import type { AppProps } from "next/app";
 import { NextPage } from "next";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import useUserStore from "@/store/useUserStore";
 import HeaderDefault from "@/components/gnb/HeaderDefault";
 import { getUserInfo } from "@/api/users";
 import { TEAM_ID } from "@/constants/team";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 type NextPageWithLayout = NextPage & {
   hideHeader?: boolean;
@@ -16,8 +17,11 @@ type AppPropsWithLayout = AppProps & {
   Component: NextPageWithLayout;
 };
 
+// 앱 최초 실행 시 로그인 여부 판단
 export default function App({ Component, pageProps }: AppPropsWithLayout) {
-  // 앱 최초 실행 시 로그인 여부 판단
+  // React Query Client 생성
+  const [queryClient] = useState(() => new QueryClient());
+
   useEffect(() => {
     const initializeUser = async () => {
       const token = localStorage.getItem("accessToken");
@@ -59,9 +63,9 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
   };
 
   return (
-    <>
+    <QueryClientProvider client={queryClient}>
       {renderHeader()}
       <Component {...pageProps} />
-    </>
+    </QueryClientProvider>
   );
 }
