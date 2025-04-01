@@ -111,7 +111,6 @@ export default function TaskModal({
 
           <ModalImage
             label="이미지"
-            teamId={""} // 부모에서 넘겨줘야 함
             columnId={0}
             defaultImageUrl={formData.image}
             onImageSelect={(url) => handleChange("image", url)}

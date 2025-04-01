@@ -4,7 +4,6 @@ import { useEffect } from "react";
 import { useRouter } from "next/router";
 import useUserStore from "@/store/useUserStore";
 import { getUserInfo } from "@/api/users";
-import { TEAM_ID } from "@/constants/team";
 
 export const useAuthGuard = (redirectTo: string = "/login") => {
   const { user, setUser, isInitialized } = useUserStore();
@@ -17,7 +16,7 @@ export const useAuthGuard = (redirectTo: string = "/login") => {
 
       if (token && !user) {
         try {
-          const data = await getUserInfo({ teamId: TEAM_ID });
+          const data = await getUserInfo();
           setUser(data);
         } catch (error) {
           console.error("유저 복원 실패:", error);

@@ -16,4 +16,5 @@ export interface CardDetailType {
   columnId: number;
   createdAt: string;
   updatedAt: string;
+  dashboardId: number;
 }

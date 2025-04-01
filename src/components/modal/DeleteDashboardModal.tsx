@@ -22,7 +22,7 @@ export default function DeleteDashboardModal({
     const dashboardIdNumber = Number(dashboardid);
     if (!dashboardid) return;
     try {
-      await axiosInstance.delete(apiRoutes.DashboardDetail(dashboardIdNumber));
+      await axiosInstance.delete(apiRoutes.dashboardDetail(dashboardIdNumber));
       router.push(`/mydashboard`);
     } catch (error) {
       alert("대시보드 삭제에 실패하였습니다 .");

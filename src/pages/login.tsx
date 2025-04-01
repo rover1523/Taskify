@@ -5,7 +5,7 @@ import { getUserInfo } from "@/api/users";
 import { postAuthData } from "@/api/auth";
 import Link from "next/link";
 import Input from "@/components/input/Input";
-import { TEAM_ID } from "@/constants/team";
+import { apiRoutes } from "@/api/apiRoutes";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -27,11 +27,13 @@ export default function LoginPage() {
     const { email, password } = values;
 
     try {
+      // 배포 테스트
+      console.log("로그인 요청 URL:", apiRoutes.login());
       const response = await postAuthData({ email, password });
       const token = response.accessToken;
       localStorage.setItem("accessToken", token);
       // 로그인 성공 시 사용자 정보 요청
-      const userData = await getUserInfo({ teamId: TEAM_ID });
+      const userData = await getUserInfo();
       // Zustand에 저장
       useUserStore.getState().setUser(userData);
 

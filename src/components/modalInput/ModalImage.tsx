@@ -5,7 +5,6 @@ import { uploadCardImage } from "@/api/card";
 
 interface ModalImageProps {
   label: string;
-  teamId: string;
   columnId: number;
   defaultImageUrl?: string;
   onImageSelect: (imageUrl: string) => void; // ✅ string만 넘김
@@ -13,7 +12,6 @@ interface ModalImageProps {
 
 export default function ModalImage({
   label,
-  teamId,
   columnId,
   defaultImageUrl,
   onImageSelect,
@@ -47,7 +45,6 @@ export default function ModalImage({
     // ✅ 업로드 후 URL 전달
     try {
       const imageUrl = await uploadCardImage({
-        teamId,
         columnId,
         imageFile: file,
       });
