@@ -130,12 +130,12 @@ export default function ChangePassword() {
           </div>
 
           <button
-            className={`mt-6 w-full sm:w-[620x] h-[54px] 
+            className={`mt-6 w-full h-[54px] 
           rounded-[8px] text-lg font-medium text-white
           ${
             isDisabled
               ? "bg-gray-300 cursor-not-allowed"
-              : "bg-[#5A3FFF] text-white cursor-pointer"
+              : "bg-[var(--primary)] text-white cursor-pointer"
           }`}
             onClick={() => handleChangePassword()}
             disabled={isDisabled || isSubmitting}

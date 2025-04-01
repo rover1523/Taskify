@@ -39,28 +39,32 @@ export default function MyPage() {
       <SideMenu teamId={TEAM_ID} dashboardList={dashboards} />
       <div className="flex flex-col flex-1 bg-[var(--color-gray5)]">
         <HeaderMyPage variant="mypage" />
-        <div className="flex flex-col justify-start overflow-auto w-full pl-10 mt-6">
+        <div className="flex flex-col justify-start overflow-auto w-full px-6 mt-6">
           {/*돌아가기 버튼*/}
           <div className="flex gap-[8px]">
             <Image
+              onClick={() => router.back()}
               src="/svgs/arrow-backward-black.svg"
               alt="돌아가기"
               width={20}
               height={20}
+              className="cursor-pointer"
             />
             <button
               onClick={() => router.back()}
-              className="flex justify-start cursor-pointer"
+              className="flex justify-start text-black3 cursor-pointer"
             >
               돌아가기
             </button>
           </div>
 
-          <div className="mt-8">
-            <ProfileCard />
-          </div>
-          <div className="mt-8 mb-20">
-            <ChangePassword />
+          <div className="flex flex-col items-center lg:items-start gap-6">
+            <div className="mt-8">
+              <ProfileCard />
+            </div>
+            <div className="mb-20">
+              <ChangePassword />
+            </div>
           </div>
         </div>
       </div>

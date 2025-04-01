@@ -97,13 +97,13 @@ export default function ProfileCard() {
         </div>
 
         {/* 입력 폼 */}
-        <div className="flex flex-col sm:ml-[-15px] w-full sm:mt-0 mt-5 sm:w-[400px]">
+        <div className="flex flex-col sm:ml-[-15px] w-full sm:mt-0 mt-5 sm:w-[400px] gap-4">
           <Input
             type="email"
             name="email"
             label="이메일"
-            labelClassName="font-16r"
-            value={email}
+            placeholder={email}
+            labelClassName="text-black3 text-[14px] sm:text-base"
             readOnly
           />
 
@@ -111,10 +111,11 @@ export default function ProfileCard() {
             type="text"
             name="nickname"
             label="닉네임"
-            labelClassName="font-16r"
+            labelClassName="text-black3 text-[14px] sm:text-base"
             value={nickname}
             placeholder="닉네임을 입력하세요"
             onChange={(value: string) => setNickname(value)}
+            className="text-black4"
           />
           <MypageModal
             isOpen={showSuccessModal}
@@ -128,7 +129,7 @@ export default function ProfileCard() {
           />
 
           <button
-            className="cursor-pointer w-full sm:w-[400px] h-[54px] bg-[#5A3FFF] text-white rounded-[8px] text-lg font-medium mt-3"
+            className="cursor-pointer w-full sm:w-[400px] h-[54px] bg-[var(--primary)] text-white rounded-[8px] text-lg font-medium mt-3"
             onClick={handleSave}
           >
             저장
