@@ -7,8 +7,8 @@ import ModalImage from "@/components/modalInput/ModalImage";
 import TextButton from "@/components/modalInput/TextButton";
 
 interface TaskModalProps {
-  onClose: () => void;
   isOpen: boolean;
+  onClose: () => void;
   teamId: string;
   dashboardId: number;
   columnId: number;

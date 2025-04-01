@@ -1,45 +1,37 @@
-// import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import HeaderMyPage from "@/components/gnb/HeaderDashboard";
 import SideMenu from "@/components/sideMenu/SideMenu";
 import ProfileCard from "@/components/card/Profile";
 import ChangePassword from "@/components/card/ChangePassword";
+import { Dashboard, getDashboards } from "@/api/dashboards";
+import { useAuthGuard } from "@/hooks/useAuthGuard";
 import { TEAM_ID } from "@/constants/team";
-// import { getDashboards } from "@/api/dashboards";
 
 export default function MyPage() {
-  // const teamId = "13-4";
-  //const [dashboardList, setDashboardList] = useState<Dashboard[]>([]);
+  const { user, isInitialized } = useAuthGuard();
+  const [dashboards, setDashboards] = useState<Dashboard[]>([]);
 
-  /*interface Dashboard {
-    id: number;
-    title: string;
-    color: string;
-    userId: number;
-    createdAt: string;
-    updatedAt: string;
-    createdByMe: boolean;
-  }*/
+  const fetchDashboards = async () => {
+    try {
+      const res = await getDashboards({});
+      setDashboards(res.dashboards); // 👉 정상 저장
+    } catch (error) {
+      console.error("대시보드 불러오기 실패:", error);
+    }
+  };
 
-  /* SideMenu 값 불러오기 */
-  // const fetchDashboards = async () => {
-  //   try {
-  //     const res = await getDashboards({ teamId });
-  //     setDashboardList(res.dashboards);
-  //   } catch (error) {
-  //     console.error("대시보드 불러오기 실패:", error);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   fetchDashboards();
-  // }, [teamId]);
+  useEffect(() => {
+    if (isInitialized && user) {
+      fetchDashboards();
+    }
+  }, [isInitialized, user]);
 
   return (
     <div className="flex">
-      <SideMenu teamId={TEAM_ID} dashboardList={[]} />
+      <SideMenu teamId={TEAM_ID} dashboardList={dashboards} />
       <div className="flex flex-col w-full">
         <HeaderMyPage variant="mypage" />
-        <div className="flex flex-col items-center w-full mt-10">
+        <div className="flex flex-col justify-start w-full mt-10">
           <ProfileCard />
           <ChangePassword />
         </div>

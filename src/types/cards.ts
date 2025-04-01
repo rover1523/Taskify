@@ -4,7 +4,7 @@ export interface Assignee {
   id: number;
 }
 
-export interface CardType {
+export interface CardDetailType {
   status: string;
   id: number;
   title: string;
@@ -16,4 +16,5 @@ export interface CardType {
   columnId: number;
   createdAt: string;
   updatedAt: string;
+  dashboardId: number;
 }
