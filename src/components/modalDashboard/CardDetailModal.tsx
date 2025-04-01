@@ -12,7 +12,6 @@ import TaskModal from "@/components/modalInput/TaskModal"; // 경로는 실제 �
 interface CardDetailModalProps {
   card: CardType;
   currentUserId: number;
-  teamId: string;
   dashboardId: number;
   onClose: () => void;
 }
@@ -20,7 +19,6 @@ interface CardDetailModalProps {
 export default function CardDetailPage({
   card,
   currentUserId,
-  teamId,
   dashboardId,
   onClose,
 }: CardDetailModalProps) {
@@ -39,7 +37,7 @@ export default function CardDetailPage({
   });
 
   const { mutate: deleteCardMutate } = useMutation({
-    mutationFn: () => deleteCard(teamId, card.id),
+    mutationFn: () => deleteCard(card.id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["cards"] });
       onClose();

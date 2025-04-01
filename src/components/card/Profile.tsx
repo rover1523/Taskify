@@ -1,11 +1,7 @@
 import { useState, useEffect } from "react";
 import Input from "../input/Input";
 import Image from "next/image";
-import {
-  getUserMe,
-  updateProfile,
-  uploadProfileImage,
-} from "@/api/userprofile";
+import { getUserInfo, updateProfile, uploadProfileImage } from "@/api/users";
 import MypageModal from "../modal/MypageModal";
 
 export default function ProfileCard() {
@@ -18,7 +14,7 @@ export default function ProfileCard() {
 
   const fetchUserData = async () => {
     try {
-      const data = await getUserMe();
+      const data = await getUserInfo();
       setImage(data.profileImageUrl);
       setNickname(data.nickname);
       setEmail(data.email);

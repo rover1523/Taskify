@@ -21,7 +21,7 @@ const InviteRecords = ({ dashboardId }: { dashboardId: string }) => {
       try {
         const dashboardIdNumber = Number(dashboardId);
         const res = await axiosInstance.get(
-          apiRoutes.DashboardInvite(dashboardIdNumber),
+          apiRoutes.dashboardInvite(dashboardIdNumber),
           {
             params: {
               dashboardId,
@@ -54,7 +54,7 @@ const InviteRecords = ({ dashboardId }: { dashboardId: string }) => {
     if (!dashboardId) return;
     try {
       await axiosInstance.delete(
-        apiRoutes.DashboardInviteDelete(dashboardIdNumber, id)
+        apiRoutes.dashboardInviteDelete(dashboardIdNumber, id)
       );
       window.location.reload();
     } catch (error) {

@@ -29,7 +29,6 @@ interface TaskData {
 
 export default function TaskModal({
   onClose,
-  teamId,
   dashboardId,
   columnId,
   members,
@@ -69,7 +68,6 @@ export default function TaskModal({
       }
 
       await createCard({
-        teamId,
         assigneeUserId,
         dashboardId,
         columnId,
@@ -127,7 +125,6 @@ export default function TaskModal({
 
           <ModalImage
             label="이미지"
-            teamId={teamId}
             columnId={columnId}
             onImageSelect={(url) => handleChange("image", url)}
           />

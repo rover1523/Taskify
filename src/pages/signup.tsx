@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
 import { signUp } from "@/api/users";
-import { TEAM_ID } from "@/constants/team";
 import Input from "@/components/input/Input";
 import Link from "next/link";
 import { Modal } from "@/components/modal/Modal";
@@ -16,7 +15,6 @@ export default function SignUpPage() {
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
 
   const router = useRouter();
-  const teamId = TEAM_ID;
 
   const isFormValid =
     email.trim() !== "" &&
@@ -37,7 +35,6 @@ export default function SignUpPage() {
     if (!isFormValid) return;
     try {
       await signUp({
-        teamId,
         payload: {
           email,
           nickname: nickName,
