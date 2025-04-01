@@ -1,16 +1,16 @@
 // Column.tsx
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import { CardType } from "@/types/task";
-import Card from "./Card";
 import TodoModal from "@/components/modalInput/ToDoModal";
 import TodoButton from "@/components/button/TodoButton";
 import ColumnManageModal from "@/components/columnCard/ColumnManageModal";
 import ColumnDeleteModal from "@/components/columnCard/ColumnDeleteModal";
 import CardDetailModal from "../modalDashboard/CardDetailModal";
-import { updateColumn, deleteColumn, getCardsByColumn } from "@/api/dashboards";
+import { updateColumn, deleteColumn } from "@/api/dashboards";
 import { getDashboardMembers } from "@/api/card";
 import { MemberType } from "@/types/users";
+import CardList from "./CardList";
 
 type ColumnProps = {
   columnId: number;
@@ -35,64 +35,6 @@ export default function Column({
   const [members, setMembers] = useState<
     { id: number; userId: number; nickname: string }[]
   >([]);
-  // 무한스크롤 관련 상태
-  const [cards, setCards] = useState<CardType[]>(tasks || []);
-  const [cursorId, setCursorId] = useState<number | null>(null);
-  const [hasMore, setHasMore] = useState(true);
-  const [isIntersecting, setIsIntersecting] = useState(false);
-  const endRef = useRef<HTMLDivElement | null>(null); // observer 대상
-
-  // ✅ 초기 cursorId 설정
-  useEffect(() => {
-    if (tasks.length > 0) {
-      setCursorId(tasks[tasks.length - 1].id);
-    }
-  }, [tasks]);
-
-  // ✅ IntersectionObserver 설정
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        setIsIntersecting(entry.isIntersecting);
-      },
-      { threshold: 0.5, rootMargin: "300px" }
-    );
-
-    if (endRef.current) observer.observe(endRef.current);
-    return () => {
-      if (endRef.current) observer.unobserve(endRef.current);
-    };
-  }, []);
-
-  // ✅ 스크롤 감지되면 카드 더 불러오기
-  useEffect(() => {
-    if (isIntersecting && hasMore) {
-      fetchMoreCards();
-    }
-  }, [isIntersecting]);
-
-  // ✅ 카드 추가 불러오기
-  const fetchMoreCards = async () => {
-    try {
-      const res = await getCardsByColumn({
-        teamId,
-        columnId,
-        cursorId,
-        size: 5,
-      });
-
-      if (res.cards.length > 0) {
-        setCards((prev) => [...prev, ...res.cards]);
-        setCursorId(res.cards[res.cards.length - 1].id);
-      }
-
-      if (res.cards.length < 5 || res.cursorId === null) {
-        setHasMore(false);
-      }
-    } catch (error) {
-      console.error("❌ 카드 추가 로딩 실패:", error);
-    }
-  };
 
   // ✅ 멤버 불러오기
   useEffect(() => {
@@ -183,23 +125,18 @@ export default function Column({
       </div>
 
       {/* 카드 영역 */}
-      <div className="flex-1 pb-4 flex flex-col items-center gap-3 ">
+      <div className="flex-1 pb-4 flex flex-col items-center gap-3">
         <div onClick={() => setIsTodoModalOpen(true)} className="mb-2">
           <TodoButton />
         </div>
 
-        {/* 카드 렌더링 */}
-        <div className="w-full flex flex-wrap justify-center gap-3">
-          {cards.map((task) => (
-            <Card
-              key={task.id}
-              {...task}
-              imageUrl={task.imageUrl}
-              assignee={task.assignee}
-              onClick={() => handleCardClick(task)}
-            />
-          ))}
-        </div>
+        {/* 카드 리스트 무한스크롤 */}
+        <CardList
+          columnId={columnId}
+          teamId={teamId}
+          initialTasks={tasks}
+          onCardClick={handleCardClick}
+        />
       </div>
 
       {/* Todo 모달 */}

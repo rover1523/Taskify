@@ -1,5 +1,5 @@
 import axiosInstance from "./axiosInstance";
-import type { CardType } from "@/types/cards"; // Dashboard 타입 import
+import type { CardType } from "@/types/task"; // Dashboard 타입 import
 import { apiRoutes } from "@/api/apiRoutes";
 
 /** 1. 카드 이미지 업로드 */
@@ -16,7 +16,7 @@ export const uploadCardImage = async ({
   formData.append("image", imageFile);
 
   const response = await axiosInstance.post(
-    `/${teamId}/columns/${columnId}/card-image`,
+    `${teamId}/columns/${columnId}/card-image`,
     formData,
     {
       headers: {

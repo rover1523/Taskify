@@ -4,7 +4,7 @@ export interface Assignee {
   id: number;
 }
 
-export interface CardType {
+export interface CardDetailType {
   status: string;
   id: number;
   title: string;
