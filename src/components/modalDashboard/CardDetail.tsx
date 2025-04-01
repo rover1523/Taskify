@@ -7,7 +7,7 @@ interface CardDetailProps {
   columnName: string;
 }
 
-export default function CardDetail({ card, columnName }: CardDetailProps) {
+export default function CardDetail({ card }: CardDetailProps) {
   return (
     <div className="p-4 ">
       <h2 className="text-xl font-bold mb-2">{card.title}</h2>
@@ -46,8 +46,11 @@ export default function CardDetail({ card, columnName }: CardDetailProps) {
         </div>
       </div>
       <div className="flex flex-wrap gap-2 mb-4">
-        <span className="rounded-full bg-violet-200 px-3 py-1 text-sm text-violet-800">
-          #{columnName}
+        <span
+          className="rounded-full bg-violet-200 px-3 py-1 text-sm text-violet-800"
+          title={`상태: ${card.status}`}
+        >
+          {card.status}
         </span>
         {card.tags.map((tag, idx) => (
           <span
@@ -68,7 +71,6 @@ export default function CardDetail({ card, columnName }: CardDetailProps) {
           wordBreak: "break-word", // 긴 단어도 줄바꿈
         }}
       >
-        ASDDKAHLklhaslhSZHlfhawsoluiehfoshfolshfhfhoalwshfwehofhweofhawoefhahsdfo;hsdfo;h
         {card.description}
       </p>
       {card.imageUrl && (

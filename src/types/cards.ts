@@ -5,6 +5,7 @@ export interface Assignee {
 }
 
 export interface CardType {
+  status: string;
   id: number;
   title: string;
   description: string;
