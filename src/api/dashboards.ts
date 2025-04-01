@@ -1,131 +1,68 @@
-import { ColumnType } from "@/types/task";
 import axiosInstance from "./axiosInstance";
+import { apiRoutes } from "./apiRoutes";
 
-export const getCardsByColumn = async ({
-  teamId,
-  columnId,
-  cursorId,
-  size = 10,
+export interface Dashboard {
+  id: number;
+  title: string;
+  color: string;
+  userId: number;
+  createdAt: string;
+  updatedAt: string;
+  createdByMe: boolean;
+}
+
+// 대시보드 생성 (POST)
+export const createDashboard = async ({
+  title,
+  color,
 }: {
-  teamId: string;
-  columnId: number;
-  cursorId?: number;
-  size?: number;
+  title: string;
+  color: string;
 }) => {
-  const res = await axiosInstance.get(`/${teamId}/cards`, {
-    params: {
-      columnId,
-      cursorId,
-      size,
-    },
+  const res = await axiosInstance.post(apiRoutes.dashboards(), {
+    title,
+    color,
   });
-
   return res.data;
 };
 
-export const getColumns = async ({
-  teamId,
-  dashboardId,
-}: {
-  teamId: string;
-  dashboardId: number;
-}) => {
-  const res = await axiosInstance.get(`/${teamId}/columns`, {
-    params: {
-      dashboardId,
-    },
-  });
-
-  return res.data;
-};
-
+// 대시보드 목록 조회 (GET)
 export const getDashboards = async ({
-  teamId,
   navigationMethod = "pagination",
   page = 1,
-  size = 100,
+  size = 10,
 }: {
-  teamId: string;
   navigationMethod?: "pagination";
   page?: number;
   size?: number;
-}) => {
-  const res = await axiosInstance.get(`/${teamId}/dashboards`, {
+}): Promise<{
+  dashboards: Dashboard[];
+  totalCount: number;
+  cursorId: string | null;
+}> => {
+  const res = await axiosInstance.get(apiRoutes.dashboards(), {
     params: { navigationMethod, page, size },
   });
 
   return res.data;
 };
 
+// 대시보드 상세 조회 (GET)
 export const getDashboardById = async ({
-  teamId,
   dashboardId,
 }: {
-  teamId: string;
   dashboardId: number;
 }) => {
-  const res = await axiosInstance.get(`/${teamId}/dashboards/${dashboardId}`);
+  const res = await axiosInstance.get(apiRoutes.dashboardDetail(dashboardId));
   return res.data;
 };
 
-// 칼럼 생성
-export const createColumn = async ({
-  teamId,
-  title,
-  dashboardId,
-}: {
-  teamId: string;
-  title: string;
-  dashboardId: number;
-}): Promise<ColumnType> => {
-  const res = await axiosInstance.post(`/${teamId}/columns`, {
-    title,
-    dashboardId,
-  });
+// 대시보드 수정 (PUT)
 
-  return res.data;
-};
+// 대시보드 삭제 (DELETE)
 
-// 칼럼 삭제
-export const deleteColumn = async ({
-  teamId,
-  columnId,
-}: {
-  teamId: string;
-  columnId: number;
-}) => {
-  const res = await axiosInstance.delete(`/${teamId}/columns/${columnId}`);
-  return res;
-};
+// 대시보드 초대하기 (POST)
 
-// 칼럼 수정
-export const updateColumn = async ({
-  teamId,
-  columnId,
-  title,
-}: {
-  teamId: string;
-  columnId: number;
-  title: string;
-}) => {
-  const res = await axiosInstance.put(`/${teamId}/columns/${columnId}`, {
-    title,
-  });
-  return res.data;
-};
+// 대시보드 초대 불러오기 (GET)
 
-export const createDashboard = async ({
-  teamId,
-  title,
-  color,
-}: {
-  teamId: string;
-  title: string;
-  color: string;
-}) => {
-  const res = await axiosInstance.post(`/${teamId}/dashboards`, {
-    title,
-    color,
-  });
-  return res.data;
-};
+// 대시보드 초대 취소 (DELETE)

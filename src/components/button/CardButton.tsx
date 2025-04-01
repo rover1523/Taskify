@@ -3,8 +3,7 @@ import { useRouter } from "next/router";
 import clsx from "clsx";
 import Image from "next/image";
 
-interface CardButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+interface CardButtonProps extends React.ButtonHTMLAttributes<HTMLDivElement> {
   fullWidth?: boolean;
   title?: string;
   showCrown?: boolean;
@@ -31,7 +30,7 @@ const CardButton: React.FC<CardButtonProps> = ({
 }) => {
   const router = useRouter();
 
-  const handleCardClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleCardClick = (e: React.MouseEvent<HTMLDivElement>) => {
     // 관리 상태에서 카드 클릭 이벤트 차단
     if (isEditMode) {
       e.preventDefault();
@@ -58,7 +57,7 @@ const CardButton: React.FC<CardButtonProps> = ({
   };
 
   return (
-    <button
+    <div
       {...props}
       onClick={handleCardClick}
       className={clsx(
@@ -84,7 +83,9 @@ const CardButton: React.FC<CardButtonProps> = ({
         </svg>
 
         {/* 제목 */}
-        <span className="font-16sb truncate">{title}</span>
+        <span className="font-16sb truncate max-w-[90px] sm:max-w-[100px] md:max-w-[120px] lg:max-w-[160px]">
+          {title}
+        </span>
 
         {/* 왕관 */}
         {showCrown && (
@@ -93,7 +94,7 @@ const CardButton: React.FC<CardButtonProps> = ({
             alt="crown Icon"
             width={20}
             height={20}
-            className="w-[20px] h-[20px]"
+            className="hidden sm:block w-[20px] h-[20px]"
           />
         )}
       </div>
@@ -125,7 +126,7 @@ const CardButton: React.FC<CardButtonProps> = ({
           className="ml-2"
         />
       )}
-    </button>
+    </div>
   );
 };
 

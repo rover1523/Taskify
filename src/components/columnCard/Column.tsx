@@ -1,4 +1,3 @@
-// Column.tsx
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { CardType } from "@/types/task";
@@ -8,16 +7,16 @@ import TodoModal from "@/components/modalInput/ToDoModal";
 import TodoButton from "@/components/button/TodoButton";
 import ColumnManageModal from "@/components/columnCard/ColumnManageModal";
 import ColumnDeleteModal from "@/components/columnCard/ColumnDeleteModal";
-import { updateColumn, deleteColumn } from "@/api/dashboards";
+import { updateColumn, deleteColumn } from "@/api/columns";
 import { getDashboardMembers } from "@/api/card";
 import { MemberType } from "@/types/users";
 import CardDetailModal from "../modalDashboard/CardDetailModal";
+import { TEAM_ID } from "@/constants/team";
 
 type ColumnProps = {
   columnId: number;
   title?: string;
   tasks?: CardType[];
-  teamId: string;
   dashboardId: number;
 };
 
@@ -25,7 +24,6 @@ export default function Column({
   columnId,
   title = "new Task",
   tasks = [],
-  teamId,
   dashboardId,
 }: ColumnProps) {
   const [columnTitle, setColumnTitle] = useState(title);
@@ -45,7 +43,6 @@ export default function Column({
     const fetchMembers = async () => {
       try {
         const result = await getDashboardMembers({
-          teamId,
           dashboardId,
         });
 
@@ -62,7 +59,7 @@ export default function Column({
     };
 
     fetchMembers();
-  }, [teamId, dashboardId]);
+  }, [dashboardId]);
 
   const handleEditColumn = async (newTitle: string) => {
     if (!newTitle.trim()) {
@@ -71,7 +68,7 @@ export default function Column({
     }
 
     try {
-      const updated = await updateColumn({ teamId, columnId, title: newTitle });
+      const updated = await updateColumn({ columnId, title: newTitle });
       setColumnTitle(updated.title);
       setIsColumnModalOpen(false);
       alert("칼럼 이름이 변경되었습니다.");
@@ -83,7 +80,7 @@ export default function Column({
 
   const handleDeleteColumn = async () => {
     try {
-      await deleteColumn({ teamId, columnId });
+      await deleteColumn({ columnId });
       setIsDeleteModalOpen(false);
       alert("칼럼이 삭제되었습니다.");
     } catch (error) {
@@ -173,7 +170,7 @@ export default function Column({
         <TodoModal
           isOpen={isTodoModalOpen}
           onClose={() => setIsTodoModalOpen(false)}
-          teamId={teamId}
+          teamId={TEAM_ID}
           dashboardId={dashboardId}
           columnId={columnId}
           members={members}
@@ -203,7 +200,6 @@ export default function Column({
           card={selectedCard}
           onClose={handleCloseDetailModal}
           currentUserId={selectedCard.assignee.id}
-          teamId={teamId}
           dashboardId={dashboardId}
         />
       )}

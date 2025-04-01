@@ -9,6 +9,7 @@ import TextButton from "@/components/modalInput/TextButton";
 interface TaskModalProps {
   isOpen: boolean;
   onClose: () => void;
+  isOpen: boolean;
   teamId: string;
   dashboardId: number;
   columnId: number;
@@ -18,7 +19,6 @@ interface TaskModalProps {
     nickname: string;
   }[];
 }
-
 interface TaskData {
   assignee: string; // nickname
   title: string;
@@ -70,7 +70,6 @@ export default function TaskModal({
       }
 
       await createCard({
-        teamId,
         assigneeUserId,
         dashboardId,
         columnId,
@@ -128,7 +127,6 @@ export default function TaskModal({
 
           <ModalImage
             label="이미지"
-            teamId={teamId}
             columnId={columnId}
             onImageSelect={(url) => handleChange("image", url)}
           />

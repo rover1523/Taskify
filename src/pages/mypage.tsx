@@ -3,17 +3,17 @@ import HeaderMyPage from "@/components/gnb/HeaderDashboard";
 import SideMenu from "@/components/sideMenu/SideMenu";
 import ProfileCard from "@/components/card/Profile";
 import ChangePassword from "@/components/card/ChangePassword";
-import { getDashboards } from "@/api/dashboards";
+import { Dashboard, getDashboards } from "@/api/dashboards";
 import { useAuthGuard } from "@/hooks/useAuthGuard";
+import { TEAM_ID } from "@/constants/team";
 
 export default function MyPage() {
-  const teamId = "13-4";
   const { user, isInitialized } = useAuthGuard();
-  const [dashboards, setDashboards] = useState([]);
+  const [dashboards, setDashboards] = useState<Dashboard[]>([]);
 
   const fetchDashboards = async () => {
     try {
-      const res = await getDashboards({ teamId });
+      const res = await getDashboards({});
       setDashboards(res.dashboards); // 👉 정상 저장
     } catch (error) {
       console.error("대시보드 불러오기 실패:", error);
@@ -28,7 +28,7 @@ export default function MyPage() {
 
   return (
     <div className="flex">
-      <SideMenu teamId={teamId} dashboardList={dashboards} />
+      <SideMenu teamId={TEAM_ID} dashboardList={dashboards} />
       <div className="flex flex-col w-full">
         <HeaderMyPage variant="mypage" />
         <div className="flex flex-col justify-start w-full mt-10">

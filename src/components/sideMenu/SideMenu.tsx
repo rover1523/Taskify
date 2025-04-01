@@ -57,15 +57,9 @@ export default function SideMenu({
           : "w-[67px] sm:w-[67px] md:w-[160px] lg:w-[300px]"
       )}
     >
-      {/* 로고 + 접기버튼 */}
-      <div className="mb-14 px-3 sm:mb-9 sm:px-0 relative">
-        <Link
-          href="/mydashboard"
-          className={clsx(
-            "flex",
-            isCollapsed ? "justify-center" : "justify-start"
-          )}
-        >
+      {/* 로고 영역 */}
+      <div className="flex flex-col items-center md:items-start mb-8 px-1">
+        <Link href="/mydashboard" className="mb-2">
           <Image
             src="/svgs/logo_taskify.svg"
             alt="Taskify Large Logo"
@@ -86,16 +80,17 @@ export default function SideMenu({
           />
         </Link>
 
-        {/* 접기/펼치기 버튼 (✅ md 이상에서만 보이게 수정) */}
+        {/* 접기/펼치기 버튼 */}
         <div
           className={clsx(
-            "md:flex hidden",
-            isCollapsed ? "mt-3 justify-center" : "absolute right-0 top-0"
+            "md:flex",
+            isCollapsed ? "justify-center" : "justify-end",
+            "w-full"
           )}
         >
           <button
             onClick={() => setIsCollapsed(!isCollapsed)}
-            className="w-6 h-6 bg-gray-100 hover:bg-gray-200 border rounded flex items-center justify-center"
+            className="w-6 h-6 hover:bg-gray-200 rounded flex items-center justify-center ml-0 border-none"
             title={isCollapsed ? "펼치기" : "접기"}
           >
             {isCollapsed ? (
@@ -133,12 +128,28 @@ export default function SideMenu({
 
       <nav className="flex flex-col flex-1 justify-between">
         <div>
+          {/* 대시보드 타이틀 + 추가 버튼 */}
           {!isCollapsed && (
             <div className="mb-4 flex items-center justify-between px-3 md:px-2">
               <span className="hidden md:block font-12sb text-[var(--color-black)]">
                 Dash Boards
               </span>
               <button className="ml-auto" onClick={() => setIsModalOpen(true)}>
+                <Image
+                  src="/svgs/icon-add-box.svg"
+                  width={20}
+                  height={20}
+                  alt="추가 아이콘"
+                  unoptimized
+                />
+              </button>
+            </div>
+          )}
+
+          {/* ✅ 접힌 상태에서 아이콘만 있는 추가 버튼 로고 아래로 */}
+          {isCollapsed && (
+            <div className="flex justify-center mb-4">
+              <button onClick={() => setIsModalOpen(true)}>
                 <Image
                   src="/svgs/icon-add-box.svg"
                   width={20}
@@ -220,6 +231,8 @@ export default function SideMenu({
             />
           </div>
         )}
+
+        {/* 모달 */}
         {isModalOpen && (
           <NewDashboard
             onClose={() => setIsModalOpen(false)}
