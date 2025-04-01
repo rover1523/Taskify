@@ -1,18 +1,17 @@
 "use client";
 import "react-toastify/dist/ReactToastify.css";
-import { ToastContainer, ToastContainerProps } from "react-toastify";
+import { ToastContainer, Slide } from "react-toastify";
 
-const CustomToastContainer = (props: ToastContainerProps) => {
+const CustomToastContainer = () => {
   return (
     <ToastContainer
       position="top-center"
-      autoClose={2500}
-      closeOnClick
-      pauseOnHover={false}
-      hideProgressBar={true}
       closeButton={false}
+      hideProgressBar={true}
+      autoClose={2500}
+      pauseOnHover={false}
       newestOnTop
-      toastClassName="custom-toast"
+      transition={Slide}
     />
   );
 };

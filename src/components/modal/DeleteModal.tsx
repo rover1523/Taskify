@@ -2,7 +2,6 @@ import React from "react";
 import { Modal } from "@/components/modal/Modal";
 import { CustomBtn } from "../button/CustomButton";
 import { toast } from "react-toastify";
-import CustomToastContainer from "@/components/common/CustomToastContainer";
 
 interface DeleteModalProps {
   isDeleteModalOpen: boolean;
@@ -27,7 +26,6 @@ export const DeleteModal: React.FC<DeleteModalProps> = ({
 }) => {
   return (
     <>
-      <CustomToastContainer />
       <Modal
         width="w-[260px]"
         height="h-[150px]"

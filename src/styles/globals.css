@@ -21,24 +21,21 @@
   width: 250px !important;
   border-radius: 12px;
   padding: 14px 18px;
-  background-color: #f3f0ff;
-  color: #5534da;
   font-size: 14px;
   font-weight: 500;
 }
 
-.Tostify__toast--success {
+.Toastify__toast--success {
   border-radius: 12px;
   padding: 14px 18px;
-  background-color: #f3f0ff;
-  color: #5534da;
+  background-color: #f3f0ff !important;
+  color: #5534da !important;
   font-size: 14px;
   font-weight: 500;
   box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
-  opacity: 1;
 }
 
-.Tostify__toast--error {
+.Toastify__toast--error {
   border-radius: 12px;
   padding: 14px 18px;
   background-color: #f3f0ff;
@@ -46,7 +43,6 @@
   font-size: 14px;
   font-weight: 500;
   box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
-  opacity: 1;
 }
 
 @layer base {
