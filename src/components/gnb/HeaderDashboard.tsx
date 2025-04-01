@@ -118,7 +118,16 @@ const HeaderDashboard: React.FC<HeaderDashboardProps> = ({
   })();
 
   return (
-    <header className="w-full h-[60px] md:h-[70px] flex items-center justify-center bg-white border-b-[1px] border-b-[var(--color-gray3)]">
+    <header
+      className={clsx(
+        "flex items-center justify-center",
+        "w-full h-[60px] md:h-[70px]",
+        "bg-white",
+        variant !== "mypage"
+          ? "border-b-[1px] border-b-[var(--color-gray3)]"
+          : ""
+      )}
+    >
       <div className="w-full flex items-center justify-between pl-[4vw]">
         {errorMessage && (
           <p className="text-sm text-[var(--color-red)] px-4 py-2">
@@ -131,7 +140,9 @@ const HeaderDashboard: React.FC<HeaderDashboardProps> = ({
           <p
             className={clsx(
               "font-20b text-black3 whitespace-nowrap",
-              variant !== "mydashboard" ? "hidden lg:block" : ""
+              variant !== "mydashboard" && variant !== "mypage"
+                ? "hidden lg:block"
+                : ""
             )}
           >
             {title}
