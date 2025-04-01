@@ -115,7 +115,7 @@ export default function Dashboard() {
             />
           ))}
           {/* ColumnsButton: 모바일/태블릿에서는 하단 고정, 데스크탑에서는 원래 위치 */}
-          <div className={`p-4 hidden lg:block`}>
+          <div className={`p-11 hidden lg:block bg-gray-50`}>
             <ColumnsButton onClick={openModal} />
           </div>
 

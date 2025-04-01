@@ -101,7 +101,7 @@ export default function Column({
       className={`
       flex flex-col border-r border-gray-200 bg-gray-50 rounded-md p-4
       h-auto sm:m-h-screen
-      max-h-[401px] sm:max-h-none w-full lg:max-w-[354px]
+      max-h-[401px] sm:max-h-none w-full lg:w-[360px]
     `}
     >
       {/* 칼럼 헤더 */}
