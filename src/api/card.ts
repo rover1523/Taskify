@@ -114,7 +114,28 @@ export const updateCard = async ({
   return response.data;
 };
 
-//카드조회
+// 카드 목록 조회
+export const getCardsByColumn = async ({
+  columnId,
+  cursorId,
+  size = 10,
+}: {
+  columnId: number;
+  cursorId?: number;
+  size?: number;
+}) => {
+  const res = await axiosInstance.get(apiRoutes.cards(), {
+    params: {
+      columnId,
+      cursorId,
+      size,
+    },
+  });
+
+  return res.data;
+};
+
+// 카드 상세 조회
 export async function getCardDetail(cardId: number): Promise<CardDetailType> {
   try {
     // apiRoutes를 사용하여 URL 동적 생성
