@@ -14,7 +14,7 @@ export const postAuthData = async ({
   password: string;
 }) => {
   const response = await axiosInstance.post<AuthResponse>(
-    `${TEAM_ID}/auth/login`,
+    `/${TEAM_ID}/auth/login`,
     {
       email,
       password,
