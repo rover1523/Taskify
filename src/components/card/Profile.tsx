@@ -64,9 +64,11 @@ export default function ProfileCard() {
   }, []);
 
   return (
-    <div className="sm:w-[672px] sm:h-[366px] w-[284px] h-[496px] bg-white rounded-[16px] shadow-md p-[24px] flex flex-col">
+    <div className="sm:w-[672px] sm:h-[366px] w-[284px] h-[496px] bg-white rounded-[16px] p-[24px] flex flex-col">
       {/* 프로필 제목 */}
-      <h2 className="text-[18px] sm:text-[24px] font-bold mb-4">프로필</h2>
+      <h2 className="text-black3 text-[18px] sm:text-[24px] font-bold mb-4">
+        프로필
+      </h2>
       {/* 프로필 이미지 및 입력 폼 영역 */}
       <div className="flex flex-col sm:flex-row items-center sm:items-start">
         {/* 프로필 이미지 업로드 영역 */}

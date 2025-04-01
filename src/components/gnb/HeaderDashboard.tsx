@@ -123,9 +123,7 @@ const HeaderDashboard: React.FC<HeaderDashboardProps> = ({
         "flex items-center justify-center",
         "w-full h-[60px] md:h-[70px]",
         "bg-white",
-        variant !== "mypage"
-          ? "border-b-[1px] border-b-[var(--color-gray3)]"
-          : ""
+        "border-b-[1px] border-b-[var(--color-gray3)]"
       )}
     >
       <div className="w-full flex items-center justify-between pl-[4vw]">

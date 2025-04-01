@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
+import { useRouter } from "next/router";
 import { useAuthGuard } from "@/hooks/useAuthGuard";
+import Image from "next/image";
 import HeaderMyPage from "@/components/gnb/HeaderDashboard";
 import SideMenu from "@/components/sideMenu/SideMenu";
 import ProfileCard from "@/components/card/Profile";
@@ -10,6 +12,7 @@ import LoadingSpinner from "@/components/common/LoadingSpinner";
 
 export default function MyPage() {
   const { user, isInitialized } = useAuthGuard();
+  const router = useRouter();
   const [dashboards, setDashboards] = useState<Dashboard[]>([]);
 
   const fetchDashboards = async () => {
@@ -32,13 +35,33 @@ export default function MyPage() {
   }
 
   return (
-    <div className="flex">
+    <div className="flex h-screen overflow-hidden">
       <SideMenu teamId={TEAM_ID} dashboardList={dashboards} />
-      <div className="flex flex-col w-full bg-[var(--color-gray5)]">
+      <div className="flex flex-col flex-1 bg-[var(--color-gray5)]">
         <HeaderMyPage variant="mypage" />
-        <div className="flex flex-col justify-start w-full mt-10">
-          <ProfileCard />
-          <ChangePassword />
+        <div className="flex flex-col justify-start w-full pl-10 mt-10">
+          {/*돌아가기 버튼*/}
+          <div className="flex gap-[8px]">
+            <Image
+              src="/svgs/arrow-backward-black.svg"
+              alt="돌아가기"
+              width={20}
+              height={20}
+            />
+            <button
+              onClick={() => router.back()}
+              className="flex justify-start cursor-pointer"
+            >
+              돌아가기
+            </button>
+          </div>
+
+          <div className="mt-8">
+            <ProfileCard />
+          </div>
+          <div className="mt-8">
+            <ChangePassword />
+          </div>
         </div>
       </div>
     </div>

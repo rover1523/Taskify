@@ -56,13 +56,13 @@ export default function ChangePassword() {
   };
 
   return (
-    <div className="sm:w-[672px] sm:h-[466px] w-[284px] h-[454px] bg-white rounded-[16px] shadow-md p-[24px] flex flex-col">
-      <h2 className="text-[18px] sm:text-[24px] font-bold mb-4">
+    <div className="sm:w-[672px] sm:h-[466px] w-[284px] h-[454px] bg-white rounded-[16px] p-[24px] flex flex-col">
+      <h2 className="text-black3 text-[18px] sm:text-[24px] font-bold mb-4">
         비밀번호 변경
       </h2>
 
       <div>
-        <div className="-mt-2">
+        <div className="-mt-2 text-black3">
           <Input
             type="password"
             name="password"
