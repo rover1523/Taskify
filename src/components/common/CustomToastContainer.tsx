@@ -6,7 +6,7 @@ const CustomToastContainer = () => {
   return (
     <ToastContainer
       position="top-center"
-      autoClose={1500}
+      autoClose={1700}
       hideProgressBar={true}
       closeButton={false}
       pauseOnHover={false}

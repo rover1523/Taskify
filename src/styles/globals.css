@@ -49,6 +49,10 @@
   display: none !important;
 }
 
+.Toastify__toast-icon {
+  color: #5534da !important;
+}
+
 @layer base {
   :root {
     --primary: #5534da;
