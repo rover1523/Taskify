@@ -1,7 +1,20 @@
+import { useRouter } from "next/router";
+import useUserStore from "@/store/useUserStore";
 import Image from "next/image";
-import Link from "next/link";
 
 export default function Section1() {
+  const user = useUserStore((state) => state.user);
+  const isLoggedIn = !!user;
+  const router = useRouter();
+
+  const handleMainClick = () => {
+    if (isLoggedIn) {
+      router.push("/mydashboard");
+    } else {
+      router.push("/login");
+    }
+  };
+
   return (
     <section className="w-full bg-[var(--color-black)] text-[var(--color-white)] px-4 pt-[94px] sm:pt-[42px] flex flex-col items-center">
       {/* 히어로 이미지 */}
@@ -34,12 +47,12 @@ export default function Section1() {
       </span>
 
       {/* CTA 버튼 */}
-      <Link
-        href="/login"
-        className="mt-[66px] w-[280px] h-[54px] flex items-center justify-center rounded-lg bg-[var(--primary)] text-[var(--color-white)] font-16m sm:mt-[70px]"
+      <button
+        onClick={handleMainClick}
+        className="mt-[66px] w-[280px] h-[54px] flex items-center justify-center rounded-lg bg-[var(--primary)] text-[var(--color-white)] font-16m sm:mt-[70px] cursor-pointer"
       >
-        로그인하기
-      </Link>
+        {isLoggedIn ? "대시보드 이동하기" : "로그인하기"}
+      </button>
     </section>
   );
 }
