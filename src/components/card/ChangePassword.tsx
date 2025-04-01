@@ -1,19 +1,17 @@
 import { useState } from "react";
+import { useRouter } from "next/router";
 import { changePassword } from "@/api/changepassword";
-import MypageModal from "../modal/MypageModal";
-import Input from "../input/Input";
+import Input from "@/components/input/Input";
 import Image from "next/image";
+import { toast } from "react-toastify";
 
 export default function ChangePassword() {
+  const router = useRouter();
   const [password, setPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [checkNewpassword, setCheckNewPassword] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
-  const [successMessage, setSuccessMessage] = useState("");
   const [showCheckNewPassword, setShowCheckNewPassword] = useState(false);
-  const [showSuccessModal, setShowSuccessModal] = useState(false);
-  const [showErrorModal, setShowErrorModal] = useState(false);
 
   const toggleCheckNewPasswordVisibility = () =>
     setShowCheckNewPassword(!showCheckNewPassword);
@@ -30,8 +28,6 @@ export default function ChangePassword() {
     if (isDisabled) return;
 
     setIsSubmitting(true);
-    setErrorMessage("");
-    setSuccessMessage("");
 
     const result = await changePassword({ password, newPassword });
 
@@ -41,18 +37,18 @@ export default function ChangePassword() {
           ? result.message || "현재 비밀번호가 올바르지 않습니다."
           : "비밀번호 변경 중 오류가 발생했습니다.";
 
-      setErrorMessage(msg);
-      setShowErrorModal(true);
+      toast.error(msg);
       setIsSubmitting(false);
       return;
     }
-
-    setSuccessMessage("비밀번호가 성공적으로 변경되었습니다.");
-    setShowSuccessModal(true);
+    toast.success("비밀번호가 변경되었습니다.");
     setPassword("");
     setNewPassword("");
     setCheckNewPassword("");
     setIsSubmitting(false);
+    setTimeout(() => {
+      router.reload();
+    }, 1500);
   };
 
   return (
@@ -144,29 +140,12 @@ export default function ChangePassword() {
           </button>
 
           {checkNewpassword && checkNewpassword !== newPassword && (
-            <p className="mt-2 font-16m block text-[var(--color-red)]">
+            <p className="mt-2 font-14r block text-[var(--color-red)]">
               비밀번호가 일치하지 않습니다.
             </p>
           )}
         </div>
       </div>
-
-      {errorMessage && (
-        <p className="text-red-500 text-sm mt-4">{errorMessage}</p>
-      )}
-      {successMessage && (
-        <p className="text-green-600 text-sm mt-4">{successMessage}</p>
-      )}
-      <MypageModal
-        isOpen={showSuccessModal}
-        onClose={() => setShowSuccessModal(false)}
-        message="비밀번호 변경에 성공하였습니다."
-      />
-      <MypageModal
-        isOpen={showErrorModal}
-        onClose={() => setShowErrorModal(false)}
-        message="비밀번호 변경에 실패하였습니다."
-      />
     </div>
   );
 }

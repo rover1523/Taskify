@@ -1,16 +1,16 @@
 import { useState, useEffect } from "react";
-import Input from "../input/Input";
+import { useRouter } from "next/router";
 import Image from "next/image";
 import { getUserInfo, updateProfile, uploadProfileImage } from "@/api/users";
-import MypageModal from "../modal/MypageModal";
+import Input from "@/components/input/Input";
+import { toast } from "react-toastify";
 
 export default function ProfileCard() {
+  const router = useRouter();
   const [image, setImage] = useState<string | null>(null);
   const [nickname, setNickname] = useState("");
   const [email, setEmail] = useState("");
   const [preview, setPreview] = useState<string | null>(null);
-  const [showSuccessModal, setShowSuccessModal] = useState(false);
-  const [showErrorModal, setShowErrorModal] = useState(false);
 
   const fetchUserData = async () => {
     try {
@@ -38,7 +38,7 @@ export default function ProfileCard() {
         setImage(response.profileImageUrl); // 서버에서 받은 URL 저장
       } catch (error) {
         console.error("이미지 업로드 실패:", error);
-        alert("이미지 업로드에 실패했습니다.");
+        toast.error("이미지 업로드에 실패하였습니다.");
       }
     }
   };
@@ -52,10 +52,13 @@ export default function ProfileCard() {
 
     try {
       await updateProfile(userProfile);
-      setShowSuccessModal(true);
+      toast.success("프로필 변경이 완료되었습니다.");
+      setTimeout(() => {
+        router.reload();
+      }, 1500);
     } catch (error) {
-      console.error("프로필 저장 실패:", error);
-      setShowErrorModal(true);
+      console.error("프로필 변경 실패:", error);
+      toast.error("프로필 변경에 실패하였습니다.");
     }
   };
 
@@ -106,7 +109,6 @@ export default function ProfileCard() {
             labelClassName="text-black3 text-[14px] sm:text-base"
             readOnly
           />
-
           <Input
             type="text"
             name="nickname"
@@ -117,17 +119,6 @@ export default function ProfileCard() {
             onChange={(value: string) => setNickname(value)}
             className="text-black4"
           />
-          <MypageModal
-            isOpen={showSuccessModal}
-            onClose={() => setShowSuccessModal(false)}
-            message="프로필 변경이 완료되었습니다."
-          />
-          <MypageModal
-            isOpen={showErrorModal}
-            onClose={() => setShowErrorModal(false)}
-            message="프로필 변경에 실패하였습니다"
-          />
-
           <button
             className="cursor-pointer w-full sm:w-[400px] h-[54px] bg-[var(--primary)] text-white rounded-[8px] text-lg font-medium mt-3"
             onClick={handleSave}
