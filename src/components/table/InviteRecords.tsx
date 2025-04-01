@@ -105,7 +105,9 @@ const InviteRecords = ({ dashboardId }: { dashboardId: string }) => {
       <ToastContainer position="top-center" autoClose={2000} />
       <div className="flex justify-between items-start sm:items-center">
         {/* 제목 */}
-        <p className="sm:text-[20px] text-xl font-bold">초대 내역</p>
+        <p className="md:text-[24px] text-[20px] text-xl font-bold">
+          초대 내역
+        </p>
 
         {/* 페이지네이션 + 초대하기 버튼 컨테이너 */}
         <div className="flex flex-col sm:flex-row items-end sm:items-center gap-2">
