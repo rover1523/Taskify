@@ -88,7 +88,7 @@ export default function EditDashboard() {
           <div className="flex mt-15 sm:mt-0">
             <button
               onClick={openModal}
-              className="text-base sm:text-lg cursor-pointer w-[320px] h-[62px] text-black3 rounded-[8px] border-[1px] border-[var(--color-gray3)] hover:scale-105 transition-transform duration-200 ml-2"
+              className="text-base sm:text-lg cursor-pointer w-[320px] h-[62px] text-black3 rounded-[8px] border-[1px] border-[var(--color-gray3)] hover:scale-105 transition-transform duration-200 ml-0 lg:ml-2"
             >
               대시보드 삭제하기
             </button>
