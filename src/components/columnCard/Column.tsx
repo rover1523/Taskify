@@ -7,6 +7,7 @@ import TodoModal from "@/components/modalInput/ToDoModal";
 import TodoButton from "@/components/button/TodoButton";
 import ColumnManageModal from "@/components/columnCard/ColumnManageModal";
 import ColumnDeleteModal from "@/components/columnCard/ColumnDeleteModal";
+import CardDetailModal from "../modalDashboard/CardDetailModal";
 import { updateColumn, deleteColumn } from "@/api/dashboards";
 import { getDashboardMembers } from "@/api/card";
 import { MemberType } from "@/types/users";
@@ -27,6 +28,7 @@ export default function Column({
   dashboardId,
 }: ColumnProps) {
   const [columnTitle, setColumnTitle] = useState(title);
+  const [selectedCard, setSelectedCard] = useState<CardType | null>(null);
   const [isColumnModalOpen, setIsColumnModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isTodoModalOpen, setIsTodoModalOpen] = useState(false);
@@ -86,6 +88,13 @@ export default function Column({
     }
   };
 
+  const handleCardClick = (card: CardType) => {
+    setSelectedCard(card);
+  };
+  const handleCloseDetailModal = () => {
+    setSelectedCard(null);
+  };
+
   return (
     <div
       className={`
@@ -129,6 +138,7 @@ export default function Column({
               {...task}
               imageUrl={task.imageUrl}
               assignee={task.assignee}
+              onClick={() => handleCardClick(task)}
             />
           ))}
         </div>
@@ -164,6 +174,10 @@ export default function Column({
         onClose={() => setIsDeleteModalOpen(false)}
         onDelete={handleDeleteColumn}
       />
+
+      {selectedCard && (
+        <CardDetailModal card={selectedCard} onClose={handleCloseDetailModal} />
+      )}
     </div>
   );
 }
