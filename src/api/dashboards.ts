@@ -1,5 +1,6 @@
 import axiosInstance from "./axiosInstance";
 import { apiRoutes } from "./apiRoutes";
+import { TEAM_ID } from "@/constants/team";
 
 export interface Dashboard {
   id: number;
@@ -19,7 +20,7 @@ export const createDashboard = async ({
   title: string;
   color: string;
 }) => {
-  const res = await axiosInstance.post(apiRoutes.dashboards(), {
+  const res = await axiosInstance.post(`/${TEAM_ID}/dashboards`, {
     title,
     color,
   });
@@ -30,7 +31,7 @@ export const createDashboard = async ({
 export const getDashboards = async ({
   navigationMethod = "pagination",
   page = 1,
-  size = 10,
+  size = 100,
 }: {
   navigationMethod?: "pagination";
   page?: number;
