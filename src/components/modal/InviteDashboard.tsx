@@ -86,13 +86,6 @@ export default function InviteDashboard({ onClose }: { onClose?: () => void }) {
           toast.error("오류가 발생했습니다.");
           return;
         }
-
-        /** Next.js가 감지하기 전에 강제 새로고침 실행
-         * @fixme 추후 더 좋은 방법 있으면 변경
-         * setTimeout(() => {
-         * window.location.reload();
-         * }, 50);
-         */
       } else {
         toast.error("네트워크 오류가 발생했습니다.");
         return;
