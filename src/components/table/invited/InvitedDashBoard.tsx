@@ -222,7 +222,7 @@ export default function InvitedDashBoard() {
         if (isFetchingRef.current) return; // 이미 데이터가 불러와졌다면 중복 요청 방지
         isFetchingRef.current = true; // 데이터 요청 시작
 
-        const res = await axiosInstance.get(apiRoutes.Invitations(), {
+        const res = await axiosInstance.get(apiRoutes.invitations(), {
           params: {
             size: ITEMS_PER_PAGE,
             cursorId: cursorId || null,

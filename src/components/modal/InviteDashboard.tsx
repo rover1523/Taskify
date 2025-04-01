@@ -25,7 +25,7 @@ export default function InviteDashboard({ onClose }: { onClose?: () => void }) {
       try {
         const dashboardIdNumber = Number(dashboardId);
         const res = await axiosInstance.get(
-          apiRoutes.DashboardInvite(dashboardIdNumber),
+          apiRoutes.dashboardInvite(dashboardIdNumber),
           {
             params: {
               dashboardId,
@@ -63,7 +63,7 @@ export default function InviteDashboard({ onClose }: { onClose?: () => void }) {
     }
 
     try {
-      await axiosInstance.post(apiRoutes.DashboardInvite(dashboardIdNumber), {
+      await axiosInstance.post(apiRoutes.dashboardInvite(dashboardIdNumber), {
         email,
       });
       onClose?.(); // 함수 있을때만 실행
