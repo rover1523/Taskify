@@ -1,6 +1,5 @@
 import React from "react";
 import clsx from "clsx";
-import Image from "next/image";
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   fullWidth?: boolean;
@@ -18,22 +17,18 @@ const TodoButton: React.FC<ButtonProps> = ({
         "flex justify-center items-center gap-[10px] bg-white transition-all",
         "rounded-lg px-4 py-3 font-semibold",
         "border border-gray-200 hover:border-purple-500",
-        fullWidth ? "w-full" : "w-[284px] md:w-[544px] lg:w-[314px]", // 반응형 너비
-        "h-[32px] md:h-[40px] lg:h-[40px]", // 반응형 높이
-        "mt-[10px] md:mt-[16px] lg:mt-[20px]", // 여백
+        fullWidth ? "w-full" : "w-[284px] md:w-[544px] lg:w-[314px]",
+        "h-[32px] md:h-[40px] lg:h-[40px]",
+        "mt-[10px] md:mt-[16px] lg:mt-[20px]",
         "text-lg md:text-2lg lg:text-2lg",
         className
       )}
       {...props}
     >
       <span className="truncate">{children}</span>
-      <Image
-        src="/svgs/add.svg"
-        alt="Plus Icon"
-        width={24}
-        height={24}
-        className="w-5 h-5 md:w-6 md:h-6 lg:w-7 lg:h-7 p-1 bg-[#F1EFFD] rounded-md"
-      />
+      <span className="w-5 h-5 md:w-6 md:h-6 lg:w-6.5 lg:h-6.5 flex items-center justify-center rounded-md bg-[#F1EFFD] text-[#5534DA] text-[14px] md:text-[16px] lg:text-[20px] font-light">
+        +
+      </span>
     </button>
   );
 };
