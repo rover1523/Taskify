@@ -30,7 +30,6 @@ interface TaskData {
 
 export default function TaskModal({
   onClose,
-  teamId,
   dashboardId,
   columnId,
   members,
