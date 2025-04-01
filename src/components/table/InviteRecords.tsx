@@ -116,7 +116,7 @@ const InviteRecords = ({ dashboardId }: { dashboardId: string }) => {
           {/* 초대하기 버튼 (모바일에서 페이지네이션 아래로 이동) */}
           <button
             onClick={() => setIsModalOpen(true)}
-            className="cursor-pointer sm:text-[14px] text-[12px] sm:w-[105px] w-[86px] sm:h-[32px] h-[26px] rounded-[4px] bg-[#5534DA] text-white flex items-center justify-center gap-2 mr-2 "
+            className="cursor-pointer sm:text-[14px] text-[12px] sm:w-[105px] w-[86px] sm:h-[32px] h-[26px] rounded-[4px] bg-[#5534DA] text-white flex items-center justify-center gap-2 lg:mr-3 "
           >
             <img src="/svgs/add_white_box.svg" alt="icon" className="w-4 h-4" />
             초대하기
@@ -145,7 +145,7 @@ const InviteRecords = ({ dashboardId }: { dashboardId: string }) => {
             </div>
             <button
               onClick={() => handleCancel(invite.id)}
-              className="cursor-pointer font-medium sm:text-sm text-xs h-[32px] sm:h-[32px] w-[52px] sm:w-[84px] md:w-[84px] border border-gray-300 text-indigo-600 px-2 py-1 rounded-md hover:bg-gray-100 mr-2 "
+              className="cursor-pointer font-medium sm:text-sm text-xs h-[32px] sm:h-[32px] w-[52px] sm:w-[84px] md:w-[84px] border border-gray-300 text-indigo-600 px-2 py-1 rounded-md hover:bg-gray-100 lg:mr-3"
             >
               취소
             </button>

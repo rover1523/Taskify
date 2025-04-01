@@ -65,7 +65,7 @@ const MemberList: React.FC<HeaderBebridgeProps> = ({ dashboardId }) => {
   }, [dashboardId]);
 
   return (
-    <div className=" lg:w-[620px] lg:h-[404px] w-[284px] h-[337px] sm:w-[544px] sm:h-[404px] relative bg-white p-6 rounded-lg max-w-md sm:max-w-lg md:max-w-xl lg:max-w-2xl">
+    <div className="lg:w-[620px] lg:h-[404px] w-[284px] h-[337px] sm:w-[544px] sm:h-[404px] relative bg-white p-6 rounded-lg">
       <ToastContainer position="top-center" autoClose={2000} />
       <div className="flex justify-between items-center ">
         <p className="text-xl sm:text-2xl font-bold">구성원</p>
