@@ -136,7 +136,7 @@ const HeaderDashboard: React.FC<HeaderDashboardProps> = ({
           <p
             className={clsx(
               "font-20b text-black3 whitespace-nowrap",
-              variant !== "mydashboard" ? "hidden md:block" : ""
+              variant !== "mydashboard" ? "hidden lg:block" : ""
             )}
           >
             {title}
@@ -166,15 +166,11 @@ const HeaderDashboard: React.FC<HeaderDashboardProps> = ({
             )}
           >
             {/*관리 버튼*/}
-            {variant !== "edit" && (
+            {variant !== "edit" && dashboard?.createdByMe && (
               <button
                 onClick={() => {
                   if (dashboardId) {
-                    if (dashboard && dashboard.createdByMe === true) {
-                      router.push(`/dashboard/${dashboardId}/edit`);
-                    } else {
-                      toast.error("대시보드 수정 권한이 없습니다.");
-                    }
+                    router.push(`/dashboard/${dashboardId}/edit`);
                   } else {
                     if (onToggleEditMode) {
                       onToggleEditMode();
@@ -202,27 +198,29 @@ const HeaderDashboard: React.FC<HeaderDashboardProps> = ({
             )}
 
             {/*초대하기 버튼*/}
-            {variant !== "mydashboard" && variant !== "edit" && (
-              <button
-                onClick={openInviteModal}
-                className={clsx(
-                  "flex items-center justify-center",
-                  "w-[73px] h-[30px] md:w-[109px] md:h-[36px] lg:w-[116px] lg:h-[40px]",
-                  "border border-[var(--color-gray3)] rounded-[8px] gap-[10px] cursor-pointer"
-                )}
-              >
-                <Image
-                  src="/svgs/add-box.svg"
-                  alt="초대하기 아이콘"
-                  width={20}
-                  height={20}
-                  className="hidden md:block"
-                />
-                <span className="text-sm md:text-base text-gray1">
-                  초대하기
-                </span>
-              </button>
-            )}
+            {variant !== "mydashboard" &&
+              variant !== "edit" &&
+              dashboard?.createdByMe && (
+                <button
+                  onClick={openInviteModal}
+                  className={clsx(
+                    "flex items-center justify-center",
+                    "w-[73px] h-[30px] md:w-[109px] md:h-[36px] lg:w-[116px] lg:h-[40px]",
+                    "border border-[var(--color-gray3)] rounded-[8px] gap-[10px] cursor-pointer"
+                  )}
+                >
+                  <Image
+                    src="/svgs/add-box.svg"
+                    alt="초대하기 아이콘"
+                    width={20}
+                    height={20}
+                    className="hidden md:block"
+                  />
+                  <span className="text-sm md:text-base text-gray1">
+                    초대하기
+                  </span>
+                </button>
+              )}
             {isModalOpen && <InviteDashboard onClose={closeInviteModal} />}
           </div>
 

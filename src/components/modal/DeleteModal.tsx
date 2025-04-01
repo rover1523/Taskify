@@ -26,7 +26,16 @@ export const DeleteModal: React.FC<DeleteModalProps> = ({
 }) => {
   return (
     <>
-      <ToastContainer position="top-center" autoClose={3000} />
+      <ToastContainer
+        position="top-center"
+        autoClose={2500}
+        closeOnClick
+        pauseOnHover={false}
+        hideProgressBar={true}
+        closeButton={false}
+        newestOnTop
+        toastClassName="custom-toast"
+      />
       <Modal
         width="w-[260px]"
         height="h-[150px]"
@@ -57,7 +66,7 @@ export const DeleteModal: React.FC<DeleteModalProps> = ({
                 setIsConfirmDeleteModalOpen(true); // 재확인 모달 오픈
               } else {
                 handleLeave(); // 탈퇴일 때는 바로 닫힘
-                toast.success("대시보드 탈퇴가 완료되었습니다.");
+                toast("대시보드 탈퇴가 완료되었습니다.");
               }
             }}
             className="cursor-pointer bg-[var(--primary)] text-white px-3 py-1 rounded-md w-[84px] h-[32px]"
@@ -92,7 +101,7 @@ export const DeleteModal: React.FC<DeleteModalProps> = ({
             onClick={() => {
               setIsConfirmDeleteModalOpen(false);
               handleDelete(); // 진짜 삭제 실행
-              toast.success("대시보드가 삭제되었습니다.");
+              toast("대시보드가 삭제되었습니다.");
             }}
             className="cursor-pointer bg-[var(--primary)] text-white px-3 py-1 rounded-md w-[84px] h-[32px]"
           >
