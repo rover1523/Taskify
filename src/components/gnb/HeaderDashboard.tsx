@@ -12,7 +12,6 @@ import { MemberList, UserAvatars } from "@/components/gnb/Avatars";
 import UserMenu from "@/components/gnb/UserMenu";
 import MemberListMenu from "@/components/gnb/MemberListMenu";
 import InviteDashboard from "@/components/modal/InviteDashboard";
-import "react-toastify/dist/ReactToastify.css";
 
 interface HeaderDashboardProps {
   variant?: "mydashboard" | "dashboard" | "edit" | "mypage";
