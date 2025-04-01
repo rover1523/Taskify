@@ -67,7 +67,7 @@ const MemberList: React.FC<HeaderBebridgeProps> = ({ dashboardId }) => {
   return (
     <div className="lg:h-[404px] md:h-[404px] sm:h-[337px] lg:w-[620px] md:w-[544px] sm:w-[337px] relative bg-white p-6 rounded-lg max-w-md w-full  sm:max-w-lg md:max-w-xl lg:max-w-2xl">
       <ToastContainer position="top-center" autoClose={2000} />
-      <div className="flex justify-between items-center">
+      <div className="flex justify-between items-center ">
         <p className="text-xl sm:text-2xl font-bold">구성원</p>
         <Pagination
           currentPage={currentPage}
@@ -78,13 +78,13 @@ const MemberList: React.FC<HeaderBebridgeProps> = ({ dashboardId }) => {
       </div>
 
       {/* 구성원 리스트 */}
-      <p className="text-sm sm:text-base text-gray-500 mt-6">이름</p>
+      <p className="text-sm sm:text-base text-gray-500 mt-6 mb-4">이름</p>
 
       <ul>
         {paginatedMembers.map((member, index) => (
           <li
             key={index}
-            className={`flex items-center justify-between p-4 ${
+            className={`flex items-center justify-between mt-3 pb-4 ${
               index !== paginatedMembers.length - 1
                 ? "border-b border-gray-200"
                 : ""

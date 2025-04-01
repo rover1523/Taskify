@@ -54,7 +54,7 @@ const ChangeBebridge = () => {
     };
 
     try {
-      const response = await axiosInstance.put(
+      await axiosInstance.put(
         apiRoutes.DashboardDetail(dashboardIdNumber),
         payload
       );
@@ -108,7 +108,7 @@ const ChangeBebridge = () => {
         <button
           onClick={handleUpdate}
           disabled={selected === null} // color가 없으면 버튼 비활성화
-          className={`cursor-pointer sm:w-[564px] sm:h-[54px] w-[252px] h-[54px] rounded-[8px] border border-[var(--color-gray3)] bg-[var(--primary)] text-[var(--color-white)] ${selected === null ? "bg-gray-300 cursor-not-allowed" : "bg-[var(--primary)]"}`}
+          className={`cursor-pointer sm:w-[572px] sm:h-[54px] w-[252px] h-[54px] rounded-[8px] border border-[var(--color-gray3)] bg-[var(--primary)] text-[var(--color-white)] ${selected === null ? "bg-gray-300 cursor-not-allowed" : "bg-[var(--primary)]"}`}
         >
           변경
         </button>
