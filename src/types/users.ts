@@ -1,7 +1,10 @@
 export interface UserType {
-  profileImageUrl: string;
+  id: number;
+  email: string;
   nickname: string;
-  email: string; //유저프로필 조회시 이메일도 포함되어있음
+  profileImageUrl: string;
+  createdAt: string;
+  updatedAt: string;
   isOwner?: boolean;
   userId?: number;
 }

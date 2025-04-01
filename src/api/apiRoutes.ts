@@ -2,44 +2,44 @@ import { TEAM_ID } from "@/constants/team";
 
 export const apiRoutes = {
   // 로그인
-  Login: () => `/${TEAM_ID}/auth/login`, //post
+  login: () => `/${TEAM_ID}/auth/login`, //post
 
   // 비밀번호 변경
-  Password: () => `/${TEAM_ID}/auth/password`, //put
+  password: () => `/${TEAM_ID}/auth/password`, //put
 
   // 카드
-  Cards: () => `/${TEAM_ID}/cards`, //post,get
-  CardDetail: (cardId: number) => `/${TEAM_ID}/cards/${cardId}`, //get,put,delete
+  cards: () => `/${TEAM_ID}/cards`, //post,get
+  cardDetail: (cardId: number) => `/${TEAM_ID}/cards/${cardId}`, //get,put,delete
 
   // 칼럼
-  Columns: () => `/${TEAM_ID}/columns`, //post,get
-  ColumnDetail: (columnId: number) => `/${TEAM_ID}/columns/${columnId}`, //put,delete
-  ColumnCardImage: (columnId: number) =>
+  columns: () => `/${TEAM_ID}/columns`, //post,get
+  columnDetail: (columnId: number) => `/${TEAM_ID}/columns/${columnId}`, //put,delete
+  columnCardImage: (columnId: number) =>
     `/${TEAM_ID}/columns/${columnId}/card-image`, //post
 
   // 댓글
-  Comments: () => `/${TEAM_ID}/comments`, //post,get
-  CommentsDetail: (commentId: number) => `/${TEAM_ID}/comments/${commentId}`, //put,delete
+  comments: () => `/${TEAM_ID}/comments`, //post,get
+  commentsDetail: (commentId: number) => `/${TEAM_ID}/comments/${commentId}`, //put,delete
 
   // 대시보드
-  Dashboards: () => `/${TEAM_ID}/dashboards`, //post,get
-  DashboardDetail: (dashboardId: number) =>
+  dashboards: () => `/${TEAM_ID}/dashboards`, //post,get
+  dashboardDetail: (dashboardId: number) =>
     `/${TEAM_ID}/dashboards/${dashboardId}`, //get,put,delete
 
   // 대시보드 초대하기
-  DashboardInvite: (dashboardId: number) =>
+  dashboardInvite: (dashboardId: number) =>
     `/${TEAM_ID}/dashboards/${dashboardId}/invitations`, //post,get
-  DashboardInviteDelete: (dashboardId: number, invitationId: number) =>
+  dashboardInviteDelete: (dashboardId: number, invitationId: number) =>
     `/${TEAM_ID}/dashboards/${dashboardId}/invitations/${invitationId}`, //delete
 
   // 초대받은 대시보드
-  Invitations: () => `/${TEAM_ID}/invitations`, //get
+  invitations: () => `/${TEAM_ID}/invitations`, //get
   invitationDetail: (invitationId: number) =>
     `/${TEAM_ID}/invitations/${invitationId}`, //put
 
   // Members
   members: () => `/${TEAM_ID}/members`, //get
-  memberDetail: (memberId: number) => `/${TEAM_ID}/members/${memberId}`, //put
+  memberDetail: (memberId: number) => `/${TEAM_ID}/members/${memberId}`, //delete
 
   // Users
   users: () => `/${TEAM_ID}/users`, //post

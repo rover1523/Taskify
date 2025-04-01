@@ -16,7 +16,7 @@ export const uploadCardImage = async ({
   formData.append("image", imageFile);
 
   const response = await axiosInstance.post(
-    `/${teamId}/columns/${columnId}/card-image`,
+    apiRoutes.columnCardImage(columnId),
     formData,
     {
       headers: {
@@ -50,7 +50,7 @@ export const createCard = async ({
   tags: string[];
   imageUrl?: string;
 }) => {
-  const response = await axiosInstance.post(`/${teamId}/cards`, {
+  const response = await axiosInstance.post(apiRoutes.cards(), {
     assigneeUserId,
     dashboardId,
     columnId,
@@ -76,7 +76,7 @@ export const getDashboardMembers = async ({
   page?: number;
   size?: number;
 }) => {
-  const res = await axiosInstance.get(`/${teamId}/members`, {
+  const res = await axiosInstance.get(apiRoutes.members(), {
     params: {
       page,
       size,
@@ -109,7 +109,7 @@ export const updateCard = async ({
   tags: string[];
   imageUrl?: string;
 }) => {
-  const response = await axiosInstance.put(`/${teamId}/cards/${cardId}`, {
+  const response = await axiosInstance.put(apiRoutes.cardDetail(cardId), {
     columnId,
     assigneeUserId,
     title,
@@ -119,25 +119,6 @@ export const updateCard = async ({
     imageUrl,
   });
 
-  return response.data;
-};
-
-// 카드조회
-export async function getCardDetail(cardId: number): Promise<CardType> {
-  try {
-    // apiRoutes를 사용하여 URL 동적 생성
-    const url = apiRoutes.CardDetail(cardId);
-    const response = await axiosInstance.get(url);
-    return response.data as CardType;
-  } catch (error) {
-    console.error("대시보드 데이터를 불러오는 데 실패했습니다.", error);
-    throw error;
-  }
-}
-// 카드 삭제 api
-export const deleteCard = async (teamId: string, cardId: number) => {
-  const url = apiRoutes.CardDetail(cardId);
-  const response = await axiosInstance.delete(url);
   return response.data;
 };
 
@@ -153,7 +134,7 @@ export const getCardsByColumn = async ({
   cursorId?: number;
   size?: number;
 }) => {
-  const res = await axiosInstance.get(`/${teamId}/cards`, {
+  const res = await axiosInstance.get(apiRoutes.cards(), {
     params: {
       columnId,
       cursorId,
@@ -162,4 +143,24 @@ export const getCardsByColumn = async ({
   });
 
   return res.data;
+};
+
+// 카드 상세 조회
+export async function getCardDetail(cardId: number): Promise<CardType> {
+  try {
+    // apiRoutes를 사용하여 URL 동적 생성
+    const url = apiRoutes.cardDetail(cardId);
+    const response = await axiosInstance.get(url);
+    return response.data as CardType;
+  } catch (error) {
+    console.error("대시보드 데이터를 불러오는 데 실패했습니다.", error);
+    throw error;
+  }
+}
+
+// 카드 삭제
+export const deleteCard = async (cardId: number) => {
+  const url = apiRoutes.cardDetail(cardId);
+  const response = await axiosInstance.delete(url);
+  return response.data;
 };

@@ -1,17 +1,7 @@
 import axiosInstance from "./axiosInstance";
 import { apiRoutes } from "./apiRoutes";
 import { UpdateUser, UserMeImage } from "@/types/users";
-
-export interface UserResponse {
-  id: number;
-  email: string;
-  nickname: string;
-  profileImageUrl: string;
-  createdAt: string;
-  updatedAt: string;
-  isOwner?: boolean;
-  userId?: number;
-}
+import { UserType } from "@/types/users";
 
 interface SignUpRequest {
   email: string;
@@ -35,7 +25,7 @@ export const signUp = async ({
 
 // 내 정보 조회 (GET)
 export const getUserInfo = async () => {
-  const response = await axiosInstance.get<UserResponse>(apiRoutes.usersMe());
+  const response = await axiosInstance.get<UserType>(apiRoutes.usersMe());
   return response.data;
 };
 

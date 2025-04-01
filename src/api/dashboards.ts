@@ -13,7 +13,6 @@ export interface Dashboard {
 
 // 대시보드 생성 (POST)
 export const createDashboard = async ({
-  teamId,
   title,
   color,
 }: {
@@ -21,7 +20,7 @@ export const createDashboard = async ({
   title: string;
   color: string;
 }) => {
-  const res = await axiosInstance.post(apiRoutes.Dashboards(), {
+  const res = await axiosInstance.post(apiRoutes.dashboards(), {
     title,
     color,
   });
@@ -30,7 +29,6 @@ export const createDashboard = async ({
 
 // 대시보드 목록 조회 (GET)
 export const getDashboards = async ({
-  teamId,
   navigationMethod = "pagination",
   page = 1,
   size = 10,
@@ -44,7 +42,7 @@ export const getDashboards = async ({
   totalCount: number;
   cursorId: string | null;
 }> => {
-  const res = await axiosInstance.get(apiRoutes.Dashboards(), {
+  const res = await axiosInstance.get(apiRoutes.dashboards(), {
     params: { navigationMethod, page, size },
   });
 
@@ -59,7 +57,7 @@ export const getDashboardById = async ({
   teamId: string;
   dashboardId: number;
 }) => {
-  const res = await axiosInstance.get(apiRoutes.DashboardDetail(dashboardId));
+  const res = await axiosInstance.get(apiRoutes.dashboardDetail(dashboardId));
   return res.data;
 };
 

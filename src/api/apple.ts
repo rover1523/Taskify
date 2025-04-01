@@ -12,7 +12,7 @@ export const createColumn = async ({
   title: string;
   dashboardId: number;
 }): Promise<ColumnType> => {
-  const res = await axiosInstance.post(apiRoutes.Columns(), {
+  const res = await axiosInstance.post(apiRoutes.columns(), {
     title,
     dashboardId,
   });
@@ -28,7 +28,7 @@ export const getColumns = async ({
   teamId: string;
   dashboardId: number;
 }) => {
-  const res = await axiosInstance.get(apiRoutes.Columns(), {
+  const res = await axiosInstance.get(apiRoutes.columns(), {
     params: {
       dashboardId,
     },
@@ -47,7 +47,7 @@ export const updateColumn = async ({
   columnId: number;
   title: string;
 }) => {
-  const res = await axiosInstance.put(apiRoutes.ColumnDetail(columnId), {
+  const res = await axiosInstance.put(apiRoutes.columnDetail(columnId), {
     title,
   });
   return res.data;
@@ -61,6 +61,6 @@ export const deleteColumn = async ({
   teamId: string;
   columnId: number;
 }) => {
-  const res = await axiosInstance.delete(apiRoutes.ColumnDetail(columnId));
+  const res = await axiosInstance.delete(apiRoutes.columnDetail(columnId));
   return res;
 };

@@ -8,7 +8,7 @@ import {
 
 // 댓글 생성
 export const createComment = async (data: CreateCommentType) => {
-  const response = await axiosInstance.post(apiRoutes.Comments(), data);
+  const response = await axiosInstance.post(apiRoutes.comments(), data);
   return response.data;
 };
 
@@ -20,7 +20,7 @@ export async function getComments({
   cardId: number;
   pageParam: number;
 }) {
-  const response = await axiosInstance.get(apiRoutes.Comments(), {
+  const response = await axiosInstance.get(apiRoutes.comments(), {
     params: {
       cardId,
       page: pageParam,
@@ -39,7 +39,7 @@ export const updateComment = async (
   data: UpdateCommenttype
 ) => {
   const response = await axiosInstance.put(
-    apiRoutes.CommentsDetail(commentId),
+    apiRoutes.commentsDetail(commentId),
     data
   );
   return response.data;
@@ -47,7 +47,7 @@ export const updateComment = async (
 // 댓글 삭제
 export const deleteComment = async ({ commentId }: DeleteCommentParams) => {
   const response = await axiosInstance.delete(
-    apiRoutes.CommentsDetail(commentId)
+    apiRoutes.commentsDetail(commentId)
   );
   return response.data;
 };
