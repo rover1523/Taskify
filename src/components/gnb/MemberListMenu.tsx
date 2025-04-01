@@ -22,7 +22,7 @@ const MemberListMenu: React.FC<MemberListMenuProps> = ({
     <div
       ref={ref}
       className={`absolute top-full right-0 w-full z-50
-        bg-white border border-[#D9D9D9] shadow
+        bg-white border border-[var(--color-gray3)] shadow
         transition-all duration-200 ease-out
         ${isListOpen ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-2 pointer-events-none"}`}
     >
@@ -30,7 +30,7 @@ const MemberListMenu: React.FC<MemberListMenuProps> = ({
         {members.map((member) => (
           <li
             key={member.id}
-            className="px-4 py-2 flex items-center gap-2 hover:bg-gray-100"
+            className="px-4 py-2 flex items-center gap-2 hover:bg-[#f9f9f9]"
           >
             <UserAvatars user={member} />
             <span className="text-black3 text-sm md:text-base">

@@ -1,5 +1,6 @@
 import "@/styles/globals.css";
 import type { AppProps } from "next/app";
+import { NextPage } from "next";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import useUserStore from "@/store/useUserStore";
@@ -8,21 +9,23 @@ import { getUserInfo } from "@/api/users";
 import { TEAM_ID } from "@/constants/team";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
-// 토큰 만료 설정
-function isTokenExpired() {
-  const expiresAt = localStorage.getItem("expiresAt");
-  if (!expiresAt) return true;
-  return new Date().getTime() > parseInt(expiresAt, 10);
-}
+type NextPageWithLayout = NextPage & {
+  hideHeader?: boolean;
+};
 
-export default function App({ Component, pageProps }: AppProps) {
+type AppPropsWithLayout = AppProps & {
+  Component: NextPageWithLayout;
+};
+
+// 앱 최초 실행 시 로그인 여부 판단
+export default function App({ Component, pageProps }: AppPropsWithLayout) {
   // React Query Client 생성
   const [queryClient] = useState(() => new QueryClient());
 
   useEffect(() => {
     const initializeUser = async () => {
       const token = localStorage.getItem("accessToken");
-      if (token && !isTokenExpired()) {
+      if (token) {
         try {
           const userData = await getUserInfo({ teamId: TEAM_ID });
           useUserStore.getState().setUser(userData);
@@ -32,7 +35,6 @@ export default function App({ Component, pageProps }: AppProps) {
       } else {
         useUserStore.getState().clearUser();
         localStorage.removeItem("accessToken");
-        localStorage.removeItem("expiresAt");
       }
     };
 
@@ -42,11 +44,12 @@ export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter();
   const pathname = router.pathname;
 
+  // 헤더 기본 출력 설정
   const isDashboardPage = pathname.startsWith("/dashboard");
   // 헤더 숨길 페이지
   const noHeaderRoutes = ["/login", "/signup", "/mydashboard", "/mypage"];
   const isHeaderHidden =
-    (Component as any).hideHeader ||
+    Component.hideHeader ||
     noHeaderRoutes.includes(pathname) ||
     isDashboardPage;
 

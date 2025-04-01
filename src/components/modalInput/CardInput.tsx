@@ -33,7 +33,7 @@ export default function CardInput({
         value={value}
         onChange={handleChange}
         placeholder={placeholder}
-        className={`w-full resize-none rounded-md border p-2 outline-none bg-white ${small ? "text-sm" : ""}`}
+        className={`w-full resize-none rounded-md border border-[var(--color-gray3)] focus:border-[var(--primary)] p-2 outline-none bg-white ${small ? "text-sm" : ""}`}
         style={{
           height: small ? "80px" : "120px", // 고정된 높이 설정
           overflowY: "auto", // 내용이 넘치면 스크롤 생성

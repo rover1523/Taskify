@@ -1,14 +1,18 @@
 import React, { useEffect, useState } from "react";
+import axiosInstance from "@/api/axiosInstance";
+import { apiRoutes } from "@/api/apiRoutes";
+import { getDashboards } from "@/api/dashboards";
+import { useAuthGuard } from "@/hooks/useAuthGuard";
 import SideMenu from "@/components/sideMenu/SideMenu";
 import HeaderDashboard from "@/components/gnb/HeaderDashboard";
-import InvitedDashBoard from "@/components/table/invited/InvitedDashBoard";
 import CardButton from "@/components/button/CardButton";
-import { PaginationButton } from "@/components/button/PaginationButton";
-import NewDashboard from "@/components/modal/NewDashboard";
 import DashboardAddButton from "@/components/button/DashboardAddButton";
-import { getDashboards } from "@/api/dashboards";
-import { useRouter } from "next/router";
-import { useAuthGuard } from "@/hooks/useAuthGuard";
+import { PaginationButton } from "@/components/button/PaginationButton";
+import InvitedDashBoard from "@/components/table/invited/InvitedDashBoard";
+import NewDashboard from "@/components/modal/NewDashboard";
+import { Modal } from "@/components/modal/Modal";
+import { CustomBtn } from "@/components/button/CustomButton";
+import LoadingSpinner from "@/components/common/LoadingSpinner";
 
 interface Dashboard {
   id: number;
@@ -23,26 +27,19 @@ interface Dashboard {
 export default function MyDashboardPage() {
   const { user, isInitialized } = useAuthGuard();
   const teamId = "13-4";
-  const router = useRouter();
   const [dashboardList, setDashboardList] = useState<Dashboard[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isEditMode, setIsEditMode] = useState(false);
+  const [selectedDashboardId, setSelectedDashboardId] = useState<number | null>(
+    null
+  );
+  const [selectedCreatedByMe, setSelectedCreatedByMe] = useState<
+    boolean | null
+  >(null);
+  const [selectedTitle, setSelectedTitle] = useState<string | null>(null);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const itemsPerPage = 6;
-
-  useEffect(() => {
-    if (isInitialized && user) {
-      fetchDashboards();
-    }
-  }, [isInitialized, user]);
-
-  // 로그인 여부 파악 전 렌더링 X, 로딩 중 표시
-  if (!isInitialized) {
-    return (
-      <div className="flex justify-center items-center h-screen">
-        로딩 중...
-      </div>
-    );
-  }
 
   const totalPages = Math.ceil((dashboardList.length + 1) / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
@@ -52,10 +49,24 @@ export default function MyDashboardPage() {
     ...dashboardList.map((dashboard) => (
       <CardButton
         key={dashboard.id}
+        dashboardId={dashboard.id}
         title={dashboard.title}
         showCrown={dashboard.createdByMe}
         color={dashboard.color}
-        onClick={() => router.push(`/dashboard/${dashboard.id}`)}
+        isEditMode={isEditMode}
+        createdByMe={dashboard.createdByMe}
+        onDeleteClick={(id) => {
+          setSelectedDashboardId(id);
+          setSelectedCreatedByMe(true);
+          setSelectedTitle(dashboard.title);
+          setIsDeleteModalOpen(true);
+        }}
+        onLeaveClick={(id) => {
+          setSelectedDashboardId(id);
+          setSelectedCreatedByMe(false);
+          setSelectedTitle(dashboard.title);
+          setIsDeleteModalOpen(true);
+        }}
       />
     )),
   ].slice(startIndex, startIndex + itemsPerPage);
@@ -69,6 +80,12 @@ export default function MyDashboardPage() {
     }
   };
 
+  useEffect(() => {
+    if (isInitialized && user) {
+      fetchDashboards();
+    }
+  }, [isInitialized, user]);
+
   const handlePrevPage = () => {
     if (currentPage > 1) setCurrentPage((prev) => prev - 1);
   };
@@ -77,30 +94,63 @@ export default function MyDashboardPage() {
     if (currentPage < totalPages) setCurrentPage((prev) => prev + 1);
   };
 
+  const handleDelete = async () => {
+    if (!selectedDashboardId) return;
+    try {
+      await axiosInstance.delete(
+        apiRoutes.DashboardDetail(selectedDashboardId)
+      );
+      setIsDeleteModalOpen(false);
+      setSelectedDashboardId(null);
+      fetchDashboards();
+    } catch (error) {
+      alert("대시보드 삭제에 실패했습니다.");
+      console.error("삭제 실패:", error);
+    }
+  };
+
+  const handleLeave = () => {
+    if (!selectedDashboardId) return;
+    setDashboardList((prev) =>
+      prev.filter((d) => d.id !== selectedDashboardId)
+    );
+    setIsDeleteModalOpen(false);
+    setSelectedDashboardId(null);
+  };
+
+  if (!isInitialized || !user) {
+    return <LoadingSpinner />;
+  }
+
   return (
     <div className="flex h-screen overflow-hidden">
       <SideMenu teamId={teamId} dashboardList={dashboardList} />
 
       <div className="flex flex-col flex-1 overflow-hidden">
-        <HeaderDashboard variant="mydashboard" />
+        <HeaderDashboard
+          variant="mydashboard"
+          isEditMode={isEditMode}
+          onToggleEditMode={() => setIsEditMode((prev) => !prev)}
+        />
 
         <main className="flex-1 overflow-auto px-[25px] pt-[40px] pb-10 bg-[#f9f9f9] space-y-10">
-          {/* 대시보드 카드 + 페이지네이션 */}
-          <section className="flex flex-col items-start space-y-6">
-            <div className="flex flex-wrap gap-x-[20px] gap-y-[16px] w-full max-w-[1100px]">
+          <section className="w-full max-w-[1100px] mx-auto">
+            {/* 카드 영역 */}
+            <div className="flex flex-wrap gap-[16px] justify-center">
               {currentItems}
             </div>
 
+            {/* 페이지네이션 */}
             {totalPages > 1 && (
-              <div className="justify-end flex items-center w-full max-w-[1035px]">
-                <span className="text-sm text-gray-500">
-                  {`${currentPage}페이지 중 ${totalPages}`}
-                </span>
+              <div className="flex justify-center items-center pt-6">
                 <PaginationButton
                   direction="left"
                   disabled={currentPage === 1}
                   onClick={handlePrevPage}
                 />
+                <span className="font-14r text-black3 px-[8px] whitespace-nowrap">
+                  {`${totalPages} 페이지 중 ${currentPage}`}
+                </span>
                 <PaginationButton
                   direction="right"
                   disabled={currentPage === totalPages}
@@ -110,21 +160,55 @@ export default function MyDashboardPage() {
             )}
           </section>
 
-          <div className="mt-[74px] flex justify-start">
+          {/* 초대받은 대시보드 */}
+          <div className="mt-[74px] flex justify-center">
             <InvitedDashBoard />
           </div>
         </main>
       </div>
 
-      {/* 새로운 대시보드 모달 */}
       {isModalOpen && (
         <NewDashboard
           onClose={() => {
             setIsModalOpen(false);
-            fetchDashboards(); // 생성 후 목록 새로고침
+            fetchDashboards();
           }}
         />
       )}
+
+      <Modal
+        width="w-[260px]"
+        height="h-[150px]"
+        isOpen={isDeleteModalOpen}
+        onClose={() => setIsDeleteModalOpen(false)}
+        className="flex items-center justify-center text-center"
+      >
+        <div className="flex flex-col items-center gap-1 text-center">
+          <div className="text-[var(--primary)] font-16m">{selectedTitle}</div>
+
+          <div className="text-black3 font-16m">
+            {selectedCreatedByMe
+              ? "대시보드를 삭제하시겠습니까?"
+              : "대시보드에서 나가시겠습니까?"}
+          </div>
+        </div>
+        <div className="flex items-center justify-center gap-2">
+          <CustomBtn
+            onClick={() => setIsDeleteModalOpen(false)}
+            className="cursor-pointer border px-3 py-1 rounded-md w-[84px] h-[32px] text-[var(--primary)] border-[var(--color-gray3)]"
+          >
+            취소
+          </CustomBtn>
+          <CustomBtn
+            onClick={
+              selectedCreatedByMe ? () => handleDelete() : () => handleLeave()
+            }
+            className="cursor-pointer bg-[var(--primary)] text-white px-3 py-1 rounded-md w-[84px] h-[32px]"
+          >
+            확인
+          </CustomBtn>
+        </div>
+      </Modal>
     </div>
   );
 }

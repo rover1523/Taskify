@@ -12,10 +12,10 @@ export default function CardDetail({ card, columnName }: CardDetailProps) {
     <div className="p-4 ">
       <h2 className="text-xl font-bold mb-2">{card.title}</h2>
       {/* 작성자 정보 추가 */}
-      <div className="absolute top-20 right-10 w-44 rounded-lg border p-4 bg-white shadow-sm">
+      <div className="absolute top-20 right-10 w-40 rounded-lg p-4 bg-white shadow-sm">
         <div className="mb-3">
           <p className="text-sm font-semibold text-gray-800 mb-1">담당자</p>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center  gap-2">
             <ProfileIcon
               userId={card.assignee.id}
               nickname={card.assignee.nickname}
@@ -30,7 +30,9 @@ export default function CardDetail({ card, columnName }: CardDetailProps) {
           </div>
 
           <div>
-            <p className="text-sm font-semibold text-gray-800 mb-1">마감일</p>
+            <p className="text-sm font-semibold text-gray-800 mb-1 mt-3">
+              마감일
+            </p>
             <p className="text-sm text-gray-700">
               {new Date(card.dueDate).toLocaleString("ko-KR", {
                 year: "numeric",
@@ -42,20 +44,20 @@ export default function CardDetail({ card, columnName }: CardDetailProps) {
             </p>
           </div>
         </div>
-        <div className="flex flex-wrap gap-2 mb-4">
-          {card.tags.map((tag, idx) => (
-            <span
-              key={idx}
-              className="rounded-full bg-gray-200 px-3 py-1 text-sm text-gray-700"
-            >
-              {tag}
-            </span>
-          ))}
-          {/* 컬럼 이름 */}
-          <span className="rounded-full bg-violet-200 px-3 py-1 text-sm text-violet-800">
-            #{columnName}
+      </div>
+      <div className="flex flex-wrap gap-2 mb-4">
+        <span className="rounded-full bg-violet-200 px-3 py-1 text-sm text-violet-800">
+          #{columnName}
+        </span>
+        {card.tags.map((tag, idx) => (
+          <span
+            key={idx}
+            className="rounded-full bg-gray-200 px-3 py-1 text-sm text-gray-700"
+          >
+            {}
+            {tag}
           </span>
-        </div>
+        ))}
       </div>
       <p
         className="text-gray-700 mb-4 break-words overflow-auto"
@@ -74,7 +76,7 @@ export default function CardDetail({ card, columnName }: CardDetailProps) {
           <Image
             src={card.imageUrl}
             alt="카드 이미지"
-            width={500}
+            width={400}
             height={400}
             className="rounded-lg object-cover"
           />

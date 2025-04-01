@@ -16,6 +16,10 @@
   scrollbar-width: none;
 }
 
+.Toastify__toast {
+  width: 380px !important;
+}
+
 @layer base {
   :root {
     --primary: #5534da;
@@ -261,4 +265,9 @@
   font-weight: 700;
   font-style: normal;
   font-display: swap;
+}
+
+.custom-datepicker-popper {
+  transform: translateX(-10px) !important;
+  transform: translateY(50px) !important;
 }

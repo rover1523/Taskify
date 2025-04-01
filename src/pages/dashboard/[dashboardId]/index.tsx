@@ -1,3 +1,4 @@
+// src/pages/dashboard/[dashboardId]/index.tsx
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import {
@@ -101,13 +102,13 @@ export default function Dashboard() {
   if (!isReady) return <div>로딩 중...</div>;
 
   return (
-    <div className="flex overflow-x-auto min-w-fit min-h-screen">
+    <div className="flex h-screen overflow-hidden">
       <SideMenu teamId={teamId} dashboardList={dashboardList} />
 
-      <div className="flex-1">
+      <div className="flex flex-col flex-1 overflow-hidden">
         <HeaderDashboard variant="dashboard" dashboardId={dashboardId} />
 
-        <div className="flex  overflow-x-auto ">
+        <div className="flex-1 overflow-x-auto flex flex-col md:flex-col lg:flex-row ">
           {/* 각 칼럼 렌더링 */}
           {columns.map((col) => (
             <Column
@@ -119,8 +120,9 @@ export default function Dashboard() {
               dashboardId={Number(dashboardId)}
             />
           ))}
-          <div className="p-5">
+          <div className="p-12">
             <ColumnsButton onClick={openModal} />
+            {/* todo 모바일, 테블릿 위치에서 뷰포트 아래로 가도록 */}
           </div>
           {/* 칼럼 추가 모달 */}
           {isAddColumnModalOpen && (

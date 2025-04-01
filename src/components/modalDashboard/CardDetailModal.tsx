@@ -58,7 +58,7 @@ export default function CardDetailPage({
 
   return (
     <div className="fixed inset-0 bg-black/30 z-50 flex items-center justify-center">
-      <div className="relative bg-white rounded-lg shadow-lg w-[730px] h-[763px] flex flex-col justify-center">
+      <div className="relative bg-white rounded-lg shadow-lg w-[730px] h-[763px] flex flex-col">
         {/* 오른쪽 상단 메뉴 */}
         <div className="absolute top-2 right-6 w-[50px] h-[50px] z-30 flex items-center gap-2">
           <div className="relative">
@@ -91,12 +91,12 @@ export default function CardDetailPage({
         </div>
 
         {/* 모달 내부 콘텐츠 */}
-        <div className="p-6 space-y-6">
+        <div className="p-6 flex gap-6 overflow-y-auto">
           <CardDetail card={card} columnName={""} />
         </div>
 
         {/* 댓글 입력창 */}
-        <div className="p-4 border-t">
+        <div className="p-4">
           <CardInput
             hasButton
             small
@@ -107,7 +107,7 @@ export default function CardDetailPage({
         </div>
 
         {/* 댓글 목록 */}
-        <div className="px-6 space-y-4 max-h-[300px] overflow-y-auto">
+        <div className="px-6 space-y-4 max-h-[200px] overflow-y-auto">
           <CommentList
             cardId={card.id}
             currentUserId={currentUserId}

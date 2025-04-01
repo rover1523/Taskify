@@ -20,6 +20,7 @@ export type CardType = {
 
 // 칼럼
 export type ColumnType = {
+  columnId: number;
   id: number;
   title: string;
   teamId: string;
