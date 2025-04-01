@@ -100,7 +100,7 @@ function InvitedList({
   };
 
   return (
-    <div className="relative bg-white w-[260px] sm:w-[504px] lg:w-[1022px] h-[770px] sm:h-[592px] lg:h-[620px] mx-auto mt-[40px]">
+    <div className="relative bg-white w-[260px] sm:w-[504px] lg:w-[1050px] h-[770px] sm:h-[592px] lg:h-[620px] mx-auto mt-[40px]">
       <ToastContainer position="top-center" autoClose={2000} />
       {filteredData.length > 0 && (
         <div className="hidden sm:flex p-6 w-full h-[26px] justify-start items-center pl-[43px] pr-[76px] md:gap-x-[130px] lg:gap-x-[280px]">
@@ -116,7 +116,7 @@ function InvitedList({
           ? filteredData.map((invite, index) => (
               <div
                 key={index}
-                className="pb-5 mb-[20px] w-[260px] sm:w-[504px] lg:w-[1022px] h-auto sm:h-[50px] sm:grid sm:grid-cols-[1fr_1fr_1fr] sm:items-center flex flex-col gap-10 border-b border-[var(--color-gray4)]"
+                className="pb-5 mb-[20px] w-[260px] sm:w-[504px] lg:w-[1050px] h-auto sm:h-[50px] sm:grid sm:grid-cols-[1fr_1fr_1fr] sm:items-center flex flex-col gap-10 border-b border-[var(--color-gray4)]"
               >
                 {/* 모바일 레이아웃 */}
                 <div className="flex flex-col sm:hidden">
@@ -271,7 +271,7 @@ export default function InvitedDashBoard() {
       {invitationArray.length === 0 ? (
         <EmptyInvitations />
       ) : (
-        <div className="relative bg-white rounded-lg shadow-md w-[260px] sm:w-[504px] lg:w-[1022px] h-[770px] sm:h-[592px] lg:h-[620px] max-w-none">
+        <div className="relative bg-white rounded-lg shadow-md w-[260px] sm:w-[504px] lg:w-[1050px] h-[770px] sm:h-[592px] lg:h-[620px] max-w-none">
           <div className="p-6 relative w-full h-[104px]">
             <div className="flex justify-between items-center mb-[32px]">
               <p className="text-xl sm:text-2xl font-bold">초대받은 대시보드</p>

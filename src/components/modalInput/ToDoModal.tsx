@@ -8,6 +8,7 @@ import TextButton from "@/components/modalInput/TextButton";
 
 interface TaskModalProps {
   onClose: () => void;
+  isOpen: boolean;
   teamId: string;
   dashboardId: number;
   columnId: number;
@@ -17,7 +18,6 @@ interface TaskModalProps {
     nickname: string;
   }[];
 }
-
 interface TaskData {
   assignee: string; // nickname
   title: string;

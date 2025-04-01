@@ -124,7 +124,11 @@ export default function MyDashboardPage() {
 
   return (
     <div className="flex h-screen overflow-hidden">
-      <SideMenu teamId={teamId} dashboardList={dashboardList} />
+      <SideMenu
+        teamId={teamId}
+        dashboardList={dashboardList}
+        onCreateDashboard={() => fetchDashboards()}
+      />
 
       <div className="flex flex-col flex-1 overflow-hidden">
         <HeaderDashboard
@@ -134,36 +138,44 @@ export default function MyDashboardPage() {
         />
 
         <main className="flex-1 overflow-auto px-[25px] pt-[40px] pb-10 bg-[#f9f9f9] space-y-10">
-          <section className="w-full max-w-[1100px] mx-auto">
-            {/* 카드 영역 */}
-            <div className="flex flex-wrap gap-[16px] justify-center">
-              {currentItems}
+          {/* 카드 영역 */}
+          <section className="w-full px-[25px] max-w-[1100px] px-4">
+            <div className="flex flex-wrap gap-[16px] justify-start">
+              {currentItems.map((item, index) => (
+                <div
+                  key={index}
+                  className="w-full sm:w-[calc(50%-8px)] lg:w-[calc(33.333%-10.66px)]"
+                >
+                  {item}
+                </div>
+              ))}
             </div>
-
-            {/* 페이지네이션 */}
-            {totalPages > 1 && (
-              <div className="flex justify-center items-center pt-6">
-                <PaginationButton
-                  direction="left"
-                  disabled={currentPage === 1}
-                  onClick={handlePrevPage}
-                />
-                <span className="font-14r text-black3 px-[8px] whitespace-nowrap">
-                  {`${totalPages} 페이지 중 ${currentPage}`}
-                </span>
-                <PaginationButton
-                  direction="right"
-                  disabled={currentPage === totalPages}
-                  onClick={handleNextPage}
-                />
-              </div>
-            )}
           </section>
 
+          {totalPages > 1 && (
+            <div className="w-full max-w-[1100px] flex justify-center items-center ">
+              <PaginationButton
+                direction="left"
+                disabled={currentPage === 1}
+                onClick={handlePrevPage}
+              />
+              <span className="font-14r text-black3 px-[8px] whitespace-nowrap">
+                {`${totalPages} 페이지 중 ${currentPage}`}
+              </span>
+              <PaginationButton
+                direction="right"
+                disabled={currentPage === totalPages}
+                onClick={handleNextPage}
+              />
+            </div>
+          )}
+
           {/* 초대받은 대시보드 */}
-          <div className="mt-[74px] flex justify-center">
-            <InvitedDashBoard />
-          </div>
+          <section className="w-full px-[25px]">
+            <div className="mt-[74px]">
+              <InvitedDashBoard />
+            </div>
+          </section>
         </main>
       </div>
 
@@ -200,9 +212,7 @@ export default function MyDashboardPage() {
             취소
           </CustomBtn>
           <CustomBtn
-            onClick={
-              selectedCreatedByMe ? () => handleDelete() : () => handleLeave()
-            }
+            onClick={selectedCreatedByMe ? handleDelete : handleLeave}
             className="cursor-pointer bg-[var(--primary)] text-white px-3 py-1 rounded-md w-[84px] h-[32px]"
           >
             확인
