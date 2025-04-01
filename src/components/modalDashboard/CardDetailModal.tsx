@@ -7,7 +7,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createComment } from "@/api/comment";
 import { deleteCard } from "@/api/card";
 import type { CardDetailType } from "@/types/cards";
-import TaskModal from "@/components/modalInput/TaskModal"; // 경로는 실제 위치에 맞게 조정하세요
+import TaskModal from "@/components/modalInput/TaskModal";
 
 interface CardDetailModalProps {
   card: CardDetailType;
@@ -120,6 +120,7 @@ export default function CardDetailPage({
       {isEditModalOpen && (
         <TaskModal
           mode="edit"
+          columnId={card.columnId} // ✅ 여기 추가!
           onClose={() => setIsEditModalOpen(false)}
           onSubmit={(data) => {
             setCardData((prev) => ({
