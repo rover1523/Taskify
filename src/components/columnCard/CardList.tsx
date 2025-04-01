@@ -1,9 +1,9 @@
-// ✅ CardList.tsx (무한스크롤 분리 및 중복 제거 개선)
+// CardList.tsx (무한스크롤 분리 및 중복 제거 개선)
 
 import { useEffect, useRef, useState } from "react";
 import { CardType } from "@/types/task";
 import Card from "./Card";
-import { getCardsByColumn } from "@/api/dashboards";
+import { getCardsByColumn } from "@/api/card";
 
 type CardListProps = {
   columnId: number;
