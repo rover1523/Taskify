@@ -1,7 +1,7 @@
+// Column.tsx
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { CardType } from "@/types/task";
-import Card from "./Card";
 import TodoModal from "@/components/modalInput/ToDoModal";
 import TodoButton from "@/components/button/TodoButton";
 import ColumnManageModal from "@/components/columnCard/ColumnManageModal";
@@ -10,6 +10,7 @@ import { updateColumn, deleteColumn } from "@/api/columns";
 import { getDashboardMembers } from "@/api/card";
 import { MemberType } from "@/types/users";
 import { TEAM_ID } from "@/constants/team";
+import CardList from "./CardList"; // ✅ 추가: 무한스크롤 카드 리스트 컴포넌트
 
 type ColumnProps = {
   columnId: number;
@@ -36,9 +37,7 @@ export default function Column({
   useEffect(() => {
     const fetchMembers = async () => {
       try {
-        const result = await getDashboardMembers({
-          dashboardId,
-        });
+        const result = await getDashboardMembers({ dashboardId });
 
         const parsed = result.map((m: MemberType) => ({
           id: m.id,
@@ -86,9 +85,10 @@ export default function Column({
   return (
     <div
       className={`
-    flex flex-col border-r border-gray-200 bg-gray-50 rounded-md p-4
-    h-auto sm:m-h-screen
-    max-h-[401px] sm:max-h-none w-full lg:max-w-[354px] `}
+      flex flex-col border-r border-gray-200 bg-gray-50 rounded-md p-4
+      h-auto sm:m-h-screen
+      max-h-[401px] sm:max-h-none w-full lg:max-w-[354px]
+    `}
     >
       {/* 칼럼 헤더 */}
       <div className="flex items-center justify-between">
@@ -112,27 +112,21 @@ export default function Column({
       </div>
 
       {/* 카드 영역 */}
-      <div className=" flex-1 pb-4 flex flex-col items-center gap-3 ">
+      <div className="flex-1 pb-4 flex flex-col items-center gap-3">
         <div onClick={() => setIsTodoModalOpen(true)} className="mb-2">
           <TodoButton />
         </div>
 
-        {/* 카드 1개만 렌더링 (모바일), 전체 렌더링 (md 이상) */}
-        <div className="w-full flex flex-wrap justify-center gap-3">
-          {tasks.map((task, index) => {
-            const isMobile =
-              typeof window !== "undefined" && window.innerWidth < 768;
-            if (isMobile && index > 0) return null;
-            return (
-              <Card
-                key={task.id}
-                {...task}
-                imageUrl={task.imageUrl}
-                assignee={task.assignee}
-              />
-            );
-          })}
-        </div>
+        {/* ✅ 무한스크롤 카드 리스트로 대체 */}
+        <CardList
+          columnId={columnId}
+          teamId={TEAM_ID}
+          initialTasks={tasks}
+          onCardClick={(card) => {
+            // 카드 클릭 시 동작이 필요하다면 여기에 작성
+            console.log("Card clicked:", card);
+          }}
+        />
       </div>
 
       {/* Todo 모달 */}
