@@ -26,7 +26,6 @@ export default function DeleteDashboardModal({
       router.push(`/mydashboard`);
     } catch (error) {
       alert("대시보드 삭제에 실패하였습니다 .");
-      console.error("초대 실패:", error);
 
       window.location.reload();
     }

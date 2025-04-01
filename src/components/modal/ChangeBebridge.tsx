@@ -9,7 +9,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 const ChangeBebridge = () => {
   const router = useRouter();
-  const { dashboardId } = router.query; // dashboardId 쿼리값 받기
+  const { dashboardId } = router.query;
   const [dashboardDetail, setdashboardDetail] = useState<{ title?: string }>(
     {}
   );
@@ -33,7 +33,6 @@ const ChangeBebridge = () => {
         if (res.data) {
           const dashboardData = res.data;
           setdashboardDetail(dashboardData);
-          console.log("dashboardData", dashboardData);
         }
       } catch (error) {
         console.error("대시보드 상세내용 불러오는데 오류 발생:", error);
@@ -46,7 +45,7 @@ const ChangeBebridge = () => {
 
   /* 대시보드 이름 변경 버튼 */
   const handleUpdate = async () => {
-    const dashboardIdNumber = Number(dashboardId); // string dashboradId 값 number로 변경
+    const dashboardIdNumber = Number(dashboardId);
     if (!dashboardId || selected === null) return;
 
     const payload = {
@@ -59,13 +58,12 @@ const ChangeBebridge = () => {
         apiRoutes.DashboardDetail(dashboardIdNumber),
         payload
       );
-      console.log("업데이트 성공:", response.data);
+
       toast.success("대시보드가 업데이트되었습니다!");
       setTimeout(() => {
         window.location.reload();
       }, 100);
     } catch (error) {
-      console.error("업데이트 실패:", error);
       toast.error("업데이트에 실패했습니다.");
     }
   };
@@ -108,7 +106,7 @@ const ChangeBebridge = () => {
       </div>
       <div className="mt-8 flex">
         <button
-          onClick={handleUpdate} // 버튼 클릭 시 handleUpdate 함수 호출
+          onClick={handleUpdate}
           disabled={selected === null} // color가 없으면 버튼 비활성화
           className={`cursor-pointer sm:w-[564px] sm:h-[54px] w-[252px] h-[54px] rounded-[8px] border border-[var(--color-gray3)] bg-[var(--primary)] text-[var(--color-white)] ${selected === null ? "bg-gray-300 cursor-not-allowed" : "bg-[var(--primary)]"}`}
         >

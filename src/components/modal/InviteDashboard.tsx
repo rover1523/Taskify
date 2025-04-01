@@ -40,7 +40,6 @@ export default function InviteDashboard({ onClose }: { onClose?: () => void }) {
             })
           );
           setInviteList(inviteData);
-          console.log("inviteData", inviteData);
         }
       } catch (error) {
         console.error("초대내역 불러오는데 오류 발생:", error);
@@ -69,8 +68,6 @@ export default function InviteDashboard({ onClose }: { onClose?: () => void }) {
       onClose?.(); // 함수 있을때만 실행
       window.location.reload();
     } catch (error) {
-      console.error("초대 실패:", error);
-
       if (error instanceof AxiosError) {
         if (error.response?.status === 403) {
           toast.error("초대 권한이 없습니다.");
