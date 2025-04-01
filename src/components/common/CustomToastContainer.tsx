@@ -6,9 +6,9 @@ const CustomToastContainer = () => {
   return (
     <ToastContainer
       position="top-center"
-      closeButton={false}
-      hideProgressBar={true}
       autoClose={2500}
+      hideProgressBar={true}
+      closeButton={false}
       pauseOnHover={false}
       newestOnTop
       transition={Slide}

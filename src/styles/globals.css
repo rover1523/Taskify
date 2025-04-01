@@ -45,6 +45,10 @@
   box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
 }
 
+.Toastify__close-button {
+  display: none !important;
+}
+
 @layer base {
   :root {
     --primary: #5534da;

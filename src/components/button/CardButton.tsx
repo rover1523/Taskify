@@ -3,8 +3,7 @@ import { useRouter } from "next/router";
 import clsx from "clsx";
 import Image from "next/image";
 
-interface CardButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+interface CardButtonProps extends React.ButtonHTMLAttributes<HTMLDivElement> {
   fullWidth?: boolean;
   title?: string;
   showCrown?: boolean;
@@ -31,7 +30,7 @@ const CardButton: React.FC<CardButtonProps> = ({
 }) => {
   const router = useRouter();
 
-  const handleCardClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleCardClick = (e: React.MouseEvent<HTMLDivElement>) => {
     // 관리 상태에서 카드 클릭 이벤트 차단
     if (isEditMode) {
       e.preventDefault();
@@ -58,7 +57,7 @@ const CardButton: React.FC<CardButtonProps> = ({
   };
 
   return (
-    <button
+    <div
       {...props}
       onClick={handleCardClick}
       className={clsx(
@@ -127,7 +126,7 @@ const CardButton: React.FC<CardButtonProps> = ({
           className="ml-2"
         />
       )}
-    </button>
+    </div>
   );
 };
 
