@@ -2,6 +2,7 @@ import axiosInstance from "./axiosInstance";
 import { apiRoutes } from "./apiRoutes";
 import { UpdateUser, UserMeImage } from "@/types/users";
 import { UserType } from "@/types/users";
+import { TEAM_ID } from "@/constants/team";
 
 interface SignUpRequest {
   email: string;
@@ -12,7 +13,7 @@ interface SignUpRequest {
 // 회원가입 (POST)
 export const signUp = async ({ payload }: { payload: SignUpRequest }) => {
   const response = await axiosInstance.post<SignUpRequest>(
-    apiRoutes.users(),
+    `/${TEAM_ID}/users`,
     payload
   );
   return response.data;
@@ -38,10 +39,14 @@ export const updateProfile = async (data: UpdateUser) => {
 export const uploadProfileImage = async (
   formData: FormData
 ): Promise<UserMeImage> => {
-  const response = await axiosInstance.post(apiRoutes.userMeImage(), formData, {
-    headers: {
-      "Content-Type": "multipart/form-data",
-    },
-  });
+  const response = await axiosInstance.post(
+    `/${TEAM_ID}/users/me/image`,
+    formData,
+    {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    }
+  );
   return response.data;
 };
