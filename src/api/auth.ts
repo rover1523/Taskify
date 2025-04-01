@@ -1,8 +1,8 @@
 import axiosInstance from "./axiosInstance";
 import { apiRoutes } from "./apiRoutes";
-import { UserResponse } from "./users";
+import { UserType } from "@/types/users";
 
-interface AuthResponse extends UserResponse {
+interface AuthResponse extends UserType {
   accessToken: string;
 }
 
@@ -13,7 +13,7 @@ export const postAuthData = async ({
   email: string;
   password: string;
 }) => {
-  const response = await axiosInstance.post<AuthResponse>(apiRoutes.Login(), {
+  const response = await axiosInstance.post<AuthResponse>(apiRoutes.login(), {
     email,
     password,
   });

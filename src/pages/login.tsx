@@ -5,7 +5,6 @@ import { getUserInfo } from "@/api/users";
 import { postAuthData } from "@/api/auth";
 import Link from "next/link";
 import Input from "@/components/input/Input";
-import { TEAM_ID } from "@/constants/team";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -31,7 +30,7 @@ export default function LoginPage() {
       const token = response.accessToken;
       localStorage.setItem("accessToken", token);
       // 로그인 성공 시 사용자 정보 요청
-      const userData = await getUserInfo({ teamId: TEAM_ID });
+      const userData = await getUserInfo();
       // Zustand에 저장
       useUserStore.getState().setUser(userData);
 
