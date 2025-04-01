@@ -1,12 +1,9 @@
 // src/pages/dashboard/[dashboardId]/index.tsx
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import {
-  getColumns,
-  getCardsByColumn,
-  getDashboards,
-  createColumn,
-} from "@/api/dashboards";
+import { getColumns, createColumn } from "@/api/Columns";
+import { getCardsByColumn } from "@/api/card";
+import { getDashboards } from "@/api/dashboards";
 import {
   CardType,
   ColumnType,

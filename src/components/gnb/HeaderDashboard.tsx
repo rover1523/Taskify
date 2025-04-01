@@ -6,7 +6,7 @@ import SkeletonUser from "@/shared/skeletonUser";
 import { MemberType, UserType } from "@/types/users";
 import { getMembers } from "@/api/members";
 import { getUserInfo } from "@/api/users";
-import { getDashboardById } from "@/api/dashboards";
+import { getDashboardById } from "@/api/aasd";
 import { TEAM_ID } from "@/constants/team";
 import { MemberList, UserAvatars } from "@/components/gnb/Avatars";
 import UserMenu from "@/components/gnb/UserMenu";

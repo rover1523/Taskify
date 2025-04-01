@@ -122,7 +122,7 @@ export const updateCard = async ({
   return response.data;
 };
 
-//카드조회
+// 카드조회
 export async function getCardDetail(cardId: number): Promise<CardType> {
   try {
     // apiRoutes를 사용하여 URL 동적 생성
@@ -134,9 +134,32 @@ export async function getCardDetail(cardId: number): Promise<CardType> {
     throw error;
   }
 }
-//카드 삭제 api
+// 카드 삭제 api
 export const deleteCard = async (teamId: string, cardId: number) => {
   const url = apiRoutes.CardDetail(cardId);
   const response = await axiosInstance.delete(url);
   return response.data;
+};
+
+// 카드 목록 조회
+export const getCardsByColumn = async ({
+  teamId,
+  columnId,
+  cursorId,
+  size = 10,
+}: {
+  teamId: string;
+  columnId: number;
+  cursorId?: number;
+  size?: number;
+}) => {
+  const res = await axiosInstance.get(`/${teamId}/cards`, {
+    params: {
+      columnId,
+      cursorId,
+      size,
+    },
+  });
+
+  return res.data;
 };
