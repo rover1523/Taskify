@@ -1,6 +1,14 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import clsx from "clsx";
 import Image from "next/image";
+import { useRouter } from "next/router";
+import axiosInstance from "@/api/axiosInstance";
+import { TEAM_ID } from "@/constants/team"; // ✅ 전역 team ID 사용
+
+export interface StatusOption {
+  label: string;
+  value: number;
+}
 
 interface StatusSelectProps {
   value: string;
@@ -9,12 +17,6 @@ interface StatusSelectProps {
   required?: boolean;
 }
 
-const STATUS_OPTIONS = [
-  { label: "To Do", color: "bg-[#9D8CFC]" },
-  { label: "On Progress", color: "bg-[#9D8CFC]" },
-  { label: "Done", color: "bg-[#9D8CFC]" },
-];
-
 export default function StatusSelect({
   value,
   onChange,
@@ -22,8 +24,44 @@ export default function StatusSelect({
   required,
 }: StatusSelectProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const [statusOptions, setStatusOptions] = useState<StatusOption[]>([]);
 
-  const selectedStatus = STATUS_OPTIONS.find((opt) => opt.label === value);
+  const router = useRouter();
+  const dashboardId = Number(router.query.dashboardId);
+
+  const selectedStatus = statusOptions.find((opt) => opt.label === value);
+
+  useEffect(() => {
+    console.log("📌 TEAM_ID:", TEAM_ID);
+    console.log("📌 dashboardId:", dashboardId);
+
+    if (!TEAM_ID || isNaN(dashboardId)) {
+      console.warn("❌ TEAM_ID 또는 dashboardId가 유효하지 않습니다.");
+      return;
+    }
+
+    const loadOptions = async () => {
+      try {
+        // ✅ 경로에 teamId 직접 넣기 (문자열 리터럴)
+        const res = await axiosInstance.get(`/${TEAM_ID}/columns`, {
+          params: { dashboardId },
+        });
+
+        console.log("✅ 상태 목록 응답:", res.data);
+
+        const options = res.data.data.map((col: any) => ({
+          label: col.title,
+          value: col.id,
+        }));
+
+        setStatusOptions(options);
+      } catch (err) {
+        console.error("❌ 상태 목록 불러오기 실패:", err);
+      }
+    };
+
+    loadOptions();
+  }, [dashboardId]);
 
   return (
     <div className="inline-flex flex-col items-start gap-2.5 w-full max-w-[520px]">
@@ -35,25 +73,22 @@ export default function StatusSelect({
       )}
 
       <div className="relative w-full">
-        {/* 현재 선택된 값 */}
         <div
           className="flex items-center justify-between h-[48px] px-4 border border-[var(--color-gray3)] rounded-md cursor-pointer focus-within:border-[var(--primary)]"
           onClick={() => setIsOpen(!isOpen)}
         >
-          <div className="flex items-center gap-2">
-            {selectedStatus ? (
-              <>
-                <span
-                  className={clsx("w-2 h-2 rounded-full", selectedStatus.color)}
-                ></span>
-                <span className="font-18r">{selectedStatus.label}</span>
-              </>
-            ) : (
-              <span className="font-18r text-[var(--color-gray2)]">
-                상태를 선택해주세요
+          {selectedStatus ? (
+            <div className="flex items-center gap-2 bg-[#F3EDFF] rounded-full px-3 py-1">
+              <span className="w-2 h-2 rounded-full bg-[#5D2EFF]" />
+              <span className="text-sm text-[#5D2EFF]">
+                {selectedStatus.label}
               </span>
-            )}
-          </div>
+            </div>
+          ) : (
+            <span className="text-sm text-[var(--color-gray2)]">
+              상태를 선택해주세요
+            </span>
+          )}
           <Image
             src="/svgs/arrow-down.svg"
             width={20}
@@ -62,26 +97,26 @@ export default function StatusSelect({
           />
         </div>
 
-        {/* 드롭다운 리스트 */}
         {isOpen && (
-          <ul className="absolute top-full left-0 mt-1 w-full bg-white border border-[var(--color-gray3)] rounded-md shadow-lg z-10">
-            {STATUS_OPTIONS.map((status) => (
+          <ul className="absolute top-full left-0 mt-1 w-full bg-white border border-gray-200 rounded-md shadow-lg z-10 px-2 py-2">
+            {statusOptions.map((status) => (
               <li
-                key={status.label}
+                key={status.value}
                 onClick={() => {
                   onChange(status.label);
                   setIsOpen(false);
                 }}
-                className="px-4 py-2 cursor-pointer hover:bg-[var(--color-gray1)] flex items-center justify-between"
+                className={clsx(
+                  "flex items-center justify-between cursor-pointer mb-1 last:mb-0 rounded-full px-3 py-1 hover:bg-[#F3EDFF]",
+                  value === status.label && "bg-[#F3EDFF]"
+                )}
               >
                 <div className="flex items-center gap-2">
-                  <span
-                    className={clsx("w-2 h-2 rounded-full", status.color)}
-                  ></span>
-                  <span className="text-sm">{status.label}</span>
+                  <span className="w-2 h-2 rounded-full bg-[#5D2EFF]" />
+                  <span className="text-sm text-[#5D2EFF]">{status.label}</span>
                 </div>
                 {value === status.label && (
-                  <span className="text-[var(--primary)]">✔</span>
+                  <span className="text-[#5D2EFF] text-sm">✔</span>
                 )}
               </li>
             ))}
