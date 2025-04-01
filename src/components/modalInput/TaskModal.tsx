@@ -12,6 +12,7 @@ interface TaskModalProps {
   onSubmit: (data: TaskData) => void;
   initialData?: Partial<TaskData>;
   members: { nickname: string }[];
+  columnId: number;
   // ✅ teamId, dashboardId 제거됨
 }
 
@@ -31,6 +32,7 @@ export default function TaskModal({
   onSubmit,
   initialData = {},
   members,
+  columnId,
 }: TaskModalProps) {
   const [formData, setFormData] = useState<TaskData>({
     status: initialData.status || "",
@@ -112,7 +114,7 @@ export default function TaskModal({
 
           <ModalImage
             label="이미지"
-            columnId={0}
+            columnId={columnId}
             defaultImageUrl={formData.image}
             onImageSelect={(url) => handleChange("image", url)}
           />
