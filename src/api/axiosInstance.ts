@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const axiosInstance = axios.create({
-  baseURL: "https://sp-taskify-api.vercel.app/13-4",
+  baseURL: "https://sp-taskify-api.vercel.app",
 });
 
 // 👉 요청 보낼 때마다 토큰 자동 추가
