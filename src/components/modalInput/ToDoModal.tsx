@@ -69,7 +69,6 @@ export default function TaskModal({
       }
 
       await createCard({
-        teamId,
         assigneeUserId,
         dashboardId,
         columnId,

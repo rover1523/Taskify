@@ -111,7 +111,6 @@ export default function Dashboard() {
               columnId={col.id}
               title={col.title}
               tasks={tasksByColumn[col.id] || []}
-              teamId={TEAM_ID}
               dashboardId={Number(dashboardId)}
             />
           ))}
