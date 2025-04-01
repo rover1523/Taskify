@@ -17,7 +17,7 @@ export const updateProfile = async (data: UpdateUser) => {
   return res.data;
 };
 
-// ✅ 프로필 이미지 업로드 (POST)
+// 프로필 이미지 업로드 (POST)
 export const uploadProfileImage = async (
   formData: FormData
 ): Promise<UserMeImage> => {
