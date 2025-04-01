@@ -39,7 +39,7 @@ export default function MyPage() {
       <SideMenu teamId={TEAM_ID} dashboardList={dashboards} />
       <div className="flex flex-col flex-1 bg-[var(--color-gray5)]">
         <HeaderMyPage variant="mypage" />
-        <div className="flex flex-col justify-start w-full pl-10 mt-10">
+        <div className="flex flex-col justify-start overflow-auto w-full pl-10 mt-6">
           {/*돌아가기 버튼*/}
           <div className="flex gap-[8px]">
             <Image
@@ -59,7 +59,7 @@ export default function MyPage() {
           <div className="mt-8">
             <ProfileCard />
           </div>
-          <div className="mt-8">
+          <div className="mt-8 mb-20">
             <ChangePassword />
           </div>
         </div>
