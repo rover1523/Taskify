@@ -62,13 +62,17 @@ const InviteRecords = ({ dashboardId }: { dashboardId: string }) => {
       if (error instanceof AxiosError) {
         if (error.response?.status === 403) {
           toast.error("대시보드 초대 취소 권한이 없습니다.");
+          return;
         } else if (error.response?.status === 404) {
           toast.error("대시보드가 존재하지 않습니다.");
+          return;
         } else {
           toast.error("오류가 발생했습니다.");
+          return;
         }
       } else {
         toast.error("네트워크 오류가 발생했습니다.");
+        return;
       }
     }
   };

@@ -54,7 +54,7 @@ const ChangeBebridge = () => {
     };
 
     try {
-      const response = await axiosInstance.put(
+      await axiosInstance.put(
         apiRoutes.dashboardDetail(dashboardIdNumber),
         payload
       );
