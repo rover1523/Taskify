@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import Input from "../input/Input";
 import Image from "next/image";
@@ -13,14 +13,54 @@ export default function InviteDashboard({ onClose }: { onClose?: () => void }) {
   const router = useRouter();
   const { dashboardId } = router.query;
 
+  const [invitelist, setInviteList] = useState<{ email: string }[]>([]);
+
   const isValidEmail = (email: string) => {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   };
+
+  /* 초대내역 목록 api 호출*/
+  useEffect(() => {
+    const fetchMembers = async () => {
+      try {
+        const dashboardIdNumber = Number(dashboardId);
+        const res = await axiosInstance.get(
+          apiRoutes.DashboardInvite(dashboardIdNumber),
+          {
+            params: {
+              dashboardId,
+            },
+          }
+        );
+        if (res.data && Array.isArray(res.data.invitations)) {
+          // 초대내역 리스트
+          const inviteData = res.data.invitations.map(
+            (item: { invitee: { email: string } }) => ({
+              email: item.invitee.email,
+            })
+          );
+          setInviteList(inviteData);
+          console.log("inviteData", inviteData);
+        }
+      } catch (error) {
+        console.error("초대내역 불러오는데 오류 발생:", error);
+      }
+    };
+
+    if (dashboardId) {
+      fetchMembers();
+    }
+  }, [dashboardId]);
 
   /* 초대하기 버튼 */
   const handleSubmit = async () => {
     const dashboardIdNumber = Number(dashboardId);
     if (!dashboardId || !email) return;
+
+    if (invitelist?.some((invite) => invite.email === email)) {
+      toast.error("이미 초대한 멤버입니다.");
+      return;
+    }
 
     try {
       await axiosInstance.post(apiRoutes.DashboardInvite(dashboardIdNumber), {
@@ -92,7 +132,7 @@ export default function InviteDashboard({ onClose }: { onClose?: () => void }) {
                 border border-[var(--color-gray3)] text-[var(--color-white)] 
             ${!email || !isValidEmail(email) ? "bg-gray-300 cursor-not-allowed" : "bg-[var(--primary)]"}`}
           >
-            생성
+            초대
           </button>
         </div>
       </div>
