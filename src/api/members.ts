@@ -1,4 +1,5 @@
 import axiosInstance from "./axiosInstance";
+import { apiRoutes } from "./apiRoutes";
 
 export const getMembers = async ({ dashboardId }: { dashboardId: number }) => {
   if (!dashboardId) {
@@ -6,7 +7,7 @@ export const getMembers = async ({ dashboardId }: { dashboardId: number }) => {
     return [];
   }
 
-  const response = await axiosInstance.get(`/13-4/members`, {
+  const response = await axiosInstance.get(apiRoutes.members(), {
     params: {
       dashboardId,
     },

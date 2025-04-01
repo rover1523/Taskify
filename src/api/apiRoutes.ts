@@ -35,6 +35,6 @@ export const apiRoutes = {
 
   // [Users]
   users: () => `/${TEAM_ID}/users`, //post
-  userMe: () => `/${TEAM_ID}/users/me`, //get,put
+  usersMe: () => `/${TEAM_ID}/users/me`, //get,put
   userMeImage: () => `/${TEAM_ID}/users/me/image`, //post
 };

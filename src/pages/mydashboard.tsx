@@ -140,7 +140,7 @@ export default function MyDashboardPage() {
 
         <main className="flex-1 overflow-auto px-[25px] pt-[40px] pb-10 bg-[#f9f9f9] space-y-10">
           {/* 카드 영역 */}
-          <section className="w-full px-[25px] max-w-[1100px] px-4">
+          <section className="w-full max-w-[1100px] px-4">
             <div className="flex flex-wrap gap-[16px] justify-start">
               {currentItems.map((item, index) => (
                 <div

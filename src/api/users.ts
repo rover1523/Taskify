@@ -1,4 +1,5 @@
 import axiosInstance from "./axiosInstance";
+import { apiRoutes } from "./apiRoutes";
 
 export interface UserResponse {
   id: number;
@@ -11,8 +12,8 @@ export interface UserResponse {
   userId?: number;
 }
 
-export const getUserInfo = async ({ teamId }: { teamId: string }) => {
-  const response = await axiosInstance.get<UserResponse>(`/${teamId}/users/me`);
+export const getUserInfo = async () => {
+  const response = await axiosInstance.get<UserResponse>(apiRoutes.usersMe());
   return response.data;
 };
 
@@ -23,14 +24,13 @@ interface SignUpRequest {
 }
 
 export const signUp = async ({
-  teamId,
   payload,
 }: {
   teamId: string;
   payload: SignUpRequest;
 }) => {
   const response = await axiosInstance.post<SignUpRequest>(
-    `/${teamId}/users`,
+    apiRoutes.users(),
     payload
   );
   return response.data;
