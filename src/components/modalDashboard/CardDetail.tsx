@@ -1,9 +1,9 @@
 import Image from "next/image";
-import { CardType } from "@/types/cards";
+import { CardDetailType } from "@/types/cards";
 import { ProfileIcon } from "./profelicon";
 
 interface CardDetailProps {
-  card: CardType;
+  card: CardDetailType;
   columnName: string;
 }
 
