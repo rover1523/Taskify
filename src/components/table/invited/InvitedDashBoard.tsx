@@ -132,16 +132,16 @@ function InvitedList({
                   </p>
                   <div className="flex gap-2 mt-2 justify-center">
                     <button
-                      className="cursor-pointer bg-[var(--primary)] text-white px-3 py-1 rounded-md w-[84px] h-[32px]"
-                      onClick={() => acceptInvite(invite.id)}
-                    >
-                      수락
-                    </button>
-                    <button
                       className="cursor-pointer border px-3 py-1 rounded-md w-[84px] h-[32px] text-[var(--primary)] border-[var(--color-gray3)]"
                       onClick={() => rejectInvite(invite.id)}
                     >
                       거절
+                    </button>
+                    <button
+                      className="cursor-pointer bg-[var(--primary)] text-white px-3 py-1 rounded-md w-[84px] h-[32px]"
+                      onClick={() => acceptInvite(invite.id)}
+                    >
+                      수락
                     </button>
                   </div>
                 </div>
@@ -155,16 +155,16 @@ function InvitedList({
                 </p>
                 <div className="lg:mr-5 gap-2 mt-1 mr-2 justify-between sm:justify-start hidden sm:flex">
                   <button
-                    className="cursor-pointer bg-[var(--primary)] text-white px-3 py-1 rounded-md w-[84px] h-[32px]"
-                    onClick={() => acceptInvite(invite.id)}
-                  >
-                    수락
-                  </button>
-                  <button
                     className="cursor-pointer border px-3 py-1 rounded-md w-[84px] h-[32px] text-[var(--primary)] border-[var(--color-gray3)]"
                     onClick={() => rejectInvite(invite.id)}
                   >
                     거절
+                  </button>
+                  <button
+                    className="cursor-pointer bg-[var(--primary)] text-white px-3 py-1 rounded-md w-[84px] h-[32px]"
+                    onClick={() => acceptInvite(invite.id)}
+                  >
+                    수락
                   </button>
                 </div>
               </div>
