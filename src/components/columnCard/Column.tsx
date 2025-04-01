@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { CardType } from "@/types/task";
+import { CardDetailType } from "@/types/cards";
 import Card from "./Card";
 import TodoModal from "@/components/modalInput/ToDoModal";
 import TodoButton from "@/components/button/TodoButton";
@@ -10,6 +11,7 @@ import ColumnDeleteModal from "@/components/columnCard/ColumnDeleteModal";
 import { updateColumn, deleteColumn } from "@/api/dashboards";
 import { getDashboardMembers } from "@/api/card";
 import { MemberType } from "@/types/users";
+import CardDetailModal from "../modalDashboard/CardDetailModal";
 
 type ColumnProps = {
   columnId: number;
@@ -33,8 +35,12 @@ export default function Column({
   const [members, setMembers] = useState<
     { id: number; userId: number; nickname: string }[]
   >([]);
+  const [selectedCard, setSelectedCard] = useState<CardDetailType | null>(null);
 
-  // ✅ 멤버 불러오기
+  const handleCloseDetailModal = () => {
+    setSelectedCard(null);
+  };
+
   useEffect(() => {
     const fetchMembers = async () => {
       try {
@@ -128,12 +134,35 @@ export default function Column({
               typeof window !== "undefined" && window.innerWidth < 768;
             if (isMobile && index > 0) return null;
             return (
-              <Card
+              <div
                 key={task.id}
-                {...task}
-                imageUrl={task.imageUrl}
-                assignee={task.assignee}
-              />
+                onClick={() =>
+                  setSelectedCard({
+                    id: task.id,
+                    title: task.title,
+                    tags: task.tags,
+                    dueDate: task.dueDate,
+                    assignee: {
+                      ...task.assignee,
+                      profileImageUrl: task.assignee.profileImageUrl ?? "",
+                    },
+                    imageUrl: task.imageUrl ?? null,
+                    description: task.description ?? "",
+                    columnId: task.columnId,
+                    dashboardId: task.dashboardId,
+                    status: columnTitle,
+                    createdAt: new Date().toISOString(),
+                    updatedAt: new Date().toISOString(),
+                  })
+                }
+              >
+                <Card
+                  key={task.id}
+                  {...task}
+                  imageUrl={task.imageUrl}
+                  assignee={task.assignee}
+                />
+              </div>
             );
           })}
         </div>
@@ -169,6 +198,15 @@ export default function Column({
         onClose={() => setIsDeleteModalOpen(false)}
         onDelete={handleDeleteColumn}
       />
+      {selectedCard && (
+        <CardDetailModal
+          card={selectedCard}
+          onClose={handleCloseDetailModal}
+          currentUserId={selectedCard.assignee.id}
+          teamId={teamId}
+          dashboardId={dashboardId}
+        />
+      )}
     </div>
   );
 }
