@@ -12,7 +12,6 @@ import { MemberList, UserAvatars } from "@/components/gnb/Avatars";
 import UserMenu from "@/components/gnb/UserMenu";
 import MemberListMenu from "@/components/gnb/MemberListMenu";
 import InviteDashboard from "@/components/modal/InviteDashboard";
-import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 interface HeaderDashboardProps {
@@ -123,7 +122,6 @@ const HeaderDashboard: React.FC<HeaderDashboardProps> = ({
 
   return (
     <header className="w-full h-[60px] md:h-[70px] flex items-center justify-center bg-white border-b-[1px] border-b-[var(--color-gray3)]">
-      <ToastContainer position="top-center" />
       <div className="w-full flex items-center justify-between pl-[4vw]">
         {errorMessage && (
           <p className="text-sm text-[var(--color-red)] px-4 py-2">
@@ -166,7 +164,7 @@ const HeaderDashboard: React.FC<HeaderDashboardProps> = ({
             )}
           >
             {/*관리 버튼*/}
-            {variant !== "edit" && dashboard?.createdByMe && (
+            {(variant === "mydashboard" || dashboard?.createdByMe) && (
               <button
                 onClick={() => {
                   if (dashboardId) {
@@ -226,7 +224,7 @@ const HeaderDashboard: React.FC<HeaderDashboardProps> = ({
 
           {/*멤버 목록*/}
           {variant !== "mydashboard" && (
-            <div className="relative flex items-center justify-center w-[150px] md:w-[190px] h-[60px] md:h-[70px]">
+            <div className="relative flex items-center justify-center w-[150px] md:w-[190px] h-[60px] md:h-[70px] whitespace-nowrap">
               {isLoading ? (
                 <SkeletonUser />
               ) : (

@@ -112,8 +112,8 @@ export default function MyDashboardPage() {
 
   const handleLeave = () => {
     if (!selectedDashboardId) return;
-    setDashboardList((prev) =>
-      prev.filter((d) => d.id !== selectedDashboardId)
+    setDashboardList(
+      (prev) => prev.filter((d) => d.id !== selectedDashboardId) // 이 부분 실제 api로 변경
     );
     setIsDeleteModalOpen(false);
     setSelectedDashboardId(null);
