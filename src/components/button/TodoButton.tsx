@@ -26,7 +26,7 @@ const TodoButton: React.FC<ButtonProps> = ({
       {...props}
     >
       <span className="truncate">{children}</span>
-      <span className="w-5 h-5 md:w-6 md:h-6 lg:w-6.5 lg:h-6.5 flex items-center justify-center rounded-md bg-[#F1EFFD] text-[#5534DA] text-[14px] md:text-[16px] lg:text-[20px] font-light">
+      <span className="w-5 h-5 md:w-6 md:h-6 lg:w-6 lg:h-6 flex items-center justify-center rounded-md bg-[#F1EFFD] text-[#5534DA] text-[16px] md:text-[18px] lg:text-[20px] font-light">
         +
       </span>
     </button>
