@@ -11,6 +11,7 @@ interface GeneralInputProps {
   onChange?: (value: string) => void;
   value?: string;
   readOnly?: boolean; //입력방지 추가
+  onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
 }
 
 interface SignInputProps extends Omit<GeneralInputProps, "type"> {
@@ -109,6 +110,7 @@ export default function Input(props: InputProps) {
             );
             setIsInvalid(true);
           }}
+          onKeyDown={rest.onKeyDown}
           className={clsx(
             "peer flex h-[50px] w-full max-w-[520px] px-2 sm:px-4 py-2 rounded-lg transition-colors duration-200",
             "border border-[var(--color-gray3)] focus:border-[var(--primary)] focus:ring-0 focus:outline-none",
