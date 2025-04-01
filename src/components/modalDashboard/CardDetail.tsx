@@ -68,7 +68,7 @@ export default function CardDetail({ card }: CardDetailProps) {
         className="text-gray-700 p-2 break-words overflow-auto"
         style={{
           width: "470px",
-          height: "92px",
+          height: "70px",
           whiteSpace: "pre-wrap", // 줄바꿈 유지 + 자동 줄바꿈
           wordBreak: "break-word", // 긴 단어도 줄바꿈
         }}
