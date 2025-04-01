@@ -27,6 +27,7 @@ interface Dashboard {
 export default function MyDashboardPage() {
   const { user, isInitialized } = useAuthGuard();
   const [dashboardList, setDashboardList] = useState<Dashboard[]>([]);
+  const [searchKeyword, setSearchKeyword] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
@@ -42,12 +43,18 @@ export default function MyDashboardPage() {
     useState(false);
   const itemsPerPage = 6;
 
-  const totalPages = Math.ceil((dashboardList.length + 1) / itemsPerPage);
+  const filteredDashboardList = dashboardList.filter((dashboard) =>
+    dashboard.title.toLowerCase().includes(searchKeyword.toLowerCase())
+  );
+
+  const totalPages = Math.ceil(
+    (filteredDashboardList.length + 1) / itemsPerPage
+  );
   const startIndex = (currentPage - 1) * itemsPerPage;
 
   const currentItems = [
     <DashboardAddButton key="add" onClick={() => setIsModalOpen(true)} />,
-    ...dashboardList.map((dashboard) => (
+    ...filteredDashboardList.map((dashboard) => (
       <CardButton
         key={dashboard.id}
         dashboardId={dashboard.id}
@@ -112,8 +119,8 @@ export default function MyDashboardPage() {
 
   const handleLeave = () => {
     if (!selectedDashboardId) return;
-    setDashboardList(
-      (prev) => prev.filter((d) => d.id !== selectedDashboardId) // 이 부분 실제 api로 변경
+    setDashboardList((prev) =>
+      prev.filter((d) => d.id !== selectedDashboardId)
     );
     setIsDeleteModalOpen(false);
     setSelectedDashboardId(null);
@@ -138,10 +145,24 @@ export default function MyDashboardPage() {
           onToggleEditMode={() => setIsEditMode((prev) => !prev)}
         />
 
-        <main className="flex-1 overflow-auto px-[25px] pt-[40px] pb-10 bg-[#f9f9f9] space-y-10">
+        <main className="flex-1 overflow-auto px-[25px] pt-[40px] pb-10 bg-[#f9f9f9] ">
+          {/* 검색 입력창 */}
+          <section className="w-full max-w-[1100px] px-4">
+            <input
+              type="text"
+              value={searchKeyword}
+              onChange={(e) => {
+                setSearchKeyword(e.target.value);
+                setCurrentPage(1);
+              }}
+              placeholder="대시보드 이름을 입력하세요"
+              className="w-full max-w-[332px] px-4 py-2 border border-[var(--color-gray3)] border rounded-md outline-none"
+            />
+          </section>
+
           {/* 카드 영역 */}
           <section className="w-full max-w-[1100px] px-4">
-            <div className="flex flex-wrap gap-[16px] justify-start">
+            <div className="flex flex-wrap gap-[16px] justify-start py-2">
               {currentItems.map((item, index) => (
                 <div
                   key={index}
@@ -154,7 +175,7 @@ export default function MyDashboardPage() {
           </section>
 
           {totalPages > 1 && (
-            <div className="w-full max-w-[1100px] flex justify-center items-center ">
+            <div className="w-full max-w-[1100px] flex justify-center items-center">
               <PaginationButton
                 direction="left"
                 disabled={currentPage === 1}
@@ -189,7 +210,6 @@ export default function MyDashboardPage() {
         />
       )}
 
-      {/*관리 모드에서 삭제 버튼 클릭 시 모달 오픈*/}
       <DeleteModal
         isDeleteModalOpen={isDeleteModalOpen}
         setIsDeleteModalOpen={setIsDeleteModalOpen}
