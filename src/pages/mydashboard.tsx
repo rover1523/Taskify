@@ -124,7 +124,11 @@ export default function MyDashboardPage() {
 
   return (
     <div className="flex h-screen overflow-hidden">
-      <SideMenu teamId={teamId} dashboardList={dashboardList} />
+      <SideMenu
+        teamId={teamId}
+        dashboardList={dashboardList}
+        onCreateDashboard={() => fetchDashboards()}
+      />
 
       <div className="flex flex-col flex-1 overflow-hidden">
         <HeaderDashboard
