@@ -74,12 +74,16 @@ export default function InviteDashboard({ onClose }: { onClose?: () => void }) {
       if (error instanceof AxiosError) {
         if (error.response?.status === 403) {
           toast.error("초대 권한이 없습니다.");
+          return;
         } else if (error.response?.status === 404) {
           toast.error("대시보드 또는 유저가 존재하지 않습니다.");
+          return;
         } else if (error.response?.status === 409) {
           toast.error("이미 대시보드에 초대된 멤버입니다.");
+          return;
         } else {
           toast.error("오류가 발생했습니다.");
+          return;
         }
 
         /** Next.js가 감지하기 전에 강제 새로고침 실행
@@ -90,6 +94,7 @@ export default function InviteDashboard({ onClose }: { onClose?: () => void }) {
          */
       } else {
         toast.error("네트워크 오류가 발생했습니다.");
+        return;
       }
     }
   };
