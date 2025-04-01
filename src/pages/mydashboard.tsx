@@ -10,8 +10,7 @@ import DashboardAddButton from "@/components/button/DashboardAddButton";
 import { PaginationButton } from "@/components/button/PaginationButton";
 import InvitedDashBoard from "@/components/table/invited/InvitedDashBoard";
 import NewDashboard from "@/components/modal/NewDashboard";
-import { Modal } from "@/components/modal/Modal";
-import { CustomBtn } from "@/components/button/CustomButton";
+import { DeleteModal } from "@/components/modal/DeleteModal";
 import LoadingSpinner from "@/components/common/LoadingSpinner";
 
 interface Dashboard {
@@ -39,6 +38,8 @@ export default function MyDashboardPage() {
   >(null);
   const [selectedTitle, setSelectedTitle] = useState<string | null>(null);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [isConfirmDeleteModalOpen, setIsConfirmDeleteModalOpen] =
+    useState(false);
   const itemsPerPage = 6;
 
   const totalPages = Math.ceil((dashboardList.length + 1) / itemsPerPage);
@@ -111,8 +112,8 @@ export default function MyDashboardPage() {
 
   const handleLeave = () => {
     if (!selectedDashboardId) return;
-    setDashboardList((prev) =>
-      prev.filter((d) => d.id !== selectedDashboardId)
+    setDashboardList(
+      (prev) => prev.filter((d) => d.id !== selectedDashboardId) // 이 부분 실제 api로 변경
     );
     setIsDeleteModalOpen(false);
     setSelectedDashboardId(null);
@@ -188,37 +189,17 @@ export default function MyDashboardPage() {
         />
       )}
 
-      <Modal
-        width="w-[260px]"
-        height="h-[150px]"
-        isOpen={isDeleteModalOpen}
-        onClose={() => setIsDeleteModalOpen(false)}
-        className="flex items-center justify-center text-center"
-      >
-        <div className="flex flex-col items-center gap-1 text-center">
-          <div className="text-[var(--primary)] font-16m">{selectedTitle}</div>
-
-          <div className="text-black3 font-16m">
-            {selectedCreatedByMe
-              ? "대시보드를 삭제하시겠습니까?"
-              : "대시보드에서 나가시겠습니까?"}
-          </div>
-        </div>
-        <div className="flex items-center justify-center gap-2">
-          <CustomBtn
-            onClick={() => setIsDeleteModalOpen(false)}
-            className="cursor-pointer border px-3 py-1 rounded-md w-[84px] h-[32px] text-[var(--primary)] border-[var(--color-gray3)]"
-          >
-            취소
-          </CustomBtn>
-          <CustomBtn
-            onClick={selectedCreatedByMe ? handleDelete : handleLeave}
-            className="cursor-pointer bg-[var(--primary)] text-white px-3 py-1 rounded-md w-[84px] h-[32px]"
-          >
-            확인
-          </CustomBtn>
-        </div>
-      </Modal>
+      {/*관리 모드에서 삭제 버튼 클릭 시 모달 오픈*/}
+      <DeleteModal
+        isDeleteModalOpen={isDeleteModalOpen}
+        setIsDeleteModalOpen={setIsDeleteModalOpen}
+        isConfirmDeleteModalOpen={isConfirmDeleteModalOpen}
+        setIsConfirmDeleteModalOpen={setIsConfirmDeleteModalOpen}
+        selectedTitle={selectedTitle}
+        selectedCreatedByMe={selectedCreatedByMe}
+        handleDelete={handleDelete}
+        handleLeave={handleLeave}
+      />
     </div>
   );
 }

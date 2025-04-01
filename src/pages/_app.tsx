@@ -8,6 +8,7 @@ import HeaderDefault from "@/components/gnb/HeaderDefault";
 import { getUserInfo } from "@/api/users";
 import { TEAM_ID } from "@/constants/team";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import CustomToastContainer from "@/components/common/CustomToastContainer";
 
 type NextPageWithLayout = NextPage & {
   hideHeader?: boolean;
@@ -66,6 +67,7 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
     <QueryClientProvider client={queryClient}>
       {renderHeader()}
       <Component {...pageProps} />
+      <CustomToastContainer />
     </QueryClientProvider>
   );
 }
