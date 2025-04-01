@@ -12,8 +12,6 @@ import { MemberList, UserAvatars } from "@/components/gnb/Avatars";
 import UserMenu from "@/components/gnb/UserMenu";
 import MemberListMenu from "@/components/gnb/MemberListMenu";
 import InviteDashboard from "@/components/modal/InviteDashboard";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
 interface HeaderDashboardProps {
   variant?: "mydashboard" | "dashboard" | "edit" | "mypage";
@@ -123,16 +121,20 @@ const HeaderDashboard: React.FC<HeaderDashboardProps> = ({
 
   return (
     <header className="w-full h-[60px] md:h-[70px] flex items-center justify-center bg-white border-b-[1px] border-b-[var(--color-gray3)]">
-      <ToastContainer position="top-center" />
       <div className="w-full flex items-center justify-between pl-[4vw]">
         {errorMessage && (
           <p className="text-sm text-[var(--color-red)] px-4 py-2">
             {errorMessage}
           </p>
         )}
+
+        {/*헤더 제목*/}
         <div className="flex items-center gap-[8px]">
           <p
-            className={`text-base text-black3 font-bold md:text-xl ${variant !== "mydashboard" ? "hidden md:block" : ""}`}
+            className={clsx(
+              "font-20b text-black3 whitespace-nowrap",
+              variant !== "mydashboard" ? "hidden lg:block" : ""
+            )}
           >
             {title}
           </p>
@@ -145,7 +147,7 @@ const HeaderDashboard: React.FC<HeaderDashboardProps> = ({
               className={
                 variant === "mydashboard"
                   ? "inline-block"
-                  : "hidden md:inline-block"
+                  : "hidden lg:inline-block"
               }
               unoptimized
               priority
@@ -155,18 +157,17 @@ const HeaderDashboard: React.FC<HeaderDashboardProps> = ({
 
         <div className="flex items-center">
           <div
-            className={`flex gap-[6px] md:gap-[16px] ${variant === "mydashboard" ? "pr-[22px] md:pr-[32px]" : ""}`}
+            className={clsx(
+              "flex gap-[6px] md:gap-[16px]",
+              variant === "mydashboard" ? "pr-[22px] md:pr-[32px]" : ""
+            )}
           >
             {/*관리 버튼*/}
-            {variant !== "edit" && (
+            {(variant === "mydashboard" || dashboard?.createdByMe) && (
               <button
                 onClick={() => {
                   if (dashboardId) {
-                    if (dashboard && dashboard.createdByMe === true) {
-                      router.push(`/dashboard/${dashboardId}/edit`);
-                    } else {
-                      toast.error("대시보드 수정 권한이 없습니다.");
-                    }
+                    router.push(`/dashboard/${dashboardId}/edit`);
                   } else {
                     if (onToggleEditMode) {
                       onToggleEditMode();
@@ -194,29 +195,35 @@ const HeaderDashboard: React.FC<HeaderDashboardProps> = ({
             )}
 
             {/*초대하기 버튼*/}
-            {variant !== "mydashboard" && variant !== "edit" && (
-              <button
-                onClick={openInviteModal}
-                className="flex items-center justify-center w-[73px] h-[30px] md:w-[109px] md:h-[36px] lg:w-[116px] lg:h-[40px] rounded-[8px] border border-[var(--color-gray3)] gap-[10px] cursor-pointer"
-              >
-                <Image
-                  src="/svgs/add-box.svg"
-                  alt="초대하기 아이콘"
-                  width={20}
-                  height={20}
-                  className="hidden md:block"
-                />
-                <span className="text-sm md:text-base text-gray1">
-                  초대하기
-                </span>
-              </button>
-            )}
+            {variant !== "mydashboard" &&
+              variant !== "edit" &&
+              dashboard?.createdByMe && (
+                <button
+                  onClick={openInviteModal}
+                  className={clsx(
+                    "flex items-center justify-center",
+                    "w-[73px] h-[30px] md:w-[109px] md:h-[36px] lg:w-[116px] lg:h-[40px]",
+                    "border border-[var(--color-gray3)] rounded-[8px] gap-[10px] cursor-pointer"
+                  )}
+                >
+                  <Image
+                    src="/svgs/add-box.svg"
+                    alt="초대하기 아이콘"
+                    width={20}
+                    height={20}
+                    className="hidden md:block"
+                  />
+                  <span className="text-sm md:text-base text-gray1">
+                    초대하기
+                  </span>
+                </button>
+              )}
             {isModalOpen && <InviteDashboard onClose={closeInviteModal} />}
           </div>
 
           {/*멤버 목록*/}
           {variant !== "mydashboard" && (
-            <div className="relative flex items-center justify-center w-[150px] md:w-[190px] h-[60px] md:h-[70px]">
+            <div className="relative flex items-center justify-center w-[150px] md:w-[190px] h-[60px] md:h-[70px] whitespace-nowrap">
               {isLoading ? (
                 <SkeletonUser />
               ) : (
@@ -248,7 +255,7 @@ const HeaderDashboard: React.FC<HeaderDashboardProps> = ({
             {/*유저 드롭다운 메뉴*/}
             <div
               onClick={() => setIsMenuOpen((prev) => !prev)}
-              className="flex items-center gap-[12px] pl-[20px] md:pl-[30px] lg:pl-[35px] cursor-pointer"
+              className="flex items-center gap-[12px] pl-[20px] md:pl-[30px] lg:pl-[35px] cursor-pointer overflow-hidden"
             >
               <UserMenu
                 user={user}
@@ -262,7 +269,7 @@ const HeaderDashboard: React.FC<HeaderDashboardProps> = ({
                 user && (
                   <>
                     <UserAvatars user={user} />
-                    <span className="hidden md:block text-black3 md:text-base md:font-medium">
+                    <span className="hidden md:block text-black3 md:text-base md:font-medium max-w-[90px] truncate whitespace-nowrap">
                       {user.nickname}
                     </span>
                   </>
