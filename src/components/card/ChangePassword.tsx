@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useRouter } from "next/router";
 import { changePassword } from "@/api/changepassword";
 import Input from "@/components/input/Input";
-import Image from "next/image";
 import { toast } from "react-toastify";
 
 export default function ChangePassword() {
@@ -33,9 +32,9 @@ export default function ChangePassword() {
         result.status === 400
           ? result.message || "현재 비밀번호가 올바르지 않습니다."
           : "비밀번호 변경 중 오류가 발생했습니다.";
-
       toast.error(msg);
       setIsSubmitting(false);
+
       return;
     }
     toast.success("비밀번호가 변경되었습니다.");
