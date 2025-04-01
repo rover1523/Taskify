@@ -32,7 +32,7 @@ const TodoButton: React.FC<ButtonProps> = ({
         alt="Plus Icon"
         width={24}
         height={24}
-        className="w-5 h-5 md:w-6 md:h-6 lg:w-7 lg:h-7 p-1 bg-purple-100 rounded-md"
+        className="w-5 h-5 md:w-6 md:h-6 lg:w-7 lg:h-7 p-1 bg-[#F1EFFD] rounded-md"
       />
     </button>
   );

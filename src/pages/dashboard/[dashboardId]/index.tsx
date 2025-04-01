@@ -97,7 +97,7 @@ export default function Dashboard() {
   if (!isReady) return <div>로딩 중...</div>;
 
   return (
-    <div className="flex h-screen overflow-hidden">
+    <div className="flex h-screen overflow-hidden bg-gray-50">
       <SideMenu teamId={TEAM_ID} dashboardList={dashboardList} />
 
       <div className="flex flex-col flex-1 overflow-hidden">
