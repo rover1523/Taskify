@@ -134,7 +134,10 @@ export default function SideMenu({
               <span className="hidden md:block font-12sb text-[var(--color-black)]">
                 Dash Boards
               </span>
-              <button className="ml-auto" onClick={() => setIsModalOpen(true)}>
+              <button
+                className="ml-auto cursor-pointer"
+                onClick={() => setIsModalOpen(true)}
+              >
                 <Image
                   src="/svgs/icon-add-box.svg"
                   width={20}
@@ -149,7 +152,10 @@ export default function SideMenu({
           {/* ✅ 접힌 상태에서 아이콘만 있는 추가 버튼 로고 아래로 */}
           {isCollapsed && (
             <div className="flex justify-center mb-4">
-              <button onClick={() => setIsModalOpen(true)}>
+              <button
+                onClick={() => setIsModalOpen(true)}
+                className="cursor-pointer"
+              >
                 <Image
                   src="/svgs/icon-add-box.svg"
                   width={20}
