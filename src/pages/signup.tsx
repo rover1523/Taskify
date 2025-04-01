@@ -37,7 +37,6 @@ export default function SignUpPage() {
     if (!isFormValid) return;
     try {
       await signUp({
-        teamId,
         payload: {
           email,
           nickname: nickName,

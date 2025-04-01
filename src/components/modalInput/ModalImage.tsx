@@ -47,7 +47,6 @@ export default function ModalImage({
     // ✅ 업로드 후 URL 전달
     try {
       const imageUrl = await uploadCardImage({
-        teamId,
         columnId,
         imageFile: file,
       });
