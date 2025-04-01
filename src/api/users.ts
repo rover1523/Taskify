@@ -10,12 +10,7 @@ interface SignUpRequest {
 }
 
 // 회원가입 (POST)
-export const signUp = async ({
-  payload,
-}: {
-  teamId: string;
-  payload: SignUpRequest;
-}) => {
+export const signUp = async ({ payload }: { payload: SignUpRequest }) => {
   const response = await axiosInstance.post<SignUpRequest>(
     apiRoutes.users(),
     payload

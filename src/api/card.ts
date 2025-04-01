@@ -4,11 +4,9 @@ import { apiRoutes } from "@/api/apiRoutes";
 
 /** 1. 카드 이미지 업로드 */
 export const uploadCardImage = async ({
-  teamId,
   columnId,
   imageFile,
 }: {
-  teamId: string;
   columnId: number;
   imageFile: File;
 }): Promise<string> => {
@@ -30,7 +28,6 @@ export const uploadCardImage = async ({
 
 /** 2. 카드 생성 */
 export const createCard = async ({
-  teamId,
   assigneeUserId,
   dashboardId,
   columnId,
@@ -40,7 +37,6 @@ export const createCard = async ({
   tags,
   imageUrl,
 }: {
-  teamId: string;
   assigneeUserId: number;
   dashboardId: number;
   columnId: number;
@@ -66,12 +62,10 @@ export const createCard = async ({
 
 /** 3. 대시보드 멤버 조회 (담당자용) */
 export const getDashboardMembers = async ({
-  teamId,
   dashboardId,
   page = 1,
   size = 20,
 }: {
-  teamId: string;
   dashboardId: number;
   page?: number;
   size?: number;
@@ -89,7 +83,6 @@ export const getDashboardMembers = async ({
 
 /** 4. 카드 수정 */
 export const updateCard = async ({
-  teamId,
   cardId,
   columnId,
   assigneeUserId,
@@ -99,7 +92,6 @@ export const updateCard = async ({
   tags,
   imageUrl,
 }: {
-  teamId: string;
   cardId: number;
   columnId: number;
   assigneeUserId: number;
@@ -124,12 +116,10 @@ export const updateCard = async ({
 
 // 카드 목록 조회
 export const getCardsByColumn = async ({
-  teamId,
   columnId,
   cursorId,
   size = 10,
 }: {
-  teamId: string;
   columnId: number;
   cursorId?: number;
   size?: number;

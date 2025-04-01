@@ -1,7 +1,7 @@
 // src/pages/dashboard/[dashboardId]/index.tsx
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import { getColumns, createColumn } from "@/api/Columns";
+import { getColumns, createColumn } from "@/api/columns";
 import { getCardsByColumn } from "@/api/card";
 import { getDashboards } from "@/api/dashboards";
 import {
@@ -15,11 +15,11 @@ import Column from "@/components/columnCard/Column";
 import SideMenu from "@/components/sideMenu/SideMenu";
 import ColumnsButton from "@/components/button/ColumnsButton";
 import AddColumnModal from "@/components/columnCard/AddColumnModal";
+import { TEAM_ID } from "@/constants/team";
 
 export default function Dashboard() {
   const router = useRouter();
   const { dashboardId } = router.query;
-  const teamId = "13-4";
   const [columns, setColumns] = useState<ColumnType[]>([]);
   const [tasksByColumn, setTasksByColumn] = useState<TasksByColumn>({});
   const [dashboardList, setDashboardList] = useState<DashboardType[]>([]);
@@ -50,7 +50,7 @@ export default function Dashboard() {
   // 대시보드 목록 불러오기
   const fetchDashboards = async () => {
     try {
-      const res = await getDashboards({ teamId });
+      const res = await getDashboards({});
       setDashboardList(res.dashboards);
     } catch (error) {
       console.error("대시보드 불러오기 실패:", error);
@@ -69,7 +69,6 @@ export default function Dashboard() {
 
         // 칼럼 목록 조회
         const columnRes = await getColumns({
-          teamId,
           dashboardId: numericDashboardId,
         });
         setColumns(columnRes.data);
@@ -80,7 +79,6 @@ export default function Dashboard() {
         await Promise.all(
           columnRes.data.map(async (column: ColumnType) => {
             const cardRes = await getCardsByColumn({
-              teamId,
               columnId: column.id,
             });
             columnTasks[column.id] = cardRes.cards;
@@ -100,7 +98,7 @@ export default function Dashboard() {
 
   return (
     <div className="flex h-screen overflow-hidden">
-      <SideMenu teamId={teamId} dashboardList={dashboardList} />
+      <SideMenu teamId={TEAM_ID} dashboardList={dashboardList} />
 
       <div className="flex flex-col flex-1 overflow-hidden">
         <HeaderDashboard variant="dashboard" dashboardId={dashboardId} />
@@ -113,7 +111,7 @@ export default function Dashboard() {
               columnId={col.id}
               title={col.title}
               tasks={tasksByColumn[col.id] || []}
-              teamId={teamId}
+              teamId={TEAM_ID}
               dashboardId={Number(dashboardId)}
             />
           ))}
@@ -139,7 +137,6 @@ export default function Dashboard() {
 
                 try {
                   const newColumn = await createColumn({
-                    teamId,
                     title: newColumnTitle,
                     dashboardId: Number(dashboardId),
                   });

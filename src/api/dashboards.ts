@@ -16,7 +16,6 @@ export const createDashboard = async ({
   title,
   color,
 }: {
-  teamId: string;
   title: string;
   color: string;
 }) => {
@@ -33,7 +32,6 @@ export const getDashboards = async ({
   page = 1,
   size = 10,
 }: {
-  teamId: string;
   navigationMethod?: "pagination";
   page?: number;
   size?: number;
@@ -51,10 +49,8 @@ export const getDashboards = async ({
 
 // 대시보드 상세 조회 (GET)
 export const getDashboardById = async ({
-  teamId,
   dashboardId,
 }: {
-  teamId: string;
   dashboardId: number;
 }) => {
   const res = await axiosInstance.get(apiRoutes.dashboardDetail(dashboardId));

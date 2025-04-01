@@ -9,9 +9,9 @@ import Image from "next/image";
 import { getDashboards } from "@/api/dashboards";
 import DeleteDashboardModal from "@/components/modal/DeleteDashboardModal";
 import { DashboardType } from "@/types/task";
+import { TEAM_ID } from "@/constants/team";
 
 export default function EditDashboard() {
-  const teamId = "13-4";
   const router = useRouter();
   const [dashboardList, setDashboardList] = useState<DashboardType[]>([]);
   const { dashboardId } = router.query;
@@ -37,7 +37,7 @@ export default function EditDashboard() {
   /* SideMenu 값 불러오기 */
   const fetchDashboards = async () => {
     try {
-      const res = await getDashboards({ teamId });
+      const res = await getDashboards({});
       setDashboardList(res.dashboards);
     } catch (error) {
       console.error("대시보드 불러오기 실패:", error);
@@ -46,11 +46,11 @@ export default function EditDashboard() {
 
   useEffect(() => {
     fetchDashboards();
-  }, [teamId]);
+  }, []);
 
   return (
     <div className="flex h-screen overflow-hidden">
-      <SideMenu teamId={teamId} dashboardList={dashboardList} />
+      <SideMenu teamId={TEAM_ID} dashboardList={dashboardList} />
 
       <div className="flex flex-col flex-1">
         <div className="flex flex-col">

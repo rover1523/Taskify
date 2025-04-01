@@ -6,8 +6,7 @@ import SkeletonUser from "@/shared/skeletonUser";
 import { MemberType, UserType } from "@/types/users";
 import { getMembers } from "@/api/members";
 import { getUserInfo } from "@/api/users";
-import { getDashboardById } from "@/api/aasd";
-import { TEAM_ID } from "@/constants/team";
+import { getDashboardById } from "@/api/dashboards";
 import { MemberList, UserAvatars } from "@/components/gnb/Avatars";
 import UserMenu from "@/components/gnb/UserMenu";
 import MemberListMenu from "@/components/gnb/MemberListMenu";
@@ -75,7 +74,7 @@ const HeaderDashboard: React.FC<HeaderDashboardProps> = ({
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const user = await getUserInfo({ teamId: TEAM_ID });
+        const user = await getUserInfo();
         setUser(user);
       } catch (error) {
         console.error("유저 정보 불러오기 실패", error);
@@ -96,7 +95,6 @@ const HeaderDashboard: React.FC<HeaderDashboardProps> = ({
       if (variant === "dashboard" && dashboardId) {
         try {
           const dashboardData = await getDashboardById({
-            teamId: TEAM_ID,
             dashboardId: Number(dashboardId),
           });
           setDashboard(dashboardData);

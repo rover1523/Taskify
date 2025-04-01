@@ -12,6 +12,7 @@ import InvitedDashBoard from "@/components/table/invited/InvitedDashBoard";
 import NewDashboard from "@/components/modal/NewDashboard";
 import { DeleteModal } from "@/components/modal/DeleteModal";
 import LoadingSpinner from "@/components/common/LoadingSpinner";
+import { TEAM_ID } from "@/constants/team";
 
 interface Dashboard {
   id: number;
@@ -25,7 +26,6 @@ interface Dashboard {
 
 export default function MyDashboardPage() {
   const { user, isInitialized } = useAuthGuard();
-  const teamId = "13-4";
   const [dashboardList, setDashboardList] = useState<Dashboard[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -74,7 +74,7 @@ export default function MyDashboardPage() {
 
   const fetchDashboards = async () => {
     try {
-      const res = await getDashboards({ teamId });
+      const res = await getDashboards({});
       setDashboardList(res.dashboards);
     } catch (error) {
       console.error("대시보드 불러오기 실패:", error);
@@ -99,7 +99,7 @@ export default function MyDashboardPage() {
     if (!selectedDashboardId) return;
     try {
       await axiosInstance.delete(
-        apiRoutes.DashboardDetail(selectedDashboardId)
+        apiRoutes.dashboardDetail(selectedDashboardId)
       );
       setIsDeleteModalOpen(false);
       setSelectedDashboardId(null);
@@ -126,7 +126,7 @@ export default function MyDashboardPage() {
   return (
     <div className="flex h-screen overflow-hidden">
       <SideMenu
-        teamId={teamId}
+        teamId={TEAM_ID}
         dashboardList={dashboardList}
         onCreateDashboard={() => fetchDashboards()}
       />
