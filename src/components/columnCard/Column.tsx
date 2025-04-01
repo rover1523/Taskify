@@ -7,10 +7,12 @@ import TodoButton from "@/components/button/TodoButton";
 import ColumnManageModal from "@/components/columnCard/ColumnManageModal";
 import ColumnDeleteModal from "@/components/columnCard/ColumnDeleteModal";
 import { updateColumn, deleteColumn } from "@/api/columns";
-import { getDashboardMembers } from "@/api/card";
+import { getDashboardMembers, getCardDetail } from "@/api/card";
 import { MemberType } from "@/types/users";
 import { TEAM_ID } from "@/constants/team";
-import CardList from "./CardList"; // ✅ 추가: 무한스크롤 카드 리스트 컴포넌트
+import CardList from "./CardList";
+import CardDetailModal from "@/components/modalDashboard/CardDetailModal";
+import { CardDetailType } from "@/types/cards";
 
 type ColumnProps = {
   columnId: number;
@@ -29,6 +31,8 @@ export default function Column({
   const [isColumnModalOpen, setIsColumnModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isTodoModalOpen, setIsTodoModalOpen] = useState(false);
+  const [isCardDetailModalOpen, setIsCardDetailModalOpen] = useState(false);
+  const [selectedCard, setSelectedCard] = useState<CardDetailType | null>(null);
   const [members, setMembers] = useState<
     { id: number; userId: number; nickname: string }[]
   >([]);
@@ -82,6 +86,16 @@ export default function Column({
     }
   };
 
+  const handleCardClick = async (cardId: number) => {
+    try {
+      const detail = await getCardDetail(cardId); // ✅ API 호출
+      setSelectedCard(detail); // ✅ 모달에 넘길 데이터 저장
+      setIsCardDetailModalOpen(true); // ✅ 모달 열기
+    } catch (e) {
+      console.error("카드 상세 불러오기 실패:", e);
+    }
+  };
+
   return (
     <div
       className={`
@@ -123,10 +137,7 @@ export default function Column({
             columnId={columnId}
             teamId={TEAM_ID}
             initialTasks={tasks}
-            onCardClick={(card) => {
-              // 카드 클릭 시 동작
-              console.log("Card clicked:", card);
-            }}
+            onCardClick={(card) => handleCardClick(card.id)}
           />
         </div>
       </div>
@@ -161,6 +172,19 @@ export default function Column({
         onClose={() => setIsDeleteModalOpen(false)}
         onDelete={handleDeleteColumn}
       />
+
+      {/* ✅ 카드 상세 모달 */}
+      {isCardDetailModalOpen && selectedCard && (
+        <CardDetailModal
+          card={selectedCard}
+          currentUserId={selectedCard.assignee.id}
+          dashboardId={dashboardId}
+          onClose={() => {
+            setIsCardDetailModalOpen(false);
+            setSelectedCard(null);
+          }}
+        />
+      )}
     </div>
   );
 }

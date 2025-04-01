@@ -1,7 +1,8 @@
-import { AssigneeType, CardType } from "@/types/task";
+import { AssigneeType } from "@/types/task";
+import { CardDetailType } from "@/types/cards";
 import Image from "next/image";
 
-type CardProps = CardType & {
+type CardProps = CardDetailType & {
   imageUrl?: string | null;
   assignee: AssigneeType;
   onClick?: () => void;
