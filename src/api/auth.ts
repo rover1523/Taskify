@@ -17,5 +17,6 @@ export const postAuthData = async ({
     email,
     password,
   });
+
   return response.data;
 };
