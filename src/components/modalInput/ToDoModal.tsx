@@ -18,7 +18,6 @@ interface TaskModalProps {
     nickname: string;
   }[];
 }
-
 interface TaskData {
   assignee: string; // nickname
   title: string;

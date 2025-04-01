@@ -10,8 +10,7 @@ import DashboardAddButton from "@/components/button/DashboardAddButton";
 import { PaginationButton } from "@/components/button/PaginationButton";
 import InvitedDashBoard from "@/components/table/invited/InvitedDashBoard";
 import NewDashboard from "@/components/modal/NewDashboard";
-import { Modal } from "@/components/modal/Modal";
-import { CustomBtn } from "@/components/button/CustomButton";
+import { DeleteModal } from "@/components/modal/DeleteModal";
 import LoadingSpinner from "@/components/common/LoadingSpinner";
 
 interface Dashboard {
@@ -39,6 +38,8 @@ export default function MyDashboardPage() {
   >(null);
   const [selectedTitle, setSelectedTitle] = useState<string | null>(null);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [isConfirmDeleteModalOpen, setIsConfirmDeleteModalOpen] =
+    useState(false);
   const itemsPerPage = 6;
 
   const totalPages = Math.ceil((dashboardList.length + 1) / itemsPerPage);
@@ -111,8 +112,8 @@ export default function MyDashboardPage() {
 
   const handleLeave = () => {
     if (!selectedDashboardId) return;
-    setDashboardList((prev) =>
-      prev.filter((d) => d.id !== selectedDashboardId)
+    setDashboardList(
+      (prev) => prev.filter((d) => d.id !== selectedDashboardId) // 이 부분 실제 api로 변경
     );
     setIsDeleteModalOpen(false);
     setSelectedDashboardId(null);
@@ -124,7 +125,11 @@ export default function MyDashboardPage() {
 
   return (
     <div className="flex h-screen overflow-hidden">
-      <SideMenu teamId={teamId} dashboardList={dashboardList} />
+      <SideMenu
+        teamId={teamId}
+        dashboardList={dashboardList}
+        onCreateDashboard={() => fetchDashboards()}
+      />
 
       <div className="flex flex-col flex-1 overflow-hidden">
         <HeaderDashboard
@@ -134,36 +139,44 @@ export default function MyDashboardPage() {
         />
 
         <main className="flex-1 overflow-auto px-[25px] pt-[40px] pb-10 bg-[#f9f9f9] space-y-10">
-          <section className="w-full max-w-[1100px] mx-auto">
-            {/* 카드 영역 */}
-            <div className="flex flex-wrap gap-[16px] justify-center">
-              {currentItems}
+          {/* 카드 영역 */}
+          <section className="w-full px-[25px] max-w-[1100px] px-4">
+            <div className="flex flex-wrap gap-[16px] justify-start">
+              {currentItems.map((item, index) => (
+                <div
+                  key={index}
+                  className="w-full sm:w-[calc(50%-8px)] lg:w-[calc(33.333%-10.66px)]"
+                >
+                  {item}
+                </div>
+              ))}
             </div>
-
-            {/* 페이지네이션 */}
-            {totalPages > 1 && (
-              <div className="flex justify-center items-center pt-6">
-                <PaginationButton
-                  direction="left"
-                  disabled={currentPage === 1}
-                  onClick={handlePrevPage}
-                />
-                <span className="font-14r text-black3 px-[8px] whitespace-nowrap">
-                  {`${totalPages} 페이지 중 ${currentPage}`}
-                </span>
-                <PaginationButton
-                  direction="right"
-                  disabled={currentPage === totalPages}
-                  onClick={handleNextPage}
-                />
-              </div>
-            )}
           </section>
 
+          {totalPages > 1 && (
+            <div className="w-full max-w-[1100px] flex justify-center items-center ">
+              <PaginationButton
+                direction="left"
+                disabled={currentPage === 1}
+                onClick={handlePrevPage}
+              />
+              <span className="font-14r text-black3 px-[8px] whitespace-nowrap">
+                {`${totalPages} 페이지 중 ${currentPage}`}
+              </span>
+              <PaginationButton
+                direction="right"
+                disabled={currentPage === totalPages}
+                onClick={handleNextPage}
+              />
+            </div>
+          )}
+
           {/* 초대받은 대시보드 */}
-          <div className="mt-[74px] flex justify-center">
-            <InvitedDashBoard />
-          </div>
+          <section className="w-full px-[25px]">
+            <div className="mt-[74px]">
+              <InvitedDashBoard />
+            </div>
+          </section>
         </main>
       </div>
 
@@ -176,39 +189,17 @@ export default function MyDashboardPage() {
         />
       )}
 
-      <Modal
-        width="w-[260px]"
-        height="h-[150px]"
-        isOpen={isDeleteModalOpen}
-        onClose={() => setIsDeleteModalOpen(false)}
-        className="flex items-center justify-center text-center"
-      >
-        <div className="flex flex-col items-center gap-1 text-center">
-          <div className="text-[var(--primary)] font-16m">{selectedTitle}</div>
-
-          <div className="text-black3 font-16m">
-            {selectedCreatedByMe
-              ? "대시보드를 삭제하시겠습니까?"
-              : "대시보드에서 나가시겠습니까?"}
-          </div>
-        </div>
-        <div className="flex items-center justify-center gap-2">
-          <CustomBtn
-            onClick={() => setIsDeleteModalOpen(false)}
-            className="cursor-pointer border px-3 py-1 rounded-md w-[84px] h-[32px] text-[var(--primary)] border-[var(--color-gray3)]"
-          >
-            취소
-          </CustomBtn>
-          <CustomBtn
-            onClick={
-              selectedCreatedByMe ? () => handleDelete() : () => handleLeave()
-            }
-            className="cursor-pointer bg-[var(--primary)] text-white px-3 py-1 rounded-md w-[84px] h-[32px]"
-          >
-            확인
-          </CustomBtn>
-        </div>
-      </Modal>
+      {/*관리 모드에서 삭제 버튼 클릭 시 모달 오픈*/}
+      <DeleteModal
+        isDeleteModalOpen={isDeleteModalOpen}
+        setIsDeleteModalOpen={setIsDeleteModalOpen}
+        isConfirmDeleteModalOpen={isConfirmDeleteModalOpen}
+        setIsConfirmDeleteModalOpen={setIsConfirmDeleteModalOpen}
+        selectedTitle={selectedTitle}
+        selectedCreatedByMe={selectedCreatedByMe}
+        handleDelete={handleDelete}
+        handleLeave={handleLeave}
+      />
     </div>
   );
 }
