@@ -1,6 +1,7 @@
 import { ColumnType } from "@/types/task";
 import axiosInstance from "./axiosInstance";
 import { apiRoutes } from "./apiRoutes";
+import { TEAM_ID } from "@/constants/team";
 
 // 칼럼 생성
 export const createColumn = async ({
@@ -10,7 +11,7 @@ export const createColumn = async ({
   title: string;
   dashboardId: number;
 }): Promise<ColumnType> => {
-  const res = await axiosInstance.post(apiRoutes.columns(), {
+  const res = await axiosInstance.post(`/${TEAM_ID}/columns`, {
     title,
     dashboardId,
   });
