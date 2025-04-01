@@ -1,5 +1,5 @@
 import axiosInstance from "./axiosInstance";
-import type { CardType } from "@/types/cards"; // Dashboard 타입 import
+import type { CardDetailType } from "@/types/cards"; // Dashboard 타입 import
 import { apiRoutes } from "@/api/apiRoutes";
 
 /** 1. 카드 이미지 업로드 */
@@ -136,12 +136,12 @@ export const getCardsByColumn = async ({
 };
 
 // 카드 상세 조회
-export async function getCardDetail(cardId: number): Promise<CardType> {
+export async function getCardDetail(cardId: number): Promise<CardDetailType> {
   try {
     // apiRoutes를 사용하여 URL 동적 생성
     const url = apiRoutes.cardDetail(cardId);
     const response = await axiosInstance.get(url);
-    return response.data as CardType;
+    return response.data as CardDetailType;
   } catch (error) {
     console.error("대시보드 데이터를 불러오는 데 실패했습니다.", error);
     throw error;
