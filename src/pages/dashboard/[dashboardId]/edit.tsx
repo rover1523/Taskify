@@ -81,7 +81,7 @@ export default function EditDashboard() {
             <MemberList dashboardId={dashboardId} />
           </div>
 
-          <div className="">
+          <div className="mt-15">
             <InviteRecords dashboardId={dashboardIdString || ""} />{" "}
             {/* undefined일 경우 빈 문자열로 전달*/}
           </div>
