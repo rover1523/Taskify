@@ -65,8 +65,12 @@ export default function InviteDashboard({ onClose }: { onClose?: () => void }) {
       await axiosInstance.post(apiRoutes.DashboardInvite(dashboardIdNumber), {
         email,
       });
-      onClose?.(); // 함수 있을때만 실행
-      window.location.reload();
+
+      toast.success("초대를 성공했습니다.");
+
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000);
     } catch (error) {
       if (error instanceof AxiosError) {
         if (error.response?.status === 403) {
