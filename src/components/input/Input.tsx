@@ -10,7 +10,7 @@ interface GeneralInputProps {
   className?: string;
   onChange?: (value: string) => void;
   value?: string;
-  readOnly?: boolean; //입력방지 추가
+  readOnly?: boolean;
   onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
 }
 
@@ -28,17 +28,14 @@ type InputProps = GeneralInputProps | SignInputProps;
 export default function Input(props: InputProps) {
   const {
     type,
-    name,
     label,
     placeholder,
     onChange,
-    pattern,
-    invalidMessage,
     className,
-    labelClassName,
-    wrapperClassName,
-    ...rest
-  } = props as SignInputProps;
+    onKeyDown,
+    readOnly,
+    value,
+  } = props;
 
   const id = useId();
   const inputRef = useRef<HTMLInputElement>(null);
@@ -54,8 +51,8 @@ export default function Input(props: InputProps) {
 
     event.target.setCustomValidity("");
 
-    if (pattern) {
-      const regex = new RegExp(pattern);
+    if ("pattern" in props && props.pattern) {
+      const regex = new RegExp(props.pattern);
       setIsInvalid(!regex.test(value));
     } else {
       setIsInvalid(false);
@@ -63,10 +60,12 @@ export default function Input(props: InputProps) {
   };
 
   const handleBlur = (event: React.FocusEvent<HTMLInputElement>) => {
-    if (pattern) {
+    if ("pattern" in props && props.pattern) {
       const input = event.target as HTMLInputElement;
       if (!input.validity.valid) {
-        input.setCustomValidity(invalidMessage || "올바른 값을 입력하세요.");
+        input.setCustomValidity(
+          props.invalidMessage || "올바른 값을 입력하세요."
+        );
         setIsInvalid(true);
       } else {
         input.setCustomValidity("");
@@ -80,13 +79,18 @@ export default function Input(props: InputProps) {
   };
 
   return (
-    <div className={clsx("flex flex-col items-start gap-2", wrapperClassName)}>
+    <div
+      className={clsx(
+        "flex flex-col items-start gap-2",
+        "wrapperClassName" in props && props.wrapperClassName
+      )}
+    >
       {label && (
         <label
           htmlFor={id}
           className={clsx(
             "text-[var(--color-black3)]",
-            labelClassName ? labelClassName : "font-16r"
+            "labelClassName" in props ? props.labelClassName : "font-16r"
           )}
         >
           {label}
@@ -96,35 +100,39 @@ export default function Input(props: InputProps) {
         <input
           ref={inputRef}
           id={id}
-          name={name}
+          name={"name" in props ? props.name : undefined}
           type={htmlType}
           placeholder={placeholder}
+          value={value}
+          readOnly={readOnly}
           onChange={handleChange}
           onBlur={handleBlur}
           required
-          pattern={pattern}
+          pattern={"pattern" in props ? props.pattern : undefined}
           onInvalid={(e) => {
             const input = e.target as HTMLInputElement;
             input.setCustomValidity(
-              invalidMessage || "올바른 값을 입력하세요."
+              "invalidMessage" in props
+                ? props.invalidMessage || "올바른 값을 입력하세요."
+                : ""
             );
             setIsInvalid(true);
           }}
-          onKeyDown={rest.onKeyDown}
+          onKeyDown={onKeyDown}
           className={clsx(
             "peer flex h-[50px] w-full max-w-[520px] px-2 sm:px-4 py-2 rounded-lg transition-colors duration-200",
             "border border-[var(--color-gray3)] focus:border-[var(--primary)] focus:ring-0 focus:outline-none",
             isInvalid
               ? "border-[var(--color-red)] focus:border-[var(--color-red)]"
               : "",
-            type === "password"
+            htmlType === "password"
               ? "text-[var(--color-black4)]"
               : "text-[var(--color-black)]",
             className
           )}
-          {...rest}
         />
-        {type === "password" && (
+
+        {htmlType === "password" && (
           <button
             type="button"
             onClick={togglePasswordTypeOnClick}
@@ -143,9 +151,9 @@ export default function Input(props: InputProps) {
         )}
       </div>
 
-      {isInvalid && invalidMessage && (
+      {isInvalid && "invalidMessage" in props && (
         <span className="font-14r block text-[var(--color-red)] mt-1">
-          {invalidMessage}
+          {props.invalidMessage}
         </span>
       )}
     </div>
