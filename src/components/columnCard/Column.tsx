@@ -7,7 +7,7 @@ import TodoModal from "@/components/modalInput/ToDoModal";
 import TodoButton from "@/components/button/TodoButton";
 import ColumnManageModal from "@/components/columnCard/ColumnManageModal";
 import ColumnDeleteModal from "@/components/columnCard/ColumnDeleteModal";
-import { updateColumn, deleteColumn } from "@/api/dashboards";
+import { updateColumn, deleteColumn } from "@/api/columns";
 import { getDashboardMembers } from "@/api/card";
 import { MemberType } from "@/types/users";
 

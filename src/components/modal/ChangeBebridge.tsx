@@ -23,7 +23,7 @@ const ChangeBebridge = () => {
       try {
         const dashboardIdNumber = Number(dashboardId);
         const res = await axiosInstance.get(
-          apiRoutes.DashboardDetail(dashboardIdNumber),
+          apiRoutes.dashboardDetail(dashboardIdNumber),
           {
             params: {
               dashboardId,
@@ -56,7 +56,7 @@ const ChangeBebridge = () => {
 
     try {
       const response = await axiosInstance.put(
-        apiRoutes.DashboardDetail(dashboardIdNumber),
+        apiRoutes.dashboardDetail(dashboardIdNumber),
         payload
       );
       console.log("업데이트 성공:", response.data);

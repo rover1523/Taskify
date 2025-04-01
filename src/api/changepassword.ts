@@ -2,6 +2,7 @@ import axios from "./axiosInstance";
 import { apiRoutes } from "./apiRoutes";
 import { isAxiosError } from "axios";
 
+// 비밀번호 변경
 export const changePassword = async ({
   password,
   newPassword,
@@ -10,7 +11,7 @@ export const changePassword = async ({
   newPassword: string;
 }) => {
   try {
-    const response = await axios.put(apiRoutes.Password(), {
+    const response = await axios.put(apiRoutes.password(), {
       password,
       newPassword,
     });
