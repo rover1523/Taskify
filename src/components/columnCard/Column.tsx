@@ -90,7 +90,7 @@ export default function Column({
     <div
       className={`
     flex flex-col border-r border-gray-200 bg-gray-50 rounded-md p-4
-    h-auto sm:m-h-screen
+    h-auto sm:m-h-screen lg:w-[354px]
     max-h-[401px] sm:max-h-none
   `}
     >
@@ -116,26 +116,21 @@ export default function Column({
       </div>
 
       {/* 카드 영역 */}
-      <div className=" flex-1 pb-4 flex flex-col items-center gap-3 ">
+      <div className="flex-1 pb-4 flex flex-col items-center gap-3 ">
         <div onClick={() => setIsTodoModalOpen(true)} className="mb-2">
           <TodoButton />
         </div>
 
-        {/* 카드 1개만 렌더링 (모바일), 전체 렌더링 (md 이상) */}
+        {/* 카드 렌더링 */}
         <div className="w-full flex flex-wrap justify-center gap-3">
-          {tasks.map((task, index) => {
-            const isMobile =
-              typeof window !== "undefined" && window.innerWidth < 768;
-            if (isMobile && index > 0) return null;
-            return (
-              <Card
-                key={task.id}
-                {...task}
-                imageUrl={task.imageUrl}
-                assignee={task.assignee}
-              />
-            );
-          })}
+          {tasks.map((task) => (
+            <Card
+              key={task.id}
+              {...task}
+              imageUrl={task.imageUrl}
+              assignee={task.assignee}
+            />
+          ))}
         </div>
       </div>
 

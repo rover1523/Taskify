@@ -102,7 +102,7 @@ export default function Dashboard() {
   if (!isReady) return <div>로딩 중...</div>;
 
   return (
-    <div className="flex h-screen overflow-hidden">
+    <div className="flex h-screen overflow-hidden mx-auto">
       <SideMenu teamId={teamId} dashboardList={dashboardList} />
 
       <div className="flex flex-col flex-1 overflow-hidden">
@@ -120,9 +120,18 @@ export default function Dashboard() {
               dashboardId={Number(dashboardId)}
             />
           ))}
-          <div className="p-12">
+          {/* ColumnsButton: 모바일/태블릿에서는 하단 고정, 데스크탑에서는 원래 위치 */}
+          <div className={`p-4 hidden lg:block`}>
             <ColumnsButton onClick={openModal} />
-            {/* todo 모바일, 테블릿 위치에서 뷰포트 아래로 가도록 */}
+          </div>
+
+          {/* fixed 버튼 (모바일, 태블릿용) */}
+          <div
+            className={`
+    fixed bottom-0 left-0 w-full p-3 z-50 bg-white border-t border-gray-200
+    flex justify-center lg:hidden`}
+          >
+            <ColumnsButton onClick={openModal} />
           </div>
           {/* 칼럼 추가 모달 */}
           {isAddColumnModalOpen && (
@@ -136,7 +145,7 @@ export default function Dashboard() {
               isCreateDisabled={isCreateDisabled}
               onSubmit={async () => {
                 if (!newColumnTitle.trim()) {
-                  alert("칼럼 이름을 입력해 주세요.");
+                  alert("칼럼 이름을 입력해 주세요."); // todo tostify로 바꾸기
                   return;
                 }
 
@@ -152,7 +161,7 @@ export default function Dashboard() {
                   setIsAddColumnModalOpen(false);
                 } catch (error) {
                   console.error("칼럼 생성 실패:", error);
-                  alert("칼럼 생성 중 에러가 발생했어요.");
+                  alert("칼럼 생성 중 에러가 발생했어요."); // todo tostify로 바꾸기
                 }
               }}
             />
