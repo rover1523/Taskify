@@ -56,7 +56,7 @@ export const getColumn = async ({
   dashboardId: number;
   columnId: number;
 }) => {
-  const res = await axiosInstance.get(apiRoutes.columns(TEAM_ID), {
+  const res = await axiosInstance.get(`/${TEAM_ID}/columns`, {
     params: {
       dashboardId,
     },
