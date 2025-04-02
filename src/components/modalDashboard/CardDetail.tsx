@@ -1,3 +1,4 @@
+// CardDetail.tsx
 import Image from "next/image";
 import { CardDetailType } from "@/types/cards";
 import { ProfileIcon } from "./profelicon";
@@ -10,20 +11,21 @@ interface CardDetailProps {
 export default function CardDetail({ card }: CardDetailProps) {
   return (
     <div className="p-4 ">
-      <h2 className="text-xl font-bold mb-2">{card.title}</h2>
+      <h2 className="text-3xl font-semibold mb-7">{card.title}</h2>
       {/* 작성자 정보 추가 */}
-      <div className="absolute top-20 right-10 w-40 rounded-lg p-4 bg-white shadow-sm">
+      <div className="absolute w-[181px] h-[155px] lg:[200px] top-20 right-10 rounded-lg p-4 bg-white border border-[#D9D9D9]">
         <div className="mb-3">
           <p className="text-sm font-semibold text-gray-800 mb-1">담당자</p>
           <div className="flex items-center  gap-2">
             <ProfileIcon
               userId={card.assignee.id}
               nickname={card.assignee.nickname}
-              profileImageUrl={card.assignee.profileImageUrl}
+              profileImageUrl={card.assignee.profileImageUrl ?? ""}
               id={card.assignee.id}
               imgClassName="w-6 h-6"
               fontClassName="text-sm"
             />
+
             <span className="text-sm text-gray-700">
               {card.assignee.nickname}
             </span>
@@ -52,6 +54,7 @@ export default function CardDetail({ card }: CardDetailProps) {
         >
           {card.status}
         </span>
+        <span className="text-2xl font-extralight text-[#D9D9D9]">|</span>
         {card.tags.map((tag, idx) => (
           <span
             key={idx}
@@ -63,10 +66,10 @@ export default function CardDetail({ card }: CardDetailProps) {
         ))}
       </div>
       <p
-        className="text-gray-700 mb-4 break-words overflow-auto"
+        className="text-gray-700 p-2 break-words overflow-auto"
         style={{
-          maxWidth: "100%", // 부모 기준 너비 제한
-          maxHeight: "200px", // 최대 높이
+          width: "470px",
+          height: "70px",
           whiteSpace: "pre-wrap", // 줄바꿈 유지 + 자동 줄바꿈
           wordBreak: "break-word", // 긴 단어도 줄바꿈
         }}
@@ -74,13 +77,13 @@ export default function CardDetail({ card }: CardDetailProps) {
         {card.description}
       </p>
       {card.imageUrl && (
-        <div className="w-full mb-4">
+        <div className="md:w-420px lg:w-445px">
           <Image
             src={card.imageUrl}
             alt="카드 이미지"
-            width={400}
-            height={400}
-            className="rounded-lg object-cover"
+            width={445}
+            height={260}
+            className="rounded-lg object-cover w-full h-auto"
           />
         </div>
       )}

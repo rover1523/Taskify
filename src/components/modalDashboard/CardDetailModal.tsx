@@ -1,3 +1,4 @@
+// CardDetailModal.tsx
 import { useRef, useState } from "react";
 import { MoreVertical, X } from "lucide-react";
 import CardDetail from "./CardDetail";
@@ -7,7 +8,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createComment } from "@/api/comment";
 import { deleteCard } from "@/api/card";
 import type { CardDetailType } from "@/types/cards";
-import TaskModal from "@/components/modalInput/TaskModal"; // 경로는 실제 위치에 맞게 조정하세요
+import TaskModal from "@/components/modalInput/TaskModal";
 import { useClosePopup } from "@/hooks/useClosePopup";
 
 interface CardDetailModalProps {
@@ -59,17 +60,27 @@ export default function CardDetailPage({
   return (
     <>
       <div className="fixed inset-0 bg-black/30 z-50 flex items-center justify-center">
-        <div className="relative bg-white rounded-lg shadow-lg w-[730px] h-[763px] flex flex-col">
+        <div
+          className="relative bg-white rounded-lg shadow-lg w-[730px] h-[763px] flex flex-col
+        md:w-[678px] lg:w-[730px]
+        "
+        >
           {/* 오른쪽 상단 메뉴 */}
-          <div className="absolute top-2 right-6 w-[50px] h-[50px] z-30 flex items-center gap-2">
-            <div className="relative" ref={popupRef}>
-              <button onClick={() => setShowMenu((prev) => !prev)}>
+          <div className="absolute top-6 right-10 z-30 flex items-center gap-5 ">
+            <div className="relative">
+              <button
+                onClick={() => setShowMenu((prev) => !prev)}
+                className="hover:cursor-pointer"
+                title="수정하기"
+                type="button"
+              >
                 <MoreVertical className="w-8 h-8 text-gray-500 hover:text-black" />
               </button>
               {showMenu && (
-                <div className="absolute right-0 mt-2 w-24 bg-white rounded shadow z-40">
+                <div className="absolute right-0.5 p-2 w-27 bg-white border border-[#D9D9D9] z-40 rounded-lg">
                   <button
-                    className="block w-full px-3 py-2 text-sm text-violet-600 hover:bg-gray-100"
+                    className="block w-full px-4 py-2 text-base text-gray-800 hover:bg-[#F1EFFD] hover:text-[#5534DA] rounded-sm"
+                    type="button"
                     onClick={() => {
                       setIsEditModalOpen(true);
                       setShowMenu(false);
@@ -78,7 +89,8 @@ export default function CardDetailPage({
                     수정하기
                   </button>
                   <button
-                    className="block w-full px-3 py-2 text-sm text-red-500 hover:bg-gray-100"
+                    className="block w-full px-4 py-2 text-base text-gray-800 hover:bg-[#F1EFFD] hover:text-[#5534DA] rounded-sm "
+                    type="button"
                     onClick={() => deleteCardMutate()}
                   >
                     삭제하기
@@ -86,38 +98,40 @@ export default function CardDetailPage({
                 </div>
               )}
             </div>
-            <button onClick={onClose}>
-              <X className="w-8 h-8 text-gray-500 hover:text-black" />
+            <button onClick={onClose} title="메뉴 열기">
+              <X className="w-8 h-8 text-gray-500 hover:cursor-pointer" />
             </button>
           </div>
 
           {/* 모달 내부 콘텐츠 */}
-          <div className="p-2 flex gap-2 overflow-y-auto w-[500px] h-[460px]">
+          <div className="p-6 flex gap-6 overflow-y-auto flex-1">
             <CardDetail card={cardData} columnName={""} />
           </div>
 
-          <div className="p-3 flex flex-col gap-1 w-[500px] h-[324px]">
-            {/* 댓글 입력창 */}
-            <div className="p-2">
-              댓글
+          {/* 댓글 입력창 */}
+          <div className="px-10 pt-2 pb-2">
+            <p className="text-sm font-semibold mb-2">댓글</p>
+            <div className="w-[450px] h-[110px]">
               <CardInput
                 hasButton
-                className="text-lg" //댓글 스타일수정
+                small
                 value={commentText}
                 onTextChange={setCommentText}
                 onButtonClick={handleCommentSubmit}
+                placeholder="댓글 작성하기"
+                // buttonClassName="border border-[#D9D9D9] text-[#5534DA] hover:bg-[#F1EFFD]"
               />
             </div>
+          </div>
 
-            {/* 댓글 목록 */}
-            <div className="max-h-[400px] text-base overflow-y-auto scrollbar-hidden">
-              <div className=" max-h-[50vh]">
-                <CommentList
-                  cardId={card.id}
-                  currentUserId={currentUserId}
-                  teamId={""}
-                />
-              </div>
+          {/* 댓글 목록 */}
+          <div className="max-h-[400px] text-base overflow-y-auto scrollbar-hidden">
+            <div className=" max-h-[50vh]">
+              <CommentList
+                cardId={card.id}
+                currentUserId={currentUserId}
+                teamId={""}
+              />
             </div>
           </div>
         </div>
@@ -126,6 +140,7 @@ export default function CardDetailPage({
       {isEditModalOpen && (
         <TaskModal
           mode="edit"
+          columnId={card.columnId} // ✅ 여기 추가!
           onClose={() => setIsEditModalOpen(false)}
           onSubmit={(data) => {
             setCardData((prev) => ({

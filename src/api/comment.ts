@@ -5,10 +5,11 @@ import {
   UpdateCommenttype,
   DeleteCommentParams,
 } from "../types/comments";
+import { TEAM_ID } from "@/constants/team";
 
 // 댓글 생성
 export const createComment = async (data: CreateCommentType) => {
-  const response = await axiosInstance.post(apiRoutes.comments(), data);
+  const response = await axiosInstance.post(`/${TEAM_ID}/comments`, data);
   return response.data;
 };
 

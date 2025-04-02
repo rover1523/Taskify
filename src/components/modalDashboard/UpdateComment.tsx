@@ -68,6 +68,7 @@ export default function UpdateComment({
               className="w-full p-2 text-sm"
               value={editedContent}
               onChange={(e) => setEditedContent(e.target.value)}
+              aria-label="댓글"
             />
             <div className="flex gap-2 mt-1 text-sm">
               <button

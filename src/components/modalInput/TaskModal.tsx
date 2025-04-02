@@ -11,7 +11,9 @@ interface TaskModalProps {
   onClose: () => void;
   onSubmit: (data: TaskData) => void;
   initialData?: Partial<TaskData>;
-  members: { nickname: string }[]; // ✅ 담당자 목록 받기
+  members: { nickname: string }[];
+  columnId: number;
+  // ✅ teamId, dashboardId 제거됨
 }
 
 export interface TaskData {
@@ -21,7 +23,7 @@ export interface TaskData {
   description: string;
   deadline: string;
   tags: string[];
-  image?: string; // ✅ 이미지 URL
+  image?: string;
 }
 
 export default function TaskModal({
@@ -30,6 +32,7 @@ export default function TaskModal({
   onSubmit,
   initialData = {},
   members,
+  columnId,
 }: TaskModalProps) {
   const [formData, setFormData] = useState<TaskData>({
     status: initialData.status || "",
@@ -75,7 +78,7 @@ export default function TaskModal({
             <AssigneeSelect
               label="담당자"
               value={formData.assignee}
-              users={members.map((m) => m.nickname)} // ✅ 드롭다운용
+              users={members.map((m) => m.nickname)}
               required
               onChange={(value) => handleChange("assignee", value)}
             />
@@ -111,7 +114,7 @@ export default function TaskModal({
 
           <ModalImage
             label="이미지"
-            columnId={0}
+            columnId={columnId}
             defaultImageUrl={formData.image}
             onImageSelect={(url) => handleChange("image", url)}
           />
