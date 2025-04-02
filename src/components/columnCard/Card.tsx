@@ -19,7 +19,7 @@ export default function Card({
     <div
       onClick={onClick}
       className={`
-        flex flex-col md:flex-row lg:flex-col
+        flex flex-col md:flex-row lg:flex-col cursor-pointer
         items-start rounded-md bg-white border border-gray-200 p-4
         w-[284px] sm:w-full md:w-[544px] md:h-[93px] lg:w-[314px] lg:h-auto
       `}
