@@ -10,7 +10,7 @@ interface MemberIconProps {
 }
 
 export const MemberProfileIcon: React.FC<MemberIconProps> = ({ members }) => (
-  <div className="relative w-[34px] h-[34px] md:w-[38px] md:h-[38px] rounded-full overflow-hidden">
+  <div className="relative flex items-center justify-center w-[34px] h-[34px] md:w-[38px] md:h-[38px] rounded-full border-[2px] border-white overflow-hidden">
     {members.profileImageUrl ? (
       <Image
         src={members.profileImageUrl}
