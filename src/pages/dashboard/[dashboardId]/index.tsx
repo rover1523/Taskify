@@ -98,13 +98,13 @@ export default function Dashboard() {
   if (!isReady) return <div>로딩 중...</div>;
 
   return (
-    <div className="flex h-screen overflow-hidden bg-gray-50">
+    <div className="flex h-screen overflow-hidden ">
       <SideMenu teamId={TEAM_ID} dashboardList={dashboardList} />
 
       <div className="flex flex-col flex-1 overflow-hidden">
         <HeaderDashboard variant="dashboard" dashboardId={dashboardId} />
 
-        <div className="flex-1 overflow-x-auto flex flex-col md:flex-col lg:flex-row ">
+        <div className="flex-1 overflow-x-auto flex flex-col md:flex-col lg:flex-row bg-gray-50 ">
           {/* 각 칼럼 렌더링 */}
           {columns.map((col) => (
             <Column

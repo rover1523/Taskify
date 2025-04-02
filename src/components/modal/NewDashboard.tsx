@@ -1,8 +1,7 @@
 import { useState } from "react";
 import Input from "../input/Input";
 import Image from "next/image";
-import axios from "axios";
-import { TEAM_ID } from "@/constants/team";
+import { createDashboard } from "@/api/dashboards";
 
 interface Dashboard {
   id: number;
@@ -14,19 +13,18 @@ interface Dashboard {
   createdByMe: boolean;
 }
 
-export default function NewDashboard({
-  onClose,
-  onCreate,
-}: {
+interface NewDashboardProps {
+  teamId: string;
   onClose?: () => void;
   onCreate?: (newDashboard: Dashboard) => void;
-}) {
+}
+
+export default function NewDashboard({ onClose, onCreate }: NewDashboardProps) {
   const [title, setTitle] = useState("");
   const [selected, setSelected] = useState<number | null>(null);
   const [loading, setLoading] = useState(false);
 
   const colors = ["#7ac555", "#760DDE", "#FF9800", "#76A5EA", "#E876EA"];
-  const token = localStorage.getItem("accessToken");
 
   const handleSubmit = async () => {
     const payload = {
@@ -36,17 +34,7 @@ export default function NewDashboard({
 
     try {
       setLoading(true);
-      const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/${TEAM_ID}/dashboards`,
-        payload,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
+      const response = await createDashboard(payload);
       onCreate?.(response.data);
       onClose?.();
     } catch {

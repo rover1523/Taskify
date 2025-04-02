@@ -56,7 +56,7 @@ export const DeleteModal: React.FC<DeleteModalProps> = ({
                 setIsConfirmDeleteModalOpen(true); // 재확인 모달 오픈
               } else {
                 handleLeave(); // 탈퇴일 때는 바로 닫힘
-                toast.success("대시보드 탈퇴가 완료되었습니다.");
+                toast.error("현재 탈퇴 기능이 준비 중입니다.");
               }
             }}
             className="cursor-pointer bg-[var(--primary)] text-white px-3 py-1 rounded-md w-[84px] h-[32px]"
