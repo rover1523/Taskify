@@ -4,6 +4,7 @@ import Image from "next/image";
 type CardProps = CardType & {
   imageUrl?: string | null;
   assignee: AssigneeType;
+  onClick?: () => void;
 };
 
 export default function Card({
@@ -12,9 +13,11 @@ export default function Card({
   tags,
   assignee,
   imageUrl,
+  onClick,
 }: CardProps) {
   return (
     <div
+      onClick={onClick}
       className={`
         flex flex-col md:flex-row lg:flex-col
         items-start rounded-md bg-white border border-gray-200 p-4
