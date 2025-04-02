@@ -1,21 +1,27 @@
-// CardDetailModal.tsx
-import { useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { MoreVertical, X } from "lucide-react";
 import CardDetail from "./CardDetail";
 import CommentList from "./CommentList";
 import CardInput from "@/components/modalInput/CardInput";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { createComment } from "@/api/comment";
-import { deleteCard } from "@/api/card";
+import { deleteCard, EditCard } from "@/api/card"; // EditCard API 추가
 import type { CardDetailType } from "@/types/cards";
 import TaskModal from "@/components/modalInput/TaskModal";
 import { useClosePopup } from "@/hooks/useClosePopup";
+import { getColumn } from "@/api/columns";
 
 interface CardDetailModalProps {
   card: CardDetailType;
   currentUserId: number;
   dashboardId: number;
   onClose: () => void;
+}
+
+interface ColumnType {
+  id: number;
+  title: string;
+  status: string;
 }
 
 export default function CardDetailPage({
@@ -31,6 +37,19 @@ export default function CardDetailPage({
   const queryClient = useQueryClient();
   const popupRef = useRef(null);
   useClosePopup(popupRef, () => setShowMenu(false));
+
+  const { data: columns = [] } = useQuery<ColumnType[]>({
+    queryKey: ["columns", dashboardId],
+    queryFn: () => getColumn({ dashboardId, columnId: card.columnId }),
+  });
+
+  const columnName = useMemo(() => {
+    return (
+      columns.find((col) => String(col.id) === String(cardData.columnId))
+        ?.title || "알 수 없음"
+    );
+  }, [columns, cardData.columnId]);
+
   const { mutate: createCommentMutate } = useMutation({
     mutationFn: createComment,
     onSuccess: () => {
@@ -57,13 +76,20 @@ export default function CardDetailPage({
     });
   };
 
+  const { mutateAsync: updateCardMutate } = useMutation({
+    mutationFn: (data: Partial<CardDetailType>) => EditCard(cardData.id, data),
+    onSuccess: (updatedCard) => {
+      setCardData(updatedCard); // ✅ 서버 응답을 최신 cardData로 설정
+      queryClient.invalidateQueries({ queryKey: ["cards"] }); // 필요시
+    },
+  });
+
   return (
     <>
       <div className="fixed inset-0 bg-black/30 z-50 flex items-center justify-center">
         <div
           className="relative bg-white rounded-lg shadow-lg w-[730px] h-[763px] flex flex-col
-        md:w-[678px] lg:w-[730px]
-        "
+        md:w-[678px] lg:w-[730px]"
         >
           {/* 오른쪽 상단 메뉴 */}
           <div className="absolute top-6 right-10 z-30 flex items-center gap-5 ">
@@ -104,14 +130,14 @@ export default function CardDetailPage({
           </div>
 
           {/* 모달 내부 콘텐츠 */}
-          <div className="p-6 flex gap-6 overflow-y-auto flex-1">
-            <CardDetail card={cardData} columnName={""} />
+          <div className="p-6 flex gap-6 overflow-y-auto flex-1 w-[550px] h-[460px]">
+            <CardDetail card={cardData} columnName={columnName} />
           </div>
 
           {/* 댓글 입력창 */}
           <div className="px-10 pt-2 pb-2">
             <p className="text-sm font-semibold mb-2">댓글</p>
-            <div className="w-[450px] h-[110px]">
+            <div className="w-[480px] h-[110px]">
               <CardInput
                 hasButton
                 small
@@ -119,7 +145,6 @@ export default function CardDetailPage({
                 onTextChange={setCommentText}
                 onButtonClick={handleCommentSubmit}
                 placeholder="댓글 작성하기"
-                // buttonClassName="border border-[#D9D9D9] text-[#5534DA] hover:bg-[#F1EFFD]"
               />
             </div>
           </div>
@@ -136,24 +161,24 @@ export default function CardDetailPage({
           </div>
         </div>
       </div>
+
       {/* TaskModal 수정 모드 */}
       {isEditModalOpen && (
         <TaskModal
           mode="edit"
-          columnId={card.columnId} // ✅ 여기 추가!
+          columnId={card.columnId} // ✅ 여기에 columnId 추가!
           onClose={() => setIsEditModalOpen(false)}
-          onSubmit={(data) => {
-            setCardData((prev) => ({
-              ...prev,
-              status: data.status as "todo" | "in-progress" | "done",
-              assignee: { ...prev.assignee, nickname: data.assignee },
+          onSubmit={async (data) => {
+            await updateCardMutate({
+              status: String(cardData.columnId) || cardData.status,
+              assignee: { ...cardData.assignee, nickname: data.assignee },
               title: data.title,
               description: data.description,
               dueDate: data.deadline,
               tags: data.tags,
               imageUrl: data.image ?? "",
-            }));
-            setIsEditModalOpen(false);
+            });
+            setIsEditModalOpen(false); // 수정 후 모달 닫기
           }}
           initialData={{
             status: cardData.status,

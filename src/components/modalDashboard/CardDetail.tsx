@@ -8,7 +8,7 @@ interface CardDetailProps {
   columnName: string;
 }
 
-export default function CardDetail({ card }: CardDetailProps) {
+export default function CardDetail({ card, columnName }: CardDetailProps) {
   return (
     <div className="p-4 ">
       <h2 className="text-3xl font-semibold mb-7">{card.title}</h2>
@@ -50,9 +50,9 @@ export default function CardDetail({ card }: CardDetailProps) {
       <div className="flex flex-wrap gap-2 mb-4">
         <span
           className="rounded-full bg-violet-200 px-3 py-1 text-sm text-violet-800"
-          title={`상태: ${card.status}`}
+          title={`상태: ${columnName}`}
         >
-          {card.status}
+          {columnName}
         </span>
         <span className="text-2xl font-extralight text-[#D9D9D9]">|</span>
         {card.tags.map((tag, idx) => (

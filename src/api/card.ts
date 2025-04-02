@@ -83,25 +83,29 @@ export const getDashboardMembers = async ({
 };
 
 /** 4. 카드 수정 */
-export const updateCard = async ({
-  cardId,
-  columnId,
-  assigneeUserId,
-  title,
-  description,
-  dueDate,
-  tags,
-  imageUrl,
-}: {
-  cardId: number;
-  columnId: number;
-  assigneeUserId: number;
-  title: string;
-  description: string;
-  dueDate: string;
-  tags: string[];
-  imageUrl?: string;
-}) => {
+export const updateCard = async (
+  id: number,
+  data: Partial<CardDetailType>,
+  {
+    cardId,
+    columnId,
+    assigneeUserId,
+    title,
+    description,
+    dueDate,
+    tags,
+    imageUrl,
+  }: {
+    cardId: number;
+    columnId: number;
+    assigneeUserId: number;
+    title: string;
+    description: string;
+    dueDate: string;
+    tags: string[];
+    imageUrl?: string;
+  }
+) => {
   const response = await axiosInstance.put(apiRoutes.cardDetail(cardId), {
     columnId,
     assigneeUserId,
@@ -153,5 +157,13 @@ export async function getCardDetail(cardId: number): Promise<CardDetailType> {
 export const deleteCard = async (cardId: number) => {
   const url = apiRoutes.cardDetail(cardId);
   const response = await axiosInstance.delete(url);
+  return response.data;
+};
+//카드 수정저장
+export const EditCard = async (
+  cardId: number,
+  data: Partial<CardDetailType>
+) => {
+  const response = await axiosInstance.put(apiRoutes.cardDetail(cardId), data);
   return response.data;
 };
