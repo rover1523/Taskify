@@ -65,6 +65,7 @@ export default function CardDetailPage({
                 onClick={() => setShowMenu((prev) => !prev)}
                 className="hover:cursor-pointer"
                 title="수정하기"
+                type="button"
               >
                 <MoreVertical className="w-8 h-8 text-gray-500 hover:text-black" />
               </button>
@@ -72,6 +73,7 @@ export default function CardDetailPage({
                 <div className="absolute right-0.5 p-2 w-27 bg-white border border-[#D9D9D9] z-40 rounded-lg">
                   <button
                     className="block w-full px-4 py-2 text-base text-gray-800 hover:bg-[#F1EFFD] hover:text-[#5534DA] rounded-sm"
+                    type="button"
                     onClick={() => {
                       setIsEditModalOpen(true);
                       setShowMenu(false);
@@ -81,6 +83,7 @@ export default function CardDetailPage({
                   </button>
                   <button
                     className="block w-full px-4 py-2 text-base text-gray-800 hover:bg-[#F1EFFD] hover:text-[#5534DA] rounded-sm "
+                    type="button"
                     onClick={() => deleteCardMutate()}
                   >
                     삭제하기
