@@ -7,6 +7,7 @@ export type AssigneeType = {
 
 // 개별 테스크 카드
 export type CardType = {
+  status: string;
   id: number;
   title: string;
   tags: string[];

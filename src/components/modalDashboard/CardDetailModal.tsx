@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { MoreVertical, X } from "lucide-react";
 import CardDetail from "./CardDetail";
 import CommentList from "./CommentList";
@@ -8,6 +8,7 @@ import { createComment } from "@/api/comment";
 import { deleteCard } from "@/api/card";
 import type { CardDetailType } from "@/types/cards";
 import TaskModal from "@/components/modalInput/TaskModal"; // 경로는 실제 위치에 맞게 조정하세요
+import { useClosePopup } from "@/hooks/useClosePopup";
 
 interface CardDetailModalProps {
   card: CardDetailType;
@@ -27,7 +28,8 @@ export default function CardDetailPage({
   const [showMenu, setShowMenu] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const queryClient = useQueryClient();
-
+  const popupRef = useRef(null);
+  useClosePopup(popupRef, () => setShowMenu(false));
   const { mutate: createCommentMutate } = useMutation({
     mutationFn: createComment,
     onSuccess: () => {
@@ -60,12 +62,12 @@ export default function CardDetailPage({
         <div className="relative bg-white rounded-lg shadow-lg w-[730px] h-[763px] flex flex-col">
           {/* 오른쪽 상단 메뉴 */}
           <div className="absolute top-2 right-6 w-[50px] h-[50px] z-30 flex items-center gap-2">
-            <div className="relative">
+            <div className="relative" ref={popupRef}>
               <button onClick={() => setShowMenu((prev) => !prev)}>
                 <MoreVertical className="w-8 h-8 text-gray-500 hover:text-black" />
               </button>
               {showMenu && (
-                <div className="absolute right-0 mt-2 w-24 bg-white border rounded shadow z-40">
+                <div className="absolute right-0 mt-2 w-24 bg-white rounded shadow z-40">
                   <button
                     className="block w-full px-3 py-2 text-sm text-violet-600 hover:bg-gray-100"
                     onClick={() => {
@@ -90,32 +92,36 @@ export default function CardDetailPage({
           </div>
 
           {/* 모달 내부 콘텐츠 */}
-          <div className="p-6 flex gap-6 overflow-y-auto">
+          <div className="p-2 flex gap-2 overflow-y-auto w-[500px] h-[460px]">
             <CardDetail card={cardData} columnName={""} />
           </div>
 
-          {/* 댓글 입력창 */}
-          <div className="p-4">
-            <CardInput
-              hasButton
-              small
-              value={commentText}
-              onTextChange={setCommentText}
-              onButtonClick={handleCommentSubmit}
-            />
-          </div>
+          <div className="p-3 flex flex-col gap-1 w-[500px] h-[324px]">
+            {/* 댓글 입력창 */}
+            <div className="p-2">
+              댓글
+              <CardInput
+                hasButton
+                className="text-lg" //댓글 스타일수정
+                value={commentText}
+                onTextChange={setCommentText}
+                onButtonClick={handleCommentSubmit}
+              />
+            </div>
 
-          {/* 댓글 목록 */}
-          <div className="px-6 space-y-4 max-h-[200px] overflow-y-auto">
-            <CommentList
-              cardId={card.id}
-              currentUserId={currentUserId}
-              teamId={""}
-            />
+            {/* 댓글 목록 */}
+            <div className="max-h-[400px] text-base overflow-y-auto scrollbar-hidden">
+              <div className=" max-h-[50vh]">
+                <CommentList
+                  cardId={card.id}
+                  currentUserId={currentUserId}
+                  teamId={""}
+                />
+              </div>
+            </div>
           </div>
         </div>
       </div>
-
       {/* TaskModal 수정 모드 */}
       {isEditModalOpen && (
         <TaskModal

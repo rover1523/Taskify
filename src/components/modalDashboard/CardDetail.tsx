@@ -65,7 +65,7 @@ export default function CardDetail({ card }: CardDetailProps) {
       <p
         className="text-gray-700 mb-4 break-words overflow-auto"
         style={{
-          maxWidth: "70%", // 부모 기준 너비 제한
+          maxWidth: "100%", // 부모 기준 너비 제한
           maxHeight: "200px", // 최대 높이
           whiteSpace: "pre-wrap", // 줄바꿈 유지 + 자동 줄바꿈
           wordBreak: "break-word", // 긴 단어도 줄바꿈

@@ -1,5 +1,6 @@
 import { ChangeEvent, useRef } from "react";
 import TextButton from "./TextButton";
+import clsx from "clsx";
 
 export interface CardInputProps {
   value: string;
@@ -33,9 +34,13 @@ export default function CardInput({
         value={value}
         onChange={handleChange}
         placeholder={placeholder}
-        className={`w-full resize-none rounded-md border border-[var(--color-gray3)] focus:border-[var(--primary)] p-2 outline-none bg-white ${small ? "text-sm" : ""}`}
+        className={clsx(
+          "w-full resize-none rounded-md border border-[var(--color-gray3)] focus:border-[var(--primary)] p-1 outline-none bg-white",
+          small ? "text-sm" : "text-base",
+          className
+        )}
         style={{
-          height: small ? "80px" : "120px", // 고정된 높이 설정
+          height: small ? "110px" : "100px", // 고정된 높이 설정
           overflowY: "auto", // 내용이 넘치면 스크롤 생성
           wordWrap: "break-word",
           whiteSpace: "pre-wrap",
@@ -49,7 +54,7 @@ export default function CardInput({
           color="secondary"
           buttonSize="xs"
           onClick={onButtonClick}
-          className="absolute bottom-3 right-3 z-10 flex items-center justify-center"
+          className="absolute bottom-3 right-3 z-10 flex items-center justify-center text-violet-600"
         >
           입력
         </TextButton>
