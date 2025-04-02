@@ -37,16 +37,17 @@ export default function CommentList({
     data?.pages.flatMap((page) => page.comments) ?? [];
 
   return (
-    <div className="flex flex-col gap-4 mt-4">
+    <div className="min-h-[80px] p-2 rounded bg-white shadow-sm">
       {allComments.map((comment) => (
-        <UpdateComment
-          key={comment.id}
-          comment={comment}
-          currentUserId={currentUserId}
-          teamId={""}
-        />
+        <div key={comment.id} className="p-2  last:border-b-0">
+          <UpdateComment
+            comment={comment}
+            currentUserId={currentUserId}
+            teamId={""}
+          />
+        </div>
       ))}
-      <div ref={ref} className="h-6" />
+      <div ref={ref} />
     </div>
   );
 }
