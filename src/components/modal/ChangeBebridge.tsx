@@ -64,7 +64,8 @@ const ChangeBebridge = () => {
         router.reload();
       }, 1700);
     } catch (error) {
-      toast.error("변경에 실패했습니다.");
+      console.error("대시보드 변경 실패:", error);
+      toast.error("대시보드 변경에 실패했습니다.");
     }
   };
 

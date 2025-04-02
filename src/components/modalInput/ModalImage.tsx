@@ -52,7 +52,7 @@ export default function ModalImage({
       onImageSelect(imageUrl);
     } catch (error) {
       console.error("이미지 업로드 실패:", error);
-      toast.error("이미지 업로드에 실패했어요.");
+      toast.error("이미지 업로드에 실패했습니다.");
     }
   };
 

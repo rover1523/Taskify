@@ -3,12 +3,9 @@ import clsx from "clsx";
 import Image from "next/image";
 
 interface DashboardAddButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  fullWidth?: boolean;
-}
+  extends React.ButtonHTMLAttributes<HTMLButtonElement> {}
 
 const DashboardAddButton: React.FC<DashboardAddButtonProps> = ({
-  fullWidth = false,
   className,
   children = "새로운 대시보드",
   ...props
