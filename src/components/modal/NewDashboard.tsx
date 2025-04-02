@@ -1,9 +1,7 @@
 import { useState } from "react";
 import Input from "../input/Input";
 import Image from "next/image";
-import axios from "axios";
 import { createDashboard } from "@/api/dashboards";
-import { TEAM_ID } from "@/constants/team";
 
 interface Dashboard {
   id: number;
@@ -21,11 +19,7 @@ interface NewDashboardProps {
   onCreate?: (newDashboard: Dashboard) => void;
 }
 
-export default function NewDashboard({
-  teamId,
-  onClose,
-  onCreate,
-}: NewDashboardProps) {
+export default function NewDashboard({ onClose, onCreate }: NewDashboardProps) {
   const [title, setTitle] = useState("");
   const [selected, setSelected] = useState<number | null>(null);
   const [loading, setLoading] = useState(false);
