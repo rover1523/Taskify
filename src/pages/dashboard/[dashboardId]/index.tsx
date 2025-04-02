@@ -127,7 +127,7 @@ export default function Dashboard() {
           {/* fixed 버튼 (모바일, 태블릿용) */}
           <div
             className={`
-    fixed bottom-0 left-0 w-full p-3 z-50 bg-white border-t border-gray-200
+    fixed bottom-0 left-0 w-full p-3 z-10 bg-white border-t border-gray-200
     flex justify-center lg:hidden`}
           >
             <ColumnsButton onClick={openModal} />
