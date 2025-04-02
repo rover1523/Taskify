@@ -1,3 +1,4 @@
+// CardDetail.tsx
 import Image from "next/image";
 import { CardDetailType } from "@/types/cards";
 import { ProfileIcon } from "./profelicon";
@@ -12,7 +13,7 @@ export default function CardDetail({ card }: CardDetailProps) {
     <div className="p-4 ">
       <h2 className="text-3xl font-semibold mb-7">{card.title}</h2>
       {/* 작성자 정보 추가 */}
-      <div className="absolute w-[200px] h-[155px] top-20 right-10 rounded-lg p-4 bg-white border border-[#D9D9D9]">
+      <div className="absolute w-[181px] h-[155px] lg:[200px] top-20 right-10 rounded-lg p-4 bg-white border border-[#D9D9D9]">
         <div className="mb-3">
           <p className="text-sm font-semibold text-gray-800 mb-1">담당자</p>
           <div className="flex items-center  gap-2">
@@ -76,13 +77,13 @@ export default function CardDetail({ card }: CardDetailProps) {
         {card.description}
       </p>
       {card.imageUrl && (
-        <div className="w-full">
+        <div className="md:w-420px lg:w-445px">
           <Image
             src={card.imageUrl}
             alt="카드 이미지"
             width={445}
             height={260}
-            className="rounded-lg object-cover"
+            className="rounded-lg object-cover w-full h-auto"
           />
         </div>
       )}

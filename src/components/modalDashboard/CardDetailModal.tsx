@@ -1,3 +1,4 @@
+// CardDetailModal.tsx
 import { useState } from "react";
 import { MoreVertical, X } from "lucide-react";
 import CardDetail from "./CardDetail";
@@ -57,7 +58,11 @@ export default function CardDetailPage({
   return (
     <>
       <div className="fixed inset-0 bg-black/30 z-50 flex items-center justify-center">
-        <div className="relative bg-white rounded-lg shadow-lg w-[730px] h-[763px] flex flex-col">
+        <div
+          className="relative bg-white rounded-lg shadow-lg w-[730px] h-[763px] flex flex-col
+        md:w-[678px] lg:w-[730px]
+        "
+        >
           {/* 오른쪽 상단 메뉴 */}
           <div className="absolute top-6 right-10 z-30 flex items-center gap-5 ">
             <div className="relative">
