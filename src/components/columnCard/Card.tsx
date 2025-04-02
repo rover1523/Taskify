@@ -97,9 +97,19 @@ export default function Card({
               />
               <span>{dueDate}</span>
             </div>
-            <div className="w-6 h-6 flex items-center justify-center bg-[#A3C4A2] text-white font-bold rounded-full text-xs">
-              {assignee.nickname[0]}
-            </div>
+            {assignee.profileImageUrl ? (
+              <Image
+                src={assignee.profileImageUrl}
+                alt="프로필 이미지"
+                width={24}
+                height={24}
+                className="w-6 h-6 rounded-full object-cover"
+              />
+            ) : (
+              <div className="w-6 h-6 flex items-center justify-center bg-[#A3C4A2] text-white font-bold rounded-full text-xs">
+                {assignee.nickname[0]}
+              </div>
+            )}
           </div>
         </div>
       </div>
