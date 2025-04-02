@@ -2,7 +2,6 @@ import { useState } from "react";
 import Input from "../input/Input";
 import Image from "next/image";
 import axios from "axios";
-import { TEAM_ID } from "@/constants/team";
 
 interface Dashboard {
   id: number;
@@ -14,13 +13,17 @@ interface Dashboard {
   createdByMe: boolean;
 }
 
-export default function NewDashboard({
-  onClose,
-  onCreate,
-}: {
+interface NewDashboardProps {
+  teamId: string;
   onClose?: () => void;
   onCreate?: (newDashboard: Dashboard) => void;
-}) {
+}
+
+export default function NewDashboard({
+  teamId,
+  onClose,
+  onCreate,
+}: NewDashboardProps) {
   const [title, setTitle] = useState("");
   const [selected, setSelected] = useState<number | null>(null);
   const [loading, setLoading] = useState(false);
@@ -37,7 +40,7 @@ export default function NewDashboard({
     try {
       setLoading(true);
       const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/${TEAM_ID}/dashboards`,
+        `${process.env.NEXT_PUBLIC_BASE_URL}/${teamId}/dashboards`,
         payload,
         {
           headers: {

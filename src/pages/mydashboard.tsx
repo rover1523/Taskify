@@ -200,10 +200,12 @@ export default function MyDashboardPage() {
 
       {isModalOpen && (
         <NewDashboard
+          teamId={TEAM_ID} // ✅ 수정된 부분: teamId 전달
           onClose={() => {
             setIsModalOpen(false);
             fetchDashboards();
           }}
+          onCreate={() => fetchDashboards()}
         />
       )}
 
