@@ -8,7 +8,7 @@ import axiosInstance from "@/api/axiosInstance";
 import Image from "next/image";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import DelteMemberModal from "@/components/modal/DelteMemberModal";
+import DelteMemberModal from "@/components/modal/DeleteMemberModal";
 
 interface HeaderBebridgeProps {
   dashboardId?: string | string[];
@@ -66,9 +66,9 @@ const MemberList: React.FC<HeaderBebridgeProps> = ({ dashboardId }) => {
   }, [dashboardId]);
 
   return (
-    <div className="lg:w-[620px] lg:h-[404px] w-[284px] h-[337px] sm:w-[544px] sm:h-[404px] relative bg-white p-6 rounded-lg">
+    <div className="lg:w-[620px] lg:h-[404px] w-[284px] h-[337px] sm:w-[544px] sm:h-[404px] relative p-6 rounded-lg">
       <ToastContainer position="top-center" autoClose={2000} />
-      <div className="flex justify-between items-center ">
+      <div className="flex justify-between items-center">
         <p className="text-xl sm:text-2xl font-bold">구성원</p>
         <Pagination
           currentPage={currentPage}
@@ -113,7 +113,6 @@ const MemberList: React.FC<HeaderBebridgeProps> = ({ dashboardId }) => {
 
             {!member.isOwner && (
               <>
-                <div></div>
                 <button
                   onClick={openModal}
                   className="text-md-Medium cursor-pointer font-medium text-sm sm:text-base h-[32px] sm:h-[32px] w-[52px] sm:w-[84px] md:w-[84px] border border-gray-300 text-indigo-600 px-2 py-1 rounded-md hover:bg-gray-100"
