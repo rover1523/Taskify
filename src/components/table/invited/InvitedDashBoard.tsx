@@ -95,18 +95,18 @@ function InvitedList({
   };
 
   return (
+    /* 초대 목록 헤더 */
     <div className="relative bg-white w-full max-w-[260px] sm:max-w-[504px] lg:max-w-[966px] mx-auto mt-[40px]">
       {filteredData.length > 0 && (
-        <div className="hidden sm:grid grid-cols-[3fr_2fr_3fr] px-6 w-full h-[26px] items-center">
-          <p className="pl-6 font-normal text-[var(--color-gray2)]">이름</p>
-          <p className="font-normal text-[var(--color-gray2)]">초대자</p>
-          <p className="text-center font-normal text-[var(--color-gray2)]">
-            수락 여부
-          </p>
+        <div className="font-16r hidden sm:grid grid-cols-[3fr_2fr_3fr] px-4 w-full h-[26px] items-center">
+          <p className="pl-6 text-[var(--color-gray2)]">이름</p>
+          <p className="text-[var(--color-gray2)]">초대자</p>
+          <p className="text-center text-[var(--color-gray2)]">수락 여부</p>
         </div>
       )}
 
-      <div className="scroll-area h-[400px] overflow-y-auto overflow-x-hidden">
+      {/* 리스트 */}
+      <div className="scroll-area h-[150vw] max-h-[570px] sm:max-h-[400px] overflow-y-auto overflow-x-hidden">
         {filteredData.length > 0 ? (
           filteredData.map((invite, index) => (
             <div
@@ -130,7 +130,7 @@ function InvitedList({
                     {invite.nickname}
                   </span>
                 </div>
-                <div className="flex gap-2 mt-2 justify-end">
+                <div className="flex gap-2 mt-2 justify-center">
                   <button
                     className="cursor-pointer border px-3 py-1 rounded-md w-[84px] h-[32px] text-[var(--primary)] border-[var(--color-gray3)]"
                     onClick={() => rejectInvite(invite.id)}
@@ -278,12 +278,12 @@ export default function InvitedDashBoard() {
       ) : (
         <div className="relative bg-white rounded-lg shadow-md w-[260px] sm:w-[504px] lg:w-[1022px] h-[770px] sm:h-[592px] lg:h-[620px] max-w-none">
           <div className="flex flex-col p-6 w-full h-[104px]">
-            <div className="flex flex-col w-[228px] sm:w-[448px] lg:w-[966px] gap-[24px]">
+            <div className="flex flex-col w-full sm:w-[448px] lg:w-[966px] gap-[24px]">
               <p className="text-black3 text-xl sm:text-2xl font-bold">
                 초대받은 대시보드
               </p>
 
-              <div className="relative w-[228px] sm:w-[448px] lg:w-[966px] mx-auto">
+              <div className="relative w-full sm:w-[448px] lg:w-[966px] mx-auto">
                 <input
                   id="title"
                   placeholder="검색"
