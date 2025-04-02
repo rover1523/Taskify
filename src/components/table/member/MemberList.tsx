@@ -32,7 +32,7 @@ const MemberList: React.FC<HeaderBebridgeProps> = ({ dashboardId }) => {
       await axiosInstance.delete(apiRoutes.memberDetail(id));
       window.location.reload();
     } catch (error) {
-      toast.error("구성원원 삭제에 실패하였습니다 .");
+      toast.error("구성원 삭제에 실패하였습니다.");
       console.error("구성원 삭제 실패:", error);
     }
   };

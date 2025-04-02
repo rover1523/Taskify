@@ -12,6 +12,7 @@ interface GeneralInputProps {
   value?: string;
   readOnly?: boolean; //입력방지 추가
   onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
+  forceInvalid?: boolean;
 }
 
 interface SignInputProps extends Omit<GeneralInputProps, "type"> {
@@ -21,6 +22,7 @@ interface SignInputProps extends Omit<GeneralInputProps, "type"> {
   invalidMessage?: string;
   labelClassName?: string;
   wrapperClassName?: string;
+  forceInvalid?: boolean;
 }
 
 type InputProps = GeneralInputProps | SignInputProps;

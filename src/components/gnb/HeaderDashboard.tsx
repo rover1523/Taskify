@@ -7,7 +7,8 @@ import { MemberType, UserType } from "@/types/users";
 import { getMembers } from "@/api/members";
 import { getUserInfo } from "@/api/users";
 import { getDashboardById } from "@/api/dashboards";
-import { MemberList, UserAvatars } from "@/components/gnb/Avatars";
+import { UserProfileIcon } from "@/components/gnb/ProfileIcon";
+import MembersProfileIconList from "@/components/gnb/MembersProfileIconList";
 import UserMenu from "@/components/gnb/UserMenu";
 import MemberListMenu from "@/components/gnb/MemberListMenu";
 import InviteDashboard from "@/components/modal/InviteDashboard";
@@ -118,7 +119,14 @@ const HeaderDashboard: React.FC<HeaderDashboardProps> = ({
   })();
 
   return (
-    <header className="w-full h-[60px] md:h-[70px] flex items-center justify-center bg-white border-b-[1px] border-b-[var(--color-gray3)]">
+    <header
+      className={clsx(
+        "flex items-center justify-center",
+        "w-full h-[60px] md:h-[70px]",
+        "bg-white",
+        "border-b-[1px] border-b-[var(--color-gray3)]"
+      )}
+    >
       <div className="w-full flex items-center justify-between pl-[4vw]">
         {errorMessage && (
           <p className="text-sm text-[var(--color-red)] px-4 py-2">
@@ -131,7 +139,9 @@ const HeaderDashboard: React.FC<HeaderDashboardProps> = ({
           <p
             className={clsx(
               "font-20b text-black3 whitespace-nowrap",
-              variant !== "mydashboard" ? "hidden lg:block" : ""
+              variant !== "mydashboard" && variant !== "mypage"
+                ? "hidden lg:block"
+                : ""
             )}
           >
             {title}
@@ -221,7 +231,7 @@ const HeaderDashboard: React.FC<HeaderDashboardProps> = ({
 
           {/*멤버 목록*/}
           {variant !== "mydashboard" && (
-            <div className="relative flex items-center justify-center w-[150px] md:w-[190px] h-[60px] md:h-[70px] whitespace-nowrap">
+            <div className="relative flex items-center justify-center w-full h-[60px] md:h-[70px] whitespace-nowrap">
               {isLoading ? (
                 <SkeletonUser />
               ) : (
@@ -230,10 +240,9 @@ const HeaderDashboard: React.FC<HeaderDashboardProps> = ({
                     onClick={() => setIsListOpen((prev) => !prev)}
                     className="flex items-center pl-[15px] md:pl-[25px] lg:pl-[30px] pr-[15px] md:pr-[25px] lg:pr-[30px] cursor-pointer"
                   >
-                    <MemberList
+                    <MembersProfileIconList
                       members={members}
                       isLoading={isLoading}
-                      variant={variant}
                     />
                   </div>
                 )
@@ -266,7 +275,7 @@ const HeaderDashboard: React.FC<HeaderDashboardProps> = ({
               ) : (
                 user && (
                   <>
-                    <UserAvatars user={user} />
+                    <UserProfileIcon user={user} />
                     <span className="hidden md:block text-black3 md:text-base md:font-medium max-w-[90px] truncate whitespace-nowrap">
                       {user.nickname}
                     </span>

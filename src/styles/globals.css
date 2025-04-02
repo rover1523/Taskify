@@ -19,34 +19,44 @@
 
 .Toastify__toast {
   width: 250px !important;
-  border-radius: 12px;
+  border-radius: 16px;
   padding: 14px 18px;
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 400;
 }
 
 .Toastify__toast--success {
-  border-radius: 12px;
+  border-radius: 16px;
   padding: 14px 18px;
   background-color: #f3f0ff !important;
   color: #5534da !important;
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 400;
   box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
 }
 
 .Toastify__toast--error {
-  border-radius: 12px;
+  border-radius: 16px;
   padding: 14px 18px;
-  background-color: #f3f0ff;
-  color: #d549b6;
+  background-color: white !important;
+  color: #d549b6 !important;
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 400;
   box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
 }
 
 .Toastify__close-button {
   display: none !important;
+}
+
+/* success 토스트: 프라이머리 컬러 */
+.Toastify__toast-icon svg {
+  fill: #5534da !important;
+}
+
+/* error 토스트: 핑크 */
+.Toastify__toast--error .Toastify__toast-icon svg {
+  fill: #d549b6 !important;
 }
 
 @layer base {
