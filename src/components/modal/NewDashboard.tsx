@@ -25,7 +25,6 @@ export default function NewDashboard({ onClose, onCreate }: NewDashboardProps) {
   const [loading, setLoading] = useState(false);
 
   const colors = ["#7ac555", "#760DDE", "#FF9800", "#76A5EA", "#E876EA"];
-  const token = localStorage.getItem("accessToken");
 
   const handleSubmit = async () => {
     const payload = {
