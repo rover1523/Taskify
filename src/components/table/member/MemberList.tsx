@@ -8,6 +8,7 @@ import axiosInstance from "@/api/axiosInstance";
 import Image from "next/image";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import DelteMemberModal from "@/components/modal/DelteMemberModal";
 
 interface HeaderBebridgeProps {
   dashboardId?: string | string[];
@@ -15,6 +16,7 @@ interface HeaderBebridgeProps {
 
 const MemberList: React.FC<HeaderBebridgeProps> = ({ dashboardId }) => {
   const [members, setMembers] = useState<MemberType[]>([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   /* 페이지네이션 */
   const [currentPage, setCurrentPage] = useState(1);
@@ -26,17 +28,16 @@ const MemberList: React.FC<HeaderBebridgeProps> = ({ dashboardId }) => {
     currentPage * itemsPerPage
   );
 
-  /*버튼(삭제, 이전, 다음)*/
-  const handleDelete = async (id: number) => {
-    try {
-      await axiosInstance.delete(apiRoutes.memberDetail(id));
-      window.location.reload();
-    } catch (error) {
-      toast.error("구성원 삭제에 실패하였습니다.");
-      console.error("구성원 삭제 실패:", error);
-    }
+  /* 구성원 삭제 모달 */
+  const openModal = () => {
+    setIsModalOpen(true);
   };
 
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+  /* 페이지네이션 */
   const handlePrevPage = () => {
     if (currentPage > 1) setCurrentPage(currentPage - 1);
   };
@@ -109,13 +110,25 @@ const MemberList: React.FC<HeaderBebridgeProps> = ({ dashboardId }) => {
                 {member.isOwner && "(소유자)"}
               </p>
             </div>
+
             {!member.isOwner && (
-              <button
-                onClick={() => handleDelete(member.id)}
-                className="text-md-Medium cursor-pointer font-medium text-sm sm:text-base h-[32px] sm:h-[32px] w-[52px] sm:w-[84px] md:w-[84px] border border-gray-300 text-indigo-600 px-2 py-1 rounded-md hover:bg-gray-100"
-              >
-                삭제
-              </button>
+              <>
+                <div></div>
+                <button
+                  onClick={openModal}
+                  className="text-md-Medium cursor-pointer font-medium text-sm sm:text-base h-[32px] sm:h-[32px] w-[52px] sm:w-[84px] md:w-[84px] border border-gray-300 text-indigo-600 px-2 py-1 rounded-md hover:bg-gray-100"
+                >
+                  삭제
+                </button>
+
+                {isModalOpen && (
+                  <DelteMemberModal
+                    isOpen={isModalOpen}
+                    onClose={closeModal}
+                    id={member.id}
+                  />
+                )}
+              </>
             )}
           </li>
         ))}
