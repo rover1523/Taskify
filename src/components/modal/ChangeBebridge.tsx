@@ -4,7 +4,7 @@ import Input from "../input/Input";
 import Image from "next/image";
 import axiosInstance from "@/api/axiosInstance";
 import { apiRoutes } from "@/api/apiRoutes";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const ChangeBebridge = () => {
@@ -69,9 +69,8 @@ const ChangeBebridge = () => {
   };
 
   return (
-    <div className="lg:w-[620px] lg:h-[344px] sm:w-[544px] sm:h-[344px] w-[284px] h-[312px]  bg-white sm:rounded-[16px] rounded-[8px] p-[24px] flex flex-col">
-      <ToastContainer position="top-center" />
-      <h2 className="text-[20px] sm:text-[24px] font-bold">
+    <div className="lg:w-[620px] lg:h-[344px] sm:w-[544px] sm:h-[344px] w-[284px] h-[312px] bg-white sm:rounded-[16px] rounded-[8px] p-[24px] flex flex-col">
+      <h2 className="text-sm sm:text-[24px] font-bold">
         {dashboardDetail.title}
       </h2>
       <Input

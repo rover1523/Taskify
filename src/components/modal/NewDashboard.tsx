@@ -2,6 +2,7 @@ import { useState } from "react";
 import Input from "../input/Input";
 import Image from "next/image";
 import { createDashboard } from "@/api/dashboards";
+import { toast } from "react-toastify";
 
 interface Dashboard {
   id: number;
@@ -38,7 +39,7 @@ export default function NewDashboard({ onClose, onCreate }: NewDashboardProps) {
       onCreate?.(response.data);
       onClose?.();
     } catch {
-      alert("대시보드 생성에 실패했습니다.");
+      toast.error("대시보드 생성에 실패했습니다.");
     } finally {
       setLoading(false);
     }
