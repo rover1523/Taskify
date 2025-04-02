@@ -15,7 +15,7 @@ const Pagination: React.FC<PaginationProps> = ({
 }) => {
   return (
     <div className="flex items-center">
-      <p className="relative -translate-y-[10px] sm:text-sm text-xs text-gray-700 mt-4 text-center mr-3">
+      <p className="relative -translate-y-[10px] sm:text-xs text-sm text-gray-700 mt-4 text-center mr-3">
         {totalPages} 페이지 중 {currentPage}
       </p>
       <div className="flex items-center border border-gray-300 rounded-lg overflow-hidden">
