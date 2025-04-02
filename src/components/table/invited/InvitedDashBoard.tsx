@@ -97,54 +97,40 @@ function InvitedList({
   return (
     <div className="relative bg-white w-full max-w-[260px] sm:max-w-[504px] lg:max-w-[966px] mx-auto mt-[40px]">
       {filteredData.length > 0 && (
-        <div className="hidden sm:grid grid-cols-3 px-6 w-full h-[26px] justify-start items-center">
-          <p className="lg:ml-10 font-normal text-[var(--color-gray2)]">이름</p>
+        <div className="hidden sm:grid grid-cols-[3fr_2fr_3fr] px-6 w-full h-[26px] items-center">
+          <p className="pl-6 font-normal text-[var(--color-gray2)]">이름</p>
           <p className="font-normal text-[var(--color-gray2)]">초대자</p>
-          <p className="lg:ml-13 font-normal text-[var(--color-gray2)]">
+          <p className="text-center font-normal text-[var(--color-gray2)]">
             수락 여부
           </p>
         </div>
       )}
-      <div className="scroll-area h-[400px] overflow-y-auto overflow-x-hidden">
-        {filteredData.length > 0
-          ? filteredData.map((invite, index) => (
-              <div
-                key={index}
-                className="pb-5 mb-[20px] w-full max-w-[260px] sm:max-w-[504px] lg:max-w-[966px] h-auto sm:h-[50px]
-                sm:grid sm:grid-cols-[1fr_1fr_1fr] sm:items-center flex flex-col gap-10 border-b border-[var(--color-gray4)]"
-              >
-                {/* 모바일 레이아웃 */}
-                <div className="flex flex-col mt-1 sm:hidden">
-                  <span className="text-[var(--color-gray2)]">이름</span>
-                  <span className="text-[#333236]">{invite.title}</span>
-                  <span className="mr-3.5 text-[var(--color-gray2)]">
-                    초대자
-                  </span>{" "}
-                  <span className="text-[#333236]">{invite.nickname}</span>
-                  <div className="flex gap-2 mt-2 justify-center">
-                    <button
-                      className="cursor-pointer border px-3 py-1 rounded-md w-[84px] h-[32px] text-[var(--primary)] border-[var(--color-gray3)]"
-                      onClick={() => rejectInvite(invite.id)}
-                    >
-                      거절
-                    </button>
-                    <button
-                      className="cursor-pointer bg-[var(--primary)] text-white px-3 py-1 rounded-md w-[84px] h-[32px]"
-                      onClick={() => acceptInvite(invite.id)}
-                    >
-                      수락
-                    </button>
-                  </div>
-                </div>
 
-                {/* 웹, 태블릿 레이아웃 */}
-                <p className="lg:ml-21 md:ml-11 ml-9 justify-left mt-1 w-full hidden sm:flex">
-                  {invite.title}
-                </p>
-                <p className="lg:mr-25 md:mr-10 ml-9 justify-left mt-1 hidden sm:flex">
-                  {invite.nickname}
-                </p>
-                <div className="lg:mr-5 gap-2 mt-1 mr-2 justify-between sm:justify-start hidden sm:flex">
+      <div className="scroll-area h-[400px] overflow-y-auto overflow-x-hidden">
+        {filteredData.length > 0 ? (
+          filteredData.map((invite, index) => (
+            <div
+              key={index}
+              className="pb-5 mb-[20px] w-full max-w-[260px] sm:max-w-[504px] lg:max-w-[966px]
+                     h-auto sm:h-[50px] border-b border-[var(--color-gray4)]
+                     sm:grid sm:grid-cols-[3fr_2fr_3fr] sm:items-center
+                     flex flex-col gap-10"
+            >
+              {/* 모바일 레이아웃 */}
+              <div className="flex flex-col mt-1 sm:hidden px-4 w-full gap-2">
+                <div className="flex justify-between">
+                  <span className="text-[var(--color-gray2)]">이름</span>
+                  <span className="text-[#333236] font-medium">
+                    {invite.title}
+                  </span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-[var(--color-gray2)]">초대자</span>
+                  <span className="text-[#333236] font-medium">
+                    {invite.nickname}
+                  </span>
+                </div>
+                <div className="flex gap-2 mt-2 justify-end">
                   <button
                     className="cursor-pointer border px-3 py-1 rounded-md w-[84px] h-[32px] text-[var(--primary)] border-[var(--color-gray3)]"
                     onClick={() => rejectInvite(invite.id)}
@@ -159,15 +145,43 @@ function InvitedList({
                   </button>
                 </div>
               </div>
-            ))
-          : !hasMore && <NoResultDashBoard searchTitle={searchTitle} />}{" "}
-        {/* 검색 내역이 없을 경우 */}
+
+              {/* 웹/태블릿 레이아웃 */}
+              <p className="pl-12 font-normal text-[#333236] hidden sm:block">
+                {invite.title}
+              </p>
+              <p className="font-normal text-[#333236] hidden sm:block">
+                {invite.nickname}
+              </p>
+              <div className="gap-2 items-center justify-center hidden sm:flex">
+                <button
+                  className="cursor-pointer border px-3 py-1 rounded-md w-[84px] h-[32px] text-[var(--primary)] border-[var(--color-gray3)]"
+                  onClick={() => rejectInvite(invite.id)}
+                >
+                  거절
+                </button>
+                <button
+                  className="cursor-pointer bg-[var(--primary)] text-white px-3 py-1 rounded-md w-[84px] h-[32px]"
+                  onClick={() => acceptInvite(invite.id)}
+                >
+                  수락
+                </button>
+              </div>
+            </div>
+          ))
+        ) : !hasMore ? (
+          <NoResultDashBoard searchTitle={searchTitle} />
+        ) : null}
+
+        {/* 검색 결과가 존재하지만 더 이상 데이터가 없을 때 */}
         {filteredData.length > 0 && !hasMore && (
-          <p className="lg:mr-18 text-center text-gray-400 bg-transparent">
+          <p className="text-center text-gray-400 bg-transparent">
             더 이상 초대 목록이 없습니다.
           </p>
         )}
-        {hasMore && <div ref={observerRef} className="h-[50px] w-[50px]"></div>}
+
+        {/* 인터섹션 옵저버 */}
+        {hasMore && <div ref={observerRef} className="h-[50px] w-[50px]" />}
       </div>
     </div>
   );
