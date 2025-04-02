@@ -1,6 +1,6 @@
 "use client";
 import "react-toastify/dist/ReactToastify.css";
-import { ToastContainer, Slide, toast } from "react-toastify";
+import { ToastContainer, Slide } from "react-toastify";
 
 const CustomToastContainer = () => {
   return (

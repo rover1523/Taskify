@@ -11,9 +11,9 @@ interface CardDetailProps {
 export default function CardDetail({ card, columnName }: CardDetailProps) {
   return (
     <div className="p-4 ">
-      <h2 className="text-3xl font-semibold mb-7">{card.title}</h2>
+      <h2 className="text-3xl font-semibold mb-5">{card.title}</h2>
       {/* 작성자 정보 추가 */}
-      <div className="absolute w-[181px] h-[155px] lg:[200px] top-20 right-10 rounded-lg p-4 bg-white border border-[#D9D9D9]">
+      <div className="absolute w-[181px] h-[155px] lg:[200px] top-20 right-10 rounded-lg p-3.5 bg-white border border-[#D9D9D9]">
         <div className="mb-3">
           <p className="text-sm font-semibold text-gray-800 mb-1">담당자</p>
           <div className="flex items-center  gap-2">
@@ -47,7 +47,7 @@ export default function CardDetail({ card, columnName }: CardDetailProps) {
           </div>
         </div>
       </div>
-      <div className="flex flex-wrap gap-2 mb-4">
+      <div className="flex flex-wrap gap-2 mb-2">
         <span
           className="rounded-full bg-violet-200 px-3 py-1 text-sm text-violet-800"
           title={`상태: ${columnName}`}
@@ -81,9 +81,9 @@ export default function CardDetail({ card, columnName }: CardDetailProps) {
           <Image
             src={card.imageUrl}
             alt="카드 이미지"
-            width={445}
-            height={260}
-            className="rounded-lg object-cover w-full h-auto"
+            width={420}
+            height={226}
+            className="rounded-lg object-cover lg:w-[445px] lg:h-[260px] w-[420px] h-[246px] "
           />
         </div>
       )}
