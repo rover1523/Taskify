@@ -22,7 +22,7 @@ export default function EditDashboard() {
 
   /* 돌아가기 버튼 */
   const goToDashboard = () => {
-    router.push(`/dashboard/${dashboardId}`);
+    router.back();
   };
 
   /* 대시보드 삭제 모달 */
