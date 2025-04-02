@@ -40,7 +40,6 @@ export default function InviteDashboard({ onClose }: { onClose?: () => void }) {
             })
           );
           setInviteList(inviteData);
-          console.log("inviteData", inviteData);
         }
       } catch (error) {
         console.error("초대내역 불러오는데 오류 발생:", error);
@@ -66,30 +65,30 @@ export default function InviteDashboard({ onClose }: { onClose?: () => void }) {
       await axiosInstance.post(apiRoutes.dashboardInvite(dashboardIdNumber), {
         email,
       });
-      onClose?.(); // 함수 있을때만 실행
-      window.location.reload();
-    } catch (error) {
-      console.error("초대 실패:", error);
 
+      toast.success("초대를 성공했습니다.");
+
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000);
+    } catch (error) {
       if (error instanceof AxiosError) {
         if (error.response?.status === 403) {
           toast.error("초대 권한이 없습니다.");
+          return;
         } else if (error.response?.status === 404) {
           toast.error("대시보드 또는 유저가 존재하지 않습니다.");
+          return;
         } else if (error.response?.status === 409) {
           toast.error("이미 대시보드에 초대된 멤버입니다.");
+          return;
         } else {
           toast.error("오류가 발생했습니다.");
+          return;
         }
-
-        /** Next.js가 감지하기 전에 강제 새로고침 실행
-         * @fixme 추후 더 좋은 방법 있으면 변경
-         * setTimeout(() => {
-         * window.location.reload();
-         * }, 50);
-         */
       } else {
         toast.error("네트워크 오류가 발생했습니다.");
+        return;
       }
     }
   };
