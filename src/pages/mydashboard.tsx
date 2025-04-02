@@ -195,7 +195,7 @@ export default function MyDashboardPage() {
 
           {/* 초대받은 대시보드 */}
           <section className="w-full">
-            <div className="mt-[74px]">
+            <div className="mt-[50px]">
               <InvitedDashBoard />
             </div>
           </section>
