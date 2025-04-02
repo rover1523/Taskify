@@ -21,7 +21,7 @@ export const createColumn = async ({
 
 // 칼럼 목록 조회
 export const getColumns = async ({ dashboardId }: { dashboardId: number }) => {
-  const res = await axiosInstance.get(apiRoutes.columns(), {
+  const res = await axiosInstance.get(apiRoutes.columns(TEAM_ID), {
     params: {
       dashboardId,
     },
@@ -48,4 +48,21 @@ export const updateColumn = async ({
 export const deleteColumn = async ({ columnId }: { columnId: number }) => {
   const res = await axiosInstance.delete(apiRoutes.columnDetail(columnId));
   return res;
+};
+
+export const getColumn = async ({
+  dashboardId,
+}: {
+  dashboardId: number;
+  columnId: number;
+}) => {
+  const res = await axiosInstance.get(apiRoutes.columns(TEAM_ID), {
+    params: {
+      dashboardId,
+    },
+  });
+  console.log("🟦 서버 응답:", res.data);
+  console.log("URL:", apiRoutes.columns(TEAM_ID));
+  console.log("대시보드 ID:", dashboardId);
+  return res.data.data;
 };

@@ -21,6 +21,8 @@ interface ModalProps {
   buttonContainerClassName?: string;
   width?: string;
   height?: string;
+  backgroundClassName?: string; // 배경색 커스터마이징을 위한 클래스 추가
+  backgroundStyle?: React.CSSProperties; // 배경 스타일을 직접 지정할 수 있는 스타일 추가
 }
 
 export function Modal({
@@ -34,12 +36,15 @@ export function Modal({
   buttonContainerClassName = "",
   width = "w-[568px]", // 기본 너비 설정, 필요 시 변경 가능
   height = "h-[266px]", // 기본 높이 설정, 필요 시 변경 가능
+  backgroundClassName = "bg-black/35",
+  backgroundStyle = {},
 }: ModalProps) {
   if (!isOpen) return null;
 
   return createPortal(
     <div
-      className="fixed inset-0 flex items-center justify-center bg-black/35 z-50"
+      className={`fixed inset-0 flex items-center justify-center ${backgroundClassName} z-50`}
+      style={backgroundStyle} // 배경 스타일 적용
       onClick={onClose}
     >
       <div

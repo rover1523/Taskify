@@ -9,7 +9,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 const ChangeBebridge = () => {
   const router = useRouter();
-  const { dashboardId } = router.query; // dashboardId 쿼리값 받기
+  const { dashboardId } = router.query;
   const [dashboardDetail, setdashboardDetail] = useState<{ title?: string }>(
     {}
   );
@@ -33,7 +33,6 @@ const ChangeBebridge = () => {
         if (res.data) {
           const dashboardData = res.data;
           setdashboardDetail(dashboardData);
-          console.log("dashboardData", dashboardData);
         }
       } catch (error) {
         console.error("대시보드 상세내용 불러오는데 오류 발생:", error);
@@ -46,7 +45,7 @@ const ChangeBebridge = () => {
 
   /* 대시보드 이름 변경 버튼 */
   const handleUpdate = async () => {
-    const dashboardIdNumber = Number(dashboardId); // string dashboradId 값 number로 변경
+    const dashboardIdNumber = Number(dashboardId);
     if (!dashboardId || selected === null) return;
 
     const payload = {
@@ -55,23 +54,22 @@ const ChangeBebridge = () => {
     };
 
     try {
-      const response = await axiosInstance.put(
+      await axiosInstance.put(
         apiRoutes.dashboardDetail(dashboardIdNumber),
         payload
       );
-      console.log("업데이트 성공:", response.data);
+
       toast.success("대시보드가 업데이트되었습니다!");
       setTimeout(() => {
         window.location.reload();
       }, 100);
     } catch (error) {
-      console.error("업데이트 실패:", error);
       toast.error("업데이트에 실패했습니다.");
     }
   };
 
   return (
-    <div className="sm:w-[620px] sm:h-[344px] w-[327px] h-[312px] bg-white sm:rounded-[16px] rounded-[8px] p-[24px] flex flex-col">
+    <div className="lg:w-[620px] lg:h-[344px] sm:w-[544px] sm:h-[344px] w-[284px] h-[312px] bg-white sm:rounded-[16px] rounded-[8px] p-[24px] flex flex-col">
       <h2 className="text-sm sm:text-[24px] font-bold">
         {dashboardDetail.title}
       </h2>
@@ -79,7 +77,7 @@ const ChangeBebridge = () => {
         type="text"
         onChange={setTitle}
         label="대시보드 이름"
-        labelClassName="text-lg sm:text-base text-black3 mt-6"
+        labelClassName="text-[16px] sm:text-[18px] text-black3 mt-6"
         placeholder="뉴프로젝트"
         className="max-w-[620px] mb-1"
       />
@@ -107,9 +105,9 @@ const ChangeBebridge = () => {
       </div>
       <div className="mt-8 flex">
         <button
-          onClick={handleUpdate} // 버튼 클릭 시 handleUpdate 함수 호출
+          onClick={handleUpdate}
           disabled={selected === null} // color가 없으면 버튼 비활성화
-          className={`cursor-pointer sm:w-[564px] sm:h-[54px] w-[252px] h-[54px] rounded-[8px] border border-[var(--color-gray3)] bg-[var(--primary)] text-[var(--color-white)] ${selected === null ? "bg-gray-300 cursor-not-allowed" : "bg-[var(--primary)]"}`}
+          className={`cursor-pointer sm:w-[572px] sm:h-[54px] w-[252px] h-[54px] rounded-[8px] border border-[var(--color-gray3)] bg-[var(--primary)] text-[var(--color-white)] ${selected === null ? "bg-gray-300 cursor-not-allowed" : "bg-[var(--primary)]"}`}
         >
           변경
         </button>

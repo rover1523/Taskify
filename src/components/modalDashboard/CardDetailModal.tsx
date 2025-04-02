@@ -1,20 +1,29 @@
-// CardDetailModal.tsx
-import { useState } from "react";
+/* eslint-disable react-hooks/rules-of-hooks */
+import { useMemo, useRef, useState } from "react";
 import { MoreVertical, X } from "lucide-react";
 import CardDetail from "./CardDetail";
 import CommentList from "./CommentList";
 import CardInput from "@/components/modalInput/CardInput";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { createComment } from "@/api/comment";
-import { deleteCard } from "@/api/card";
+import { deleteCard, EditCard } from "@/api/card"; // EditCard API 추가
 import type { CardDetailType } from "@/types/cards";
 import TaskModal from "@/components/modalInput/TaskModal";
+import { useClosePopup } from "@/hooks/useClosePopup";
+import { getColumn } from "@/api/columns";
+import { useRouter } from "next/router";
 
 interface CardDetailModalProps {
   card: CardDetailType;
   currentUserId: number;
   dashboardId: number;
   onClose: () => void;
+}
+
+interface ColumnType {
+  id: number;
+  title: string;
+  status: string;
 }
 
 export default function CardDetailPage({
@@ -28,6 +37,21 @@ export default function CardDetailPage({
   const [showMenu, setShowMenu] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const queryClient = useQueryClient();
+  const popupRef = useRef(null);
+  const router = useRouter();
+  useClosePopup(popupRef, () => setShowMenu(false));
+
+  const { data: columns = [] } = useQuery<ColumnType[]>({
+    queryKey: ["columns", dashboardId],
+    queryFn: () => getColumn({ dashboardId, columnId: card.columnId }),
+  });
+
+  const columnName = useMemo(() => {
+    return (
+      columns.find((col) => String(col.id) === String(cardData.columnId))
+        ?.title || "알 수 없음"
+    );
+  }, [columns, cardData.columnId]);
 
   const { mutate: createCommentMutate } = useMutation({
     mutationFn: createComment,
@@ -55,20 +79,27 @@ export default function CardDetailPage({
     });
   };
 
+  const { mutateAsync: updateCardMutate } = useMutation({
+    mutationFn: (data: Partial<CardDetailType>) => EditCard(cardData.id, data),
+    onSuccess: (updatedCard) => {
+      setCardData(updatedCard); // ✅ 서버 응답을 최신 cardData로 설정
+      queryClient.invalidateQueries({ queryKey: ["cards"] }); // 필요시
+    },
+  });
+
   return (
     <>
       <div className="fixed inset-0 bg-black/30 z-50 flex items-center justify-center">
         <div
           className="relative bg-white rounded-lg shadow-lg w-[730px] h-[763px] flex flex-col
-        md:w-[678px] lg:w-[730px]
-        "
+        md:w-[678px] lg:w-[730px]"
         >
-          {/* 오른쪽 상단 메뉴 */}
-          <div className="absolute top-6 right-10 z-30 flex items-center gap-5 mt-3 ">
+          <div className="absolute top-6 right-8.5 z-30 flex items-center gap-3 mt-1">
+            {/* 오른쪽 상단 메뉴 */}
             <div className="relative">
               <button
                 onClick={() => setShowMenu((prev) => !prev)}
-                className="hover:cursor-pointer"
+                className="w-7 h-7 flex items-center justify-center hover:cursor-pointer"
                 title="수정하기"
                 type="button"
               >
@@ -96,19 +127,26 @@ export default function CardDetailPage({
                 </div>
               )}
             </div>
-            <button onClick={onClose} title="메뉴 열기">
-              <X className="w-8 h-8 text-black hover:cursor-pointer" />
+
+            <button
+              onClick={() => {
+                onClose();
+                router.reload(); // ✅ Next.js 방식 리로드
+              }}
+              title="닫기"
+            >
+              <X className="w-7 h-7 flex items-center justify-center hover:cursor-pointer" />
             </button>
           </div>
 
           {/* 모달 내부 콘텐츠 */}
-          <div className="p-6 flex gap-6 overflow-y-auto flex-1">
-            <CardDetail card={cardData} columnName={""} />
+          <div className="p-6 flex gap-6 overflow-y-auto flex-1 w-[550px] h-[460px]">
+            <CardDetail card={cardData} columnName={columnName} />
           </div>
 
           {/* 댓글 입력창 */}
           <div className="px-10 pt-2 pb-2">
-            <p className="text-sm font-semibold mb-2">댓글</p>
+            <p className="ml-1 text-sm font-semibold mb-2">댓글</p>
             <div className="w-[450px] h-[110px]">
               <CardInput
                 hasButton
@@ -117,18 +155,19 @@ export default function CardDetailPage({
                 onTextChange={setCommentText}
                 onButtonClick={handleCommentSubmit}
                 placeholder="댓글 작성하기"
-                // buttonClassName="border border-[#D9D9D9] text-[#5534DA] hover:bg-[#F1EFFD]"
               />
             </div>
           </div>
 
           {/* 댓글 목록 */}
-          <div className="px-6 space-y-4 max-h-[200px] overflow-y-auto">
-            <CommentList
-              cardId={card.id}
-              currentUserId={currentUserId}
-              teamId={""}
-            />
+          <div className=" max-h-[100px] ml-7 text-base overflow-y-auto scrollbar-hidden">
+            <div className=" max-h-[50vh]">
+              <CommentList
+                cardId={card.id}
+                currentUserId={currentUserId}
+                teamId={""}
+              />
+            </div>
           </div>
         </div>
       </div>
@@ -137,23 +176,27 @@ export default function CardDetailPage({
       {isEditModalOpen && (
         <TaskModal
           mode="edit"
-          columnId={card.columnId} // ✅ 여기 추가!
+          columnId={card.columnId} // ✅ 여기에 columnId 추가!
           onClose={() => setIsEditModalOpen(false)}
-          onSubmit={(data) => {
-            setCardData((prev) => ({
-              ...prev,
-              status: data.status as "todo" | "in-progress" | "done",
-              assignee: { ...prev.assignee, nickname: data.assignee },
+          onSubmit={async (data) => {
+            const matchedColumn = columns.find(
+              (col) => col.title === data.status
+            ); // title → id
+
+            await updateCardMutate({
+              columnId: matchedColumn?.id, // ✅ columnId로 넘기기!
+              assignee: { ...cardData.assignee, nickname: data.assignee },
               title: data.title,
               description: data.description,
               dueDate: data.deadline,
               tags: data.tags,
               imageUrl: data.image ?? "",
-            }));
+            });
+
             setIsEditModalOpen(false);
           }}
           initialData={{
-            status: cardData.status,
+            status: columnName,
             assignee: cardData.assignee.nickname,
             title: cardData.title,
             description: cardData.description,

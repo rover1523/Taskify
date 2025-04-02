@@ -65,13 +65,11 @@ function InvitedList({
         apiRoutes.invitationDetail(inviteId),
         payload
       );
-      console.log("대시보드 수락 성공:", response.data);
       toast.success("대시보드 수락 성공");
       setTimeout(() => {
         window.location.reload();
       }, 100);
     } catch (error) {
-      console.error("대시보드 수락 실패:", error);
       toast.error("대시보드 수락 실패");
     }
   };
@@ -87,13 +85,11 @@ function InvitedList({
         apiRoutes.invitationDetail(inviteId),
         payload
       );
-      console.log("대시보드 거절 성공:", response.data);
       toast.success("대시보드 거절 성공");
       setTimeout(() => {
         window.location.reload();
       }, 100);
     } catch (error) {
-      console.error("대시보드 거절 실패:", error);
       toast.error("대시보드 거절 실패");
     }
   };
