@@ -59,12 +59,12 @@ const ChangeBebridge = () => {
         payload
       );
 
-      toast.success("대시보드가 업데이트되었습니다!");
+      toast.success("대시보드가 변경되었습니다!");
       setTimeout(() => {
-        window.location.reload();
-      }, 100);
+        router.reload();
+      }, 1700);
     } catch (error) {
-      toast.error("업데이트에 실패했습니다.");
+      toast.error("변경에 실패했습니다.");
     }
   };
 
