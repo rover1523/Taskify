@@ -5,6 +5,7 @@ import ModalInput from "@/components/modalInput/ModalInput";
 import ModalTextarea from "@/components/modalInput/ModalTextarea";
 import ModalImage from "@/components/modalInput/ModalImage";
 import TextButton from "@/components/modalInput/TextButton";
+import { useRouter } from "next/router";
 
 interface TaskModalProps {
   isOpen: boolean;
@@ -42,6 +43,8 @@ export default function TaskModal({
     image: "",
   });
 
+  const router = useRouter();
+
   const handleChange = (field: keyof TaskData, value: string | string[]) => {
     setFormData((prev) => ({
       ...prev,
@@ -78,6 +81,7 @@ export default function TaskModal({
         imageUrl: formData.image || undefined,
       });
 
+      router.reload(); // 카드 생성 후 새로고침
       onClose();
     } catch (err) {
       console.error("카드 생성 실패:", err);
