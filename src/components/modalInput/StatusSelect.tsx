@@ -3,11 +3,16 @@ import clsx from "clsx";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import axiosInstance from "@/api/axiosInstance";
-import { TEAM_ID } from "@/constants/team"; // ✅ 전역 team ID 사용
+import { TEAM_ID } from "@/constants/team";
 
 export interface StatusOption {
   label: string;
   value: number;
+}
+
+interface Column {
+  id: number;
+  title: string;
 }
 
 interface StatusSelectProps {
@@ -42,14 +47,13 @@ export default function StatusSelect({
 
     const loadOptions = async () => {
       try {
-        // ✅ 경로에 teamId 직접 넣기 (문자열 리터럴)
         const res = await axiosInstance.get(`/${TEAM_ID}/columns`, {
           params: { dashboardId },
         });
 
         console.log("✅ 상태 목록 응답:", res.data);
 
-        const options = res.data.data.map((col: any) => ({
+        const options = (res.data.data as Column[]).map((col) => ({
           label: col.title,
           value: col.id,
         }));

@@ -27,8 +27,7 @@ export default function SideMenu({
   onCreateDashboard,
 }: SideMenuProps) {
   const router = useRouter();
-  const { boardid } = router.query;
-  const boardId = parseInt(boardid as string);
+  const boardId = router.query.dashboardId?.toString(); // ✅ 여기만 정확히 수정
 
   const [currentPage, setCurrentPage] = useState(1);
   const [isCollapsed, setIsCollapsed] = useState(false);
@@ -84,6 +83,7 @@ export default function SideMenu({
         <div
           className={clsx(
             "md:flex",
+            "hidden sm:flex",
             isCollapsed ? "justify-center" : "justify-end",
             "w-full"
           )}
@@ -149,7 +149,6 @@ export default function SideMenu({
             </div>
           )}
 
-          {/* ✅ 접힌 상태에서 아이콘만 있는 추가 버튼 로고 아래로 */}
           {isCollapsed && (
             <div className="flex justify-center mb-4">
               <button
@@ -180,9 +179,9 @@ export default function SideMenu({
               <li
                 key={dashboard.id}
                 className={clsx(
-                  "w-full flex justify-center md:justify-start p-3 font-18m text-[var(--color-black)] transition-colors duration-200",
-                  dashboard.id === boardId &&
-                    "bg-[var(--primary)] text-white rounded-lg"
+                  "w-full flex justify-center md:justify-start p-3 font-18r text-[var(--color-gray1)] transition-colors duration-200",
+                  dashboard.id.toString() === boardId &&
+                    "bg-[var(--color-violet8)] text-[var(--color-gray1)] rounded-sm"
                 )}
               >
                 <Link
