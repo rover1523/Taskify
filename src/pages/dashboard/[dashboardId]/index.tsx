@@ -159,7 +159,7 @@ export default function Dashboard() {
                   setIsAddColumnModalOpen(false);
                 } catch (error) {
                   console.error("칼럼 생성 실패:", error);
-                  toast.error("칼럼 생성 중 에러가 발생했어요.");
+                  toast.error("칼럼 생성에 실패했습니다.");
                 }
               }}
             />

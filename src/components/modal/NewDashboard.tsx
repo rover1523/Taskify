@@ -38,7 +38,8 @@ export default function NewDashboard({ onClose, onCreate }: NewDashboardProps) {
       const response = await createDashboard(payload);
       onCreate?.(response.data);
       onClose?.();
-    } catch {
+    } catch (error) {
+      console.error("대시보드 생성 실패:", error);
       toast.error("대시보드 생성에 실패했습니다.");
     } finally {
       setLoading(false);

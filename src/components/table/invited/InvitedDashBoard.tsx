@@ -61,16 +61,14 @@ function InvitedList({
       inviteAccepted: true,
     };
     try {
-      const response = await axiosInstance.put(
-        apiRoutes.invitationDetail(inviteId),
-        payload
-      );
+      await axiosInstance.put(apiRoutes.invitationDetail(inviteId), payload);
       toast.success("대시보드 수락 성공");
       setTimeout(() => {
         window.location.reload();
-      }, 100);
+      }, 1700);
     } catch (error) {
-      toast.error("대시보드 수락 실패");
+      console.error("수락 실패:", error);
+      toast.error("초대 수락에 실패했습니다");
     }
   };
 
@@ -81,16 +79,14 @@ function InvitedList({
       inviteAccepted: false,
     };
     try {
-      const response = await axiosInstance.put(
-        apiRoutes.invitationDetail(inviteId),
-        payload
-      );
+      await axiosInstance.put(apiRoutes.invitationDetail(inviteId), payload);
       toast.success("대시보드 거절 성공");
       setTimeout(() => {
         window.location.reload();
-      }, 100);
+      }, 1700);
     } catch (error) {
-      toast.error("대시보드 거절 실패");
+      console.error("거절 실패:", error);
+      toast.error("초대 거절에 실패했습니다");
     }
   };
 
