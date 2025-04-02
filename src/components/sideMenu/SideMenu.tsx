@@ -23,11 +23,12 @@ interface SideMenuProps {
 }
 
 export default function SideMenu({
+  teamId,
   dashboardList,
   onCreateDashboard,
 }: SideMenuProps) {
   const router = useRouter();
-  const boardId = router.query.dashboardId?.toString(); // ✅ 여기만 정확히 수정
+  const boardId = router.query.dashboardId?.toString();
 
   const [currentPage, setCurrentPage] = useState(1);
   const [isCollapsed, setIsCollapsed] = useState(false);
@@ -79,10 +80,9 @@ export default function SideMenu({
           />
         </Link>
 
-        {/* 접기/펼치기 버튼 */}
+        {/* 접기/펼치기 버튼 (모바일에서는 숨김) */}
         <div
           className={clsx(
-            "md:flex",
             "hidden sm:flex",
             isCollapsed ? "justify-center" : "justify-end",
             "w-full"
@@ -181,7 +181,7 @@ export default function SideMenu({
                 className={clsx(
                   "w-full flex justify-center md:justify-start p-3 font-18r text-[var(--color-gray1)] transition-colors duration-200",
                   dashboard.id.toString() === boardId &&
-                    "bg-[var(--color-violet8)] text-[var(--color-gray1)] rounded-sm"
+                    "bg-[var(--color-violet8)] text-[var(--color-black)] font-semibold rounded-l-xl"
                 )}
               >
                 <Link
@@ -240,6 +240,7 @@ export default function SideMenu({
         {/* 모달 */}
         {isModalOpen && (
           <NewDashboard
+            teamId={teamId}
             onClose={() => setIsModalOpen(false)}
             onCreate={(newDashboard) => {
               onCreateDashboard?.(newDashboard);
