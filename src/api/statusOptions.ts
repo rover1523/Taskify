@@ -8,6 +8,11 @@ export interface StatusOption {
   value: number;
 }
 
+interface Column {
+  id: number;
+  title: string;
+}
+
 export const useStatusOptions = () => {
   const router = useRouter();
   const [statusOptions, setStatusOptions] = useState<StatusOption[]>([]);
@@ -28,7 +33,7 @@ export const useStatusOptions = () => {
           params: { dashboardId },
         });
 
-        const options = res.data.data.map((col: any) => ({
+        const options = (res.data.data as Column[]).map((col) => ({
           label: col.title,
           value: col.id,
         }));

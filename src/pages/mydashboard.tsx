@@ -156,7 +156,7 @@ export default function MyDashboardPage() {
                 setCurrentPage(1);
               }}
               placeholder="대시보드 이름을 입력하세요"
-              className="w-full max-w-[332px] px-4 py-2 border border-[var(--color-gray3)] border rounded-md outline-none"
+              className="w-full max-w-[332px] px-4 py-2 border border-[var(--color-gray3)] border rounded-md outline-none bg-[var(--color-white)]"
             />
           </section>
 
@@ -193,7 +193,7 @@ export default function MyDashboardPage() {
           )}
 
           {/* 초대받은 대시보드 */}
-          <section className="w-full px-[25px]">
+          <section className="w-full px-[20px]">
             <div className="mt-[74px]">
               <InvitedDashBoard />
             </div>
