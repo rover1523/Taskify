@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/rules-of-hooks */
 import { useMemo, useRef, useState } from "react";
 import { MoreVertical, X } from "lucide-react";
 import CardDetail from "./CardDetail";
@@ -74,7 +73,28 @@ export default function CardDetailPage({
       }, 1500);
     },
   });
+  const initialData = {
+    title: card.title,
+    description: card.description,
+    dueDate: card.dueDate,
+    tags: card.tags,
+    assignee: card.assignee,
+  };
 
+  const handleClose = () => {
+    onClose();
+
+    const hasChanged =
+      cardData.title !== initialData.title ||
+      cardData.description !== initialData.description ||
+      !isEqual(cardData.dueDate, initialData.dueDate) ||
+      JSON.stringify(cardData.tags) !== JSON.stringify(initialData.tags) ||
+      JSON.stringify(cardData.assignee) !==
+        JSON.stringify(initialData.assignee);
+    if (hasChanged) {
+      router.reload(); // 수정된 게 있을 경우만 새로고침
+    }
+  };
   const handleCommentSubmit = () => {
     if (!commentText.trim()) return;
     createCommentMutate({
@@ -134,13 +154,7 @@ export default function CardDetailPage({
               )}
             </div>
 
-            <button
-              onClick={() => {
-                onClose();
-                router.reload(); // ✅ Next.js 방식 리로드
-              }}
-              title="닫기"
-            >
+            <button onClick={handleClose} title="닫기">
               <X className="w-7 h-7 flex items-center justify-center hover:cursor-pointer" />
             </button>
           </div>

@@ -61,8 +61,5 @@ export const getColumn = async ({
       dashboardId,
     },
   });
-  console.log("🟦 서버 응답:", res.data);
-  console.log("URL:", apiRoutes.columns(TEAM_ID));
-  console.log("대시보드 ID:", dashboardId);
   return res.data.data;
 };
