@@ -13,6 +13,7 @@ import { TEAM_ID } from "@/constants/team";
 import CardList from "./CardList";
 import CardDetailModal from "@/components/modalDashboard/CardDetailModal";
 import { CardDetailType } from "@/types/cards";
+import { toast } from "react-toastify";
 
 type ColumnProps = {
   columnId: number;
@@ -60,7 +61,7 @@ export default function Column({
 
   const handleEditColumn = async (newTitle: string) => {
     if (!newTitle.trim()) {
-      alert("칼럼 이름을 입력해주세요.");
+      toast.error("칼럼 이름을 입력해주세요.");
       return;
     }
 
@@ -68,10 +69,10 @@ export default function Column({
       const updated = await updateColumn({ columnId, title: newTitle });
       setColumnTitle(updated.title);
       setIsColumnModalOpen(false);
-      alert("칼럼 이름이 변경되었습니다.");
+      toast.success("칼럼 이름이 변경되었습니다.");
     } catch (error) {
       console.error("칼럼 이름 수정 실패:", error);
-      alert("칼럼 이름 수정 중 오류가 발생했습니다.");
+      toast.error("칼럼 이름 수정 중 오류가 발생했습니다.");
     }
   };
 
@@ -79,10 +80,10 @@ export default function Column({
     try {
       await deleteColumn({ columnId });
       setIsDeleteModalOpen(false);
-      alert("칼럼이 삭제되었습니다.");
+      toast.success("칼럼이 삭제되었습니다.");
     } catch (error) {
       console.error("칼럼 삭제 실패:", error);
-      alert("칼럼 삭제에 실패했습니다.");
+      toast.error("칼럼 삭제에 실패했습니다.");
     }
   };
 
