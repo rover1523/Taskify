@@ -2,6 +2,8 @@ import { useState } from "react";
 import Input from "../input/Input";
 import Image from "next/image";
 import axios from "axios";
+import { createDashboard } from "@/api/dashboards";
+import { TEAM_ID } from "@/constants/team";
 
 interface Dashboard {
   id: number;
@@ -39,17 +41,7 @@ export default function NewDashboard({
 
     try {
       setLoading(true);
-      const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/${teamId}/dashboards`,
-        payload,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
+      const response = await createDashboard(payload);
       onCreate?.(response.data);
       onClose?.();
     } catch {

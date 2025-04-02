@@ -119,9 +119,6 @@ export default function MyDashboardPage() {
 
   const handleLeave = () => {
     if (!selectedDashboardId) return;
-    setDashboardList((prev) =>
-      prev.filter((d) => d.id !== selectedDashboardId)
-    );
     setIsDeleteModalOpen(false);
     setSelectedDashboardId(null);
   };
@@ -156,7 +153,7 @@ export default function MyDashboardPage() {
                 setCurrentPage(1);
               }}
               placeholder="대시보드 이름을 입력하세요"
-              className="w-full max-w-[332px] px-4 py-2 border border-[var(--color-gray3)] border rounded-md outline-none bg-[var(--color-white)]"
+              className="w-full max-w-[332px] px-4 py-2 border border-[var(--color-gray3)] rounded-md outline-none bg-[var(--color-white)]"
             />
           </section>
 
