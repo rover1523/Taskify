@@ -1,6 +1,7 @@
 // src/pages/dashboard/[dashboardId]/index.tsx
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
+import { useAuthGuard } from "@/hooks/useAuthGuard";
 import { getColumns, createColumn } from "@/api/columns";
 import { getCardsByColumn } from "@/api/card";
 import { getDashboards } from "@/api/dashboards";
@@ -17,9 +18,11 @@ import ColumnsButton from "@/components/button/ColumnsButton";
 import AddColumnModal from "@/components/columnCard/AddColumnModal";
 import { TEAM_ID } from "@/constants/team";
 import { toast } from "react-toastify";
+import LoadingSpinner from "@/components/common/LoadingSpinner";
 
 export default function Dashboard() {
   const router = useRouter();
+  const { user, isInitialized } = useAuthGuard();
   const { dashboardId } = router.query;
   const [columns, setColumns] = useState<ColumnType[]>([]);
   const [tasksByColumn, setTasksByColumn] = useState<TasksByColumn>({});
@@ -41,12 +44,11 @@ export default function Dashboard() {
   const isMaxColumns = columns.length >= 10;
   const isCreateDisabled = isTitleEmpty || isDuplicate || isMaxColumns;
 
-  // router 준비되었을 때 렌더링
   useEffect(() => {
-    if (router.isReady && dashboardId) {
+    if (router.isReady && dashboardId && isInitialized && user) {
       setIsReady(true);
     }
-  }, [router.isReady, dashboardId]);
+  }, [router.isReady, dashboardId, isInitialized, user]);
 
   // 대시보드 목록 불러오기
   const fetchDashboards = async () => {
@@ -60,7 +62,7 @@ export default function Dashboard() {
 
   // 대시보드 및 칼럼/카드 데이터 패칭
   useEffect(() => {
-    if (!isReady || !dashboardId) return;
+    if (!isReady || !dashboardId || !isInitialized || !user) return;
 
     fetchDashboards();
 
@@ -93,9 +95,11 @@ export default function Dashboard() {
     };
 
     fetchColumnsAndCards();
-  }, [isReady, dashboardId]);
+  }, [isReady, dashboardId, isInitialized, user]);
 
-  if (!isReady) return <div>로딩 중...</div>;
+  if (!isReady || !isInitialized || !user) {
+    return <LoadingSpinner />;
+  }
 
   return (
     <div className="flex h-screen overflow-hidden ">
