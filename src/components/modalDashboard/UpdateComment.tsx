@@ -40,33 +40,37 @@ export default function UpdateComment({
   };
 
   return (
-    <div className="flex gap-2 items-start">
+    <div className="flex gap-3 items-start w-full">
+      {/* 프로필 */}
       <ProfileIcon
         userId={comment.author.id}
         nickname={comment.author.nickname}
         profileImageUrl={comment.author.profileImageUrl}
-        imgClassName=""
-        fontClassName=""
+        imgClassName="w-8 h-8"
+        fontClassName="text-sm"
         id={0}
       />
-      <div className="flex flex-col gap-1 w-full">
-        <div className="flex gap-2 items-center">
-          <span className="text-sm font-semibold">
+
+      {/* 댓글 내용 */}
+      <div className="flex flex-col w-full space-y-1">
+        {/* 작성자 + 시간 */}
+        <div className="flex items-center gap-2 text-sm text-gray-600">
+          <span className="font-semibold text-black">
             {comment.author.nickname}
           </span>
-          <span className="text-xs text-gray-500">
-            {formatDate(comment.createdAt)}
-          </span>
+          <span>{formatDate(comment.createdAt)}</span>
         </div>
+
+        {/* 본문 */}
         {isEditing ? (
           <>
             <textarea
-              className="w-full border p-2 rounded text-sm"
+              className="w-full p-2 text-sm"
               value={editedContent}
               onChange={(e) => setEditedContent(e.target.value)}
               aria-label="댓글"
             />
-            <div className="flex gap-2 mt-1 text-xs text-gray-600">
+            <div className="flex gap-2 mt-1 text-sm">
               <button
                 onClick={handleSave}
                 disabled={editedContent === comment.content}
@@ -78,7 +82,9 @@ export default function UpdateComment({
           </>
         ) : (
           <>
-            <p className="text-sm">{comment.content}</p>
+            <p className="text-sm whitespace-pre-wrap break-words">
+              {comment.content}
+            </p>
             {currentUserId === comment.author.id && (
               <div className="flex gap-2 text-xs text-gray-500 mt-1">
                 <button onClick={handleEditToggle}>수정</button>
