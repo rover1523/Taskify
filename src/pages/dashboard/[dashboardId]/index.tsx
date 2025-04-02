@@ -16,6 +16,7 @@ import SideMenu from "@/components/sideMenu/SideMenu";
 import ColumnsButton from "@/components/button/ColumnsButton";
 import AddColumnModal from "@/components/columnCard/AddColumnModal";
 import { TEAM_ID } from "@/constants/team";
+import { toast } from "react-toastify";
 
 export default function Dashboard() {
   const router = useRouter();
@@ -139,7 +140,7 @@ export default function Dashboard() {
               isCreateDisabled={isCreateDisabled}
               onSubmit={async () => {
                 if (!newColumnTitle.trim()) {
-                  alert("칼럼 이름을 입력해 주세요."); // todo tostify로 바꾸기
+                  toast.error("칼럼 이름을 입력해 주세요.");
                   return;
                 }
 
@@ -154,7 +155,7 @@ export default function Dashboard() {
                   setIsAddColumnModalOpen(false);
                 } catch (error) {
                   console.error("칼럼 생성 실패:", error);
-                  alert("칼럼 생성 중 에러가 발생했어요."); // todo tostify로 바꾸기
+                  toast.error("칼럼 생성 중 에러가 발생했어요.");
                 }
               }}
             />

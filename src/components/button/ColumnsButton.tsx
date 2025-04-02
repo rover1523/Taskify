@@ -21,6 +21,7 @@ const ColumnsButton: React.FC<ButtonProps> = ({
         "h-[70px] md:h-[70px] lg:h-[70px]",
         "mt-[10px] md:mt-[16px] lg:mt-[20px]",
         "text-lg md:text-2lg lg:text-2lg",
+        "cursor-pointer",
         className
       )}
       {...props}
