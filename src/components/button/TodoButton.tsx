@@ -21,6 +21,7 @@ const TodoButton: React.FC<ButtonProps> = ({
         "h-[32px] md:h-[40px] lg:h-[40px]",
         "mt-[10px] md:mt-[16px] lg:mt-[20px]",
         "text-lg md:text-2lg lg:text-2lg",
+        "cursor-pointer",
         className
       )}
       {...props}
