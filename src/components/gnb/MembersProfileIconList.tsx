@@ -1,24 +1,37 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import SkeletonUser from "@/shared/skeletonUser";
 import RandomProfile from "../table/member/RandomProfile";
 import Image from "next/image";
-import { MemberType, UserType } from "@/types/users";
+import { MemberType } from "@/types/users";
 
 /*멤버 프로필 아이콘*/
-interface MemberAvatarsProps {
+interface MemberIconProps {
   members: MemberType[];
   isLoading: boolean;
-  variant?: "mydashboard" | "dashboard" | "edit" | "mypage";
 }
 
-const MAX_VISIBLE_MEMBERS = 4;
-
-export const MemberList: React.FC<MemberAvatarsProps> = ({
+export const MembersProfileIconList: React.FC<MemberIconProps> = ({
   members,
   isLoading,
-  variant,
 }) => {
-  if (variant === "mydashboard") return null;
+  // 출력할 프로필 아이콘 최대 개수
+  const [maxVisibleMembers, setMaxVisibleMembers] = useState(4);
+
+  useEffect(() => {
+    const handleResize = () => {
+      // Tailwind 기준 sm 이하 (모바일)
+      if (window.innerWidth < 640) {
+        setMaxVisibleMembers(2);
+      } else {
+        setMaxVisibleMembers(4);
+      }
+    };
+
+    handleResize();
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   return (
     <div className="flex items-center justify-center -space-x-3">
@@ -26,7 +39,7 @@ export const MemberList: React.FC<MemberAvatarsProps> = ({
         <SkeletonUser />
       ) : (
         <>
-          {members.slice(0, MAX_VISIBLE_MEMBERS).map((member) => (
+          {members.slice(0, maxVisibleMembers).map((member) => (
             <div key={member.id} className="relative rounded-full">
               {member.profileImageUrl ? (
                 <div className="relative w-[34px] h-[34px] md:w-[38px] md:h-[38px] rounded-full border-[2px] border-white overflow-hidden">
@@ -42,9 +55,11 @@ export const MemberList: React.FC<MemberAvatarsProps> = ({
               )}
             </div>
           ))}
-          {members.length > MAX_VISIBLE_MEMBERS && (
+
+          {/* 출력되지 않은 나머지 멤버 수 */}
+          {members.length > maxVisibleMembers && (
             <div className="relative flex items-center justify-center w-[34px] h-[34px] md:w-[38px] md:h-[38px] rounded-full bg-[#F4D7DA] font-16m text-[#D25B68] border-[2px] border-white overflow-hidden">
-              +{members.length - MAX_VISIBLE_MEMBERS}
+              +{members.length - maxVisibleMembers}
             </div>
           )}
         </>
@@ -53,22 +68,4 @@ export const MemberList: React.FC<MemberAvatarsProps> = ({
   );
 };
 
-/*유저 프로필 아이콘*/
-interface UserAvatarProps {
-  user: UserType;
-}
-
-export const UserAvatars: React.FC<UserAvatarProps> = ({ user }) => (
-  <div className="relative w-[34px] h-[34px] md:w-[38px] md:h-[38px] rounded-full overflow-hidden">
-    {user.profileImageUrl ? (
-      <Image
-        src={user.profileImageUrl}
-        alt="유저 프로필 아이콘"
-        fill
-        className="object-cover"
-      />
-    ) : (
-      <RandomProfile name={user.nickname} />
-    )}
-  </div>
-);
+export default MembersProfileIconList;

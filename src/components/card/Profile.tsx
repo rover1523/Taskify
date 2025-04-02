@@ -1,16 +1,16 @@
 import { useState, useEffect } from "react";
-import Input from "../input/Input";
+import { useRouter } from "next/router";
 import Image from "next/image";
 import { getUserInfo, updateProfile, uploadProfileImage } from "@/api/users";
-import MypageModal from "../modal/MypageModal";
+import Input from "@/components/input/Input";
+import { toast } from "react-toastify";
 
 export default function ProfileCard() {
+  const router = useRouter();
   const [image, setImage] = useState<string | null>(null);
   const [nickname, setNickname] = useState("");
   const [email, setEmail] = useState("");
   const [preview, setPreview] = useState<string | null>(null);
-  const [showSuccessModal, setShowSuccessModal] = useState(false);
-  const [showErrorModal, setShowErrorModal] = useState(false);
 
   const fetchUserData = async () => {
     try {
@@ -38,7 +38,7 @@ export default function ProfileCard() {
         setImage(response.profileImageUrl); // 서버에서 받은 URL 저장
       } catch (error) {
         console.error("이미지 업로드 실패:", error);
-        alert("이미지 업로드에 실패했습니다.");
+        toast.error("이미지 업로드에 실패하였습니다.");
       }
     }
   };
@@ -52,10 +52,13 @@ export default function ProfileCard() {
 
     try {
       await updateProfile(userProfile);
-      setShowSuccessModal(true);
+      toast.success("프로필 변경이 완료되었습니다.");
+      setTimeout(() => {
+        router.reload();
+      }, 1700);
     } catch (error) {
-      console.error("프로필 저장 실패:", error);
-      setShowErrorModal(true);
+      console.error("프로필 변경 실패:", error);
+      toast.error("프로필 변경에 실패하였습니다.");
     }
   };
 
@@ -64,13 +67,15 @@ export default function ProfileCard() {
   }, []);
 
   return (
-    <div className="sm:w-[672px] sm:h-[366px] w-[284px] h-[496px] bg-white rounded-[16px] shadow-md p-[24px] flex flex-col">
+    <div className="flex flex-col w-[284px] sm:w-[548px] md:w-[672px] h-[496px] sm:h-[366px] bg-white rounded-[16px] p-[24px]">
       {/* 프로필 제목 */}
-      <h2 className="text-[18px] sm:text-[24px] font-bold mb-4">프로필</h2>
+      <h2 className="text-black3 text-[18px] sm:text-[24px] font-bold mb-4">
+        프로필
+      </h2>
       {/* 프로필 이미지 및 입력 폼 영역 */}
       <div className="flex flex-col sm:flex-row items-center sm:items-start">
         {/* 프로필 이미지 업로드 영역 */}
-        <div className="sm:mr:0 mr-29 w-[120px] flex-shrink-0 mb-4 sm:mb-0">
+        <div className="sm:mr:0 mr-[119px] w-[120px] flex-shrink-0 mb-4 sm:mb-0">
           <div className="sm:w-[182px] sm:h-[182px] w-[100px] h-[100px] rounded-md flex items-center justify-center cursor-pointer bg-[#F5F5F5] border-transparent">
             <label className="cursor-pointer w-full h-full flex items-center justify-center">
               {image ? (
@@ -95,38 +100,27 @@ export default function ProfileCard() {
         </div>
 
         {/* 입력 폼 */}
-        <div className="flex flex-col sm:ml-[-15px] w-full sm:mt-0 mt-5 sm:w-[400px]">
+        <div className="flex flex-col sm:ml-[-15px] sm:mt-0 mt-5 w-[252px] sm:w-[276px] md:w-[400px] gap-4">
           <Input
             type="email"
             name="email"
             label="이메일"
-            labelClassName="font-16r"
-            value={email}
+            placeholder={email}
+            labelClassName="text-black3 text-[14px] sm:text-base"
             readOnly
           />
-
           <Input
             type="text"
             name="nickname"
             label="닉네임"
-            labelClassName="font-16r"
+            labelClassName="text-black3 text-[14px] sm:text-base"
             value={nickname}
             placeholder="닉네임을 입력하세요"
             onChange={(value: string) => setNickname(value)}
+            className="text-black4"
           />
-          <MypageModal
-            isOpen={showSuccessModal}
-            onClose={() => setShowSuccessModal(false)}
-            message="프로필 변경이 완료되었습니다."
-          />
-          <MypageModal
-            isOpen={showErrorModal}
-            onClose={() => setShowErrorModal(false)}
-            message="프로필 변경에 실패하였습니다"
-          />
-
           <button
-            className="cursor-pointer w-full sm:w-[400px] h-[54px] bg-[#5A3FFF] text-white rounded-[8px] text-lg font-medium mt-3"
+            className="cursor-pointer w-[252px] sm:w-[276px] md:w-[400px] h-[54px] bg-[var(--primary)] text-white rounded-[8px] text-lg font-medium mt-3"
             onClick={handleSave}
           >
             저장
