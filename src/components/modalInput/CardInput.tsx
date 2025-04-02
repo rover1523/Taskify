@@ -49,7 +49,7 @@ export default function CardInput({
           color="secondary"
           buttonSize="xs"
           onClick={onButtonClick}
-          className="absolute bottom-3 right-3 z-10 flex items-center justify-center"
+          className="absolute bottom-3 right-3 z-10 flex items-center justify-center border-gray-300 text-[#5534DA] cursor-pointer"
         >
           입력
         </TextButton>
